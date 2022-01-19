@@ -1,0 +1,15 @@
+.vi-schedulecustrepeat-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &_content {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &_button {
+    margin: 20px;
+    padding-bottom: 10px;
+  }
+}

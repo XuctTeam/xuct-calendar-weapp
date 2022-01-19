@@ -1,0 +1,634 @@
+/*
+ * @Description:
+ * @Version: 1.0
+ * @Autor: Derek Xu
+ * @Date: 2021-12-21 21:16:30
+ * @LastEditors: Derek Xu
+ * @LastEditTime: 2022-01-19 10:32:07
+ */
+import Taro from '@tarojs/taro'
+import { Component, Fragment } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import dayjs, { Dayjs } from 'dayjs'
+import { View, Textarea } from '@tarojs/components'
+import Router, { NavigateType } from 'tarojs-router-next'
+import { Cell, Switch, Button, Grid } from '@taroify/core'
+import { Arrow, ClockOutlined, FriendsOutlined, LocationOutlined, BulbOutlined, PhotoOutlined, Replay, Description, Cross } from '@taroify/icons'
+
+import { DvaProps } from '~/../@types/dva'
+import { DatetimePickerType } from '@taroify/core/datetime-picker/datetime-picker.shared'
+import { IDavCalendar, IDavAlarm, IDavComponent } from '~/../@types/calendar'
+import { add, getById } from '@/api/component'
+import { list as alarmlist } from '@/api/alarm'
+import { showToast, back } from '@/utils/taro'
+import { formatRepeatTime, fiveMinutes, formatAlarmText } from '@/utils/utils'
+
+import CommonHeader from '@/components/mixin'
+import IconFont from '@/components/iconfont'
+import { SelectCalendar, Picker, Time, CalendarAction, RepeatPicker } from './ui'
+import { action } from './actionCreater'
+
+import './index.scss'
+
+interface ModelProps extends DvaProps {
+  calendars: Array<IDavCalendar>
+}
+
+type PageDispatchProps = {
+  listSync: () => Promise<any>
+  refreshTime: (time: number) => void
+}
+
+type PageOwnProps = {}
+
+type PageStateProps = {
+  edit: boolean
+  id?: string
+  title: string
+  summary: string
+  location: string
+  description: string
+  selectedCalendarOpen: boolean
+  selectedCalendar: IDavCalendar | null
+  dtstart: Date
+  dtend: Date
+  fullDay: number
+  pickDtStartOpen: boolean
+  pickDtEndOpen: boolean
+  pickDateType: DatetimePickerType
+  repeatStatus: string
+  repeatType: string
+  repeatByday: string
+  repeatBymonth: string
+  repeatBymonthday: string
+  repeatInterval: number
+  repeatPickerOpen: boolean
+  repeatUntil: Date | null
+  alarm: IDavAlarm
+}
+
+type IProps = ModelProps & PageDispatchProps & PageOwnProps
+
+interface Components {
+  props: IProps
+  state: PageStateProps
+}
+
+const today = dayjs().toDate()
+
+const connects: Function = connect
+
+@connects(
+  ({ calendar }) => ({
+    calendars: calendar.calendars
+  }),
+  (dispatch) => bindActionCreators(action, dispatch)
+)
+class Components extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      edit: false,
+      id: '',
+      title: '新建日程',
+      summary: '',
+      location: '',
+      fullDay: 0,
+      description: '',
+      selectedCalendarOpen: false,
+      selectedCalendar: null,
+      dtstart: today,
+      dtend: dayjs(today).add(1, 'hour').toDate(),
+      pickDtStartOpen: false,
+      pickDtEndOpen: false,
+      pickDateType: 'date-minute',
+      repeatStatus: '0',
+      repeatType: '',
+      repeatByday: '',
+      repeatBymonth: '',
+      repeatBymonthday: '',
+      repeatPickerOpen: false,
+      repeatInterval: 1,
+      repeatUntil: null,
+      alarm: {
+        alarmType: '0',
+        alarmTime: ['15']
+      }
+    }
+  }
+
+  componentDidMount() {
+    const { component, selectedDay, alarm } = Router.getData() || { component: undefined, alarm: this.state.alarm }
+    const { paramEdit, componentId } = Router.getParams()
+    //编辑
+    if (paramEdit && componentId) {
+      this._updateComponent(componentId, component, alarm)
+      return
+    }
+    this._createComponent(this.props.calendars, selectedDay)
+    return
+  }
+
+  /**
+   * @description 更新日程
+   * @param componentId
+   * @param component
+   */
+  _updateComponent = async (componentId: string, component: IDavComponent | null, alarm: IDavAlarm) => {
+    if (component) {
+      this._setUpdateComponent(this.props.calendars, component, alarm)
+      return
+    }
+    let calendars = this.props.calendars
+    if (calendars.length === 0) {
+      calendars = await this.props.listSync()
+    }
+    Promise.all([getById(componentId), alarmlist(componentId)]).then((res) => {
+      if (!(res instanceof Array)) return
+      this._setUpdateComponent(calendars, res[0] as any as IDavComponent, res[1] as any as IDavAlarm)
+    })
+    return
+  }
+
+  /**
+   * @description 新增日程时显示
+   * @param calendars
+   * @param selectedDay
+   */
+  _createComponent = async (calendars: Array<IDavCalendar>, selectedDay: Date) => {
+    if (!selectedDay) {
+      selectedDay = dayjs().toDate()
+    }
+    selectedDay = fiveMinutes(selectedDay)
+    if (calendars.length === 0) {
+      calendars = await this.props.listSync()
+    }
+    const majorCalendar = calendars.find((i) => i.major === 1)
+    const alarm = this.state.alarm
+    if (majorCalendar) {
+      alarm.alarmType = majorCalendar.alarmType + ''
+      alarm.alarmTime = [majorCalendar.alarmTime + '']
+    }
+    this.setState({
+      selectedCalendar: majorCalendar,
+      alarm: alarm,
+      dtstart: dayjs(selectedDay).toDate(),
+      dtend: dayjs(selectedDay).add(1, 'hour').toDate()
+    })
+  }
+
+  /**
+   * @description 编辑日程时显示
+   * @param calendars
+   * @param component
+   */
+  _setUpdateComponent = async (calendars: Array<IDavCalendar>, component: IDavComponent, alarm: IDavAlarm) => {
+    if (calendars.length === 0) {
+      calendars = await this.props.listSync()
+    }
+
+    const majorCalendar = calendars.find((i) => i.calendarId === component.calendarId)
+    this.setState({
+      ...component,
+      dtstart: dayjs(component.dtstart).toDate(),
+      dtend: dayjs(component.dtend).toDate(),
+      selectedCalendar: majorCalendar,
+      alarm: alarm,
+      title: '日程编辑',
+      pickDateType: component.fullDay === 1 ? 'date' : 'date-minute',
+      repeatStatus: component.repeatStatus + '',
+      repeatUntil: component.repeatUntil ? dayjs(component.repeatUntil).toDate() : null,
+      edit: true
+    })
+    if (process.env.TARO_ENV === 'weapp') {
+      Taro.setNavigationBarTitle({
+        title: '日程编辑'
+      })
+    }
+  }
+
+  summaryChage = (value: string) => {
+    this.setState({
+      summary: value
+    })
+  }
+
+  openChooseLocation = async () => {
+    try {
+      const result = await Router.toComponentlocation()
+      if (result) {
+        this.setState({ location: result.location })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  locationChage = () => {
+    this.setState({
+      location: ''
+    })
+  }
+
+  descritionChage = () => {
+    this.setState({
+      description: ''
+    })
+  }
+
+  fullDayChage = (value: boolean) => {
+    this.setState({
+      fullDay: value ? 1 : 0,
+      pickDateType: value ? 'date' : 'date-minute'
+    })
+  }
+
+  pickerClickHandler = (type: number) => {
+    if (type === 1) {
+      this.setState({
+        pickDtStartOpen: true
+      })
+      return
+    }
+    this.setState({
+      pickDtEndOpen: true
+    })
+  }
+
+  pickCloseHandler = (type: number) => {
+    if (type === 1) {
+      this.setState({
+        pickDtStartOpen: false
+      })
+      return
+    }
+    this.setState({
+      pickDtEndOpen: false
+    })
+  }
+
+  pickSelectedHandler = (type: number, date: Date) => {
+    if (type === 1) {
+      this.setState({
+        dtstart: date,
+        pickDtStartOpen: false,
+        dtend: dayjs(this.state.dtend).isBefore(dayjs(date)) ? dayjs(date).add(1, 'hour').toDate() : this.state.dtend
+      })
+      return
+    }
+    this.setState({
+      dtstart: dayjs(this.state.dtstart).isAfter(dayjs(date)) ? dayjs(date).subtract(1, 'hour').toDate() : this.state.dtstart,
+      dtend: date,
+      pickDtEndOpen: false
+    })
+  }
+
+  /**
+   * 选择日历关闭
+   */
+  selectedCalendarCloseHandler = () => {
+    this.setState({
+      selectedCalendarOpen: false
+    })
+  }
+
+  /**
+   * 选择日历回调
+   * @param id
+   */
+  selectdCalendarSelectHandler = (id: string) => {
+    const calendar = this.props.calendars.find((i) => i.id === id)
+    this.setState({
+      selectedCalendar: calendar,
+      selectedCalendarOpen: false,
+      alarm: {
+        alarmType: calendar ? calendar.alarmType + '' : '0',
+        alarmTime: calendar ? [calendar.alarmTime + ''] : '0'
+      }
+    })
+  }
+
+  /**
+   * 选择描述
+   */
+  openDesc = async () => {
+    try {
+      const result = await Router.toComponentdesc()
+      if (result) {
+        this.setState({
+          description: result.description
+        })
+      }
+    } catch (err) {
+      console.log(err)
+      Router.toIndex({ type: NavigateType.switchTab })
+    }
+  }
+
+  /**
+   * 选择循环
+   */
+  openRepet = async () => {
+    try {
+      const result = await Router.toComponentrepeat({
+        data: {
+          selectedDate: this.state.dtstart,
+          repeatStatus: this.state.repeatStatus,
+          repeatType: this.state.repeatType,
+          repeatInterval: this.state.repeatInterval,
+          repeatByday: this.state.repeatByday,
+          repeatBymonth: this.state.repeatBymonth,
+          repeatBymonthday: this.state.repeatBymonthday
+        }
+      })
+      if (result) {
+        this.setState({ ...result })
+      }
+    } catch (err) {
+      console.log(err)
+      Router.toIndex({ type: NavigateType.switchTab })
+    }
+  }
+
+  /**
+   * 重置循环时间
+   */
+  closeRepeat = () => {
+    this.setState({
+      repeatStatus: '0',
+      repeatInterval: 1,
+      repeatType: '',
+      repeatByday: '',
+      repeatBymonth: '',
+      repeatBymonthday: ''
+    })
+  }
+
+  /**
+   * 循环时间的过期时间
+   */
+  openRepeatUntil = () => {
+    this.setState({
+      repeatPickerOpen: true
+    })
+  }
+
+  repeatPickClose = () => {
+    this.setState({
+      repeatPickerOpen: false
+    })
+  }
+
+  repeatUntilChage = (date: Date) => {
+    this.setState({
+      repeatUntil: date,
+      repeatPickerOpen: false
+    })
+  }
+
+  cleanRepeatUntil = () => {
+    this.setState({
+      repeatUntil: null
+    })
+  }
+
+  /**
+   * 打开提醒配置
+   */
+  alarmChage = async () => {
+    try {
+      const result = await Router.toComponentalarm({
+        data: this.state.alarm
+      })
+      if (!result) return
+      const { alarmType, alarmTime } = result
+      this.setState({
+        alarm: {
+          alarmType,
+          alarmTime
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  addComponent = () => {
+    if (!this.state.summary) {
+      showToast('标题不能为空')
+      return
+    }
+    if (!this.state.selectedCalendar) {
+      showToast('选择日历不能为空')
+      return
+    }
+
+    if (this.state.repeatStatus !== '0' && !this.state.repeatUntil) {
+      showToast('循环日期不能为空')
+      return
+    }
+    const start: Dayjs = dayjs(this.state.dtstart)
+    const end: Dayjs = dayjs(this.state.dtend)
+    if (end.isBefore(start)) {
+      showToast('结束时间小于开始时间')
+      return
+    }
+    if (end.diff(start) < 3600) {
+      showToast('时间范围应大于1小时')
+      return
+    }
+    const that = this
+    const addOrUpdateComponent = {
+      id: this.state.id,
+      summary: this.state.summary,
+      calendarId: this.state.selectedCalendar.calendarId,
+      location: this.state.location,
+      description: this.state.description,
+      dtstart: this.state.dtstart,
+      dtend: this.state.dtend,
+      fullDay: this.state.fullDay,
+      repeatStatus: this.state.repeatStatus,
+      repeatType: this.state.repeatType,
+      repeatInterval: this.state.repeatInterval,
+      repeatByday: this.state.repeatByday,
+      repeatBymonth: this.state.repeatBymonth,
+      repeatBymonthday: this.state.repeatBymonthday,
+      repeatUntil: this.state.repeatUntil,
+      alarm: this.state.alarm
+    }
+    add(addOrUpdateComponent)
+      .then((res) => {
+        addOrUpdateComponent.id = res as any as string
+        //要刷新首页列表
+        this.props.refreshTime(dayjs().unix())
+        that.routeToBack(addOrUpdateComponent)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  routeToBack = (data) => {
+    Taro.showToast({
+      title: this.state.edit ? '编辑成功' : '新增成功',
+      icon: 'success',
+      duration: 2000
+    })
+
+    if (this.state.edit) {
+      back(1, { ...data, color: this.state.selectedCalendar?.color, calendarName: this.state.selectedCalendar?.name, edit: true })
+      return
+    }
+    Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: { componentId: data.id } })
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <View className='vi-schedule-wrapper'>
+          <CommonHeader title={this.state.title} to={this.state.edit ? 3 : 1} fixed left data={{ componentId: this.state.id }}></CommonHeader>
+          <View className='vi-schedule-wrapper_container'>
+            <View className='summary' style={{ marginTop: process.env.TARO_ENV === 'h5' ? '40px' : '0px' }}>
+              <Textarea
+                placeholder='输入日程标题'
+                maxlength={120}
+                value={this.state.summary}
+                style={{ width: '100%', height: '60px' }}
+                autoFocus
+                onInput={(e) => this.summaryChage(e.detail.value)}
+              />
+            </View>
+            <View className='content'>
+              <View className='item'>
+                <Cell icon={<ClockOutlined />} bordered={false} align='center' title='全天' size='large'>
+                  <Switch size={24} checked={this.state.fullDay === 1} onChange={this.fullDayChage.bind(this)} />
+                </Cell>
+                <Cell className='picker'>
+                  <View className='cell' onClick={this.pickerClickHandler.bind(this, 1)}>
+                    <Time time={this.state.dtstart} fullDay={this.state.fullDay}></Time>
+                  </View>
+                  <View>
+                    <IconFont name='jiantou' size={60}></IconFont>
+                  </View>
+                  <View className='cell' onClick={this.pickerClickHandler.bind(this, 2)}>
+                    <Time time={this.state.dtend} fullDay={this.state.fullDay}></Time>
+                  </View>
+                </Cell>
+                {this.state.location ? (
+                  <Cell icon={<LocationOutlined />} rightIcon={<Cross onClick={this.locationChage.bind(this)} />} clickable>
+                    {this.state.location}
+                  </Cell>
+                ) : (
+                  <></>
+                )}
+                <Cell icon={<FriendsOutlined />} title='添加参与者' clickable size='large'></Cell>
+                {this.state.repeatStatus !== '0' ? (
+                  <>
+                    <Cell size='large' icon={<Replay></Replay>} onClick={this.openRepet.bind(this)} rightIcon={<Cross onClick={this.closeRepeat.bind(this)} />}>
+                      {formatRepeatTime(
+                        this.state.repeatType,
+                        this.state.repeatStatus,
+                        this.state.repeatByday,
+                        this.state.repeatBymonth,
+                        this.state.repeatBymonthday,
+                        this.state.repeatInterval
+                      )}
+                    </Cell>
+                    <Cell
+                      size='large'
+                      className='vi-schedule-wrapper_repeat-until'
+                      clickable
+                      title={!this.state.repeatUntil ? '选择结束时间' : ''}
+                      onClick={this.openRepeatUntil.bind(this)}
+                      rightIcon={
+                        <Cross
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            this.cleanRepeatUntil()
+                          }}
+                        />
+                      }
+                    >
+                      {this.state.repeatUntil ? dayjs(this.state.repeatUntil).format('YYYY年MM月DD日') + ' 结束重复' : ''}
+                    </Cell>
+                  </>
+                ) : (
+                  <></>
+                )}
+                <Cell icon={<BulbOutlined />} rightIcon={<Arrow />} size='large' clickable onClick={this.alarmChage.bind(this)}>
+                  {formatAlarmText(this.state.alarm)}
+                </Cell>
+                {this.state.description ? (
+                  <Cell size='large' icon={<Description />} rightIcon={<Cross onClick={this.descritionChage.bind(this)} />} clickable>
+                    {this.state.description}
+                  </Cell>
+                ) : (
+                  <></>
+                )}
+              </View>
+              <View className='calendar'>
+                <Cell rightIcon={<Arrow />} size='large' clickable onClick={() => this.setState({ selectedCalendarOpen: true })}>
+                  <SelectCalendar
+                    color={this.state.selectedCalendar ? this.state.selectedCalendar.color : '2eb82e'}
+                    title={this.state.selectedCalendar ? this.state.selectedCalendar.name : '无日历'}
+                  ></SelectCalendar>
+                </Cell>
+              </View>
+              <View>
+                <Grid columns={4} square>
+                  {this.state.repeatStatus === '0' ? <Grid.Item icon={<Replay />} text='重复' onClick={this.openRepet.bind(this)} /> : <></>}
+                  {!this.state.location ? <Grid.Item icon={<LocationOutlined />} text='地点' onClick={this.openChooseLocation.bind(this)} /> : <></>}
+                  {!this.state.description ? <Grid.Item icon={<Description />} text='备注' onClick={this.openDesc.bind(this)} /> : <></>}
+                  <Grid.Item icon={<PhotoOutlined />} text='附件' />
+                </Grid>
+              </View>
+            </View>
+          </View>
+          <View className='vi-schedule-wrapper_button'>
+            <Button color='success' block onClick={this.addComponent.bind(this)}>
+              保存
+            </Button>
+          </View>
+        </View>
+        <Picker
+          title='开始时间'
+          type={1}
+          dataType={this.state.pickDateType}
+          selected={this.state.dtstart}
+          open={this.state.pickDtStartOpen}
+          pickSelectedHandler={this.pickSelectedHandler.bind(this)}
+          closeHandler={this.pickCloseHandler.bind(this)}
+        ></Picker>
+
+        <Picker
+          title='结束时间'
+          type={2}
+          open={this.state.pickDtEndOpen}
+          dataType={this.state.pickDateType}
+          selected={this.state.dtend}
+          minDate={this.state.dtstart}
+          pickSelectedHandler={this.pickSelectedHandler.bind(this)}
+          closeHandler={this.pickCloseHandler.bind(this)}
+        ></Picker>
+
+        <CalendarAction
+          open={this.state.selectedCalendarOpen}
+          calendars={this.props.calendars}
+          selectedHandler={this.selectdCalendarSelectHandler.bind(this)}
+          closeHandler={this.selectedCalendarCloseHandler.bind(this)}
+        ></CalendarAction>
+
+        <RepeatPicker
+          open={this.state.repeatPickerOpen}
+          selectedDate={this.state.repeatUntil}
+          closeHanler={this.repeatPickClose.bind(this)}
+          confirmHandler={this.repeatUntilChage.bind(this)}
+          minDate={this.state.dtend}
+        ></RepeatPicker>
+      </Fragment>
+    )
+  }
+}
+
+export default Components

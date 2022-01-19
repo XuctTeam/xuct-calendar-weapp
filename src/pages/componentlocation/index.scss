@@ -1,0 +1,37 @@
+page {
+  height: 100%;
+}
+
+.vi-location-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  &_content {
+    padding: 20px;
+    flex: 1;
+  }
+  &_button {
+    margin: 20px;
+    padding-bottom: 10px;
+    .save {
+      padding-bottom: 20px;
+    }
+  }
+}
+
+.taro_choose_location {
+  .taro_choose_location_bar {
+    background-color: #fff;
+  }
+
+  .taro_choose_location_title {
+    text-align: center;
+    font-size: var(--navbar-title-font-size, var(--font-size-lg, 0.68267rem));
+    font-weight: var(--font-weight-bold, 500);
+    color: var(--navbar-title-text-color, var(--text-color, var(--gray-8, #323233)));
+  }
+
+  .taro_choose_location_submit {
+    margin-top: 30px;
+  }
+}

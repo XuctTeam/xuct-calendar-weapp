@@ -1,0 +1,42 @@
+page,
+.taro_page {
+  height: 100%;
+}
+
+.vi-schedulealarm-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &_content {
+    flex: 1;
+
+    .no-alarm {
+      border-bottom: 10px solid #f2f2f2;
+    }
+
+    .taroify-hairline--top-bottom::after,
+    .taroify-hairline-unset--top-bottom::after {
+      border-width: 0 !important;
+    }
+
+    .alarm-type {
+      width: 100%;
+      margin-top: 10px;
+      border-top: 10px solid #f2f2f2;
+
+      .taroify-radio-group {
+        display: flex;
+        flex-flow: row no-wrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  &_button {
+    margin: 20px;
+    padding-bottom: 20px;
+  }
+}

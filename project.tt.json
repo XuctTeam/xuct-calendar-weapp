@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "react-lesson-20",
+  "description": "react-lesson-20",
+  "appid": "wxd1cee317f1b0df7c",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}

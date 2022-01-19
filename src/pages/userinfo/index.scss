@@ -1,0 +1,36 @@
+.vi-user-wrapper {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  &_menu {
+    flex: 1;
+  }
+
+  &_button {
+    margin: 30px;
+    padding-bottom: 20px;
+  }
+
+  &_ui-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    .form {
+      margin-top: 20px;
+      flex: 1;
+    }
+
+    .button {
+      margin: 20px;
+    }
+  }
+}
+
+.taroify-navbar {
+  margin-bottom: 10px;
+  border-bottom: 10px solid #f2f2f2;
+}

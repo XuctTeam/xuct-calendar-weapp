@@ -1,0 +1,35 @@
+/*
+ * @Description:
+ * @Author: Derek Xu
+ * @Date: 2021-12-30 11:18:24
+ * @LastEditTime: 2022-01-18 11:04:03
+ * @LastEditors: Derek Xu
+ */
+import React from 'react'
+import { formatWeek } from '@/utils/utils'
+import { Cell, Checkbox } from '@taroify/core'
+
+interface IPageStateProps {
+  defaultValues: Array<string>
+  weekSelected: (weeks: Array<string>) => void
+}
+
+const Weekly: React.FC<IPageStateProps> = (props) => {
+  return (
+    <>
+      <Checkbox.Group defaultValue={props.defaultValues} onChange={props.weekSelected}>
+        <Cell.Group clickable>
+          {Array.from([1, 2, 3, 4, 5, 6, 0], (k) => k).map((i) => {
+            return (
+              <Cell key={i} title={formatWeek(i)}>
+                <Checkbox name={`${i}`} />
+              </Cell>
+            )
+          })}
+        </Cell.Group>
+      </Checkbox.Group>
+    </>
+  )
+}
+
+export default Weekly

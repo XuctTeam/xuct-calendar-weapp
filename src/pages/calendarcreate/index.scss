@@ -1,0 +1,39 @@
+page {
+  height: 100%;
+}
+
+.vi-calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &_container {
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  &_button {
+    margin: 20px;
+    padding-bottom: 10px;
+  }
+}
+
+.taroify-grid-item__content {
+  padding: 10px;
+}
+
+.taroify-backdrop {
+  background: var(--backdrop-background-color, rgba(255, 255, 255, 0.7));
+  .content-wrapper {
+    height: 100%;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+}
