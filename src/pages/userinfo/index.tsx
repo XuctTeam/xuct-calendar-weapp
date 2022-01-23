@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-10 13:23:25
+ * @LastEditTime: 2022-01-23 21:49:55
  */
 import { Component } from 'react'
 import { bindActionCreators } from 'redux'
@@ -116,7 +116,7 @@ class User extends Component {
 
   toModifyPhone = async (phone: string) => {
     try {
-      const result = await Router.toPhone({
+      const result = await Router.toBindphone({
         data: phone
       })
       if (result && result.data === '1') {
@@ -219,7 +219,7 @@ class User extends Component {
           <Cell title='微信' rightIcon={<ArrowRight />} clickable>
             {wxAuth ? wxAuth.nickName : ''}
           </Cell>
-          <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => Taro.navigateTo({ url: '/pages/password/index' })}></Cell>
+          <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => Router.toModifypassword()}></Cell>
         </View>
         <View className='vi-user-wrapper_button'>
           <Button color='warning' block onClick={this.logout.bind(this)}>

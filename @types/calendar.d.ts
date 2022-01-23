@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-05 16:50:55
- * @LastEditTime: 2022-01-19 11:05:52
+ * @LastEditTime: 2022-01-23 10:07:19
  * @LastEditors: Derek Xu
  */
 
@@ -34,6 +34,7 @@ export interface IDavComponent {
   dtstart: Date
   dtend: Date
   alarmType: string
+  alarmTimes?: string
   fullDay: number
   color?: string
   calendarName?: string
@@ -50,9 +51,4 @@ export interface ICalendarComponent {
   day: string
   calendarId: string
   components: Array<IDavComponent>
-}
-
-export interface IDavAlarm {
-  alarmType: string
-  alarmTime: Array<string>
 }

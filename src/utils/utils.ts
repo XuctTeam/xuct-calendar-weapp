@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
  * @FilePath: \react-lesson-20\src\utils\utils.ts
- * @LastEditTime: 2022-01-19 10:29:36
+ * @LastEditTime: 2022-01-23 21:46:38
  * @LastEditors: Derek Xu
  */
 
@@ -95,29 +95,65 @@ export const formatRepeatTime = (
 }
 
 /**
+ * 提醒类型通过类型换code
+ * @param alarmType
+ * @returns
+ */
+export const alarmTypeToCode = (alarmType: string): string => {
+  let _alarmType: string = '0'
+  switch (alarmType) {
+    case 'INTERNAL_MESSAGE':
+      _alarmType = '1'
+      break
+    case 'MAIL':
+      _alarmType = '2'
+      break
+    case 'OFFICIAL_ACCOUNT':
+      _alarmType = '3'
+      break
+  }
+  return _alarmType
+}
+
+export const alarmCodeToType = (code: string) => {
+  switch (code) {
+    case '1':
+      return 'INTERNAL_MESSAGE'
+    case '2':
+      return 'MAIL'
+    case '3':
+      return 'OFFICIAL_ACCOUNT'
+    default:
+      return 'UNKNOWN'
+  }
+}
+
+/**
  * 格式化提醒显示
  * @param alarm
  * @returns
  */
-export const formatAlarmText = (alarm: IDavAlarm): string => {
-  if (alarm.alarmType === '0') return '不提醒'
-  const formatTimes: Array<string> = alarm.alarmTime.map((i) => {
+export const formatAlarmText = (alarmType: string, alarmTimes: Array<string>): string => {
+  console.log(alarmType)
+  if (alarmType === '0') return '不提醒'
+  if (alarmTimes.length === 0) return '不提醒'
+  const formatTimes: Array<string> = alarmTimes.map((i) => {
     if (i === '60') return '1小时前'
     else if (i === '1440') return '1天前'
     return i + '分钟前'
   })
-  let alarmType = ''
-  switch (alarm.alarmType) {
+  let alarmTypeStr = ''
+  switch (alarmType) {
     case '1':
-      alarmType = '站内信提醒'
+      alarmTypeStr = '站内信提醒'
       break
     case '2':
-      alarmType = '邮箱提醒'
+      alarmTypeStr = '邮箱提醒'
       break
     default:
-      alarmType = '公众号提醒'
+      alarmTypeStr = '公众号提醒'
   }
-  formatTimes.push(alarmType)
+  formatTimes.push(alarmTypeStr)
   return formatTimes.join('，')
 }
 

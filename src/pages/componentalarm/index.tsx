@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-02 15:31:09
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-18 11:22:36
+ * @LastEditTime: 2022-01-23 17:10:29
  */
 import React, { useEffect, useState } from 'react'
 import Router from 'tarojs-router-next'
@@ -17,7 +17,7 @@ import './index.scss'
 
 interface IPageStateProps {
   openAlarm: string
-  alarmTime: Array<string>
+  alarmTimes: Array<string>
   alarmType: string
 }
 
@@ -33,9 +33,9 @@ const Componentalarm: React.FC<IPageStateProps> = () => {
         setOpenAlarm('1')
       } else {
         setAlarmType(data.alarmType)
-        if (data.alarmTime && data.alarmTime.length !== 0) {
+        if (data.alarmTimes && data.alarmTimes.length !== 0) {
           setAlarmTime(
-            data.alarmTime.map((i) => {
+            data.alarmTimes.map((i) => {
               return i + ''
             })
           )
@@ -70,7 +70,7 @@ const Componentalarm: React.FC<IPageStateProps> = () => {
     })
     back(1, {
       alarmType: openAlarm === '1' ? '0' : alarmType,
-      alarmTime: openAlarm === '1' ? [] : sortAlarmTime
+      alarmTimes: openAlarm === '1' ? [] : sortAlarmTime
     })
   }
 

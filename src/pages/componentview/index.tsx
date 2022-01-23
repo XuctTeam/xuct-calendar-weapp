@@ -2,22 +2,21 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-01-19 14:23:21
+ * @LastEditTime: 2022-01-23 21:45:00
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { ActionSheet, Button, Flex, Backdrop, Loading } from '@taroify/core'
 import { Ellipsis, ClockOutlined, BulbOutlined } from '@taroify/icons'
 import dayjs from 'dayjs'
-import { IDavAlarm, IDavComponent } from '~/../@types/calendar'
+import { IDavComponent } from '~/../@types/calendar'
 import CommonHeader from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
-import { list as alarmlist } from '@/api/alarm'
-import { formatAlarmText } from '@/utils/utils'
+import { formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back } from '@/utils/taro'
 import { SameDay, DifferentDay } from './ui'
 
@@ -26,7 +25,6 @@ import './index.scss'
 interface IPageStateProps {
   open: boolean
   component: IDavComponent
-  refreshTime: (time: number) => void
 }
 
 const defaultComponent: IDavComponent = {
@@ -44,14 +42,13 @@ const defaultComponent: IDavComponent = {
   color: 'fff',
   calendarName: ''
 }
-const Componentview: React.FC<IPageStateProps> = (props) => {
+const Componentview: React.FC<IPageStateProps> = () => {
   const [open, setOpen] = useState(false)
-  const [alarm, setAlarm] = useState<IDavAlarm>({
-    alarmType: '0',
-    alarmTime: ['15']
-  })
+  const [alarmType, setAlarmType] = useState('0')
+  const [alarmTimes, setAlarmTimes] = useState<Array<string>>([])
   const [component, setComponent] = useState<IDavComponent>(defaultComponent)
   const [delLoading, setDelLoading] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const data: any = Router.getData()
@@ -69,14 +66,11 @@ const Componentview: React.FC<IPageStateProps> = (props) => {
 
   const _setComponent = (comp: IDavComponent) => {
     setComponent(comp)
-    if (comp.alarmType !== '0') {
-      alarmlist(comp.id)
-        .then((res) => {
-          setAlarm(res as any as IDavAlarm)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    if (comp.alarmType) {
+      setAlarmType(alarmTypeToCode(comp.alarmType))
+    }
+    if (comp.alarmTimes) {
+      setAlarmTimes(comp.alarmTimes.split(','))
     }
   }
 
@@ -90,12 +84,11 @@ const Componentview: React.FC<IPageStateProps> = (props) => {
         paramEdit: 1
       },
       data: {
-        component: component,
-        alarm: alarm
+        component: component
       }
     })
     if (result && result.edit) {
-      _setComponent(result)
+      _setComponent({ ...result, alarmType: alarmCodeToType(result.alarmType), alarmTimes: result.alarmTimes.join(',') })
     }
   }
 
@@ -108,7 +101,10 @@ const Componentview: React.FC<IPageStateProps> = (props) => {
         if (res.confirm) {
           setDelLoading(true)
           deleteById(component.id).then(() => {
-            props.refreshTime(dayjs().unix())
+            dispatch({
+              type: 'component/refreshTime',
+              payload: dayjs().unix()
+            })
             window.setTimeout(() => {
               setDelLoading(false)
               back(1)
@@ -167,7 +163,7 @@ const Componentview: React.FC<IPageStateProps> = (props) => {
             <View className='event-icon'>
               <BulbOutlined size={24}></BulbOutlined>
             </View>
-            <View className='event-content'>{formatAlarmText(alarm)}</View>
+            <View className='event-content'>{formatAlarmText(alarmType, alarmTimes)}</View>
           </View>
         </View>
         <View className='vi-component-view-wrapper_button'>
@@ -200,11 +196,4 @@ const Componentview: React.FC<IPageStateProps> = (props) => {
   )
 }
 
-export default connect(
-  () => {},
-  (dispatch) => {
-    return {
-      refreshTime: (time: number) => dispatch({ type: 'component/refreshTime', payload: time })
-    }
-  }
-)(Componentview)
+export default Componentview

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-19 10:32:07
+ * @LastEditTime: 2022-01-23 21:34:44
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -18,11 +18,10 @@ import { Arrow, ClockOutlined, FriendsOutlined, LocationOutlined, BulbOutlined, 
 
 import { DvaProps } from '~/../@types/dva'
 import { DatetimePickerType } from '@taroify/core/datetime-picker/datetime-picker.shared'
-import { IDavCalendar, IDavAlarm, IDavComponent } from '~/../@types/calendar'
+import { IDavCalendar, IDavComponent } from '~/../@types/calendar'
 import { add, getById } from '@/api/component'
-import { list as alarmlist } from '@/api/alarm'
 import { showToast, back } from '@/utils/taro'
-import { formatRepeatTime, fiveMinutes, formatAlarmText } from '@/utils/utils'
+import { formatRepeatTime, fiveMinutes, formatAlarmText, alarmTypeToCode } from '@/utils/utils'
 
 import CommonHeader from '@/components/mixin'
 import IconFont from '@/components/iconfont'
@@ -65,7 +64,8 @@ type PageStateProps = {
   repeatInterval: number
   repeatPickerOpen: boolean
   repeatUntil: Date | null
-  alarm: IDavAlarm
+  alarmType: string
+  alarmTimes: Array<string>
 }
 
 type IProps = ModelProps & PageDispatchProps & PageOwnProps
@@ -111,19 +111,17 @@ class Components extends Component {
       repeatPickerOpen: false,
       repeatInterval: 1,
       repeatUntil: null,
-      alarm: {
-        alarmType: '0',
-        alarmTime: ['15']
-      }
+      alarmType: '0',
+      alarmTimes: []
     }
   }
 
   componentDidMount() {
-    const { component, selectedDay, alarm } = Router.getData() || { component: undefined, alarm: this.state.alarm }
+    const { component, selectedDay } = Router.getData() || { component: undefined }
     const { paramEdit, componentId } = Router.getParams()
     //编辑
     if (paramEdit && componentId) {
-      this._updateComponent(componentId, component, alarm)
+      this._updateComponent(componentId, component)
       return
     }
     this._createComponent(this.props.calendars, selectedDay)
@@ -135,18 +133,17 @@ class Components extends Component {
    * @param componentId
    * @param component
    */
-  _updateComponent = async (componentId: string, component: IDavComponent | null, alarm: IDavAlarm) => {
+  _updateComponent = async (componentId: string, component: IDavComponent | null) => {
     if (component) {
-      this._setUpdateComponent(this.props.calendars, component, alarm)
+      this._setUpdateComponent(this.props.calendars, component)
       return
     }
     let calendars = this.props.calendars
     if (calendars.length === 0) {
       calendars = await this.props.listSync()
     }
-    Promise.all([getById(componentId), alarmlist(componentId)]).then((res) => {
-      if (!(res instanceof Array)) return
-      this._setUpdateComponent(calendars, res[0] as any as IDavComponent, res[1] as any as IDavAlarm)
+    getById(componentId).then((res) => {
+      this._setUpdateComponent(calendars, res as any as IDavComponent)
     })
     return
   }
@@ -165,17 +162,18 @@ class Components extends Component {
       calendars = await this.props.listSync()
     }
     const majorCalendar = calendars.find((i) => i.major === 1)
-    const alarm = this.state.alarm
-    if (majorCalendar) {
-      alarm.alarmType = majorCalendar.alarmType + ''
-      alarm.alarmTime = [majorCalendar.alarmTime + '']
-    }
-    this.setState({
+    const data = {
       selectedCalendar: majorCalendar,
-      alarm: alarm,
       dtstart: dayjs(selectedDay).toDate(),
-      dtend: dayjs(selectedDay).add(1, 'hour').toDate()
-    })
+      dtend: dayjs(selectedDay).add(1, 'hour').toDate(),
+      alarmType: this.state.alarmType,
+      alarmTimes: this.state.alarmTimes
+    }
+    if (majorCalendar) {
+      data.alarmType = majorCalendar.alarmType + ''
+      data.alarmTimes.push(majorCalendar.alarmTime + '')
+    }
+    this.setState(data)
   }
 
   /**
@@ -183,19 +181,20 @@ class Components extends Component {
    * @param calendars
    * @param component
    */
-  _setUpdateComponent = async (calendars: Array<IDavCalendar>, component: IDavComponent, alarm: IDavAlarm) => {
+  _setUpdateComponent = async (calendars: Array<IDavCalendar>, component: IDavComponent) => {
     if (calendars.length === 0) {
       calendars = await this.props.listSync()
     }
-
     const majorCalendar = calendars.find((i) => i.calendarId === component.calendarId)
+
     this.setState({
       ...component,
       dtstart: dayjs(component.dtstart).toDate(),
       dtend: dayjs(component.dtend).toDate(),
       selectedCalendar: majorCalendar,
-      alarm: alarm,
       title: '日程编辑',
+      alarmType: alarmTypeToCode(component.alarmType),
+      alarmTimes: component.alarmTimes ? component.alarmTimes.split(',') : [],
       pickDateType: component.fullDay === 1 ? 'date' : 'date-minute',
       repeatStatus: component.repeatStatus + '',
       repeatUntil: component.repeatUntil ? dayjs(component.repeatUntil).toDate() : null,
@@ -399,15 +398,16 @@ class Components extends Component {
   alarmChage = async () => {
     try {
       const result = await Router.toComponentalarm({
-        data: this.state.alarm
+        data: {
+          alarmType: this.state.alarmType,
+          alarmTimes: this.state.alarmTimes
+        }
       })
       if (!result) return
-      const { alarmType, alarmTime } = result
+      const { alarmType, alarmTimes } = result
       this.setState({
-        alarm: {
-          alarmType,
-          alarmTime
-        }
+        alarmType,
+        alarmTimes
       })
     } catch (err) {
       console.log(err)
@@ -455,7 +455,8 @@ class Components extends Component {
       repeatBymonth: this.state.repeatBymonth,
       repeatBymonthday: this.state.repeatBymonthday,
       repeatUntil: this.state.repeatUntil,
-      alarm: this.state.alarm
+      alarmType: this.state.alarmType,
+      alarmTimes: this.state.alarmTimes
     }
     add(addOrUpdateComponent)
       .then((res) => {
@@ -557,7 +558,7 @@ class Components extends Component {
                   <></>
                 )}
                 <Cell icon={<BulbOutlined />} rightIcon={<Arrow />} size='large' clickable onClick={this.alarmChage.bind(this)}>
-                  {formatAlarmText(this.state.alarm)}
+                  {formatAlarmText(this.state.alarmType, this.state.alarmTimes)}
                 </Cell>
                 {this.state.description ? (
                   <Cell size='large' icon={<Description />} rightIcon={<Cross onClick={this.descritionChage.bind(this)} />} clickable>
