@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-23 21:34:44
+ * @LastEditTime: 2022-01-24 11:18:55
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -182,6 +182,9 @@ class Components extends Component {
    * @param component
    */
   _setUpdateComponent = async (calendars: Array<IDavCalendar>, component: IDavComponent) => {
+    Taro.setNavigationBarTitle({
+      title: '日程编辑'
+    })
     if (calendars.length === 0) {
       calendars = await this.props.listSync()
     }
@@ -200,11 +203,6 @@ class Components extends Component {
       repeatUntil: component.repeatUntil ? dayjs(component.repeatUntil).toDate() : null,
       edit: true
     })
-    if (process.env.TARO_ENV === 'weapp') {
-      Taro.setNavigationBarTitle({
-        title: '日程编辑'
-      })
-    }
   }
 
   summaryChage = (value: string) => {
@@ -301,10 +299,8 @@ class Components extends Component {
     this.setState({
       selectedCalendar: calendar,
       selectedCalendarOpen: false,
-      alarm: {
-        alarmType: calendar ? calendar.alarmType + '' : '0',
-        alarmTime: calendar ? [calendar.alarmTime + ''] : '0'
-      }
+      alarmType: calendar ? calendar.alarmType + '' : '0',
+      alarmTimes: calendar ? [calendar.alarmTime + ''] : []
     })
   }
 

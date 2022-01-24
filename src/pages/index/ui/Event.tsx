@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-01-17 17:56:28
+ * @LastEditTime: 2022-01-24 15:15:53
  * @LastEditors: Derek Xu
  */
 import { useEffect, useState } from 'react'
@@ -32,7 +32,7 @@ interface ISelectCalendar {
 }
 
 const Event: React.FC<IPageStateProps> = (props) => {
-  const [componentList, setComponentList] = useState<Array<IDavComponent>>([])
+  const [componentList, setComponentList] = useState<IDavComponent[]>([])
   const [reachTop, setReachTop] = useState(true)
   usePageScroll(({ scrollTop }) => setReachTop(scrollTop === 0))
 

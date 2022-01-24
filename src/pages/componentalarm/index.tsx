@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-02 15:31:09
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-23 17:10:29
+ * @LastEditTime: 2022-01-24 15:15:09
  */
 import React, { useEffect, useState } from 'react'
 import Router from 'tarojs-router-next'
@@ -23,7 +23,7 @@ interface IPageStateProps {
 
 const Componentalarm: React.FC<IPageStateProps> = () => {
   const [openAlarm, setOpenAlarm] = useState('0')
-  const [alarmTime, setAlarmTime] = useState<Array<string>>([])
+  const [alarmTime, setAlarmTime] = useState<string[]>([])
   const [alarmType, setAlarmType] = useState('1')
 
   useEffect(() => {

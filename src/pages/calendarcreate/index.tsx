@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:50
- * @LastEditTime: 2022-01-18 11:28:21
+ * @LastEditTime: 2022-01-24 19:40:02
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -79,6 +79,9 @@ class CaldavCreate extends Component {
     const data = Router.getData()
     if (data) {
       this.setState({ ...data, title: '日历编辑' })
+      Taro.setNavigationBarTitle({
+        title: '日历编辑'
+      })
       return
     }
     const { calendarId } = Router.getParams()
@@ -86,6 +89,9 @@ class CaldavCreate extends Component {
     get(calendarId)
       .then((res) => {
         this.setState({ ...res, title: '日历编辑' })
+        Taro.setNavigationBarTitle({
+          title: '日历编辑'
+        })
       })
       .catch((err) => {
         console.log(err)

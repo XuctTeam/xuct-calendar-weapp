@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-01-18 13:11:16
+ * @LastEditTime: 2022-01-24 11:32:09
  * @LastEditors: Derek Xu
  */
 import React, { Component } from 'react'
@@ -20,7 +20,7 @@ import { ICurrentDay } from '~/../@types/date'
 import { getToday } from '@/utils/utils'
 import CalendarTypes from '@/components/calendar/types/calendar'
 import { IDavCalendar, ICalendarComponent, IDavComponent } from '~/../@types/calendar'
-import { componentsDaysById, getDaysById } from '@/api/component'
+import { componentsDaysById } from '@/api/component'
 import CommonHeader from '@/components/mixin'
 import IconFont from '@/components/iconfont'
 import { Picker, Event, CaldavList } from './ui'
@@ -222,6 +222,13 @@ class Index extends Component {
   }
 
   /**
+   * @description 日程搜索
+   */
+  searchComponent = () => {
+    Router.toComponentsearch()
+  }
+
+  /**
    * @description 查询日历下所有日程
    *
    * @param calList
@@ -334,7 +341,14 @@ class Index extends Component {
               }
               extra={
                 <>
-                  <Search />
+                  <Search
+                    size={18}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      e.preventDefault()
+                      this.searchComponent()
+                    }}
+                  />
                 </>
               }
             >

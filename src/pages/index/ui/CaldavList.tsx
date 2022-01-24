@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-02 22:46:09
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-13 11:09:42
+ * @LastEditTime: 2022-01-24 15:15:42
  */
 import Taro from '@tarojs/taro'
 import { View, CheckboxGroup, Checkbox } from '@tarojs/components'
@@ -22,7 +22,7 @@ interface ICalDavListProps {
 }
 
 const CaldavList: React.FC<ICalDavListProps> = (props) => {
-  const [showCalendars, setShowCalendars] = useState<Array<IDavCalendar>>([])
+  const [showCalendars, setShowCalendars] = useState<IDavCalendar[]>([])
 
   useEffect(() => {
     const _showCalendars = props.calendars.filter((i) => i.display === 1)

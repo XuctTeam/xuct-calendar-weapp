@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-01-23 21:45:00
+ * @LastEditTime: 2022-01-24 15:15:32
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -45,7 +45,7 @@ const defaultComponent: IDavComponent = {
 const Componentview: React.FC<IPageStateProps> = () => {
   const [open, setOpen] = useState(false)
   const [alarmType, setAlarmType] = useState('0')
-  const [alarmTimes, setAlarmTimes] = useState<Array<string>>([])
+  const [alarmTimes, setAlarmTimes] = useState<string[]>([])
   const [component, setComponent] = useState<IDavComponent>(defaultComponent)
   const [delLoading, setDelLoading] = useState(false)
   const dispatch = useDispatch()

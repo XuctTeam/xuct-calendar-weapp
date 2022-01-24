@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-04 10:39:35
- * @LastEditTime: 2022-01-19 11:23:50
+ * @LastEditTime: 2022-01-24 18:21:23
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -42,6 +42,17 @@ export const getDaysById = (id: string) => {
  */
 export const getById = (id: string) => {
   return http.get('/cms/api/app/v1/component/'.concat(id))
+}
+
+/**
+ * 按关键词查询日程
+ * @param word
+ * @param page
+ * @param limit
+ * @returns
+ */
+export const search = (word: string, page: number, limit: number) => {
+  return http.get('/cms/api/app/v1/component/list/search/days', { word, page, limit })
 }
 
 /**

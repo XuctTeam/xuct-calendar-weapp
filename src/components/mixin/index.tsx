@@ -3,10 +3,10 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:05:22
  * @FilePath: \react-lesson-20\src\utils\mixin.ts
- * @LastEditTime: 2022-01-14 17:40:20
+ * @LastEditTime: 2022-01-24 11:31:14
  * @LastEditors: Derek Xu
  */
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import { Navbar } from '@taroify/core'
 import Router, { NavigateType } from 'tarojs-router-next'
 

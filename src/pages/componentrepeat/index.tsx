@@ -2,7 +2,7 @@
  * @Description: 日程重复
  * @Author: Derek Xu
  * @Date: 2021-12-24 16:14:50
- * @LastEditTime: 2022-01-18 11:18:57
+ * @LastEditTime: 2022-01-24 11:35:15
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -241,9 +241,9 @@ class Schedulerepet extends Component {
 
   render() {
     return (
-      <View className='vi-repet-wrapper'>
+      <View className='vi-repeat-wrapper'>
         <CommonHeader title='重复' to={1} fixed={false} left></CommonHeader>
-        <Radio.Group className='vi-repet-wrapper_content' value={this.state.repeatStatus} onChange={this.repetRaidoChage.bind(this)}>
+        <Radio.Group className='vi-repeat-wrapper_content' value={this.state.repeatStatus} onChange={this.repetRaidoChage.bind(this)}>
           <Cell.Group clickable>
             <Cell title='不重复' bordered={false} className='no-repet'>
               <Radio name='0' />
@@ -291,7 +291,7 @@ class Schedulerepet extends Component {
             {this.state.repeatStatus === '8' ? <IconFont name='duigou' size={50}></IconFont> : <></>}
           </Cell>
         </Radio.Group>
-        <View className='vi-repet-wrapper_button'>
+        <View className='vi-repeat-wrapper_button'>
           <Button color='success' block onClick={this.repeatSave.bind(this)}>
             保存
           </Button>
