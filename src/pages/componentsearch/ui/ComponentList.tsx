@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:37:59
- * @LastEditTime: 2022-01-24 18:41:09
+ * @LastEditTime: 2022-01-25 20:42:56
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
@@ -20,7 +20,7 @@ interface IPageStateProps {
 }
 
 const EventList: React.FC<IPageStateProps> = (props) => {
-  const [scrollTop, setScrollTop] = useState(0)
+  const [scrollTop, setScrollTop] = useState(90)
 
   usePageScroll(({ scrollTop: aScrollTop }) => setScrollTop(aScrollTop))
 

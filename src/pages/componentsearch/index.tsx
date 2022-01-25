@@ -2,7 +2,7 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-01-25 18:03:16
+ * @LastEditTime: 2022-01-25 21:35:53
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, useState } from 'react'
@@ -42,6 +42,7 @@ const ComponentSearch: React.FC<IPageStateProps> = () => {
 
   const clean = () => {
     setList([])
+    setPage(0)
     setHasMore(true)
   }
 

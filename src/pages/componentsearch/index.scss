@@ -6,8 +6,46 @@ page {
   display: flex;
   flex-direction: column;
   padding-top: 80px;
+  height: calc(100vh - 100px);
+  overflow: hidden;
 
   .taroify-search {
-    position: fixed;
+    width: 100%;
+  }
+
+  .taroify-list {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  &_list {
+    height: 100%;
+    overflow: hidden;
+
+    .component-body {
+      display: flex;
+      flex-direction: row;
+      font-size: 28px;
+      color: grey;
+      font-weight: 400;
+
+      .event-label {
+        margin-right: 30px;
+        margin-top: 30px;
+        margin-left: 20px;
+        text-align: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+
+      .event-content {
+        margin-top: 10px;
+        .title {
+          font-size: 36px;
+          color: #000;
+        }
+      }
+    }
   }
 }

@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
  * @FilePath: \react-lesson-20\src\utils\utils.ts
- * @LastEditTime: 2022-01-23 21:46:38
+ * @LastEditTime: 2022-01-25 21:46:46
  * @LastEditors: Derek Xu
  */
 
@@ -47,7 +47,6 @@ export const base64 = (str: string): string => {
  * @returns
  */
 export const formatWeek = (week: number): string => {
-  console.log(week)
   switch (week) {
     case 0:
       return '周日'

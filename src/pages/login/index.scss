@@ -73,7 +73,7 @@ page,
     margin: 40px 20px;
 
     .btn {
-      margin: 10px 20px 0px 20px;
+      margin: 20px 20px 0px 20px;
     }
 
     .taroify-cell {
@@ -97,11 +97,10 @@ page,
     }
 
     .taroify-checkbox {
-      font-size: 30px;
-      display: flex;
-      align-items: center;
+      font-size: 24px;
+      height: 34px;
+      line-height: 34px;
       padding-left: 50px;
-      padding-bottom: 30px;
     }
     a {
       font-size: 12px;
