@@ -2,16 +2,17 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:28:54
- * @LastEditTime: 2022-01-14 21:38:32
+ * @LastEditTime: 2022-01-25 17:54:54
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { Cell, Field, Button, Flex, Input } from '@taroify/core'
+import { Cell, Field, Button, Flex, Input, Checkbox } from '@taroify/core'
 import { checkMobile } from '@/utils/utils'
 import { showToast } from '@/utils/taro'
 import { sendSmsCode } from '@/api/user'
+import Router from 'tarojs-router-next'
 
 type ModelProps = {}
 type PageDispatchProps = {}
@@ -28,6 +29,7 @@ type PageStateProps = {
   smsLoading: boolean
   username: string
   password: string
+  selfCheck: boolean
 }
 interface H5Form {
   props: IProps
@@ -48,7 +50,8 @@ class H5Form extends Component {
       smsText: smsBtnText,
       smsLoading: false,
       username: '',
-      password: ''
+      password: '',
+      selfCheck: false
     }
     this.timeOutTimer = 0
   }
@@ -182,6 +185,10 @@ class H5Form extends Component {
         return false
       }
     }
+    if (!this.state.selfCheck) {
+      showToast('请先勾选隐私协议')
+      return false
+    }
     return true
   }
 
@@ -214,6 +221,22 @@ class H5Form extends Component {
             </>
           )}
         </Cell.Group>
+
+        <View className='self'>
+          <Checkbox size={16} checked={this.state.selfCheck} onChange={(e) => this.setState({ selfCheck: e })}>
+            已阅读并同意
+            <a
+              href='#!'
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                Router.toSelfprivacy()
+              }}
+            >
+              《隐私协议》
+            </a>
+          </Checkbox>
+        </View>
 
         <View className='btn'>
           <Button color='success' block onClick={this.login.bind(this)}>

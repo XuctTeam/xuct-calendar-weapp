@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-07 10:37:58
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-19 13:58:46
+ * @LastEditTime: 2022-01-25 14:41:49
  */
 import { Component } from 'react'
 import { connect } from 'react-redux'
@@ -167,9 +167,11 @@ class Login extends Component {
   render() {
     return (
       <View className='vi-login-wrapper'>
-        <View className='back-btn' onClick={() => this.back()}>
-          <ArrowLeft />
-        </View>
+        {process.env.TARO_ENV === 'h5' && (
+          <View className='back-btn' onClick={() => this.back()}>
+            <ArrowLeft />
+          </View>
+        )}
         <View className='right-top-sign' />
         <View className='left-bottom-sign'></View>
         <View className='vi-login-wrapper_logo'>

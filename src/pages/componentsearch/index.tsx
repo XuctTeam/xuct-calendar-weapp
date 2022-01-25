@@ -2,10 +2,10 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-01-24 19:03:07
+ * @LastEditTime: 2022-01-25 18:03:16
  * @LastEditors: Derek Xu
  */
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Search } from '@taroify/core'
 import CommonHeader from '@/components/mixin'
 import { View } from '@tarojs/components'
@@ -17,7 +17,7 @@ import './index.scss'
 
 interface IPageStateProps {}
 
-const ComponentSearch: React.FC<IPageStateProps> = (props) => {
+const ComponentSearch: React.FC<IPageStateProps> = () => {
   const [value, setValue] = useState('')
   const [hasMore, setHasMore] = useState(true)
   const [list, setList] = useState<ICalendarComponent[]>([])
@@ -53,17 +53,19 @@ const ComponentSearch: React.FC<IPageStateProps> = (props) => {
   }
 
   return (
-    <View className='vi-search-wrapper'>
+    <Fragment>
       <CommonHeader title='日程搜索' left to={1} fixed></CommonHeader>
-      <Search
-        value={value}
-        placeholder='请输入搜索关键词'
-        action={<View onClick={() => toSearch()}>搜索</View>}
-        onChange={(e) => setValue(e.detail.value)}
-        onClear={() => clean()}
-      />
-      <ComponentList loading={loading} hasMore={hasMore} list={list} refresh={refresh}></ComponentList>
-    </View>
+      <View className='vi-search-wrapper'>
+        <Search
+          value={value}
+          placeholder='请输入搜索关键词'
+          action={<View onClick={() => toSearch()}>搜索</View>}
+          onChange={(e) => setValue(e.detail.value)}
+          onClear={() => clean()}
+        />
+        <ComponentList loading={loading} hasMore={hasMore} list={list} refresh={refresh}></ComponentList>
+      </View>
+    </Fragment>
   )
 }
 

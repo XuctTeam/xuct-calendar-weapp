@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-07-23 12:39:07
- * @LastEditTime: 2022-01-24 17:16:27
+ * @LastEditTime: 2022-01-25 10:35:45
  * @LastEditors: Derek Xu
  */
 // eslint-disable-next-line import/no-commonjs
@@ -20,6 +20,11 @@ module.exports = {
     WEAPP_CLIENT_INFO: JSON.stringify({
       CLIENT_ID: 'wechat_id',
       CLIENT_SECURITY: 'Wechat!@#Auth~!@'
+    }),
+
+    VERSION: JSON.stringify({
+      date: '2022-01-25',
+      version: '1.0.0'
     })
   },
   mini: {

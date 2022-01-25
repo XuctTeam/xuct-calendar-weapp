@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 16:36:43
  * @FilePath: \react-lesson-20\src\pages\authorize\index.tsx
- * @LastEditTime: 2022-01-17 14:13:47
+ * @LastEditTime: 2022-01-25 14:59:38
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -12,7 +12,6 @@ import { bindActionCreators } from 'redux'
 import { View } from '@tarojs/components'
 import { DvaProps } from '~/../@types/dva'
 import { IUserAuth, IUserInfo } from '~/../@types/user'
-import { list } from '@/api/calendar'
 import { userInfo } from '@/api/user'
 import { action } from './actionCreater'
 import { User, Menu } from './ui'

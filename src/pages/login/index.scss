@@ -73,7 +73,7 @@ page,
     margin: 40px 20px;
 
     .btn {
-      margin: 40px;
+      margin: 10px 20px 0px 20px;
     }
 
     .taroify-cell {
@@ -96,10 +96,21 @@ page,
       }
     }
 
+    .taroify-checkbox {
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      padding-left: 50px;
+      padding-bottom: 30px;
+    }
     a {
       font-size: 12px;
       color: grey;
     }
+  }
+
+  .weapp-login {
+    margin-top: 90px;
   }
 
   .register {

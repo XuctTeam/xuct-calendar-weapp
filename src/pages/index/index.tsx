@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-01-24 11:32:09
+ * @LastEditTime: 2022-01-25 17:58:00
  * @LastEditors: Derek Xu
  */
 import React, { Component } from 'react'
@@ -318,7 +318,7 @@ class Index extends Component {
           </View>
           <Collapse
             defaultValue={[0]}
-            style={{ marginTop: process.env.TARO_ENV === 'h5' ? '40px' : '0px' }}
+            style={{ marginTop: process.env.TARO_ENV === 'h5' ? '50px' : '0px' }}
             bordered
             onChange={this.calendarAccordionChage.bind(this)}
           >

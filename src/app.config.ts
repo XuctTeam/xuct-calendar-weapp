@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-01-24 11:27:07
+ * @LastEditTime: 2022-01-25 11:19:56
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -26,7 +26,8 @@ export default {
     'pages/componentcustrepeat/index',
     'pages/componentalarm/index',
     'pages/componentview/index',
-    'pages/componentsearch/index'
+    'pages/componentsearch/index',
+    'pages/selfprivacy/index'
   ],
   window: {
     backgroundTextStyle: 'light',

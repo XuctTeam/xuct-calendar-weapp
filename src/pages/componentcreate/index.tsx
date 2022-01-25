@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-24 11:18:55
+ * @LastEditTime: 2022-01-25 15:38:45
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -522,7 +522,20 @@ class Components extends Component {
                 <Cell icon={<FriendsOutlined />} title='添加参与者' clickable size='large'></Cell>
                 {this.state.repeatStatus !== '0' ? (
                   <>
-                    <Cell size='large' icon={<Replay></Replay>} onClick={this.openRepet.bind(this)} rightIcon={<Cross onClick={this.closeRepeat.bind(this)} />}>
+                    <Cell
+                      size='large'
+                      icon={<Replay></Replay>}
+                      onClick={this.openRepet.bind(this)}
+                      rightIcon={
+                        <Cross
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            e.preventDefault()
+                            this.closeRepeat()
+                          }}
+                        />
+                      }
+                    >
                       {formatRepeatTime(
                         this.state.repeatType,
                         this.state.repeatStatus,
