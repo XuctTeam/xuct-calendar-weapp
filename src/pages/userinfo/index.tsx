@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-23 21:49:55
+ * @LastEditTime: 2022-01-26 14:50:17
  */
 import { Component } from 'react'
 import { bindActionCreators } from 'redux'
@@ -14,8 +14,9 @@ import Taro from '@tarojs/taro'
 import Router, { NavigateType } from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { ArrowRight } from '@taroify/icons'
-import { Navbar, Cell, Button, Image } from '@taroify/core'
+import { Cell, Button, Image } from '@taroify/core'
 import { showToast } from '@/utils/taro'
+import CommonHeader from '@/components/mixin'
 import { updateName, baseUserInfo, logout, auths } from '@/api/user'
 import { DvaProps } from '../../../@types/dva'
 import { IUserInfo, IUserAuth } from '../../../@types/user'
@@ -137,6 +138,22 @@ class User extends Component {
   }
 
   /**
+   * 修改账号
+   * @param username
+   * @returns
+   */
+  toModifyUserName = async (username: string) => {
+    try {
+      const result = await Router.toBindusername({
+        data: { username }
+      })
+      if (!result) return
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  /**
    * 修改名称
    * @param name
    */
@@ -196,16 +213,22 @@ class User extends Component {
   render() {
     const { avatar, name } = this.props.userInfo || { avatar: '', name: '' }
     const wxAuth = this.props.auths.find((i) => i.identityType === 'open_id')
-    const { username } = this.props.auths.find((i) => i.identityType === 'phone') || { username: '' }
+    const phoneAuth: IUserAuth = this.props.auths.find((i) => i.identityType === 'phone') || {
+      username: '',
+      nickName: '',
+      avatar: '',
+      identityType: 'phone'
+    }
+    const userNameAuth: IUserAuth = this.props.auths.find((i) => i.identityType === 'user_name') || {
+      username: '',
+      nickName: '',
+      avatar: '',
+      identityType: 'user_name'
+    }
+
     return (
       <View className='vi-user-wrapper'>
-        {process.env.TARO_ENV === 'h5' ? (
-          <Navbar title='我的'>
-            <Navbar.NavLeft onClick={() => Taro.navigateBack({ delta: 1 })}>返回</Navbar.NavLeft>
-          </Navbar>
-        ) : (
-          <></>
-        )}
+        <CommonHeader title='我的' fixed={false} left to={2}></CommonHeader>
         <View className='vi-user-wrapper_menu'>
           <Cell title='头像' align='center'>
             <Image lazyLoad style={{ width: '40px', height: '40px' }} src={avatar} round />
@@ -213,8 +236,11 @@ class User extends Component {
           <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => this.setState({ nameOpen: true })}>
             {name}
           </Cell>
-          <Cell title='手机号' rightIcon={<ArrowRight />} clickable onClick={this.toModifyPhone.bind(this, username)}>
-            {username}
+          <Cell title='登录账号' rightIcon={<ArrowRight />} clickable onClick={() => this.toModifyUserName(userNameAuth.username)}>
+            {userNameAuth.username ? userNameAuth.username : '未绑定'}
+          </Cell>
+          <Cell title='手机号' rightIcon={<ArrowRight />} clickable onClick={this.toModifyPhone.bind(this, phoneAuth.username)}>
+            {phoneAuth.username ? phoneAuth.username : '未绑定'}
           </Cell>
           <Cell title='微信' rightIcon={<ArrowRight />} clickable>
             {wxAuth ? wxAuth.nickName : ''}

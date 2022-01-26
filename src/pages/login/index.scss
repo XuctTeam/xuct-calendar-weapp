@@ -76,24 +76,12 @@ page,
       margin: 20px 20px 0px 20px;
     }
 
-    .taroify-cell {
-      line-height: 80px;
-    }
-
-    .taroify-input input {
-      height: 80px;
-    }
-
     .taroify-flex {
       text-align: center;
     }
 
     .smsCode {
       display: flex;
-
-      input {
-        padding-bottom: 6px;
-      }
     }
 
     .taroify-checkbox {
@@ -102,10 +90,13 @@ page,
       line-height: 34px;
       padding-left: 50px;
     }
-    a {
-      font-size: 12px;
-      color: grey;
-    }
+  }
+
+  .h5-login-type {
+    font-size: 24px;
+    color: #000;
+    padding-top: 20px;
+    font-weight: 600;
   }
 
   .weapp-login {

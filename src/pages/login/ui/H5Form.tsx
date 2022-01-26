@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:28:54
- * @LastEditTime: 2022-01-25 17:54:54
+ * @LastEditTime: 2022-01-26 14:05:24
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -204,7 +204,7 @@ class H5Form extends Component {
               <Field label='验证码' required>
                 <View className='smsCode'>
                   <Input placeholder='请输入验证码' type='number' value={this.state.smsCode} maxlength={4} onChange={(e) => this.setSmsCode(e.detail.value)} />
-                  <Button size='small' color='primary' onClick={this.pushCode.bind(this)} disabled={this.state.smsLoading}>
+                  <Button size='mini' color='primary' onClick={this.pushCode.bind(this)} disabled={this.state.smsLoading}>
                     {this.state.smsText}
                   </Button>
                 </View>
@@ -243,8 +243,7 @@ class H5Form extends Component {
             登录
           </Button>
         </View>
-
-        <Flex justify='center'>
+        <Flex justify='center' className='h5-login-type'>
           <Flex.Item span={12}>
             <a
               href='#!'
