@@ -4,16 +4,16 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-25 15:38:45
+ * @LastEditTime: 2022-01-27 16:08:09
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import dayjs, { Dayjs } from 'dayjs'
-import { View, Textarea } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import Router, { NavigateType } from 'tarojs-router-next'
-import { Cell, Switch, Button, Grid } from '@taroify/core'
+import { Cell, Switch, Button, Grid, Textarea } from '@taroify/core'
 import { Arrow, ClockOutlined, FriendsOutlined, LocationOutlined, BulbOutlined, PhotoOutlined, Replay, Description, Cross } from '@taroify/icons'
 
 import { DvaProps } from '~/../@types/dva'
@@ -491,7 +491,8 @@ class Components extends Component {
                 placeholder='输入日程标题'
                 maxlength={120}
                 value={this.state.summary}
-                style={{ width: '100%', height: '60px' }}
+                style={{ width: '100%', height: '50px' }}
+                limit={120}
                 autoFocus
                 onInput={(e) => this.summaryChage(e.detail.value)}
               />

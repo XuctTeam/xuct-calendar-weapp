@@ -2,14 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-22 16:48:03
- * @LastEditTime: 2022-01-18 11:21:05
+ * @LastEditTime: 2022-01-27 10:11:57
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
 import Taro from '@tarojs/taro'
-import Router from 'tarojs-router-next'
-import { View, Textarea } from '@tarojs/components'
-import { Cell, Button } from '@taroify/core'
+import { View } from '@tarojs/components'
+import { Cell, Button, Textarea } from '@taroify/core'
 import CommonHeader from '@/components/mixin'
 import { back } from '@/utils/taro'
 
@@ -118,7 +117,8 @@ class Location extends Component {
         <CommonHeader title='地理坐标' to={2} fixed={false} left></CommonHeader>
         <Cell.Group inset className='vi-location-wrapper_content'>
           <Textarea
-            style={{ width: '100%' }}
+            style={{ width: '100%', height: '300px' }}
+            limit={300}
             placeholder='请输入地址'
             value={this.state.location}
             onInput={(e) => this.locationChage(e.detail.value)}

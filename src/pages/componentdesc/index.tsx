@@ -2,13 +2,12 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 14:48:28
- * @LastEditTime: 2022-01-18 11:21:51
+ * @LastEditTime: 2022-01-27 10:05:22
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
-import Router from 'tarojs-router-next'
-import { View, Textarea } from '@tarojs/components'
-import { Button } from '@taroify/core'
+import { View } from '@tarojs/components'
+import { Button, Textarea } from '@taroify/core'
 import CommonHeader from '@/components/mixin'
 import { DvaProps } from '~/../@types/dva'
 import { back } from '@/utils/taro'
@@ -55,7 +54,12 @@ class Sheduledesc extends Component {
       <View className='vi-desc-wrapper'>
         <CommonHeader title='备注' to={1} fixed={false} left></CommonHeader>
         <View className='vi-desc-wrapper_desc'>
-          <Textarea value={this.state.description} style={{ width: '100%' }} onInput={(e) => this.descChageHandler(e.detail.value)}></Textarea>
+          <Textarea
+            value={this.state.description}
+            style={{ width: '100%', height: '300px' }}
+            limit={300}
+            onInput={(e) => this.descChageHandler(e.detail.value)}
+          ></Textarea>
         </View>
         <View className='vi-desc-wrapper_button'>
           <Button color='success' block onClick={this.back.bind(this)}>

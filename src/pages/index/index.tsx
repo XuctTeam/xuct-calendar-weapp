@@ -3,10 +3,10 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-01-25 17:58:00
+ * @LastEditTime: 2022-01-27 15:52:45
  * @LastEditors: Derek Xu
  */
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Taro from '@tarojs/taro'
@@ -306,16 +306,9 @@ class Index extends Component {
 
   render() {
     return (
-      <>
-        <CommonHeader title='楚日历' fixed left={false}></CommonHeader>
-        <View className='vi-index'>
-          <View className='vi-index_home-fab' style={{ bottom: process.env.TARO_ENV === 'h5' ? '20vmin' : '20px' }}>
-            {this.props.accessToken ? (
-              <Button shape='round' variant='contained' color='primary' icon={<Plus />} onClick={this.createComponent.bind(this)} />
-            ) : (
-              <></>
-            )}
-          </View>
+      <Fragment>
+        <View className='vi-index-wrapper'>
+          <CommonHeader title='楚日历' fixed left={false}></CommonHeader>
           <Collapse
             defaultValue={[0]}
             style={{ marginTop: process.env.TARO_ENV === 'h5' ? '50px' : '0px' }}
@@ -326,7 +319,7 @@ class Index extends Component {
               clickable={false}
               className='custom-collapse-item1'
               title={
-                <View className='vi-index_calendar'>
+                <View className='vi-index-wrapper_calendar'>
                   <View
                     onClick={(e) => {
                       e.stopPropagation()
@@ -371,28 +364,28 @@ class Index extends Component {
             refreshComponent={this.componentRefresh.bind(this)}
             viewComponent={this.viewComponent.bind(this)}
           ></Event>
-
-          <CaldavList
-            hasLogin={!!this.props.accessToken}
-            open={this.state.popOpen}
-            closePopup={this.closePopup.bind(this)}
-            calendars={this.props.calendars}
-            selected={this.calendarSelected.bind(this)}
-          ></CaldavList>
-
-          {this.state.selectedDay !== day.current ? (
-            <View
-              className='vi-index_today-icon'
-              style={process.env.TARO_ENV === 'weapp' ? `bottom:10px` : `bottom: 70px`}
-              onClick={this.currentClickHandle.bind(this)}
-            >
-              今
-            </View>
-          ) : (
-            <></>
-          )}
         </View>
-      </>
+        <View className='vi-index_home-fab' style={{ bottom: process.env.TARO_ENV === 'h5' ? '80px' : '20px' }}>
+          {this.props.accessToken && <Button shape='round' variant='contained' color='primary' icon={<Plus />} onClick={this.createComponent.bind(this)} />}
+        </View>
+        <CaldavList
+          hasLogin={!!this.props.accessToken}
+          open={this.state.popOpen}
+          closePopup={this.closePopup.bind(this)}
+          calendars={this.props.calendars}
+          selected={this.calendarSelected.bind(this)}
+        ></CaldavList>
+
+        {this.state.selectedDay !== day.current && (
+          <View
+            className='vi-index_today-icon'
+            style={process.env.TARO_ENV === 'weapp' ? `bottom:10px` : `bottom: 80px`}
+            onClick={this.currentClickHandle.bind(this)}
+          >
+            今
+          </View>
+        )}
+      </Fragment>
     )
   }
 }

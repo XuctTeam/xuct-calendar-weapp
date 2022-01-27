@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-01-24 15:15:53
+ * @LastEditTime: 2022-01-27 15:43:41
  * @LastEditors: Derek Xu
  */
 import { useEffect, useState } from 'react'
@@ -65,7 +65,7 @@ const Event: React.FC<IPageStateProps> = (props) => {
   }, [props])
 
   return (
-    <View className='vi-index_event'>
+    <View className='vi-index-wrapper_event'>
       <PullRefresh reachTop={reachTop} loading={props.loading} onRefresh={props.refreshComponent} disabled={props.componentRefreshOpen}>
         {componentList.length !== 0 ? (
           <Flex>

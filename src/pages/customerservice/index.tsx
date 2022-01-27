@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-01-26 13:53:52
+ * @LastEditTime: 2022-01-27 17:19:39
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -21,9 +21,11 @@ const CustomerService: FunctionComponent = () => {
             <Image src='http://images.xuct.com.cn/weapp.jpg' />
           </View>
           {process.env.TARO_ENV === 'weapp' && (
-            <Button className='btn-max-w' openType='contact'>
-              在线客服
-            </Button>
+            <View className='button'>
+              <Button type='primary' openType='contact'>
+                在线客服
+              </Button>
+            </View>
           )}
         </View>
       </View>
