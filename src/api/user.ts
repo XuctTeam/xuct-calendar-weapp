@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2021-12-20 09:12:45
+ * @LastEditTime: 2022-01-27 22:02:33
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -98,4 +98,14 @@ export const bindPhone = (phone: string, code: string): Promise<any> => {
  */
 export const unbindPhone = (code: string): Promise<any> => {
   return http.post('/ums/api/app/v1/member/phone/unbind', { code })
+}
+
+/**
+ * 绑定账号
+ * @param username
+ * @param password
+ * @returns
+ */
+export const bindUserName = (formData: any) => {
+  return http.post('/ums/api/app/v1/member/username/bind', formData)
 }

@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-26 14:50:17
+ * @LastEditTime: 2022-01-27 22:00:00
  */
 import { Component } from 'react'
 import { bindActionCreators } from 'redux'
@@ -147,9 +147,20 @@ class User extends Component {
       const result = await Router.toBindusername({
         data: { username }
       })
-      if (!result) return
+      if (result && result.data === '1') {
+        auths()
+          .then((res) => {
+            this.props.save({
+              auths: res as any as Array<IUserAuth>
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     } catch (err) {
       console.log(err)
+      Router.toAboutme({ type: NavigateType.switchTab })
     }
   }
 

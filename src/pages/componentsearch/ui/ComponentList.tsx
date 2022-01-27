@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:37:59
- * @LastEditTime: 2022-01-27 17:58:29
+ * @LastEditTime: 2022-01-27 21:10:01
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
@@ -24,7 +24,6 @@ const heightStyle = (): React.CSSProperties => ({
 
 const EventList: React.FC<IPageStateProps> = (props) => {
   const [scrollTop, setScrollTop] = useState(0)
-  console.log(props.hasMore)
   return (
     <View className='vi-search-wrapper_list' style={heightStyle()}>
       {props.list.length === 0 ? (
@@ -37,7 +36,6 @@ const EventList: React.FC<IPageStateProps> = (props) => {
           scrollY
           style={{ height: '100%' }}
           onScroll={(e) => {
-            console.log(1111111111)
             setScrollTop(e.detail.scrollTop)
           }}
         >

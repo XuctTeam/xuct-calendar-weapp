@@ -1215,20 +1215,20 @@
   "resolved" "https://registry.npmjs.org/@stencil/core/-/core-2.9.0.tgz"
   "version" "2.9.0"
 
-"@taroify/core@^0.0.26-alpha.2":
-  "integrity" "sha512-WF9tfJyFLREi+5pWA45IsLClLuU2Kpd7dnvOYf/Dce9WveHC+JTOMHArcUUYTGXPDo0sog+epqLp51Wus+Pmog=="
-  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.26-alpha.2.tgz"
-  "version" "0.0.26-alpha.2"
+"@taroify/core@^0.0.26-alpha.1":
+  "integrity" "sha512-hsS9ujjNQru9gnvyRBGgWKEqumPqMpGp5I4vmi2y7gHbNb1uwptZnHlRgn1gtbHzBOL1loMJOcs9FKb6jR+F2A=="
+  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.26-alpha.1.tgz"
+  "version" "0.0.26-alpha.1"
   dependencies:
-    "@taroify/hooks" "^0.0.26-alpha.2"
-    "@taroify/icons" "^0.0.26-alpha.2"
+    "@taroify/hooks" "^0.0.26-alpha.1"
+    "@taroify/icons" "^0.0.26-alpha.1"
     "classnames" "^2.2.6"
     "lodash" "^4.17.21"
     "raf" "^3.4.1"
     "react-is" "^17.0.2"
     "react-transition-group" "^4.4.1"
 
-"@taroify/hooks@^0.0.26-alpha.2":
+"@taroify/hooks@^0.0.26-alpha.1":
   "integrity" "sha512-Bz9rdG3h3Uw0kSbguO5PkhcA0IwZDfnjf/aj/qeD2BNTFs/VBR7ahe9FfTOzPe5ApvOb9fv77wCGlH7vHkU38w=="
   "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.26-alpha.2.tgz"
   "version" "0.0.26-alpha.2"
@@ -1237,7 +1237,7 @@
     "lodash" "^4.17.21"
     "react" "^17.0.2"
 
-"@taroify/icons@^0.0.26-alpha.2":
+"@taroify/icons@^0.0.26-alpha.1":
   "integrity" "sha512-nyupksEghTlDGM26k6TxUZQ/JBvZBb0jGOAyyU8Jxf3JqXlmnjEgQtGsDJWTap0ppjzdDsvuVunFi4bzCtCknw=="
   "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.26-alpha.2.tgz"
   "version" "0.0.26-alpha.2"
