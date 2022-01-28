@@ -2,19 +2,20 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-01-27 18:00:49
+ * @LastEditTime: 2022-01-28 15:23:18
  * @LastEditors: Derek Xu
  */
 import React, { useRef, useState } from 'react'
 import { Search } from '@taroify/core'
 import CommonHeader from '@/components/mixin'
 import { View } from '@tarojs/components'
+import dayjs from 'dayjs'
 import { IDavComponent, ICalendarComponent, ICalendarPageComponent } from '~/../@types/calendar'
 import { search } from '@/api/component'
 import { ComponentList } from './ui'
 
 import './index.scss'
-import dayjs from 'dayjs'
+import Router from 'tarojs-router-next'
 
 interface IPageStateProps {}
 
@@ -59,6 +60,21 @@ const ComponentSearch: React.FC<IPageStateProps> = () => {
   }
 
   /**
+   * 查看日程详情
+   * @param component
+   */
+  const viewComponent = (component: IDavComponent) => {
+    Router.toComponentview({
+      params: {
+        componentId: component.id
+      },
+      data: {
+        component: component
+      }
+    })
+  }
+
+  /**
    * @description 填充展示数据
    * @param components
    */
@@ -88,7 +104,7 @@ const ComponentSearch: React.FC<IPageStateProps> = () => {
   return (
     <View className='vi-search-wrapper'>
       <CommonHeader title='日程搜索' left to={1} fixed></CommonHeader>
-      <View style={{ marginTop: process.env.TARO_ENV === 'h5' ? '40px' : '0px' }}>
+      <View style={{ marginTop: process.env.TARO_ENV === 'h5' ? '50px' : '0px' }}>
         <Search
           value={value}
           placeholder='请输入搜索关键词'
@@ -97,7 +113,7 @@ const ComponentSearch: React.FC<IPageStateProps> = () => {
           onClear={() => clean()}
         />
       </View>
-      <ComponentList loading={loading} hasMore={hasMore} list={list} refresh={refresh}></ComponentList>
+      <ComponentList loading={loading} hasMore={hasMore} list={list} refresh={refresh} viewComponent={viewComponent}></ComponentList>
     </View>
   )
 }

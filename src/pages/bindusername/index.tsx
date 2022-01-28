@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-01-27 21:59:53
+ * @LastEditTime: 2022-01-28 15:04:57
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -16,12 +16,14 @@ import './index.scss'
 
 const BindUserName: FunctionComponent = () => {
   const [username, setUsername] = useState('')
+  const [edit, setEdit] = useState(false)
   const [password, setPassword] = useState('')
 
   useEffect(() => {
     const data = Router.getData()
     if (data) {
       setUsername(data.username)
+      setEdit(edit)
     }
   }, [])
 
@@ -51,25 +53,27 @@ const BindUserName: FunctionComponent = () => {
             <Form.Item name='username' rules={[{ required: true, message: '请填写用户名' }]}>
               <Form.Label>用户名</Form.Label>
               <Form.Control>
-                <Input placeholder='用户名' clearable value={username} />
+                <Input placeholder='用户名' disabled={!edit} clearable value={username} />
               </Form.Control>
             </Form.Item>
-            <Form.Item name='password' rules={[{ pattern: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/, message: '密码规则不匹配' }]}>
+            <Form.Item name='password' rules={[{ pattern: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}$/, message: '密码规则不匹配' }]}>
               <Form.Label>密码</Form.Label>
               <Form.Control>
-                <Input password placeholder='密码' clearable value={password} />
+                <Input password placeholder='密码' disabled={!edit} clearable value={password} />
               </Form.Control>
             </Form.Item>
           </Cell.Group>
           <Cell.Group title='密码规则'>
-            <Cell className='label'>最少6位，至少1个大写字母，1个小写字母，1个数字，1个特殊字符</Cell>
+            <Cell className='label'>密码至少为8位的字母、数字和特殊符号的组合</Cell>
           </Cell.Group>
         </View>
-        <View className='button'>
-          <Button block color='success' formType='submit'>
-            保存
-          </Button>
-        </View>
+        {edit && (
+          <View className='button'>
+            <Button block color='success' formType='submit'>
+              保存
+            </Button>
+          </View>
+        )}
       </Form>
     </View>
   )

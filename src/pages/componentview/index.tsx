@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-01-24 15:15:32
+ * @LastEditTime: 2022-01-28 18:15:52
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -18,7 +18,7 @@ import CommonHeader from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
 import { formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back } from '@/utils/taro'
-import { SameDay, DifferentDay } from './ui'
+import { SameDay, DifferentDay, ShareUser, Qrcode } from './ui'
 
 import './index.scss'
 
@@ -48,6 +48,10 @@ const Componentview: React.FC<IPageStateProps> = () => {
   const [alarmTimes, setAlarmTimes] = useState<string[]>([])
   const [component, setComponent] = useState<IDavComponent>(defaultComponent)
   const [delLoading, setDelLoading] = useState(false)
+  const [expire, setExpire] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
+  const [qrOpen, setQrOpen] = useState(false)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -71,6 +75,10 @@ const Componentview: React.FC<IPageStateProps> = () => {
     }
     if (comp.alarmTimes) {
       setAlarmTimes(comp.alarmTimes.split(','))
+    }
+
+    if (comp.endTime && dayjs(Number.parseInt(comp.endTime)).isBefore(dayjs())) {
+      setExpire(true)
     }
   }
 
@@ -115,6 +123,26 @@ const Componentview: React.FC<IPageStateProps> = () => {
         }
       }
     })
+  }
+
+  /**
+   * 分享好友
+   */
+  const shareSelected = (data: any) => {
+    setShareOpen(false)
+    if (!data.description) return
+    const { description } = data
+    if (description === '3') {
+      setQrOpen(true)
+    }
+  }
+
+  const shareClose = () => {
+    setShareOpen(false)
+  }
+
+  const setQrOpenClose = () => {
+    setQrOpen(false)
   }
 
   return (
@@ -169,13 +197,13 @@ const Componentview: React.FC<IPageStateProps> = () => {
         <View className='vi-component-view-wrapper_button'>
           <Flex gutter={10}>
             <Flex.Item span={12}>
-              <Button color='warning' size='large' onClick={() => componentEdit()}>
+              <Button color='warning' size='large' disabled={expire} onClick={() => componentEdit()}>
                 编辑
               </Button>
             </Flex.Item>
             <Flex.Item span={12}>
-              <Button color='default' size='large'>
-                主要按钮
+              <Button color='success' size='large' onClick={() => setShareOpen(true)}>
+                分享好友
               </Button>
             </Flex.Item>
           </Flex>
@@ -192,6 +220,8 @@ const Componentview: React.FC<IPageStateProps> = () => {
           </View>
         </View>
       </Backdrop>
+      <ShareUser open={shareOpen} close={shareClose} selected={shareSelected}></ShareUser>
+      <Qrcode open={qrOpen} close={setQrOpenClose} componentId={component.id}></Qrcode>
     </Fragment>
   )
 }

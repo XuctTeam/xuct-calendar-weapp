@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-02 22:46:09
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-24 15:15:42
+ * @LastEditTime: 2022-01-28 16:29:30
  */
 import Taro from '@tarojs/taro'
 import { View, CheckboxGroup, Checkbox } from '@tarojs/components'
@@ -34,7 +34,7 @@ const CaldavList: React.FC<ICalDavListProps> = (props) => {
   }
 
   return (
-    <>
+    <View className='vi-index-wrapper_popup'>
       <Popup open={props.open} placement='top' style={{ height: '60%' }} onClose={props.closePopup}>
         <View className='title'>我的日历</View>
         {!props.hasLogin || showCalendars.length === 0 ? (
@@ -74,7 +74,7 @@ const CaldavList: React.FC<ICalDavListProps> = (props) => {
           </View>
         )}
       </Popup>
-    </>
+    </View>
   )
 }
 export default CaldavList

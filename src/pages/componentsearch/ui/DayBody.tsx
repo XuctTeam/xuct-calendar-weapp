@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-24 15:26:05
- * @LastEditTime: 2022-01-24 19:21:54
+ * @LastEditTime: 2022-01-28 15:20:02
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -15,6 +15,7 @@ import ComponentBody from './ComponentBody'
 interface IPageStateProps {
   day: string
   components: Array<IDavComponent>
+  viewComponent: (component: IDavComponent) => void
 }
 
 const DayBody: React.FC<IPageStateProps> = (props) => {
@@ -25,7 +26,7 @@ const DayBody: React.FC<IPageStateProps> = (props) => {
   return (
     <Cell.Group title={formatDay()}>
       {props.components.map((item) => {
-        return <ComponentBody key={item.id} component={item}></ComponentBody>
+        return <ComponentBody key={item.id} component={item} viewComponent={props.viewComponent}></ComponentBody>
       })}
     </Cell.Group>
   )

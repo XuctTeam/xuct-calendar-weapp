@@ -37,7 +37,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"@babel/runtime": "^7.7.7",
-		"@taroify/core": "^0.0.26-alpha.1",
+		"@taroify/core": "^0.0.26-alpha.3",
 		"@tarojs/components": "3.4.1",
 		"@tarojs/plugin-framework-react": "^3.4.1",
 		"@tarojs/react": "3.4.1",
@@ -49,6 +49,7 @@
 		"linaria": "^2.2.0",
 		"lodash": "^4.17.21",
 		"lunar-fun": "^2.0.0",
+		"qrcode.react": "^1.0.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.0",
 		"react-redux": "^7.2.6",
@@ -57,7 +58,8 @@
 		"redux-thunk": "^2.3.0",
 		"tarojs-router-next": "^2.7.1",
 		"tarojs-router-next-plugin": "^2.7.1",
-		"vconsole": "^3.9.5"
+		"vconsole": "^3.9.5",
+		"weapp-qrcode": "^1.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.8.0",

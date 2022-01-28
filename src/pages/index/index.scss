@@ -133,35 +133,37 @@
 }
 
 /* 日历弹出样式 */
-.taroify-popup {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.vi-index-wrapper_popup {
+  .taroify-popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-  .taroify-image {
-    width: 240px;
-    height: 240px;
-  }
-  .title {
-    width: 100%;
-    height: 80px;
-    line-height: 80px;
-    text-align: center;
-    font-size: 32px;
-    color: grey;
-    border-bottom: 10px solid rgb(242, 242, 242);
-  }
+    .taroify-image {
+      width: 240px;
+      height: 240px;
+    }
+    .title {
+      width: 100%;
+      height: 80px;
+      line-height: 80px;
+      text-align: center;
+      font-size: 32px;
+      color: grey;
+      border-bottom: 10px solid rgb(242, 242, 242);
+    }
 
-  .content {
-    flex: 1;
-  }
+    .content {
+      flex: 1;
+    }
 
-  .taro-checkbox_checked {
-    width: 44px;
-    height: 44px;
-  }
+    .taro-checkbox_checked {
+      width: 44px;
+      height: 44px;
+    }
 
-  .button {
-    padding: 30px;
+    .button {
+      padding: 30px;
+    }
   }
 }

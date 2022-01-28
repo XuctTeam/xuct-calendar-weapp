@@ -120,6 +120,22 @@ page {
   }
 }
 
+.vi-component-view_qr-wrapper {
+  .taroify-dialog__message {
+    width: 600px;
+    height: 600px;
+  }
+
+  .container {
+    border: 1px solid red;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+}
+
 .taroify-backdrop {
   background: var(--backdrop-background-color, rgba(245, 245, 240, 0.7));
   display: flex;

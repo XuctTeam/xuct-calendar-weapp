@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-05 16:50:55
- * @LastEditTime: 2022-01-27 13:00:10
+ * @LastEditTime: 2022-01-28 16:06:38
  * @LastEditors: Derek Xu
  */
 
@@ -33,6 +33,8 @@ export interface IDavComponent {
   description: string
   dtstart: Date
   dtend: Date
+  startTime?: string
+  endTime?: string
   alarmType: string
   alarmTimes?: string
   fullDay: number

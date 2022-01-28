@@ -2,13 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:37:59
- * @LastEditTime: 2022-01-27 21:10:01
+ * @LastEditTime: 2022-01-28 15:18:39
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
 import { ScrollView, View } from '@tarojs/components'
 import { List, Loading, Empty } from '@taroify/core'
-import { ICalendarComponent } from '~/../@types/calendar'
+import { ICalendarComponent, IDavComponent } from '~/../@types/calendar'
 import DayBody from './DayBody'
 
 interface IPageStateProps {
@@ -16,10 +16,11 @@ interface IPageStateProps {
   hasMore: boolean
   list: Array<ICalendarComponent>
   refresh: () => void
+  viewComponent: (component: IDavComponent) => void
 }
 
 const heightStyle = (): React.CSSProperties => ({
-  height: process.env.TARO_ENV === 'h5' ? `calc(100% - 90px)` : `calc(100% - 60px)`
+  height: process.env.TARO_ENV === 'h5' ? `calc(100% - 100px)` : `calc(100% - 60px)`
 })
 
 const EventList: React.FC<IPageStateProps> = (props) => {
@@ -41,7 +42,7 @@ const EventList: React.FC<IPageStateProps> = (props) => {
         >
           <List loading={props.loading} offset={20} hasMore={props.hasMore} scrollTop={scrollTop} onLoad={() => props.refresh()}>
             {props.list.map((item, i) => (
-              <DayBody key={i} day={item.day} components={item.components}></DayBody>
+              <DayBody key={i} day={item.day} viewComponent={props.viewComponent} components={item.components}></DayBody>
             ))}
             <List.Placeholder>
               {props.loading && <Loading>加载中...</Loading>}

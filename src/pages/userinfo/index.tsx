@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-27 22:00:00
+ * @LastEditTime: 2022-01-28 15:00:54
  */
 import { Component } from 'react'
 import { bindActionCreators } from 'redux'
@@ -145,7 +145,7 @@ class User extends Component {
   toModifyUserName = async (username: string) => {
     try {
       const result = await Router.toBindusername({
-        data: { username }
+        data: { username: username, edit: !username }
       })
       if (result && result.data === '1') {
         auths()
