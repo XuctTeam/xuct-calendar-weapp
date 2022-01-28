@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-01-28 18:15:52
+ * @LastEditTime: 2022-01-28 20:49:15
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -129,6 +129,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
    * 分享好友
    */
   const shareSelected = (data: any) => {
+    console.log(data)
     setShareOpen(false)
     if (!data.description) return
     const { description } = data

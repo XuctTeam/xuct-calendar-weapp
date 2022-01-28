@@ -58,8 +58,7 @@
 		"redux-thunk": "^2.3.0",
 		"tarojs-router-next": "^2.7.1",
 		"tarojs-router-next-plugin": "^2.7.1",
-		"vconsole": "^3.9.5",
-		"weapp-qrcode": "^1.0.0"
+		"vconsole": "^3.9.5"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.8.0",
