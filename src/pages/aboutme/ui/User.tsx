@@ -2,12 +2,12 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 13:27:57
- * @LastEditTime: 2022-01-20 12:47:45
+ * @LastEditTime: 2022-01-29 18:04:07
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { Image, Avatar } from '@taroify/core'
+import { Avatar } from '@taroify/core'
 import '../index.scss'
 
 interface IUserProps {

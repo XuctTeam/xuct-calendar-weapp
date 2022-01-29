@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-01-28 20:49:15
+ * @LastEditTime: 2022-01-29 18:35:05
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -18,7 +18,7 @@ import CommonHeader from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
 import { formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back } from '@/utils/taro'
-import { SameDay, DifferentDay, ShareUser, Qrcode } from './ui'
+import { SameDay, DifferentDay, ShareUser, H5Qrcode } from './ui'
 
 import './index.scss'
 
@@ -51,6 +51,8 @@ const Componentview: React.FC<IPageStateProps> = () => {
   const [expire, setExpire] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [qrOpen, setQrOpen] = useState(false)
+  const width = Taro.getSystemInfoSync().screenWidth
+  const height = Taro.getSystemInfoSync().screenHeight
 
   const dispatch = useDispatch()
 
@@ -129,11 +131,10 @@ const Componentview: React.FC<IPageStateProps> = () => {
    * 分享好友
    */
   const shareSelected = (data: any) => {
-    console.log(data)
     setShareOpen(false)
-    if (!data.description) return
-    const { description } = data
-    if (description === '3') {
+    if (!data.value) return
+    const { value } = data
+    if (value === '3') {
       setQrOpen(true)
     }
   }
@@ -222,7 +223,11 @@ const Componentview: React.FC<IPageStateProps> = () => {
         </View>
       </Backdrop>
       <ShareUser open={shareOpen} close={shareClose} selected={shareSelected}></ShareUser>
-      <Qrcode open={qrOpen} close={setQrOpenClose} componentId={component.id}></Qrcode>
+      {process.env.TARO_ENV === 'h5' ? (
+        <H5Qrcode open={qrOpen} close={setQrOpenClose} componentId={component.id} width={width - 60} height={height - 160}></H5Qrcode>
+      ) : (
+        <></>
+      )}
     </Fragment>
   )
 }

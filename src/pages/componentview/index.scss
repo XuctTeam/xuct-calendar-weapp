@@ -120,18 +120,27 @@ page {
   }
 }
 
-.vi-component-view_qr-wrapper {
-  .taroify-dialog__message {
-    width: 600px;
-    height: 600px;
+.vi-component-view_h5-qr-wrapper {
+  .taroify-dialog__content--isolated {
+    height: calc(100% - 100px);
+    width: 100%;
+    align-items: inherit !important;
   }
 
-  .container {
+  .taroify-dialog__message {
+    padding: 0px 0px 0px 0px;
     height: 100%;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    max-height: inherit !important;
+  }
+
+  taro-canvas-core {
+    height: 100%;
+    width: 100%;
+
+    canvas {
+      height: inherit;
+    }
   }
 }
 
