@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-01-29 18:35:05
+ * @LastEditTime: 2022-01-30 12:51:35
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -16,7 +16,7 @@ import dayjs from 'dayjs'
 import { IDavComponent } from '~/../@types/calendar'
 import CommonHeader from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
-import { formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
+import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back } from '@/utils/taro'
 import { SameDay, DifferentDay, ShareUser, H5Qrcode } from './ui'
 
@@ -136,6 +136,15 @@ const Componentview: React.FC<IPageStateProps> = () => {
     const { value } = data
     if (value === '3') {
       setQrOpen(true)
+    } else if (value === '2') {
+      Taro.setClipboardData({
+        data: getShareTitle(),
+        success: function () {
+          Taro.showToast({
+            title: '复制完成'
+          })
+        }
+      })
     }
   }
 
@@ -145,6 +154,24 @@ const Componentview: React.FC<IPageStateProps> = () => {
 
   const setQrOpenClose = () => {
     setQrOpen(false)
+  }
+
+  const getShareTitle = () => {
+    const title =
+      `【楚日历】日程邀请` +
+      '\r' +
+      `标题：` +
+      component.summary +
+      '\r' +
+      `时间：` +
+      (dayjs(component.dtstart).isSame(component.dtend, 'date')
+        ? formatSameDayTime(component.fullDay, component.dtstart, component.dtend) +
+          ' ' +
+          formateSameDayDuration(component.fullDay, component.dtstart, component.dtend)
+        : formatDifferentDayTime(1, component.fullDay, component.dtstart) + '\r' + formatDifferentDayTime(2, component.fullDay, component.dtend)) +
+      '\r' +
+      `点击加入日程`
+    return title
   }
 
   return (
@@ -211,7 +238,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
           </Flex>
         </View>
       </View>
-      <ActionSheet open={open} onSelect={() => componentDelete()} onCancel={() => setOpen(false)}>
+      <ActionSheet open={open} onSelect={() => componentDelete()} onClose={() => setOpen(false)} onCancel={() => setOpen(false)}>
         <ActionSheet.Action value='1' name='删除' />
         <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>

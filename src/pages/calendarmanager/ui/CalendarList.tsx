@@ -2,55 +2,28 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-08 09:07:48
- * @LastEditTime: 2022-01-17 14:32:48
+ * @LastEditTime: 2022-01-30 13:03:43
  * @LastEditors: Derek Xu
  */
+import { usePageScroll } from '@tarojs/taro'
 import React, { useState } from 'react'
-import { connect, useDispatch } from 'react-redux'
 import { View } from '@tarojs/components'
 import { PullRefresh } from '@taroify/core'
-import Router from 'tarojs-router-next'
-import CalendarListBody from './CalendarListBody'
 import { IDavCalendar } from '~/../@types/calendar'
+import CalendarListBody from './CalendarListBody'
+
 import '../index.scss'
-import { usePageScroll } from '@tarojs/taro'
 
 interface IPageStateProps {
   loading: boolean | undefined
   calendars: Array<IDavCalendar>
+  editCalendar: (id: string) => void
   calendarRefresh: () => void
 }
 
 const CalendarList: React.FC<IPageStateProps> = (props) => {
-  const dispatch = useDispatch()
   const [reachTop, setReachTop] = useState(true)
   usePageScroll(({ scrollTop }) => setReachTop(scrollTop === 0))
-
-  /**
-   * 编辑日历
-   * @param id
-   */
-  const editCalendar = async (id: string) => {
-    const calendar: IDavCalendar | undefined = props.calendars.find((item) => item.id === id)
-    if (!calendar) return
-    try {
-      const result = await Router.toCalendarcreate({
-        data: calendar,
-        params: {
-          calendarId: calendar.id
-        }
-      })
-      //编辑成功
-      if (result && result.data === '1') {
-        dispatch({
-          type: 'calendar/updateSycn',
-          payload: id
-        })
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   return (
     <PullRefresh
@@ -63,12 +36,11 @@ const CalendarList: React.FC<IPageStateProps> = (props) => {
     >
       <View style={{ marginTop: process.env.TARO_ENV === 'h5' ? '60px' : '0px' }}>
         {props.calendars.map((item) => {
-          return <CalendarListBody key={item.id + ''} item={item} editCalendar={editCalendar}></CalendarListBody>
+          return <CalendarListBody key={item.id + ''} item={item} editCalendar={props.editCalendar}></CalendarListBody>
         })}
       </View>
     </PullRefresh>
   )
 }
 
-/** 需要用connect */
-export default connect(() => ({}))(CalendarList)
+export default CalendarList

@@ -2,13 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-18 18:24:40
- * @LastEditTime: 2022-01-19 11:05:28
+ * @LastEditTime: 2022-01-30 11:43:31
  * @LastEditors: Derek Xu
  */
 import React from 'react'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
-import { formatRepeatTime } from '@/utils/utils'
+import { formatRepeatTime, formatDifferentDayTime } from '@/utils/utils'
 
 interface IPageState {
   dtstart: Date
@@ -34,17 +34,10 @@ const DifferentDay: React.FC<IPageState> = (props) => {
     repeatUntil = dayjs().toDate()
   } = props
 
-  const formatDay = (type: number): string => {
-    if (type === 1) {
-      return dayjs(props.dtstart).format(props.fullDay === 0 ? 'YYYY年MM月DD日 HH:mm' : 'YYYY年MM月DD日') + ' 开始'
-    }
-    return dayjs(props.dtend).format(props.fullDay === 0 ? 'YYYY年MM月DD日 HH:mm' : 'YYYY年MM月DD日') + ' 结束'
-  }
-
   return (
     <View className='date-time'>
-      <View className='cell'>{formatDay(1)}</View>
-      <View className='cell'>{formatDay(2)}</View>
+      <View className='cell'>{formatDifferentDayTime(1, props.fullDay, props.dtstart)}</View>
+      <View className='cell'>{formatDifferentDayTime(2, props.fullDay, props.dtend)}</View>
       {repeatStatus !== '0' && (
         <View className='cell'>
           {formatRepeatTime(repeatType, repeatStatus, repeatByday, repeatBymonth, repeatBymonthday, repeatInterval) +

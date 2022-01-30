@@ -2,18 +2,18 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-01-27 15:43:41
+ * @LastEditTime: 2022-01-30 13:15:17
  * @LastEditors: Derek Xu
  */
 import { useEffect, useState } from 'react'
 import { View } from '@tarojs/components'
-import { Empty, Flex, Loading, PullRefresh } from '@taroify/core'
+import { usePageScroll } from '@tarojs/taro'
+import { Empty, Flex, PullRefresh } from '@taroify/core'
 import dayjs from 'dayjs'
 import { IDavCalendar, ICalendarComponent, IDavComponent } from '~/../@types/calendar'
 import EventData from '../component/EventData'
 
 import '../index.scss'
-import { usePageScroll } from '@tarojs/taro'
 
 type IPageStateProps = {
   loading: boolean
@@ -39,9 +39,11 @@ const Event: React.FC<IPageStateProps> = (props) => {
   useEffect(() => {
     if (props.calendars && props.calendars.length !== 0) {
       const map: Map<string, ISelectCalendar> = new Map<string, ISelectCalendar>()
-      props.calendars.forEach((c) => {
-        map.set(c.calendarId, { name: c.name, color: c.color, checked: c.checked ? true : false })
-      })
+      props.calendars
+        .filter((c) => c.display === 1)
+        .forEach((c) => {
+          map.set(c.calendarId, { name: c.name, color: c.color, checked: c.checked ? true : false })
+        })
       let cps: Array<IDavComponent> = []
       if (props.calendarComponents && props.calendarComponents.length !== 0) {
         props.calendarComponents.forEach((c) => {

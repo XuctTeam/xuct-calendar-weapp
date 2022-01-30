@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
  * @FilePath: \react-lesson-20\src\utils\utils.ts
- * @LastEditTime: 2022-01-27 21:35:56
+ * @LastEditTime: 2022-01-30 12:43:44
  * @LastEditors: Derek Xu
  */
 
@@ -11,7 +11,6 @@ import dayjs from 'dayjs'
 
 import { ICurrentDay } from '../../@types/date'
 import { lunarDay } from './date'
-import { IDavAlarm } from '~/../@types/calendar'
 
 /**
  * 获取当日日期
@@ -154,6 +153,47 @@ export const formatAlarmText = (alarmType: string, alarmTimes: Array<string>): s
   }
   formatTimes.push(alarmTypeStr)
   return formatTimes.join('，')
+}
+
+/**
+ * 格式化相同时间区间
+ * @param fullDay
+ * @param dtstart
+ * @param dtend
+ * @returns
+ */
+export const formatSameDayTime = (fullDay: number, dtstart: Date, dtend: Date): string => {
+  const day: string = dayjs(dtstart).format('YYYY年MM月DD日') + '(' + formatWeek(dayjs(dtend).get('day')) + ')'
+  if (fullDay === 1) return day
+  return day + dayjs(dtstart).format('HH:mm') + '-' + dayjs(dtend).format('HH:mm')
+}
+
+/**
+ * 格式化相同时间区间的分、秒
+ * @returns
+ */
+export const formateSameDayDuration = (fullDay: number, dtstart: Date, dtend: Date): string => {
+  if (fullDay === 1) return '全天'
+  const day1 = dayjs(dtend)
+  const day2 = dayjs(dtstart)
+  const diff: number = day1.diff(day2, 'second')
+  if (diff < 3600) return day1.diff(day2, 'minute') + '分钟'
+  if (diff % 60 === 0) return diff / (60 * 60) + '小时'
+  return day1.diff(day2, 'hour') + '小时' + diff / (60 * 60 * 1000) + '分钟'
+}
+
+/**
+ * 格式化不同时间区间
+ * @param type
+ * @param fullDay
+ * @param date
+ * @returns
+ */
+export const formatDifferentDayTime = (type: number, fullDay: number, date: Date): string => {
+  if (type === 1) {
+    return dayjs(date).format(fullDay === 0 ? 'YYYY年MM月DD日 HH:mm' : 'YYYY年MM月DD日') + ' 开始'
+  }
+  return dayjs(date).format(fullDay === 0 ? 'YYYY年MM月DD日 HH:mm' : 'YYYY年MM月DD日') + ' 结束'
 }
 
 /**

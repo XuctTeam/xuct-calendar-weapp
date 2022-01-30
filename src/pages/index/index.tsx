@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-01-27 15:52:45
+ * @LastEditTime: 2022-01-30 13:18:11
  * @LastEditors: Derek Xu
  */
 import React, { Component, Fragment } from 'react'
@@ -242,21 +242,19 @@ class Index extends Component {
       marks: []
     })
     let pList: Array<Promise<any>> = []
-    calList
-      .filter((i) => i.display === 1)
-      .forEach((calendar) => {
-        pList.push(
-          new Promise(function (resolve, reject) {
-            componentsDaysById(calendar.calendarId, start, end)
-              .then((res) => {
-                resolve(res)
-              })
-              .catch((err) => {
-                reject(err)
-              })
-          })
-        )
-      })
+    calList.forEach((calendar) => {
+      pList.push(
+        new Promise(function (resolve, reject) {
+          componentsDaysById(calendar.calendarId, start, end)
+            .then((res) => {
+              resolve(res)
+            })
+            .catch((err) => {
+              reject(err)
+            })
+        })
+      )
+    })
     const that = this
     let calendarComponents: Array<ICalendarComponent> = []
     Promise.all(

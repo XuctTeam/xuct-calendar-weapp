@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:50
- * @LastEditTime: 2022-01-24 19:40:02
+ * @LastEditTime: 2022-01-30 13:10:09
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -176,12 +176,13 @@ class CaldavCreate extends Component {
   _success(msg: string) {
     Taro.showToast({
       title: msg,
-      icon: 'success',
-      duration: 500
+      icon: 'success'
     })
-    back(2, {
-      data: '1'
-    })
+    setTimeout(() => {
+      back(2, {
+        data: '1'
+      })
+    }, 1000)
     return true
   }
 
