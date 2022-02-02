@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-01-30 12:51:35
+ * @LastEditTime: 2022-01-31 16:01:01
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -18,7 +18,7 @@ import CommonHeader from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back } from '@/utils/taro'
-import { SameDay, DifferentDay, ShareUser, H5Qrcode } from './ui'
+import { SameDay, DifferentDay, ShareUser, Qrcode } from './ui'
 
 import './index.scss'
 
@@ -250,11 +250,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
         </View>
       </Backdrop>
       <ShareUser open={shareOpen} close={shareClose} selected={shareSelected}></ShareUser>
-      {process.env.TARO_ENV === 'h5' ? (
-        <H5Qrcode open={qrOpen} close={setQrOpenClose} componentId={component.id} width={width - 60} height={height - 160}></H5Qrcode>
-      ) : (
-        <></>
-      )}
+      <Qrcode open={qrOpen} close={setQrOpenClose} componentId={component.id} width={width - 60} height={height - 160}></Qrcode>
     </Fragment>
   )
 }

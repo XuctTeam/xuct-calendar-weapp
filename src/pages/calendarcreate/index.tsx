@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:50
- * @LastEditTime: 2022-01-30 13:10:09
+ * @LastEditTime: 2022-01-31 15:44:05
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -213,11 +213,7 @@ class CaldavCreate extends Component {
         <View className='vi-calendar-wrapper_container'>
           <Cell.Group title='颜色'>
             <Cell>
-              <ColorRadio
-                type={process.env.TARO_ENV == 'h5' ? 'h5' : 'weapp'}
-                onChage={this.colorChange.bind(this)}
-                defaultColor={this.state.color}
-              ></ColorRadio>
+              <ColorRadio onChage={this.colorChange.bind(this)} defaultColor={this.state.color}></ColorRadio>
             </Cell>
           </Cell.Group>
           <Cell.Group title='名称'>

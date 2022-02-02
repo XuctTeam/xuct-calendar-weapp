@@ -6582,7 +6582,7 @@
     "prelude-ls" "~1.1.2"
     "type-check" "~0.3.2"
 
-"linaria@^2.2.0":
+"linaria@^2.3.1":
   "integrity" "sha512-6MdNb2S31ueMK4vYWmC9SSSgKMpknbszdLqu/kC4Vm9ezpR0j3BumdJIWnRLfUfNNhqdnDJwjfR5QX0Uhi9hHw=="
   "resolved" "https://registry.npmjs.org/linaria/-/linaria-2.3.1.tgz"
   "version" "2.3.1"

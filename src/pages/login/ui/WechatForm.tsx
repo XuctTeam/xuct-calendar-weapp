@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:29:20
- * @LastEditTime: 2022-01-25 14:52:51
+ * @LastEditTime: 2022-02-01 14:43:15
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
@@ -30,7 +30,7 @@ export default function WechatForm(props: IPageStateProps) {
   return (
     <>
       <View className='vi-login-wrapper_ui-form weapp-login'>
-        <View>
+        <View className='wechat-checkbox'>
           <Checkbox size={16} checked={selfCheck} onChange={(e) => setSelfCheck(e)}>
             已阅读并同意
             <a

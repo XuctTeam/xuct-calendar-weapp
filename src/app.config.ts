@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-01-26 14:27:14
+ * @LastEditTime: 2022-02-02 21:46:12
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -60,7 +60,10 @@ export default {
   },
   permission: {
     'scope.userLocation': {
-      desc: '楚日历获取您的地理位置'
+      desc: '楚日历需获取您的地理位置'
+    },
+    'scope.writePhotosAlbum': {
+      desc: '楚日历需获取您的相册权限'
     }
   },
   // eslint-disable-next-line react-hooks/rules-of-hooks
