@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 16:13:36
- * @LastEditTime: 2022-01-29 09:11:46
+ * @LastEditTime: 2022-02-04 16:00:44
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -19,7 +19,7 @@ const ShareUser: FunctionComponent<IPageStateProps> = (props) => {
     <ShareSheet open={props.open} onSelect={props.selected} onClose={props.close} onCancel={props.close}>
       <ShareSheet.Header title='立即分享给好友' />
       <ShareSheet.Options>
-        {process.env.TARO_ENV === 'weapp' && <ShareSheet.Option icon='wechat' name='微信' />}
+        {process.env.TARO_ENV === 'weapp' && <ShareSheet.Option icon='wechat' name='微信' value='1' />}
         <ShareSheet.Option icon='link' name='复制链接' value='2' />
         <ShareSheet.Option icon='qrcode' name='二维码' value='3' />
       </ShareSheet.Options>

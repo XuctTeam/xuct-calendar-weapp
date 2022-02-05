@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-01-26 13:15:32
+ * @LastEditTime: 2022-02-04 16:17:53
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -33,6 +33,8 @@ export default function Setting(props: SettingProps) {
 
     if (params === 1) {
       Router.toCalendarmanager()
+    } else if (params === 2) {
+      Router.toSystemsetting()
     } else if (params === 3) {
       _copy()
     } else if (params === 4) {
@@ -54,20 +56,12 @@ export default function Setting(props: SettingProps) {
     })
   }
 
-  const getVersion = () => {
-    //@ts-ignore
-    return VERSION.version
-  }
-
   return (
     <View className='vi-aboutme-wrapper_setting'>
       <Cell icon={<CalendarOutlined />} title='我的日历' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 1)}></Cell>
-      <Cell icon={<SettingOutlined />} title='系统设置' rightIcon={<Arrow />} clickable></Cell>
+      <Cell icon={<SettingOutlined />} title='账号设置' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 2)}></Cell>
       <Cell icon={<TvOutlined />} title='电脑版' clickable onClick={atListItemClickHandle.bind(this, 3)}>
         xuct.com.cn
-      </Cell>
-      <Cell icon={<ClusterOutlined />} title='当前版本'>
-        {getVersion()}
       </Cell>
       <Cell icon={<ManagerOutlined />} title='在线客服' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 4)}></Cell>
       <Cell icon={<UserCircleOutlined />} title='账号与安全' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 5)}></Cell>

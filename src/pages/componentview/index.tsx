@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-01-31 16:01:01
+ * @LastEditTime: 2022-02-04 16:29:58
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -18,7 +18,7 @@ import CommonHeader from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back } from '@/utils/taro'
-import { SameDay, DifferentDay, ShareUser, Qrcode } from './ui'
+import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
 
@@ -51,12 +51,17 @@ const Componentview: React.FC<IPageStateProps> = () => {
   const [expire, setExpire] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [qrOpen, setQrOpen] = useState(false)
-  const width = Taro.getSystemInfoSync().screenWidth
-  const height = Taro.getSystemInfoSync().screenHeight
+  const [weappShareOpen, setWeappShareOpen] = useState(false)
+  const [width, setWidth] = useState(0)
+  const [height, setHeight] = useState(0)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
+    const sys = Taro.getSystemInfoSync()
+    setWidth(sys.screenWidth)
+    setHeight(sys.screenHeight)
+
     const data: any = Router.getData()
     if (data) {
       _setComponent(data.component)
@@ -145,6 +150,8 @@ const Componentview: React.FC<IPageStateProps> = () => {
           })
         }
       })
+    } else if (value === '1') {
+      setWeappShareOpen(true)
     }
   }
 
@@ -154,6 +161,10 @@ const Componentview: React.FC<IPageStateProps> = () => {
 
   const setQrOpenClose = () => {
     setQrOpen(false)
+  }
+
+  const setWeappShareClose = () => {
+    setWeappShareOpen(false)
   }
 
   const getShareTitle = () => {
@@ -251,6 +262,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
       </Backdrop>
       <ShareUser open={shareOpen} close={shareClose} selected={shareSelected}></ShareUser>
       <Qrcode open={qrOpen} close={setQrOpenClose} componentId={component.id} width={width - 60} height={height - 160}></Qrcode>
+      <WeappShare open={weappShareOpen} onClose={setWeappShareClose} componentTitle={component.summary} componentId={component.id}></WeappShare>
     </Fragment>
   )
 }

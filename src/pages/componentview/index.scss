@@ -144,6 +144,27 @@ page {
   }
 }
 
+.vi-component-view-weapp-share-wrapper {
+  taro-button-core,
+  button {
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    font-size: 28px;
+    line-height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    padding-left: 14px;
+    padding-right: 14px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+  }
+}
+
 .taroify-backdrop {
   background: var(--backdrop-background-color, rgba(245, 245, 240, 0.7));
   display: flex;

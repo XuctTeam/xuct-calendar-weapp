@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-02-02 21:58:05
+ * @LastEditTime: 2022-02-04 15:37:42
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef } from 'react'
@@ -10,6 +10,7 @@ import Taro from '@tarojs/taro'
 import { Button, Dialog } from '@taroify/core'
 import { Canvas } from '@tarojs/components'
 import { createQrCodeImg } from '@/components/qrode/qrcode'
+import { showToast } from '@/utils/taro'
 
 import '../index.scss'
 
@@ -181,9 +182,28 @@ const H5Qrcode: FunctionComponent<IPageStateProps> = (props) => {
       canvasId: 'myCanvas',
       canvas: canvas.current,
       fileType: 'png'
-    }).then((res) => {
-      console.log(res.tempFilePath)
     })
+      .then((res) => {
+        console.log(res.tempFilePath)
+        Taro.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath
+        })
+          .then(() => {
+            Taro.showModal({
+              title: '图片保存成功',
+              content: '图片保存成功',
+              showCancel: false,
+              confirmText: '确认'
+            })
+          })
+          .catch(() => {
+            showToast('图片保存失败')
+            return
+          })
+      })
+      .catch(() => {
+        showToast('生成临时图片失败')
+      })
   }
 
   return (
