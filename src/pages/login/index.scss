@@ -88,11 +88,20 @@ page,
       font-size: 24px;
       height: 34px;
       line-height: 34px;
-      padding-left: 50px;
     }
+  }
+
+  .weapp-login {
+    margin-top: 60px;
 
     .wechat-checkbox {
-      margin-bottom: 10px;
+      display: flex;
+      margin-top: 30px;
+
+      navigator {
+        font-size: 24px;
+        color: blue;
+      }
     }
   }
 
@@ -101,10 +110,6 @@ page,
     color: #000;
     padding-top: 20px;
     font-weight: 600;
-  }
-
-  .weapp-login {
-    margin-top: 90px;
   }
 
   .register {

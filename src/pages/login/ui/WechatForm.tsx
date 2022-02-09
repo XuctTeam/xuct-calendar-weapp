@@ -2,12 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:29:20
- * @LastEditTime: 2022-02-01 14:43:15
+ * @LastEditTime: 2022-02-05 21:05:51
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
 import { View } from '@tarojs/components'
 import { Button, Checkbox } from '@taroify/core'
+import { Navigator } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { showToast } from '@/utils/taro'
 
@@ -30,24 +31,17 @@ export default function WechatForm(props: IPageStateProps) {
   return (
     <>
       <View className='vi-login-wrapper_ui-form weapp-login'>
+        <Button color='success' block onClick={() => getUserInfo()} >
+          微信登录
+        </Button>
         <View className='wechat-checkbox'>
           <Checkbox size={16} checked={selfCheck} onChange={(e) => setSelfCheck(e)}>
-            已阅读并同意
-            <a
-              href='#!'
-              onClick={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-                Router.toSelfprivacy()
-              }}
-            >
-              《隐私协议》
-            </a>
+            我已阅读并确认同意
           </Checkbox>
+          <Navigator url='/pages/selfprivacy/index' openType='navigate'>
+            《隐私保护政策》
+          </Navigator>
         </View>
-        <Button color='success' block onClick={() => getUserInfo()}>
-          微信授权登录
-        </Button>
       </View>
     </>
   )

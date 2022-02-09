@@ -3,13 +3,14 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-02-02 21:46:12
+ * @LastEditTime: 2022-02-08 20:23:00
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
 
 export default {
   pages: [
+    'pages/contactmanager/index',
     'pages/index/index',
     'pages/aboutme/index',
     'pages/notice/index',
@@ -30,7 +31,8 @@ export default {
     'pages/componentsearch/index',
     'pages/selfprivacy/index',
     'pages/systemsetting/index',
-    'pages/customerservice/index'
+    'pages/customerservice/index',
+    'pages/groupmanager/index'
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -46,10 +48,12 @@ export default {
         iconPath: 'assets/icon/index_gray.png',
         selectedIconPath: 'assets/icon/index_active.png'
       },
-      // {
-      //   pagePath: 'pages/logs/index',
-      //   text: '日志'
-      // },
+      {
+        pagePath: 'pages/contactmanager/index',
+        text: '联系人',
+        iconPath: 'assets/icon/hot_gray.png',
+        selectedIconPath: 'assets/icon/hot_active.png'
+      },
       {
         pagePath: 'pages/aboutme/index',
         text: '我的',
