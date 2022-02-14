@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:28:54
- * @LastEditTime: 2022-01-26 14:05:24
+ * @LastEditTime: 2022-02-14 21:35:39
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -249,6 +249,7 @@ class H5Form extends Component {
               href='#!'
               onClick={(e) => {
                 e.preventDefault()
+                e.stopPropagation()
                 this.setPhoneForm(!this.state.phoneForm)
               }}
             >

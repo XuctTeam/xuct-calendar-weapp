@@ -1,11 +1,15 @@
-page {
+page,
+.taro_page {
   height: 100%;
+  overflow: hidden;
 }
+
 .vi-selfprivacy-warpper {
   height: 100%;
   font-size: 26px;
-  padding-left: 30px;
-  padding-right: 30px;
+  overflow-y: auto;
+  padding: 0px 30px;
+  margin-bottom: 40px;
 
   &_header {
     display: flex;

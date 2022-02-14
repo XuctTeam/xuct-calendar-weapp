@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-09 09:11:18
- * @LastEditTime: 2022-01-19 10:21:14
+ * @LastEditTime: 2022-02-14 21:25:45
  * @LastEditors: Derek Xu
  */
 import Taro, { Chain } from '@tarojs/taro'
@@ -84,16 +84,17 @@ const customInterceptor = (chain: Chain): Promise<any> => {
       }
 
       /* 1.刷新token认证失败，清空并返回登录 */
-      if (url.includes(OAUTHTOKEN_URL) && requestParams.data && requestParams.data['refresh_token']) {
-        Taro.showToast({
-          icon: 'error',
-          title: '获取登录信息失败',
-          duration: 1500
-        })
-        refreshSubscribers.cleanTask()
-        pageCleanToLogin()
-        return reject(error)
-      }
+      // if (url.includes(OAUTHTOKEN_URL) && requestParams.data && requestParams.data['refresh_token']) {
+      //   debugger
+      //   Taro.showToast({
+      //     icon: 'error',
+      //     title: '获取登录信息失败',
+      //     duration: 1500
+      //   })
+      //   refreshSubscribers.cleanTask()
+      //   pageCleanToLogin()
+      //   return reject(error)
+      // }
 
       /* 2.认证失败且不是token过期 */
       if (status === HTTP_STATUS.AUTHENTICATE && code !== HTTP_STATUS.AUTHENTICATE) {
@@ -120,9 +121,10 @@ const customInterceptor = (chain: Chain): Promise<any> => {
         refreshSubscribers.isRefreshing = true
         refreshSubscribers.pageRefreshToken()
       }
-      return new Promise((rev) => {
+      return new Promise((rev, rej) => {
         refreshSubscribers.pushTask({
           resolve: rev,
+          reject: rej,
           url: url,
           opt: requestParams
         })

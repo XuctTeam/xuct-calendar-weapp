@@ -1215,32 +1215,32 @@
   "resolved" "https://registry.npmjs.org/@stencil/core/-/core-2.9.0.tgz"
   "version" "2.9.0"
 
-"@taroify/core@^0.0.26-alpha.6":
-  "integrity" "sha512-fbzLyeX/8ddjbqh6B3PTlONFAHRjXMgGdQPcVdoCa8t/Va4w5+E4bS5RdN84FELkTvKLj7s8PJ8UHCcF92MKsQ=="
-  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.26-alpha.6.tgz"
-  "version" "0.0.26-alpha.6"
+"@taroify/core@^0.0.27-alpha.0":
+  "integrity" "sha512-Gr0sPVl1oKZr+rPq9DNKQsSdGqiM7bZqkoe0wQiyiIFxArkp/FxXEzQlvUQFmRTY9vK13ZsV7msKjH6c3os+6g=="
+  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.27-alpha.0.tgz"
+  "version" "0.0.27-alpha.0"
   dependencies:
-    "@taroify/hooks" "^0.0.26-alpha.6"
-    "@taroify/icons" "^0.0.26-alpha.6"
+    "@taroify/hooks" "^0.0.27-alpha.0"
+    "@taroify/icons" "^0.0.27-alpha.0"
     "classnames" "^2.2.6"
     "lodash" "^4.17.21"
     "raf" "^3.4.1"
     "react-is" "^17.0.2"
     "react-transition-group" "^4.4.1"
 
-"@taroify/hooks@^0.0.26-alpha.6":
-  "integrity" "sha512-4L3MrJhM1J1/pJX8cecumM1djZkcZNxLmKiVeDCPeJ7eOS5BroiyiMkysI6Mqsa/Dqs+JfquAZ5Zt+dTSV/5nA=="
-  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.26-alpha.6.tgz"
-  "version" "0.0.26-alpha.6"
+"@taroify/hooks@^0.0.27-alpha.0":
+  "integrity" "sha512-scley8c8Xicht8eWiF32hV6Pb7hWZHIr+WHugSBWMuKlXo0sr0ZpWmBclI5LpbhaU6p1JKVj3ZSZOGLg8zIq7Q=="
+  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.27-alpha.0.tgz"
+  "version" "0.0.27-alpha.0"
   dependencies:
     "@vant/area-data" "^1.2.1"
     "lodash" "^4.17.21"
     "react" "^17.0.2"
 
-"@taroify/icons@^0.0.26-alpha.6":
-  "integrity" "sha512-KhBCuVZmB6iCKGzlJ+58OlkFPQldnLaoLSgztjWq6RtjSjAwAIcs7qiq+NHtZe1TtGFCeoNavIsWHQkgJUphmw=="
-  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.26-alpha.6.tgz"
-  "version" "0.0.26-alpha.6"
+"@taroify/icons@^0.0.27-alpha.0":
+  "integrity" "sha512-Y8/0W3LMOtxTjl//aqD4uJoyc0FU2qb1XIbx8z83ub6geVvqsbiY3vg7k6uZwtOGs+NstQeqwef626y1VXPJ3w=="
+  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.27-alpha.0.tgz"
+  "version" "0.0.27-alpha.0"
   dependencies:
     "classnames" "^2.2.6"
 

@@ -2,19 +2,20 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-12 12:49:07
- * @LastEditTime: 2022-01-19 10:21:48
+ * @LastEditTime: 2022-02-14 21:41:09
  * @LastEditors: Derek Xu
  */
 import dva from '@/utils/dva'
 import { tokenRefresh } from '@/api/token'
 import dayjs from 'dayjs'
 import http from './index'
-import { getStorage } from '../taro'
+import { getStorage, pageCleanToLogin, showToast } from '../taro'
 
 interface ITask {
   url: string
   opt: Taro.RequestParams
   resolve: (value: unknown) => void
+  reject: (value: unknown) => void
 }
 
 class RefreshSubscribers {
@@ -39,7 +40,7 @@ class RefreshSubscribers {
    */
   cleanTask() {
     this._refreshSubscribers.forEach((task) => {
-      task.reject(new Error('refresh error'))
+      task.reject('refresh error')
     })
     this._isRefreshing = false
     this._refreshSubscribers.length = 0
@@ -77,7 +78,12 @@ class RefreshSubscribers {
         }, 200)
       })
       .catch((error) => {
-        throw error
+        console.log(error)
+        showToast('获取登录信息失败')
+        this.cleanTask()
+        setTimeout(() => {
+          pageCleanToLogin()
+        }, 500)
       })
   }
 

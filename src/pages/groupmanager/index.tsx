@@ -4,13 +4,13 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-13 22:11:40
+ * @LastEditTime: 2022-02-14 22:49:48
  */
 import { FunctionComponent, useEffect, useState } from 'react'
 import CommonHeader from '@/components/mixin'
 import { View } from '@tarojs/components'
 import { Cell, Empty } from '@taroify/core'
-import { AddOutlined } from '@taroify/icons'
+import { AddOutlined, Search } from '@taroify/icons'
 import { GroupList } from './ui'
 import { IGroup } from '~/../@types/group'
 import { groupList } from '@/api/group'
@@ -34,6 +34,14 @@ const Index: FunctionComponent = () => {
     }
   }
 
+  const searchGroupHandler = async () => {
+    try {
+      await Router.toGroupSearch()
+    } catch (err) {
+      Router.toContactmanager()
+    }
+  }
+
   const list = () => {
     groupList()
       .then((res) => {
@@ -49,6 +57,7 @@ const Index: FunctionComponent = () => {
       <CommonHeader title='我的群组' fixed to={4} left></CommonHeader>
       <View className='vi-group-manager-wrapper_container' style={{ marginTop: process.env.TARO_ENV === 'h5' ? '50px' : '0px' }}>
         <Cell icon={<AddOutlined />} title='添加群组' bordered clickable onClick={() => addGroupHandler()}></Cell>
+        <Cell icon={<Search />} title='加入群组' bordered clickable onClick={() => searchGroupHandler()}></Cell>
         <Cell.Group title='我的群组'>
           {groups.length === 0 ? (
             <Empty>
