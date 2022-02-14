@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-09 21:47:15
+ * @LastEditTime: 2022-02-13 22:11:40
  */
 import { FunctionComponent, useEffect, useState } from 'react'
 import CommonHeader from '@/components/mixin'
@@ -22,6 +22,19 @@ const Index: FunctionComponent = () => {
   const [groups, setGroups] = useState<IGroup[]>([])
 
   useEffect(() => {
+    list()
+  }, [])
+
+  const addGroupHandler = async () => {
+    try {
+      await Router.toGroupcreate()
+      list()
+    } catch (err) {
+      Router.toContactmanager()
+    }
+  }
+
+  const list = () => {
     groupList()
       .then((res) => {
         setGroups(res as any as Array<IGroup>)
@@ -29,14 +42,6 @@ const Index: FunctionComponent = () => {
       .catch((err) => {
         console.log(err)
       })
-  }, [])
-
-  const addGroupHandler = () => {
-    try {
-      Router.toGroupcreate()
-    } catch (err) {
-      Router.toContactmanager()
-    }
   }
 
   return (

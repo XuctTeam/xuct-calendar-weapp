@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-01-18 22:09:04
+ * @LastEditTime: 2022-02-13 21:45:37
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -184,6 +184,12 @@ export const respErrorToast = (res: any) => {
   }
 }
 
+/**
+ * 封装回退方法
+ * @param to
+ * @param data
+ * @returns
+ */
 export const back = (to: number, data?: any) => {
   try {
     if (data) {
@@ -191,11 +197,15 @@ export const back = (to: number, data?: any) => {
       return
     }
     Router.back()
-  } catch (error) {
+  } catch (err) {
     if (to === 1) {
-      Router.navigate({ url: '/pages/index/index' }, { type: NavigateType.switchTab })
-      return
+      Router.toIndex({ type: NavigateType.switchTab })
+    } else if (to === 2) {
+      Router.toAboutme({ type: NavigateType.switchTab })
+    } else if (to === 3) {
+      Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: data })
+    } else if (to === 4) {
+      Router.toContactmanager({ type: NavigateType.switchTab })
     }
-    Router.navigate({ url: '/pages/aboutme/index' }, { type: NavigateType.switchTab })
   }
 }

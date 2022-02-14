@@ -3,12 +3,12 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:05:22
  * @FilePath: \react-lesson-20\src\utils\mixin.ts
- * @LastEditTime: 2022-02-08 20:39:32
+ * @LastEditTime: 2022-02-13 21:44:09
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, ReactNode } from 'react'
 import { Navbar } from '@taroify/core'
-import Router, { NavigateType } from 'tarojs-router-next'
+import { back } from '@/utils/taro'
 
 interface IHeaderProps {
   title: string
@@ -22,24 +22,8 @@ interface IHeaderProps {
 
 const CommonHeader: React.FC<IHeaderProps> = (props) => {
   const routerToBack = () => {
-    try {
-      if (props.data) {
-        Router.back(props.data)
-        return
-      }
-      Router.back()
-    } catch (err) {
-      if (!props.to) return
-      if (props.to === 1) {
-        Router.toIndex({ type: NavigateType.switchTab })
-      } else if (props.to === 2) {
-        Router.toAboutme({ type: NavigateType.switchTab })
-      } else if (props.to === 3) {
-        Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: props.data })
-      } else if (props.to === 4) {
-        Router.toContactmanager({ type: NavigateType.switchTab })
-      }
-    }
+    if (!props.to) props.to = 1
+    back(props.to, props.data)
   }
 
   /**

@@ -4,10 +4,33 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-08 20:06:21
+ * @LastEditTime: 2022-02-10 20:33:07
  */
 
-.vi-group-manager-warpper {
+.vi-group-create-warpper {
+  height: 100%;
+  overflow: hidden;
+
+  &_container {
+    height: 100%;
+    padding-top: 120px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .form {
+    flex: 1;
+  }
+
+  .button {
+    margin: 30px;
+    padding-bottom: 120px;
+  }
+
   // &_group-list {
   //   // display: flex;
   //   // align-items: center;

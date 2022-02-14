@@ -7,6 +7,27 @@ page {
   flex-direction: column;
 
   &_container {
+    .taroify-cell {
+      display: flex;
+      align-items: center;
+    }
+
+    .taroify-cell__value {
+      display: flex;
+    }
+
+    .cell {
+      padding-left: 20px;
+
+      .title {
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .number {
+        font-size: 24px;
+      }
+    }
   }
 
   &_button {

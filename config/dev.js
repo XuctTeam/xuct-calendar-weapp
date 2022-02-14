@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-07-23 12:39:07
- * @LastEditTime: 2022-01-25 10:35:45
+ * @LastEditTime: 2022-02-12 09:17:15
  * @LastEditors: Derek Xu
  */
 // eslint-disable-next-line import/no-commonjs
@@ -11,26 +11,11 @@ module.exports = {
     NODE_ENV: '"development"'
   },
   defineConstants: {
-    SERVICE_URL: JSON.stringify('http://s1.nsloop.com:22060'),
-    H5_CLIENT_INFO: JSON.stringify({
-      CLIENT_ID: 'app_id',
-      CLIENT_SECURITY: 'Wechat!@#Auth~!@'
-    }),
-
-    WEAPP_CLIENT_INFO: JSON.stringify({
-      CLIENT_ID: 'wechat_id',
-      CLIENT_SECURITY: 'Wechat!@#Auth~!@'
-    }),
-
-    VERSION: JSON.stringify({
-      date: '2022-01-25',
-      version: '1.0.0'
-    })
+    SERVICE_URL: JSON.stringify('http://s1.nsloop.com:22060')
   },
   mini: {
-    webpackChain (chain) {
-      chain.plugin('analyzer')
-        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
+    webpackChain(chain) {
+      chain.plugin('analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
     }
   },
   h5: {},

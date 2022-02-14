@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-01-12 21:09:47
+ * @LastEditTime: 2022-02-13 10:13:37
  * @LastEditors: Derek Xu
  */
 /* eslint-disable import/no-commonjs */
@@ -20,7 +20,21 @@ const config = {
   outputRoot: 'dist',
   plugins: ['tarojs-router-next-plugin'],
   defineConstants: {
-    LOCATION_APIKEY: JSON.stringify('5Y6BZ-LHMWU-HM2VX-45SUU-RDESJ-4VBGR')
+    /* h5端的认证 */
+    H5_CLIENT_INFO: JSON.stringify({
+      CLIENT_ID: 'app_id',
+      CLIENT_SECURITY: 'Wechat!@#Auth~!@'
+    }),
+    /* 小程序认证 */
+    WEAPP_CLIENT_INFO: JSON.stringify({
+      CLIENT_ID: 'wechat_id',
+      CLIENT_SECURITY: 'Wechat!@#Auth~!@'
+    }),
+    /* 版本信息 */
+    VERSION: JSON.stringify({
+      date: '2022-01-25',
+      version: '1.0.0'
+    })
   },
   copy: {
     patterns: [],
