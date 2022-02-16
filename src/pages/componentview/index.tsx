@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-02-04 16:29:58
+ * @LastEditTime: 2022-02-16 18:11:52
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -14,7 +14,7 @@ import { ActionSheet, Button, Flex, Backdrop, Loading } from '@taroify/core'
 import { Ellipsis, ClockOutlined, BulbOutlined } from '@taroify/icons'
 import dayjs from 'dayjs'
 import { IDavComponent } from '~/../@types/calendar'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back } from '@/utils/taro'
@@ -187,8 +187,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
 
   return (
     <Fragment>
-      <View className='vi-component-view-wrapper'>
-        <CommonHeader title='事项详情' to={1} fixed={false} left></CommonHeader>
+      <CommonMain className='vi-component-view-wrapper' title='事项详情' to={1} fixed={false} left>
         <View className='vi-component-view-wrapper_content'>
           <View className='cell-item summary-calendar-more taroify-hairline--bottom'>
             <View className='event-label' style={{ color: `#${component.color}`, background: `#${component.color}` }}></View>
@@ -248,7 +247,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
             </Flex.Item>
           </Flex>
         </View>
-      </View>
+      </CommonMain>
       <ActionSheet open={open} onSelect={() => componentDelete()} onClose={() => setOpen(false)} onCancel={() => setOpen(false)}>
         <ActionSheet.Action value='1' name='删除' />
         <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>

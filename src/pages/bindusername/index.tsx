@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-01-28 15:04:57
+ * @LastEditTime: 2022-02-16 18:07:57
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
 import Router, { NavigateType } from 'tarojs-router-next'
 import { Button, Cell, Form, Input } from '@taroify/core'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { bindUserName } from '@/api/user'
 
 import './index.scss'
@@ -45,8 +45,7 @@ const BindUserName: FunctionComponent = () => {
   }
 
   return (
-    <View className='vi-bind-username-warpper'>
-      <CommonHeader title='账号绑定' fixed={false} left to={2}></CommonHeader>
+    <CommonMain className='vi-bind-username-warpper' title='账号绑定' fixed={false} left to={2}>
       <Form onSubmit={onSubmit} className='vi-bind-username-warpper_content'>
         <View className='form'>
           <Cell.Group inset>
@@ -75,7 +74,7 @@ const BindUserName: FunctionComponent = () => {
           </View>
         )}
       </Form>
-    </View>
+    </CommonMain>
   )
 }
 

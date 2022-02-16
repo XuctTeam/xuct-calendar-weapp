@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:29:20
- * @LastEditTime: 2022-02-05 21:05:51
+ * @LastEditTime: 2022-02-16 11:50:23
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
@@ -31,9 +31,6 @@ export default function WechatForm(props: IPageStateProps) {
   return (
     <>
       <View className='vi-login-wrapper_ui-form weapp-login'>
-        <Button color='success' block onClick={() => getUserInfo()} >
-          微信登录
-        </Button>
         <View className='wechat-checkbox'>
           <Checkbox size={16} checked={selfCheck} onChange={(e) => setSelfCheck(e)}>
             我已阅读并确认同意
@@ -42,6 +39,9 @@ export default function WechatForm(props: IPageStateProps) {
             《隐私保护政策》
           </Navigator>
         </View>
+        <Button color='success' block onClick={() => getUserInfo()}>
+          微信登录
+        </Button>
       </View>
     </>
   )

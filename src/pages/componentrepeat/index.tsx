@@ -2,7 +2,7 @@
  * @Description: 日程重复
  * @Author: Derek Xu
  * @Date: 2021-12-24 16:14:50
- * @LastEditTime: 2022-01-24 11:35:15
+ * @LastEditTime: 2022-02-16 17:19:56
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -11,7 +11,7 @@ import IconFont from '@/components/iconfont'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import { Button, Cell, Radio } from '@taroify/core'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { formatRepeatTime } from '@/utils/utils'
 import { back } from '@/utils/taro'
 
@@ -242,55 +242,56 @@ class Schedulerepet extends Component {
   render() {
     return (
       <View className='vi-repeat-wrapper'>
-        <CommonHeader title='重复' to={1} fixed={false} left></CommonHeader>
-        <Radio.Group className='vi-repeat-wrapper_content' value={this.state.repeatStatus} onChange={this.repetRaidoChage.bind(this)}>
-          <Cell.Group clickable>
-            <Cell title='不重复' bordered={false} className='no-repet'>
-              <Radio name='0' />
+        <CommonMain title='重复' to={1} fixed={false} left>
+          <Radio.Group className='vi-repeat-wrapper_content' value={this.state.repeatStatus} onChange={this.repetRaidoChage.bind(this)}>
+            <Cell.Group clickable>
+              <Cell title='不重复' bordered={false} className='no-repet'>
+                <Radio name='0' />
+              </Cell>
+              <Cell title='每天'>
+                <Radio name='1' />
+              </Cell>
+              <Cell title='每周一至五'>
+                <Radio name='2' />
+              </Cell>
+              <Cell title='每周六、周日'>
+                <Radio name='3' />
+              </Cell>
+              <Cell title='每周（周六）'>
+                <Radio name='4' />
+              </Cell>
+              <Cell title={`每月` + dayjs(this.state.selectedDate).format('（DD日）')}>
+                <Radio name='5' />
+              </Cell>
+              <Cell title={`每月` + '（第' + Math.ceil(this.state.selectedDate.getDate() / 7) + '个' + dayjs(this.state.selectedDate).format('ddd') + '）'}>
+                <Radio name='6' />
+              </Cell>
+              <Cell title={`每年（` + dayjs(this.state.selectedDate).format('MM月DD日）')}>
+                <Radio name='7' />
+              </Cell>
+            </Cell.Group>
+            <Cell
+              className='cust'
+              clickable
+              title='自定义'
+              onClick={this.openCustRepeat.bind(this)}
+              brief={
+                this.state.repeatStatus === '8'
+                  ? formatRepeatTime(
+                      this.state.repeatType,
+                      this.state.repeatStatus,
+                      this.state.repeatByday,
+                      this.state.repeatBymonth,
+                      this.state.repeatBymonthday,
+                      this.state.repeatInterval
+                    )
+                  : ''
+              }
+            >
+              {this.state.repeatStatus === '8' ? <IconFont name='duigou' size={50}></IconFont> : <></>}
             </Cell>
-            <Cell title='每天'>
-              <Radio name='1' />
-            </Cell>
-            <Cell title='每周一至五'>
-              <Radio name='2' />
-            </Cell>
-            <Cell title='每周六、周日'>
-              <Radio name='3' />
-            </Cell>
-            <Cell title='每周（周六）'>
-              <Radio name='4' />
-            </Cell>
-            <Cell title={`每月` + dayjs(this.state.selectedDate).format('（DD日）')}>
-              <Radio name='5' />
-            </Cell>
-            <Cell title={`每月` + '（第' + Math.ceil(this.state.selectedDate.getDate() / 7) + '个' + dayjs(this.state.selectedDate).format('ddd') + '）'}>
-              <Radio name='6' />
-            </Cell>
-            <Cell title={`每年（` + dayjs(this.state.selectedDate).format('MM月DD日）')}>
-              <Radio name='7' />
-            </Cell>
-          </Cell.Group>
-          <Cell
-            className='cust'
-            clickable
-            title='自定义'
-            onClick={this.openCustRepeat.bind(this)}
-            brief={
-              this.state.repeatStatus === '8'
-                ? formatRepeatTime(
-                    this.state.repeatType,
-                    this.state.repeatStatus,
-                    this.state.repeatByday,
-                    this.state.repeatBymonth,
-                    this.state.repeatBymonthday,
-                    this.state.repeatInterval
-                  )
-                : ''
-            }
-          >
-            {this.state.repeatStatus === '8' ? <IconFont name='duigou' size={50}></IconFont> : <></>}
-          </Cell>
-        </Radio.Group>
+          </Radio.Group>
+        </CommonMain>
         <View className='vi-repeat-wrapper_button'>
           <Button color='success' block onClick={this.repeatSave.bind(this)}>
             保存

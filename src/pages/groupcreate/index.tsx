@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-13 21:45:11
+ * @LastEditTime: 2022-02-16 16:42:00
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -10,7 +10,6 @@ import { FunctionComponent, useRef, useState } from 'react'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
 import { Button, Cell, Form, Input, Uploader } from '@taroify/core'
 import CommonHeader from '@/components/mixin'
-import { Toast } from '@taroify/core'
 import { FormItemInstance } from '@taroify/core/form'
 import { showToast, getStorage, back } from '@/utils/taro'
 import { upload, addGroup } from '@/api/group'
@@ -101,8 +100,7 @@ const GroupCreate: FunctionComponent = () => {
   return (
     <View className='vi-group-create-warpper'>
       <CommonHeader title='新建群组' fixed to={4} left></CommonHeader>
-      <Toast id='toast' />
-      <View className='vi-group-create-warpper_container'>
+      <View className='vi-group-create-warpper_container' style={{ paddingTop: process.env.TARO_ENV === 'h5' ? '50px' : '0px' }}>
         <Form defaultValues={{ validatorMessage: 'abc' }} onSubmit={onSubmit}>
           <View className='form'>
             <Cell.Group inset>

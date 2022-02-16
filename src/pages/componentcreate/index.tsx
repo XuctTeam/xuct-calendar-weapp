@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-27 16:08:09
+ * @LastEditTime: 2022-02-16 17:37:28
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -23,7 +23,7 @@ import { add, getById } from '@/api/component'
 import { showToast, back } from '@/utils/taro'
 import { formatRepeatTime, fiveMinutes, formatAlarmText, alarmTypeToCode } from '@/utils/utils'
 
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import IconFont from '@/components/iconfont'
 import { SelectCalendar, Picker, Time, CalendarAction, RepeatPicker } from './ui'
 import { action } from './actionCreater'
@@ -483,15 +483,14 @@ class Components extends Component {
   render() {
     return (
       <Fragment>
-        <View className='vi-schedule-wrapper'>
-          <CommonHeader title={this.state.title} to={this.state.edit ? 3 : 1} fixed left data={{ componentId: this.state.id }}></CommonHeader>
-          <View className='vi-schedule-wrapper_container'>
-            <View className='summary' style={{ marginTop: process.env.TARO_ENV === 'h5' ? '40px' : '0px' }}>
+        <CommonMain className='vi-component-wrapper' title={this.state.title} to={this.state.edit ? 3 : 1} fixed left data={{ componentId: this.state.id }}>
+          <View className='vi-component-wrapper_container'>
+            <View className='summary'>
               <Textarea
                 placeholder='输入日程标题'
                 maxlength={120}
                 value={this.state.summary}
-                style={{ width: '100%', height: '50px' }}
+                style={{ width: '100%', height: '40px' }}
                 limit={120}
                 autoFocus
                 onInput={(e) => this.summaryChage(e.detail.value)}
@@ -548,7 +547,7 @@ class Components extends Component {
                     </Cell>
                     <Cell
                       size='large'
-                      className='vi-schedule-wrapper_repeat-until'
+                      className='vi-component-wrapper_repeat-until'
                       clickable
                       title={!this.state.repeatUntil ? '选择结束时间' : ''}
                       onClick={this.openRepeatUntil.bind(this)}
@@ -596,12 +595,13 @@ class Components extends Component {
               </View>
             </View>
           </View>
-          <View className='vi-schedule-wrapper_button'>
+          <View className='vi-component-wrapper_button'>
             <Button color='success' block onClick={this.addComponent.bind(this)}>
               保存
             </Button>
           </View>
-        </View>
+        </CommonMain>
+
         <Picker
           title='开始时间'
           type={1}

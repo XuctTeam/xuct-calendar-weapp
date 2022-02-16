@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-22 16:48:03
- * @LastEditTime: 2022-01-27 10:11:57
+ * @LastEditTime: 2022-02-16 17:22:22
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Cell, Button, Textarea } from '@taroify/core'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { back } from '@/utils/taro'
 
 import './index.scss'
@@ -114,16 +114,17 @@ class Location extends Component {
   render() {
     return (
       <View className='vi-location-wrapper'>
-        <CommonHeader title='地理坐标' to={2} fixed={false} left></CommonHeader>
-        <Cell.Group inset className='vi-location-wrapper_content'>
-          <Textarea
-            style={{ width: '100%', height: '300px' }}
-            limit={300}
-            placeholder='请输入地址'
-            value={this.state.location}
-            onInput={(e) => this.locationChage(e.detail.value)}
-          ></Textarea>
-        </Cell.Group>
+        <CommonMain title='地理坐标' to={2} fixed={false} left>
+          <Cell.Group inset className='vi-location-wrapper_content'>
+            <Textarea
+              style={{ width: '100%', height: '300px' }}
+              limit={300}
+              placeholder='请输入地址'
+              value={this.state.location}
+              onInput={(e) => this.locationChage(e.detail.value)}
+            ></Textarea>
+          </Cell.Group>
+        </CommonMain>
         <View className='vi-location-wrapper_button'>
           <View className='save'>
             <Button color='success' block onClick={this.saveLocation.bind(this)}>

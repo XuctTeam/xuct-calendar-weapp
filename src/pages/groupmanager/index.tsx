@@ -4,19 +4,20 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-14 22:49:48
+ * @LastEditTime: 2022-02-16 18:19:22
  */
 import { FunctionComponent, useEffect, useState } from 'react'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { View } from '@tarojs/components'
+import Router from 'tarojs-router-next'
 import { Cell, Empty } from '@taroify/core'
 import { AddOutlined, Search } from '@taroify/icons'
-import { GroupList } from './ui'
 import { IGroup } from '~/../@types/group'
 import { groupList } from '@/api/group'
 
+import { GroupList } from './ui'
+
 import './index.scss'
-import Router from 'tarojs-router-next'
 
 const Index: FunctionComponent = () => {
   const [groups, setGroups] = useState<IGroup[]>([])
@@ -36,7 +37,7 @@ const Index: FunctionComponent = () => {
 
   const searchGroupHandler = async () => {
     try {
-      await Router.toGroupSearch()
+      await Router.toGroupsearch()
     } catch (err) {
       Router.toContactmanager()
     }
@@ -53,9 +54,8 @@ const Index: FunctionComponent = () => {
   }
 
   return (
-    <View className='vi-group-manager-wrapper'>
-      <CommonHeader title='我的群组' fixed to={4} left></CommonHeader>
-      <View className='vi-group-manager-wrapper_container' style={{ marginTop: process.env.TARO_ENV === 'h5' ? '50px' : '0px' }}>
+    <CommonMain className='vi-group-manager-wrapper' title='我的群组' fixed to={4} left>
+      <View className='vi-group-manager-wrapper_container'>
         <Cell icon={<AddOutlined />} title='添加群组' bordered clickable onClick={() => addGroupHandler()}></Cell>
         <Cell icon={<Search />} title='加入群组' bordered clickable onClick={() => searchGroupHandler()}></Cell>
         <Cell.Group title='我的群组'>
@@ -69,7 +69,7 @@ const Index: FunctionComponent = () => {
           )}
         </Cell.Group>
       </View>
-    </View>
+    </CommonMain>
   )
 }
 

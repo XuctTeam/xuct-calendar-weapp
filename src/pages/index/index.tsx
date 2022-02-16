@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-01-30 13:18:11
+ * @LastEditTime: 2022-02-16 18:08:45
  * @LastEditors: Derek Xu
  */
 import React, { Component, Fragment } from 'react'
@@ -21,7 +21,7 @@ import { getToday } from '@/utils/utils'
 import CalendarTypes from '@/components/calendar/types/calendar'
 import { IDavCalendar, ICalendarComponent, IDavComponent } from '~/../@types/calendar'
 import { componentsDaysById } from '@/api/component'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import IconFont from '@/components/iconfont'
 import { Picker, Event, CaldavList } from './ui'
 import { action } from './actionCreater'
@@ -305,14 +305,8 @@ class Index extends Component {
   render() {
     return (
       <Fragment>
-        <View className='vi-index-wrapper'>
-          <CommonHeader title='楚日历' fixed left={false}></CommonHeader>
-          <Collapse
-            defaultValue={[0]}
-            style={{ marginTop: process.env.TARO_ENV === 'h5' ? '50px' : '0px' }}
-            bordered
-            onChange={this.calendarAccordionChage.bind(this)}
-          >
+        <CommonMain className='vi-index-wrapper' title='楚日历' fixed left={false}>
+          <Collapse defaultValue={[0]} bordered onChange={this.calendarAccordionChage.bind(this)}>
             <Collapse.Item
               clickable={false}
               className='custom-collapse-item1'
@@ -362,7 +356,7 @@ class Index extends Component {
             refreshComponent={this.componentRefresh.bind(this)}
             viewComponent={this.viewComponent.bind(this)}
           ></Event>
-        </View>
+        </CommonMain>
         <View className='vi-index_home-fab' style={{ bottom: process.env.TARO_ENV === 'h5' ? '80px' : '20px' }}>
           {this.props.accessToken && <Button shape='round' variant='contained' color='primary' icon={<Plus />} onClick={this.createComponent.bind(this)} />}
         </View>

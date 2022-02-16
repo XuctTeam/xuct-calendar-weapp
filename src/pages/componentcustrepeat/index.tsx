@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-28 18:54:31
- * @LastEditTime: 2022-01-18 21:09:14
+ * @LastEditTime: 2022-02-16 18:12:50
  * @LastEditors: Derek Xu
  */
 
@@ -10,11 +10,11 @@ import { View } from '@tarojs/components'
 import { Component, Fragment } from 'react'
 import Router, { NavigateType } from 'tarojs-router-next'
 import { Cell, ActionSheet, Button } from '@taroify/core'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 import dayjs from 'dayjs'
-import { Weekly, Monthly, IntervalPicker } from './ui'
 import { back } from '@/utils/taro'
+import { Weekly, Monthly, IntervalPicker } from './ui'
 
 import './index.scss'
 
@@ -175,8 +175,7 @@ class ScheduleCustRepeat extends Component {
   render() {
     return (
       <Fragment>
-        <View className='vi-schedulecustrepeat-wrapper'>
-          <CommonHeader title='自定义重复' to={1} fixed={false} left></CommonHeader>
+        <CommonMain className='vi-schedulecustrepeat-wrapper' title='自定义重复' to={1} fixed={false} left>
           <View className='vi-schedulecustrepeat-wrapper_content'>
             <Cell title='频率' clickable onClick={this.repeatOpen.bind(this, true)}>
               {formatType(this.state.repeatType)}
@@ -200,7 +199,8 @@ class ScheduleCustRepeat extends Component {
               保存
             </Button>
           </View>
-        </View>
+        </CommonMain>
+
         <ActionSheet open={this.state.repeatTypeOpen} onClose={this.repeatOpen.bind(this, false)} onSelect={this.repeatSelected.bind(this)}>
           <ActionSheet.Action name='天' value='DAILY'></ActionSheet.Action>
           <ActionSheet.Action name='周' value='WEEKLY'></ActionSheet.Action>

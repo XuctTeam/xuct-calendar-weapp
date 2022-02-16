@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:50
- * @LastEditTime: 2022-01-31 15:44:05
+ * @LastEditTime: 2022-02-16 18:02:20
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -12,7 +12,7 @@ import Router from 'tarojs-router-next'
 import { View, Textarea } from '@tarojs/components'
 import { Cell, Field, Button, Switch, Input } from '@taroify/core'
 import { get, update, create } from '@/api/calendar'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { IUserInfo } from '~/../@types/user'
 import { showToast, back } from '@/utils/taro'
 import { ColorRadio, AlarmRadio } from './ui'
@@ -208,8 +208,7 @@ class CaldavCreate extends Component {
 
   render() {
     return (
-      <View className='vi-calendar-wrapper'>
-        <CommonHeader title={this.state.title} to={2} fixed left></CommonHeader>
+      <CommonMain className='vi-calendar-wrapper' title={this.state.title} to={2} fixed left>
         <View className='vi-calendar-wrapper_container'>
           <Cell.Group title='颜色'>
             <Cell>
@@ -263,7 +262,7 @@ class CaldavCreate extends Component {
             保存
           </Button>
         </View>
-      </View>
+      </CommonMain>
     )
   }
 }

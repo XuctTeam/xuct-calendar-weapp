@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-02-13 21:45:37
+ * @LastEditTime: 2022-02-16 13:49:17
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -165,7 +165,10 @@ export const showToast = (msg: string): void => {
   Taro.showToast({
     title: msg,
     icon: 'error',
-    duration: 1500
+    duration: 1500,
+    fail(res) {
+      console.log(res)
+    }
   })
 }
 

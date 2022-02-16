@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:39
- * @LastEditTime: 2022-01-30 13:07:20
+ * @LastEditTime: 2022-02-16 17:30:39
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Router from 'tarojs-router-next'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { IDavCalendar } from '~/../@types/calendar'
 import { DvaProps } from '~/../@types/dva'
 import { View } from '@tarojs/components'
@@ -84,15 +84,14 @@ class CaldavManager extends Component {
 
   render() {
     return (
-      <View className='vi-calendar-manager-wrapper'>
-        <CommonHeader title='日历管理' to={2} fixed left></CommonHeader>
+      <CommonMain className='vi-calendar-manager-wrapper' title='日历管理' to={2} fixed left>
         <CaldavList
           calendars={this.props.calendars}
           loading={this.props.refreshLoading}
           calendarRefresh={this.calendarRefresh.bind(this)}
           editCalendar={this.editCalendar.bind(this)}
         ></CaldavList>
-      </View>
+      </CommonMain>
     )
   }
 }

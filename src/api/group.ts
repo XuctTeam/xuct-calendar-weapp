@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-13 21:06:24
+ * @LastEditTime: 2022-02-16 15:19:07
  */
 import http from '@/utils/request'
 
@@ -29,4 +29,13 @@ export const groupList = (): Promise<any> => {
  */
 export const addGroup = (name: string, imageUrl: string) => {
   return http.post('/ums/api/app/v1/group', { name, imageUrl })
+}
+
+/**
+ * 搜索
+ * @param word
+ * @returns
+ */
+export const search = (word: string) => {
+  return http.get('/ums/api/app/v1/group/search', { word })
 }

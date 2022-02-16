@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 11:31:41
- * @LastEditTime: 2022-01-25 21:03:43
+ * @LastEditTime: 2022-02-16 16:20:35
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -24,7 +24,7 @@ const CalendarAction: React.FC<PageStateProps> = (props) => {
   }
 
   return (
-    <View className='vi-schedule-wrapper_calendar-action'>
+    <View className='vi-component-wrapper_calendar-action'>
       <ActionSheet open={props.open} onSelect={selected} onClose={props.closeHandler} onCancel={props.closeHandler}>
         <ActionSheet.Header>日历选择</ActionSheet.Header>
         {props.calendars.map((item, i) => {

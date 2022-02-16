@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-02-14 22:46:06
+ * @LastEditTime: 2022-02-16 13:39:37
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -47,20 +47,20 @@ export default {
       {
         pagePath: 'pages/index/index',
         text: '日程',
-        iconPath: 'assets/icon/index_gray.png',
-        selectedIconPath: 'assets/icon/index_active.png'
+        iconPath: 'assets/icon/index.png',
+        selectedIconPath: 'assets/icon/index_focus.png'
       },
       {
         pagePath: 'pages/contactmanager/index',
         text: '联系人',
-        iconPath: 'assets/icon/hot_gray.png',
-        selectedIconPath: 'assets/icon/hot_active.png'
+        iconPath: 'assets/icon/discovery.png',
+        selectedIconPath: 'assets/icon/discovery_focus.png'
       },
       {
         pagePath: 'pages/aboutme/index',
         text: '我的',
-        iconPath: 'assets/icon/my_gray.png',
-        selectedIconPath: 'assets/icon/my_active.png'
+        iconPath: 'assets/icon/burger.png',
+        selectedIconPath: 'assets/icon/burger_focus.png'
       }
     ]
   },

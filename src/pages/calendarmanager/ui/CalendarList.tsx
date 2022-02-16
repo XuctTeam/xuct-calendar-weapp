@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-08 09:07:48
- * @LastEditTime: 2022-01-30 13:03:43
+ * @LastEditTime: 2022-02-16 16:50:27
  * @LastEditors: Derek Xu
  */
 import { usePageScroll } from '@tarojs/taro'
@@ -34,7 +34,7 @@ const CalendarList: React.FC<IPageStateProps> = (props) => {
       }}
       style={{ height: '100%' }}
     >
-      <View style={{ marginTop: process.env.TARO_ENV === 'h5' ? '60px' : '0px' }}>
+      <View>
         {props.calendars.map((item) => {
           return <CalendarListBody key={item.id + ''} item={item} editCalendar={props.editCalendar}></CalendarListBody>
         })}

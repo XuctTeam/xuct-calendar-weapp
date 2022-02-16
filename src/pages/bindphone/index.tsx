@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-18 11:24:20
+ * @LastEditTime: 2022-02-16 18:07:16
  */
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
@@ -15,7 +15,7 @@ import Router from 'tarojs-router-next'
 import { View, Button as TaroButton } from '@tarojs/components'
 import { showToast, back } from '@/utils/taro'
 import { Cell, Button, Field, Input } from '@taroify/core'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
 import { getPhoneNumber, bindPhoneSmsCode, logout, bindPhone, unbindPhone } from '@/api/user'
 import { DvaProps } from '../../../@types/dva'
@@ -263,8 +263,7 @@ class Phone extends Component {
 
   render() {
     return (
-      <View className='vi-phone-wrapper'>
-        <CommonHeader title='手机号绑定' to={2} data={{ data: '0' }} fixed={false} left></CommonHeader>
+      <CommonMain className='vi-phone-wrapper' title='手机号绑定' to={2} data={{ data: '0' }} fixed={false} left>
         <Cell.Group className='vi-phone-wrapper_form' inset>
           <Field label='手机号'>
             <Input type='text' readonly={this.state.edit} value={this.state.phone} onChange={(e) => this.phoneChage(e.detail.value)} maxlength={11} />
@@ -291,7 +290,7 @@ class Phone extends Component {
             {this.state.edit ? '解绑' : '绑定'}
           </TaroButton>
         </View>
-      </View>
+      </CommonMain>
     )
   }
 }

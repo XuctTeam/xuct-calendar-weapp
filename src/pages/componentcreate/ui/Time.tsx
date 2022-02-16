@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 09:58:53
- * @LastEditTime: 2022-01-18 10:42:23
+ * @LastEditTime: 2022-02-16 16:20:52
  * @LastEditors: Derek Xu
  */
 import { View } from '@tarojs/components'
@@ -20,7 +20,7 @@ const Time: React.FC<PageStateProps> = (props) => {
   const week = dayjs(props.time).format('ddd')
   const second = dayjs(props.time).format('HH:mm')
   return (
-    <View className='vi-schedule-wrapper_time'>
+    <View className='vi-component-wrapper_time'>
       <Flex>
         <Flex.Item span={12}> {day}</Flex.Item>
         {props.fullDay === 0 ? <Flex.Item span={12}>{week}</Flex.Item> : <></>}

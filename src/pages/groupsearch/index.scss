@@ -4,30 +4,16 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-14 22:46:19
+ * @LastEditTime: 2022-02-16 15:57:19
  */
 
 .vi-group-search-warpper {
   height: 100%;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   &_container {
     height: 100%;
-    padding-top: 120px;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .form {
-    flex: 1;
-  }
-
-  .button {
-    margin: 30px;
-    padding-bottom: 120px;
+    overflow-y: auto;
   }
 }

@@ -2,21 +2,20 @@
  * @Description:  隐私协议
  * @Author: Derek Xu
  * @Date: 2022-01-25 10:21:50
- * @LastEditTime: 2022-02-07 15:32:05
+ * @LastEditTime: 2022-02-16 18:15:49
  * @LastEditors: Derek Xu
  */
 
 import { View } from '@tarojs/components'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import './index.scss'
 
 interface IPageStateProps {}
 
 const SelfPrivacy: React.FC<IPageStateProps> = () => {
   return (
-    <>
-      <CommonHeader title='隐私保护指引' left fixed to={2}></CommonHeader>
-      <View className='vi-selfprivacy-warpper' style={{ marginTop: process.env.TARO_ENV === 'h5' ? '40px' : '0px' }}>
+    <CommonMain className='vi-selfprivacy-warpper' title='隐私保护指引' left fixed to={2}>
+      <View>
         <View className='vi-selfprivacy-warpper_header'>
           <View className='title'>楚日历隐私保护指引</View>
         </View>
@@ -29,7 +28,10 @@ const SelfPrivacy: React.FC<IPageStateProps> = () => {
           <View>生效日期: 2022年1月1日</View>
         </View>
         <View>
-          <View className='preface'>
+          <View
+            className='preface'
+            style={{ marginBottom: process.env.TARO_ENV === 'h5' ? '100px' : '0px', paddingBottom: process.env.TARO_ENV === 'h5' ? '20px' : '10px' }}
+          >
             <View className='title'> 【政策摘要】 </View>
             <View className='section'>
               您的个人信息安全对我们来说至关重要，我们尊重并保护所有使用《楚日历》平台服务的用户的个人隐私权，并将依据《中华人民共和国网络安全法》、《信息安全技术个人信息安全规范》（GB/T
@@ -393,7 +395,7 @@ const SelfPrivacy: React.FC<IPageStateProps> = () => {
           </View>
         </View>
       </View>
-    </>
+    </CommonMain>
   )
 }
 

@@ -2,13 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 14:48:28
- * @LastEditTime: 2022-01-27 10:05:22
+ * @LastEditTime: 2022-02-16 17:24:47
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
 import { View } from '@tarojs/components'
 import { Button, Textarea } from '@taroify/core'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { DvaProps } from '~/../@types/dva'
 import { back } from '@/utils/taro'
 
@@ -51,8 +51,7 @@ class Sheduledesc extends Component {
 
   render() {
     return (
-      <View className='vi-desc-wrapper'>
-        <CommonHeader title='备注' to={1} fixed={false} left></CommonHeader>
+      <CommonMain className='vi-desc-wrapper' title='备注' to={1} fixed={false} left>
         <View className='vi-desc-wrapper_desc'>
           <Textarea
             value={this.state.description}
@@ -66,7 +65,7 @@ class Sheduledesc extends Component {
             保存
           </Button>
         </View>
-      </View>
+      </CommonMain>
     )
   }
 }

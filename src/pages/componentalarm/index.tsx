@@ -4,13 +4,13 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-02 15:31:09
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-24 15:15:09
+ * @LastEditTime: 2022-02-16 18:14:15
  */
 import React, { useEffect, useState } from 'react'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { Cell, Checkbox, Radio, Button } from '@taroify/core'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { back } from '@/utils/taro'
 
 import './index.scss'
@@ -75,8 +75,7 @@ const Componentalarm: React.FC<IPageStateProps> = () => {
   }
 
   return (
-    <View className='vi-schedulealarm-wrapper'>
-      <CommonHeader title='日程提醒' to={1} fixed={false} left></CommonHeader>
+    <CommonMain className='vi-schedulealarm-wrapper' title='日程提醒' to={1} fixed={false} left>
       <View className='vi-schedulealarm-wrapper_content'>
         <Radio.Group value={openAlarm} onChange={(e) => openAlarmChage(e)}>
           <Cell.Group clickable>
@@ -117,7 +116,7 @@ const Componentalarm: React.FC<IPageStateProps> = () => {
           保存
         </Button>
       </View>
-    </View>
+    </CommonMain>
   )
 }
 export default Componentalarm

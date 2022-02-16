@@ -2,29 +2,54 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-14 22:47:02
+ * @LastEditTime: 2022-02-16 18:20:24
  * @LastEditors: Derek Xu
  */
-import Taro from '@tarojs/taro'
-import { FunctionComponent, useRef, useState } from 'react'
-import { BaseEventOrig, FormProps, View } from '@tarojs/components'
-import { Button, Cell, Form, Input, Uploader } from '@taroify/core'
-import CommonHeader from '@/components/mixin'
-import { Toast, Search } from '@taroify/core'
-import { FormItemInstance } from '@taroify/core/form'
-import { showToast, getStorage, back } from '@/utils/taro'
-import { upload, addGroup } from '@/api/group'
+import { FunctionComponent, useState } from 'react'
+import { View } from '@tarojs/components'
+import { Search, Empty } from '@taroify/core'
+import CommonMain from '@/components/mixin'
+import { IGroup } from '~/../@types/group'
+import { search } from '@/api/group'
+import { GroupList } from './ui'
 
 import './index.scss'
 
 const GroupSearch: FunctionComponent = () => {
   const [value, setValue] = useState('')
+  const [list, setList] = useState<IGroup[]>([])
+
+  const searchHandle = () => {
+    search(value)
+      .then((res) => {
+        setList(res as any as Array<IGroup>)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   return (
-    <View className='vi-group-search-warpper'>
-      <CommonHeader title='加入群组' fixed to={4} left></CommonHeader>
-      <Search value={value} placeholder='请输入搜索关键词' action onChange={(e) => setValue(e.detail.value)} onCancel={() => setValue('')} />
-    </View>
+    <CommonMain className='vi-group-search-warpper' title='加入群组' fixed to={4} left>
+      <View className='vi-group-search-warpper_container'>
+        <Search
+          value={value}
+          placeholder='请输入搜索关键词'
+          action={<View onClick={() => searchHandle()}>搜索</View>}
+          onChange={(e) => setValue(e.detail.value)}
+        />
+        <View>
+          {list?.length === 0 ? (
+            <Empty>
+              <Empty.Image src='search' />
+              <Empty.Description>结果为空</Empty.Description>
+            </Empty>
+          ) : (
+            <GroupList groups={list}></GroupList>
+          )}
+        </View>
+      </View>
+    </CommonMain>
   )
 }
 

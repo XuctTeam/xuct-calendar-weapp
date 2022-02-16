@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-07 10:37:58
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-25 14:41:49
+ * @LastEditTime: 2022-02-16 13:50:49
  */
 import { Component } from 'react'
 import { connect } from 'react-redux'
@@ -144,7 +144,6 @@ class Login extends Component {
       })
       .catch((error) => {
         console.log(error)
-        showToast('账号或密码无效')
         return false
       })
   }
@@ -167,25 +166,29 @@ class Login extends Component {
   render() {
     return (
       <View className='vi-login-wrapper'>
-        {process.env.TARO_ENV === 'h5' && (
-          <View className='back-btn' onClick={() => this.back()}>
-            <ArrowLeft />
-          </View>
-        )}
-        <View className='right-top-sign' />
-        <View className='left-bottom-sign'></View>
-        <View className='vi-login-wrapper_logo'>
-          <Image src='http://images.xuct.com.cn/login_default.png' mode='aspectFit'></Image>
-        </View>
-        <View className='wrapper'>
-          {process.env.TARO_ENV !== 'h5' ? (
-            <WechatForm code={this.state.icode ? this.state.icode.code : ''} onGetUserInfo={this.loginByCode.bind(this)} />
-          ) : (
-            <H5Form loginByPhoneOrUsername={this.loginByPhoneOrUsername.bind(this)} />
+        <View className='section'>
+          {process.env.TARO_ENV === 'h5' && (
+            <View className='back-btn' onClick={() => this.back()}>
+              <ArrowLeft />
+            </View>
           )}
+          <View className='right-top-sign' />
+          <View className='vi-login-wrapper_logo'>
+            <Image src='http://images.xuct.com.cn/login_default.png' mode='aspectFit'></Image>
+          </View>
+          <View className='wrapper'>
+            {process.env.TARO_ENV !== 'h5' ? (
+              <WechatForm code={this.state.icode ? this.state.icode.code : ''} onGetUserInfo={this.loginByCode.bind(this)} />
+            ) : (
+              <H5Form loginByPhoneOrUsername={this.loginByPhoneOrUsername.bind(this)} />
+            )}
+          </View>
         </View>
-        <View className='register'>
-          还没账号? <a href='javascript#;'>去注册</a>
+        <View className='footer'>
+          <View className='left-bottom-sign'></View>
+          <View className='register'>
+            还没账号? <a href='javascript#;'>去注册</a>
+          </View>
         </View>
       </View>
     )

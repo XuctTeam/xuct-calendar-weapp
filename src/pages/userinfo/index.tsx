@@ -5,9 +5,9 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-28 15:00:54
+ * @LastEditTime: 2022-02-16 18:06:03
  */
-import { Component } from 'react'
+import { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Taro from '@tarojs/taro'
@@ -16,7 +16,7 @@ import { View } from '@tarojs/components'
 import { ArrowRight } from '@taroify/icons'
 import { Cell, Button, Image } from '@taroify/core'
 import { showToast } from '@/utils/taro'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { updateName, baseUserInfo, logout, auths } from '@/api/user'
 import { DvaProps } from '../../../@types/dva'
 import { IUserInfo, IUserAuth } from '../../../@types/user'
@@ -238,38 +238,39 @@ class User extends Component {
     }
 
     return (
-      <View className='vi-user-wrapper'>
-        <CommonHeader title='我的' fixed={false} left to={2}></CommonHeader>
-        <View className='vi-user-wrapper_menu'>
-          <Cell title='头像' align='center'>
-            <Image lazyLoad style={{ width: '40px', height: '40px' }} src={avatar} round />
-          </Cell>
-          <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => this.setState({ nameOpen: true })}>
-            {name}
-          </Cell>
-          <Cell title='登录账号' rightIcon={<ArrowRight />} clickable onClick={() => this.toModifyUserName(userNameAuth.username)}>
-            {userNameAuth.username ? userNameAuth.username : '未绑定'}
-          </Cell>
-          <Cell title='手机号' rightIcon={<ArrowRight />} clickable onClick={this.toModifyPhone.bind(this, phoneAuth.username)}>
-            {phoneAuth.username ? phoneAuth.username : '未绑定'}
-          </Cell>
-          <Cell title='微信' rightIcon={<ArrowRight />} clickable>
-            {wxAuth ? wxAuth.nickName : ''}
-          </Cell>
-          <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => Router.toModifypassword()}></Cell>
-        </View>
-        <View className='vi-user-wrapper_button'>
-          <Button color='warning' block onClick={this.logout.bind(this)}>
-            退出登录
-          </Button>
-        </View>
+      <Fragment>
+        <CommonMain className='vi-user-wrapper' title='我的' fixed={false} left to={2}>
+          <View className='vi-user-wrapper_menu'>
+            <Cell title='头像' align='center'>
+              <Image lazyLoad style={{ width: '40px', height: '40px' }} src={avatar} round />
+            </Cell>
+            <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => this.setState({ nameOpen: true })}>
+              {name}
+            </Cell>
+            <Cell title='登录账号' rightIcon={<ArrowRight />} clickable onClick={() => this.toModifyUserName(userNameAuth.username)}>
+              {userNameAuth.username ? userNameAuth.username : '未绑定'}
+            </Cell>
+            <Cell title='手机号' rightIcon={<ArrowRight />} clickable onClick={this.toModifyPhone.bind(this, phoneAuth.username)}>
+              {phoneAuth.username ? phoneAuth.username : '未绑定'}
+            </Cell>
+            <Cell title='微信' rightIcon={<ArrowRight />} clickable>
+              {wxAuth ? wxAuth.nickName : ''}
+            </Cell>
+            <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => Router.toModifypassword()}></Cell>
+          </View>
+          <View className='vi-user-wrapper_button'>
+            <Button color='warning' block onClick={this.logout.bind(this)}>
+              退出登录
+            </Button>
+          </View>
+        </CommonMain>
         <ModifyName
           open={this.state.nameOpen}
           name={name}
           closeHanler={this.modifyNameClose.bind(this)}
           modifyNameHandler={this.modifyNameHandler.bind(this)}
         ></ModifyName>
-      </View>
+      </Fragment>
     )
   }
 }
