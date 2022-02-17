@@ -2,27 +2,20 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-16 10:42:44
+ * @LastEditTime: 2022-02-17 13:37:17
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
+import { Cell } from '@taroify/core'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
-import { Cell } from '@taroify/core'
 import { Arrow, FriendsOutlined } from '@taroify/icons'
+import { IDvaCommonProps } from '~/../@types/dva'
 import { UserList } from './ui'
 
-interface ICommonProps {
-  accessToken: string
-}
-
-interface IDvaStateProps {
-  common: ICommonProps
-}
-
 const Index: FunctionComponent = () => {
-  const accessToken = useSelector<IDvaStateProps>((state) => state.common.accessToken)
+  const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
 
   const mineGroupClickHandle = () => {
     if (!accessToken) {

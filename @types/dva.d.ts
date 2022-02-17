@@ -2,7 +2,7 @@
  * @Description:dva 定义属性
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2021-11-05 13:30:54
+ * @LastEditTime: 2022-02-17 13:37:48
  * @LastEditors: Derek Xu
  */
 //import { Dispatch } from 'redux'
@@ -16,4 +16,12 @@ interface IDvaLoadingProps {
 export interface DvaProps {
   dispatch: any
   loading?: IDvaLoadingProps
+}
+
+interface ICommonProps {
+  accessToken: string
+}
+
+export interface IDvaCommonProps {
+  common: ICommonProps
 }

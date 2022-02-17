@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 15:57:19
+ * @LastEditTime: 2022-02-17 10:43:31
  */
 
 .vi-group-search-warpper {
@@ -15,5 +15,24 @@
   &_container {
     height: 100%;
     overflow-y: auto;
+
+    .cell {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .taroify-avatar {
+        width: 60px;
+      }
+
+      .label {
+        font-size: 24px;
+        padding-left: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
   }
 }

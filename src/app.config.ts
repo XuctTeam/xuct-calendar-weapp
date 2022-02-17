@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-02-16 13:39:37
+ * @LastEditTime: 2022-02-17 13:21:43
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -13,7 +13,7 @@ export default {
     'pages/contactmanager/index',
     'pages/index/index',
     'pages/aboutme/index',
-    'pages/notice/index',
+    'pages/messagemanager/index',
     'pages/login/index',
     'pages/userinfo/index',
     'pages/bindphone/index',
@@ -55,6 +55,12 @@ export default {
         text: '联系人',
         iconPath: 'assets/icon/discovery.png',
         selectedIconPath: 'assets/icon/discovery_focus.png'
+      },
+      {
+        pagePath: 'pages/messagemanager/index',
+        text: '消息',
+        iconPath: 'assets/icon/chat.png',
+        selectedIconPath: 'assets/icon/chat_focus.png'
       },
       {
         pagePath: 'pages/aboutme/index',

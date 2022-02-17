@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-16 16:42:00
+ * @LastEditTime: 2022-02-17 09:39:13
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
 import { FunctionComponent, useRef, useState } from 'react'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
 import { Button, Cell, Form, Input, Uploader } from '@taroify/core'
-import CommonHeader from '@/components/mixin'
+import CommonMain from '@/components/mixin'
 import { FormItemInstance } from '@taroify/core/form'
 import { showToast, getStorage, back } from '@/utils/taro'
 import { upload, addGroup } from '@/api/group'
@@ -98,10 +98,9 @@ const GroupCreate: FunctionComponent = () => {
   }
 
   return (
-    <View className='vi-group-create-warpper'>
-      <CommonHeader title='新建群组' fixed to={4} left></CommonHeader>
-      <View className='vi-group-create-warpper_container' style={{ paddingTop: process.env.TARO_ENV === 'h5' ? '50px' : '0px' }}>
-        <Form defaultValues={{ validatorMessage: 'abc' }} onSubmit={onSubmit}>
+    <CommonMain className='vi-group-create-warpper' title='新建群组' fixed to={4} left>
+      <Form onSubmit={onSubmit}>
+        <View className='main'>
           <View className='form'>
             <Cell.Group inset>
               <Form.Item ref={itemRef} name='uploader'>
@@ -123,9 +122,9 @@ const GroupCreate: FunctionComponent = () => {
               提交
             </Button>
           </View>
-        </Form>
-      </View>
-    </View>
+        </View>
+      </Form>
+    </CommonMain>
   )
 }
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-02-13 10:13:37
+ * @LastEditTime: 2022-02-17 09:22:50
  * @LastEditors: Derek Xu
  */
 /* eslint-disable import/no-commonjs */
@@ -20,6 +20,8 @@ const config = {
   outputRoot: 'dist',
   plugins: ['tarojs-router-next-plugin'],
   defineConstants: {
+    /* 腾讯地图使用 */
+    LOCATION_APIKEY: JSON.stringify('5Y6BZ-LHMWU-HM2VX-45SUU-RDESJ-4VBGR'),
     /* h5端的认证 */
     H5_CLIENT_INFO: JSON.stringify({
       CLIENT_ID: 'app_id',

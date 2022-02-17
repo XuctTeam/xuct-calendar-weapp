@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.tsx
- * @LastEditTime: 2022-01-11 13:35:20
+ * @LastEditTime: 2022-02-17 14:50:27
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -29,6 +29,7 @@ dayjs.extend(weekday, { offset: 1 })
 dayjs.locale('zh-cn') // use locale
 
 const store = dvaApp.getStore()
+
 class App extends Component {
   componentDidMount() {}
 

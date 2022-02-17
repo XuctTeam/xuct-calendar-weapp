@@ -2,11 +2,11 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-02-16 16:49:07
+ * @LastEditTime: 2022-02-17 18:09:41
  * @LastEditors: Derek Xu
  */
 import React, { useRef, useState } from 'react'
-import { Search } from '@taroify/core'
+import { Empty, Search } from '@taroify/core'
 import Router from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
 import { View } from '@tarojs/components'
@@ -41,9 +41,8 @@ const ComponentSearch: React.FC<IPageStateProps> = () => {
    */
   const refresh = () => {
     console.log('---- onload -----')
-
     setLoading(true)
-    search(value, page.current, 2)
+    search(value, page.current, 1)
       .then((res) => {
         setLoading(false)
         const searchData: ICalendarPageComponent = res as any as ICalendarPageComponent
@@ -102,20 +101,25 @@ const ComponentSearch: React.FC<IPageStateProps> = () => {
   }
 
   return (
-    <View className='vi-search-wrapper'>
-      <CommonMain title='日程搜索' left to={1} fixed>
-        <View>
-          <Search
-            value={value}
-            placeholder='请输入搜索关键词'
-            action={<View onClick={() => toSearch()}>搜索</View>}
-            onChange={(e) => setValue(e.detail.value)}
-            onClear={() => clean()}
-          />
+    <CommonMain className='vi-search-wrapper' title='日程搜索' left to={1} fixed>
+      <View className='vi-search-wrapper_container'>
+        <Search
+          value={value}
+          placeholder='请输入搜索关键词'
+          action={<View onClick={() => toSearch()}>搜索</View>}
+          onChange={(e) => setValue(e.detail.value)}
+          onClear={() => clean()}
+        />
+        {list.length === 0 ? (
+          <Empty>
+            <Empty.Image src='search' />
+            <Empty.Description>暂无数据</Empty.Description>
+          </Empty>
+        ) : (
           <ComponentList loading={loading} hasMore={hasMore} list={list} refresh={refresh} viewComponent={viewComponent}></ComponentList>
-        </View>
-      </CommonMain>
-    </View>
+        )}
+      </View>
+    </CommonMain>
   )
 }
 

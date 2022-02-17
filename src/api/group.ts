@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 15:19:07
+ * @LastEditTime: 2022-02-17 13:04:39
  */
 import http from '@/utils/request'
 
@@ -38,4 +38,13 @@ export const addGroup = (name: string, imageUrl: string) => {
  */
 export const search = (word: string) => {
   return http.get('/ums/api/app/v1/group/search', { word })
+}
+
+/**
+ * 申请加入群组
+ * @param id
+ * @returns
+ */
+export const apply = (id: string) => {
+  return http.post('/ums/api/app/v1/group/apply', { id })
 }

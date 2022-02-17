@@ -4,10 +4,10 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-09 19:39:54
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-09 19:40:55
+ * @LastEditTime: 2022-02-17 09:25:30
  */
 
-import React, { Fragment, FunctionComponent } from 'react'
+import { Fragment, FunctionComponent } from 'react'
 import { Cell, IndexList } from '@taroify/core'
 import _ from 'lodash'
 
