@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-17 14:55:10
+ * @LastEditTime: 2022-02-19 09:05:50
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -24,10 +24,6 @@ const MessageManager: FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [scrollTop, setScrollTop] = useState(0)
-
-  const heightStyle = (): React.CSSProperties => ({
-    height: process.env.TARO_ENV === 'h5' ? `calc(100% - 60px)` : `calc(100% - 60px)`
-  })
 
   useEffect(() => {
     if (accessToken) {
@@ -55,13 +51,13 @@ const MessageManager: FunctionComponent = () => {
         <Search value={value} placeholder='请输入搜索关键词' action={<View onClick={() => 111}>搜索</View>} onChange={(e) => setValue(e.detail.value)} />
       </View>
 
-      <View style={heightStyle()}>
-        {messages.length === 0 ? (
-          <Empty>
-            <Empty.Image />
-            <Empty.Description>暂无数据</Empty.Description>
-          </Empty>
-        ) : (
+      {messages.length === 0 ? (
+        <Empty>
+          <Empty.Image />
+          <Empty.Description>暂无数据</Empty.Description>
+        </Empty>
+      ) : (
+        <View className='vi-message-manager-warpper_list'>
           <ScrollView
             scrollY
             style={{ height: '100%' }}
@@ -79,8 +75,8 @@ const MessageManager: FunctionComponent = () => {
               </List.Placeholder>
             </List>
           </ScrollView>
-        )}
-      </View>
+        </View>
+      )}
     </CommonMain>
   )
 }

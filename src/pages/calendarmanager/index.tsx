@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:39
- * @LastEditTime: 2022-02-16 17:30:39
+ * @LastEditTime: 2022-02-19 20:45:16
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -84,7 +84,7 @@ class CaldavManager extends Component {
 
   render() {
     return (
-      <CommonMain className='vi-calendar-manager-wrapper' title='日历管理' to={2} fixed left>
+      <CommonMain className='vi-calendar-manager-wrapper' title='日历管理' to={4} fixed left>
         <CaldavList
           calendars={this.props.calendars}
           loading={this.props.refreshLoading}

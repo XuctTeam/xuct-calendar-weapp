@@ -1,4 +1,8 @@
 .vi-message-manager-warpper {
   flex-direction: column;
   width: 100%;
+
+  &_list {
+    height: 100%;
+  }
 }

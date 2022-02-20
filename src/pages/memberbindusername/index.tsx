@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-16 18:07:57
+ * @LastEditTime: 2022-02-20 21:40:21
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -45,11 +45,11 @@ const BindUserName: FunctionComponent = () => {
   }
 
   return (
-    <CommonMain className='vi-bind-username-warpper' title='账号绑定' fixed={false} left to={2}>
+    <CommonMain className='vi-bind-username-warpper' title='账号绑定' fixed={false} left to={4}>
       <Form onSubmit={onSubmit} className='vi-bind-username-warpper_content'>
         <View className='form'>
           <Cell.Group inset>
-            <Form.Item name='username' rules={[{ required: true, message: '请填写用户名' }]}>
+            <Form.Item name='username' rules={[{ message: '8到16位（字母、数字、下划线、减号', pattern: /^[a-zA-Z0-9_-]{8,16}$/ }]}>
               <Form.Label>用户名</Form.Label>
               <Form.Control>
                 <Input placeholder='用户名' disabled={!edit} clearable value={username} />

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-01-27 22:02:33
+ * @LastEditTime: 2022-02-20 21:52:34
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -22,6 +22,14 @@ export const sendSmsCode = (phone: String): Promise<any> => {
  */
 export const logout = (): Promise<any> => {
   return http.delete('/uaa/oauth/logout')
+}
+
+/**
+ * 获取注册验证码
+ * @returns
+ */
+export const captcha = (): Promise<any> => {
+  return http.get('/uaa/captcha')
 }
 
 /**
@@ -108,4 +116,13 @@ export const unbindPhone = (code: string): Promise<any> => {
  */
 export const bindUserName = (formData: any) => {
   return http.post('/ums/api/app/v1/member/username/bind', formData)
+}
+
+/**
+ * 会员注册
+ * @param formData
+ * @returns
+ */
+export const register = (formData: any) => {
+  return http.post('/ums/api/app/v1/member/register', formData)
 }

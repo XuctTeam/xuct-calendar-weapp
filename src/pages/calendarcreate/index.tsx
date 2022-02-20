@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:50
- * @LastEditTime: 2022-02-16 18:02:20
+ * @LastEditTime: 2022-02-19 20:43:39
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -208,7 +208,7 @@ class CaldavCreate extends Component {
 
   render() {
     return (
-      <CommonMain className='vi-calendar-wrapper' title={this.state.title} to={2} fixed left>
+      <CommonMain className='vi-calendar-wrapper' title={this.state.title} to={4} fixed left>
         <View className='vi-calendar-wrapper_container'>
           <Cell.Group title='颜色'>
             <Cell>

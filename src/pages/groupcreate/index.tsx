@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-17 09:39:13
+ * @LastEditTime: 2022-02-19 20:46:49
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -98,7 +98,7 @@ const GroupCreate: FunctionComponent = () => {
   }
 
   return (
-    <CommonMain className='vi-group-create-warpper' title='新建群组' fixed to={4} left>
+    <CommonMain className='vi-group-create-warpper' title='新建群组' fixed to={2} left>
       <Form onSubmit={onSubmit}>
         <View className='main'>
           <View className='form'>

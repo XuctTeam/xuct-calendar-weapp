@@ -2,14 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:29:20
- * @LastEditTime: 2022-02-16 11:50:23
+ * @LastEditTime: 2022-02-19 20:34:40
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
 import { View } from '@tarojs/components'
 import { Button, Checkbox } from '@taroify/core'
 import { Navigator } from '@tarojs/components'
-import Router from 'tarojs-router-next'
 import { showToast } from '@/utils/taro'
 
 type IPageStateProps = {

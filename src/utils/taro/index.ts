@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-02-16 13:49:17
+ * @LastEditTime: 2022-02-19 20:48:59
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -204,11 +204,16 @@ export const back = (to: number, data?: any) => {
     if (to === 1) {
       Router.toIndex({ type: NavigateType.switchTab })
     } else if (to === 2) {
-      Router.toAboutme({ type: NavigateType.switchTab })
-    } else if (to === 3) {
-      Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: data })
-    } else if (to === 4) {
+      //Router.toAboutme({ type: NavigateType.switchTab })
       Router.toContactmanager({ type: NavigateType.switchTab })
+    } else if (to === 3) {
+      Router.toMessagemanager({ type: NavigateType.switchTab })
+      //Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: data })
+    } else if (to === 4) {
+      //Router.toContactmanager({ type: NavigateType.switchTab })
+      Router.toAboutme({ type: NavigateType.switchTab })
+    } else if (to === 5) {
+      Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: data })
     }
   }
 }

@@ -5,6 +5,11 @@
 
   &_menu {
     flex: 1;
+
+    .avatar {
+      display: inline-block;
+      padding-right: 30px;
+    }
   }
 
   &_button {

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-07 10:37:58
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 13:50:49
+ * @LastEditTime: 2022-02-19 20:34:23
  */
 import { Component } from 'react'
 import { connect } from 'react-redux'
@@ -12,7 +12,7 @@ import Taro from '@tarojs/taro'
 import Router, { NavigateType } from 'tarojs-router-next'
 import dayjs from 'dayjs'
 import { bindActionCreators } from 'redux'
-import { View, Image } from '@tarojs/components'
+import { View, Image, Navigator } from '@tarojs/components'
 import { ArrowLeft } from '@taroify/icons'
 import { showToast } from '@/utils/taro'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/token'
@@ -187,7 +187,10 @@ class Login extends Component {
         <View className='footer'>
           <View className='left-bottom-sign'></View>
           <View className='register'>
-            还没账号? <a href='javascript#;'>去注册</a>
+            还没账号?
+            <Navigator url='/pages/memberregister/index' openType='navigate'>
+              去注册
+            </Navigator>
           </View>
         </View>
       </View>

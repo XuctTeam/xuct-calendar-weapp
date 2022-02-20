@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-02-04 16:17:53
+ * @LastEditTime: 2022-02-19 20:30:45
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -40,7 +40,7 @@ export default function Setting(props: SettingProps) {
     } else if (params === 4) {
       Router.toCustomerservice()
     } else if (params === 5) {
-      Router.toUserinfo()
+      Router.toMemberinfo()
     }
   }
 

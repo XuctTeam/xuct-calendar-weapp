@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 18:19:22
+ * @LastEditTime: 2022-02-19 20:46:53
  */
 import { FunctionComponent, useEffect, useState } from 'react'
 import CommonMain from '@/components/mixin'
@@ -54,7 +54,7 @@ const Index: FunctionComponent = () => {
   }
 
   return (
-    <CommonMain className='vi-group-manager-wrapper' title='我的群组' fixed to={4} left>
+    <CommonMain className='vi-group-manager-wrapper' title='我的群组' fixed to={2} left>
       <View className='vi-group-manager-wrapper_container'>
         <Cell icon={<AddOutlined />} title='添加群组' bordered clickable onClick={() => addGroupHandler()}></Cell>
         <Cell icon={<Search />} title='加入群组' bordered clickable onClick={() => searchGroupHandler()}></Cell>

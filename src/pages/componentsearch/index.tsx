@@ -2,7 +2,7 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-02-17 18:09:41
+ * @LastEditTime: 2022-02-19 09:04:04
  * @LastEditors: Derek Xu
  */
 import React, { useRef, useState } from 'react'
@@ -42,7 +42,7 @@ const ComponentSearch: React.FC<IPageStateProps> = () => {
   const refresh = () => {
     console.log('---- onload -----')
     setLoading(true)
-    search(value, page.current, 1)
+    search(value, page.current, 20)
       .then((res) => {
         setLoading(false)
         const searchData: ICalendarPageComponent = res as any as ICalendarPageComponent

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-22 16:48:03
- * @LastEditTime: 2022-02-16 17:22:22
+ * @LastEditTime: 2022-02-19 20:43:49
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -113,30 +113,27 @@ class Location extends Component {
 
   render() {
     return (
-      <View className='vi-location-wrapper'>
-        <CommonMain title='地理坐标' to={2} fixed={false} left>
-          <Cell.Group inset className='vi-location-wrapper_content'>
-            <Textarea
-              style={{ width: '100%', height: '300px' }}
-              limit={300}
-              placeholder='请输入地址'
-              value={this.state.location}
-              onInput={(e) => this.locationChage(e.detail.value)}
-            ></Textarea>
-          </Cell.Group>
-        </CommonMain>
+      <CommonMain className='vi-location-wrapper' title='地理坐标' to={4} fixed={false} left>
+        <Cell.Group inset className='vi-location-wrapper_content'>
+          <Textarea
+            style={{ width: '100%', height: '300px' }}
+            limit={300}
+            placeholder='请输入地址'
+            value={this.state.location}
+            onInput={(e) => this.locationChage(e.detail.value)}
+          ></Textarea>
+        </Cell.Group>
         <View className='vi-location-wrapper_button'>
           <View className='save'>
             <Button color='success' block onClick={this.saveLocation.bind(this)}>
               保存
             </Button>
           </View>
-
           <Button color='warning' block onClick={this.openLocation.bind(this)}>
             获取位置
           </Button>
         </View>
-      </View>
+      </CommonMain>
     )
   }
 }

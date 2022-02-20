@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 18:14:53
+ * @LastEditTime: 2022-02-19 20:45:29
  */
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
@@ -94,7 +94,7 @@ class Password extends Component {
 
   render() {
     return (
-      <CommonMain className='vi-password-wrapper' title='修改密码' to={2} data={{ data: '0' }} fixed={false} left>
+      <CommonMain className='vi-password-wrapper' title='修改密码' to={4} data={{ data: '0' }} fixed={false} left>
         <Cell.Group className='vi-password-wrapper_form' inset>
           <Field label='密码' required>
             <Input

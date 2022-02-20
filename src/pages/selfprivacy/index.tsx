@@ -2,7 +2,7 @@
  * @Description:  隐私协议
  * @Author: Derek Xu
  * @Date: 2022-01-25 10:21:50
- * @LastEditTime: 2022-02-16 18:15:49
+ * @LastEditTime: 2022-02-19 20:45:07
  * @LastEditors: Derek Xu
  */
 
@@ -14,7 +14,7 @@ interface IPageStateProps {}
 
 const SelfPrivacy: React.FC<IPageStateProps> = () => {
   return (
-    <CommonMain className='vi-selfprivacy-warpper' title='隐私保护指引' left fixed to={2}>
+    <CommonMain className='vi-selfprivacy-warpper' title='隐私保护指引' left fixed to={4}>
       <View>
         <View className='vi-selfprivacy-warpper_header'>
           <View className='title'>楚日历隐私保护指引</View>

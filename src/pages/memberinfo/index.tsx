@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 18:06:03
+ * @LastEditTime: 2022-02-20 22:22:06
  */
 import { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
@@ -14,7 +14,7 @@ import Taro from '@tarojs/taro'
 import Router, { NavigateType } from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { ArrowRight } from '@taroify/icons'
-import { Cell, Button, Image } from '@taroify/core'
+import { Cell, Button, Image, Avatar } from '@taroify/core'
 import { showToast } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
 import { updateName, baseUserInfo, logout, auths } from '@/api/user'
@@ -117,7 +117,7 @@ class User extends Component {
 
   toModifyPhone = async (phone: string) => {
     try {
-      const result = await Router.toBindphone({
+      const result = await Router.toMemberbindphone({
         data: phone
       })
       if (result && result.data === '1') {
@@ -144,7 +144,7 @@ class User extends Component {
    */
   toModifyUserName = async (username: string) => {
     try {
-      const result = await Router.toBindusername({
+      const result = await Router.toMemberbindusername({
         data: { username: username, edit: !username }
       })
       if (result && result.data === '1') {
@@ -239,10 +239,10 @@ class User extends Component {
 
     return (
       <Fragment>
-        <CommonMain className='vi-user-wrapper' title='我的' fixed={false} left to={2}>
+        <CommonMain className='vi-user-wrapper' title='我的' fixed={false} left to={4}>
           <View className='vi-user-wrapper_menu'>
             <Cell title='头像' align='center'>
-              <Image lazyLoad style={{ width: '40px', height: '40px' }} src={avatar} round />
+              <View className='avatar'>{avatar ? <Avatar src={avatar} size='small' /> : <Avatar>U</Avatar>}</View>
             </Cell>
             <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => this.setState({ nameOpen: true })}>
               {name}
@@ -256,7 +256,7 @@ class User extends Component {
             <Cell title='微信' rightIcon={<ArrowRight />} clickable>
               {wxAuth ? wxAuth.nickName : ''}
             </Cell>
-            <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => Router.toModifypassword()}></Cell>
+            <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => Router.toMembermodifypassword()}></Cell>
           </View>
           <View className='vi-user-wrapper_button'>
             <Button color='warning' block onClick={this.logout.bind(this)}>
