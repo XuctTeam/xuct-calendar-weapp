@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-21 18:20:04
+ * @LastEditTime: 2022-02-21 21:46:21
  */
 import { Key, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -19,24 +19,25 @@ import { MessageBody } from './ui'
 import './index.scss'
 
 const MessageManager: FunctionComponent = () => {
-  const page = useRef<number>(0)
+  const pageRef = useRef<number>(0)
   const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
   const [messages, setMessages] = useState<Array<IMessage>>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [scrollTop, setScrollTop] = useState(0)
   const [status, setStatus] = useState<number>(2)
+  const [sort, setSort] = useState<number>(0)
 
   useEffect(() => {
     if (accessToken) {
-      refresh(status)
+      refresh(status, sort)
     }
   }, [])
 
-  const refresh = (sts: number) => {
+  const refresh = (sts: number, sot: number) => {
     console.log('---- onload -----')
     setLoading(true)
-    list(page.current, 20, sts, 1)
+    list(pageRef.current, 20, sts, sot)
       .then((res) => {
         _fillMessage(res as any as IMessagePageComponent)
       })
@@ -47,9 +48,17 @@ const MessageManager: FunctionComponent = () => {
   }
 
   const statusChageHandler = (val: any) => {
-    setStatus(val)
     setMessages([])
-    refresh(val)
+    pageRef.current = 0
+    setStatus(val)
+    refresh(val, sort)
+  }
+
+  const sortChageHandler = (val: any) => {
+    setMessages([])
+    pageRef.current = 0
+    setSort(val)
+    refresh(status, val)
   }
 
   const _fillMessage = (res: IMessagePageComponent) => {
@@ -65,10 +74,10 @@ const MessageManager: FunctionComponent = () => {
         <DropdownMenu>
           <DropdownMenu.Item value={status} onChange={statusChageHandler}>
             <DropdownMenu.Option value={2}>全部消息</DropdownMenu.Option>
-            <DropdownMenu.Option value={0}>已读消息</DropdownMenu.Option>
-            <DropdownMenu.Option value={1}>未读消息</DropdownMenu.Option>
+            <DropdownMenu.Option value={0}>未读消息</DropdownMenu.Option>
+            <DropdownMenu.Option value={1}>已读消息</DropdownMenu.Option>
           </DropdownMenu.Item>
-          <DropdownMenu.Item>
+          <DropdownMenu.Item value={sort} onChange={sortChageHandler}>
             <DropdownMenu.Option value={0}>默认排序</DropdownMenu.Option>
             <DropdownMenu.Option value={1}>时间排序</DropdownMenu.Option>
             <DropdownMenu.Option value={2}>类型排序</DropdownMenu.Option>

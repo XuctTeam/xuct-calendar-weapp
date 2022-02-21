@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-11 13:20:49
- * @LastEditTime: 2022-01-16 10:18:55
+ * @LastEditTime: 2022-02-21 22:55:58
  * @LastEditors: Derek Xu
  */
 import { IDavCalendar } from '~/../@types/calendar'
@@ -62,6 +62,22 @@ export default {
         return { ...state, calendars }
       }
       return { ...state, calendars: [...state.calendars, ...Array.of([calendar])] }
+    },
+
+    /**
+     * 更新日历创建者名称
+     * @param state
+     * @param param1
+     */
+    updateCalendarMemberName(state, { payload }) {
+      const calendar = payload as any as IDavCalendar
+      const calendars = [...state.calendars]
+      calendars.forEach((c) => {
+        if ((c.createMemberId = calendar.createMemberId)) {
+          c.createMemberName = calendar.createMemberName
+        }
+      })
+      return { ...state, calendars }
     }
   }
 }

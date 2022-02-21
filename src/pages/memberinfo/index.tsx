@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-20 22:22:06
+ * @LastEditTime: 2022-02-21 22:55:08
  */
 import { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
@@ -33,6 +33,7 @@ interface ModelProps extends DvaProps {
 type PageDispatchProps = {
   remove: (payload) => void
   save: (payload) => void
+  updateCalendarMemberName: (payload) => void
 }
 type PageOwnProps = {}
 type PageStateProps = {
@@ -46,6 +47,8 @@ interface User {
 }
 
 const connects: Function = connect
+
+const defaultAvatar = 'http://images.xuct.com.cn/avatar_default.png'
 
 @connects(
   ({ common, loading }) => ({
@@ -178,6 +181,10 @@ class User extends Component {
       .then(() => {
         /** 刷新用户 */
         this._updateUserInfo()
+        this.props.updateCalendarMemberName({
+          createMemberId: this.props.userInfo.id,
+          createMemberName: name
+        })
       })
       .catch((err) => {
         console.log(err)
@@ -242,7 +249,7 @@ class User extends Component {
         <CommonMain className='vi-user-wrapper' title='我的' fixed={false} left to={4}>
           <View className='vi-user-wrapper_menu'>
             <Cell title='头像' align='center'>
-              <View className='avatar'>{avatar ? <Avatar src={avatar} size='small' /> : <Avatar>U</Avatar>}</View>
+              <Avatar src={avatar ? avatar : defaultAvatar} />
             </Cell>
             <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => this.setState({ nameOpen: true })}>
               {name}

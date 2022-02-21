@@ -6,9 +6,8 @@
   &_menu {
     flex: 1;
 
-    .avatar {
+    .taroify-avatar {
       display: inline-block;
-      padding-right: 30px;
     }
   }
 
@@ -32,9 +31,4 @@
       margin: 20px;
     }
   }
-}
-
-.taroify-navbar {
-  margin-bottom: 10px;
-  border-bottom: 10px solid #f2f2f2;
 }
