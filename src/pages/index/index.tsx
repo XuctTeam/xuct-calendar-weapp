@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-02-16 18:08:45
+ * @LastEditTime: 2022-02-22 16:18:19
  * @LastEditors: Derek Xu
  */
 import React, { Component, Fragment } from 'react'
@@ -18,6 +18,7 @@ import dayjs from 'dayjs'
 import { DvaProps } from '~/../@types/dva'
 import { ICurrentDay } from '~/../@types/date'
 import { getToday } from '@/utils/utils'
+import { USER_LOGOUT_EVENT } from '@/constants/index'
 import CalendarTypes from '@/components/calendar/types/calendar'
 import { IDavCalendar, ICalendarComponent, IDavComponent } from '~/../@types/calendar'
 import { componentsDaysById } from '@/api/component'
@@ -83,7 +84,20 @@ class Index extends Component {
     this.calRef = React.createRef()
   }
 
+  componentDidMount() {
+    Taro.eventCenter.on(USER_LOGOUT_EVENT, () => {
+      this.setState({
+        marks: [],
+        componentRefreshLocalTime: null,
+        calendarComponents: []
+      })
+    })
+  }
+
   componentDidShow() {
+    if (!this.props.accessToken) {
+      return
+    }
     const start: string = dayjs(this.state.selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss')
     const end: string = dayjs(this.state.selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
     if (this.props.accessToken && this.props.calendars.length === 0) {

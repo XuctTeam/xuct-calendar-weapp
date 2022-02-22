@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-01-30 13:15:17
+ * @LastEditTime: 2022-02-22 15:32:29
  * @LastEditors: Derek Xu
  */
 import { useEffect, useState } from 'react'
@@ -68,8 +68,19 @@ const Event: React.FC<IPageStateProps> = (props) => {
 
   return (
     <View className='vi-index-wrapper_event'>
-      <PullRefresh reachTop={reachTop} loading={props.loading} onRefresh={props.refreshComponent} disabled={props.componentRefreshOpen}>
-        {componentList.length !== 0 ? (
+      {componentList.length == 0 && !props.loading ? (
+        <Empty>
+          <Empty.Image />
+          <Empty.Description>暂无数据</Empty.Description>
+        </Empty>
+      ) : (
+        <PullRefresh
+          style={{ height: '100%', minHeight: '290px' }}
+          reachTop={reachTop}
+          loading={props.loading}
+          onRefresh={props.refreshComponent}
+          disabled={props.componentRefreshOpen}
+        >
           <Flex>
             <Flex.Item span={4} className='week-day'>
               <View className='day'>{dayjs(props.selectedDay).format('DD')}</View>
@@ -81,17 +92,8 @@ const Event: React.FC<IPageStateProps> = (props) => {
               })}
             </Flex.Item>
           </Flex>
-        ) : (
-          <>
-            {!props.loading && (
-              <Empty>
-                <Empty.Image />
-                <Empty.Description>暂无数据</Empty.Description>
-              </Empty>
-            )}
-          </>
-        )}
-      </PullRefresh>
+        </PullRefresh>
+      )}
     </View>
   )
 }

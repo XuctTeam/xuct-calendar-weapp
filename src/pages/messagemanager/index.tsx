@@ -4,10 +4,11 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-21 21:46:21
+ * @LastEditTime: 2022-02-22 08:56:09
  */
-import { Key, FunctionComponent, useEffect, useRef, useState } from 'react'
+import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useDidHide, useDidShow } from '@tarojs/taro'
 import { ScrollView, View } from '@tarojs/components'
 import { Empty, DropdownMenu, List, Loading } from '@taroify/core'
 import CommonMain from '@/components/mixin'
@@ -29,10 +30,15 @@ const MessageManager: FunctionComponent = () => {
   const [sort, setSort] = useState<number>(0)
 
   useEffect(() => {
+    if (!accessToken) {
+      _reset(1)
+      return
+    }
     if (accessToken) {
       refresh(status, sort)
     }
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken])
 
   const refresh = (sts: number, sot: number) => {
     console.log('---- onload -----')
@@ -48,15 +54,13 @@ const MessageManager: FunctionComponent = () => {
   }
 
   const statusChageHandler = (val: any) => {
-    setMessages([])
-    pageRef.current = 0
+    _reset(0)
     setStatus(val)
     refresh(val, sort)
   }
 
   const sortChageHandler = (val: any) => {
-    setMessages([])
-    pageRef.current = 0
+    _reset(0)
     setSort(val)
     refresh(status, val)
   }
@@ -66,6 +70,16 @@ const MessageManager: FunctionComponent = () => {
     setLoading(false)
     if (!res.messages || res.messages.length === 0) return
     setMessages(res.messages)
+  }
+
+  const _reset = (all: number) => {
+    setMessages([])
+    pageRef.current = 0
+    if (all === 1) {
+      setStatus(2)
+      setSort(0)
+      setHasMore(true)
+    }
   }
 
   return (

@@ -55,8 +55,8 @@
 		"redux": "^4.0.0",
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.3.0",
-		"tarojs-router-next": "^2.7.1",
-		"tarojs-router-next-plugin": "^2.7.1",
+		"tarojs-router-next": "^2.7.2",
+		"tarojs-router-next-plugin": "^2.7.2",
 		"vconsole": "^3.9.5"
 	},
 	"devDependencies": {

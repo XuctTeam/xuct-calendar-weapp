@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-10 13:38:16
- * @LastEditTime: 2022-01-17 14:50:09
+ * @LastEditTime: 2022-02-22 16:23:02
  * @LastEditors: Derek Xu
  */
 export const colors = [
@@ -95,3 +95,5 @@ export const alarmTypes = [
     text: '公众号'
   }
 ]
+
+export const USER_LOGOUT_EVENT = 'USER_LOGOUT_EVENT'

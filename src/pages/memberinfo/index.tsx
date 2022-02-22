@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-21 22:55:08
+ * @LastEditTime: 2022-02-22 15:14:29
  */
 import { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
@@ -14,13 +14,15 @@ import Taro from '@tarojs/taro'
 import Router, { NavigateType } from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { ArrowRight } from '@taroify/icons'
-import { Cell, Button, Image, Avatar } from '@taroify/core'
-import { showToast } from '@/utils/taro'
+import { Cell, Button, Avatar } from '@taroify/core'
+import { showToast, back } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
 import { updateName, baseUserInfo, logout, auths } from '@/api/user'
 import { DvaProps } from '../../../@types/dva'
+import { USER_LOGOUT_EVENT } from '@/constants/index'
 import { IUserInfo, IUserAuth } from '../../../@types/user'
 import { action } from './actionCreater'
+
 import { ModifyName } from './ui'
 
 import './index.scss'
@@ -105,7 +107,8 @@ class User extends Component {
         icon: 'success',
         duration: 1000
       })
-      Taro.navigateBack({ delta: 1 })
+      Taro.eventCenter.trigger(USER_LOGOUT_EVENT)
+      back(4)
     }
   }
 

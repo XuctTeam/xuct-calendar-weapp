@@ -2,16 +2,17 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-02-19 20:30:45
+ * @LastEditTime: 2022-02-22 16:32:12
  * @LastEditors: Derek Xu
  */
+import { FunctionComponent } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
+import Router from 'tarojs-router-next'
 import { Cell } from '@taroify/core'
-import { Arrow, CalendarOutlined, ManagerOutlined, ClusterOutlined, SettingOutlined, TvOutlined, UserCircleOutlined } from '@taroify/icons'
+import { Arrow, CalendarOutlined, ManagerOutlined, SettingOutlined, TvOutlined, UserCircleOutlined } from '@taroify/icons'
 import { IUserInfo } from '../../../../@types/user'
 import '../index.scss'
-import Router from 'tarojs-router-next'
 
 interface PageOwerStateProps {}
 
@@ -21,16 +22,11 @@ export interface ISettingProps {
 
 type SettingProps = ISettingProps & PageOwerStateProps
 
-export default function Setting(props: SettingProps) {
+const Setting: FunctionComponent<SettingProps> = (props) => {
   /**
    * 列表点击
    */
   const atListItemClickHandle = (params) => {
-    if (!props.user && params !== 3 && params !== 4) {
-      Router.toLogin()
-      return
-    }
-
     if (params === 1) {
       Router.toCalendarmanager()
     } else if (params === 2) {
@@ -68,3 +64,5 @@ export default function Setting(props: SettingProps) {
     </View>
   )
 }
+
+export default Setting
