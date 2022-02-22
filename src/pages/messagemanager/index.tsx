@@ -4,11 +4,10 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-22 08:56:09
+ * @LastEditTime: 2022-02-22 16:50:27
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useDidHide, useDidShow } from '@tarojs/taro'
 import { ScrollView, View } from '@tarojs/components'
 import { Empty, DropdownMenu, List, Loading } from '@taroify/core'
 import CommonMain from '@/components/mixin'
