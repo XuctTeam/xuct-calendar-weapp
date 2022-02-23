@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-07-23 12:39:07
- * @LastEditTime: 2021-12-22 23:00:01
+ * @LastEditTime: 2022-02-23 22:12:05
  * @LastEditors: Derek Xu
  */
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
     NODE_ENV: '"production"'
   },
   defineConstants: {
-    SERVICE_URL: JSON.stringify('')
+    SERVICE_URL: JSON.stringify('http://s1.nsloop.com:22060')
   },
   mini: {},
   h5: {

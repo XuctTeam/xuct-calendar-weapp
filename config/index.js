@@ -2,11 +2,12 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-02-17 09:22:50
+ * @LastEditTime: 2022-02-23 21:29:57
  * @LastEditors: Derek Xu
  */
 /* eslint-disable import/no-commonjs */
 const path = require('path')
+
 const config = {
   projectName: 'react-lesson-20',
   date: '2021-7-23',
@@ -75,6 +76,20 @@ const config = {
         .options({
           sourceMap: process.env.NODE_ENV !== 'production'
         })
+      
+        chain.plugin("lodash-webpack-plugin")
+        .use(require("lodash-webpack-plugin"), [{
+            shorthands: true,
+            cloning: true,
+            caching: true,
+            collections: true,
+            exotics: true,
+            guards: true,
+            memoizing: true,
+            coercions: true,
+            flattening: true,
+            paths: true,
+        }])
     }
   },
   h5: {
