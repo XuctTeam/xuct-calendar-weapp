@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:29:20
- * @LastEditTime: 2022-02-19 20:34:40
+ * @LastEditTime: 2022-02-25 15:45:53
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
 import { View } from '@tarojs/components'
 import { Button, Checkbox } from '@taroify/core'
 import { Navigator } from '@tarojs/components'
-import { showToast } from '@/utils/taro'
+import { useToast } from '@/utils/taro'
 
 type IPageStateProps = {
   code: string | null | undefined
@@ -21,7 +21,7 @@ export default function WechatForm(props: IPageStateProps) {
 
   const getUserInfo = () => {
     if (!selfCheck) {
-      showToast('请勾选隐私协议')
+      useToast('请勾选隐私协议')
       return
     }
     props.onGetUserInfo()

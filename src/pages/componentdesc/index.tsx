@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 14:48:28
- * @LastEditTime: 2022-02-16 17:24:47
+ * @LastEditTime: 2022-02-25 15:50:39
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -10,7 +10,7 @@ import { View } from '@tarojs/components'
 import { Button, Textarea } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { DvaProps } from '~/../@types/dva'
-import { back } from '@/utils/taro'
+import { useBack } from '@/utils/taro'
 
 import './index.scss'
 
@@ -44,7 +44,7 @@ class Sheduledesc extends Component {
   }
 
   back = () => {
-    back(1, {
+    useBack(1, {
       description: this.state.description
     })
   }

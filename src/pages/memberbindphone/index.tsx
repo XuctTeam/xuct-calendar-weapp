@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-19 20:47:15
+ * @LastEditTime: 2022-02-25 15:46:00
  */
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { View, Button as TaroButton } from '@tarojs/components'
-import { showToast, back } from '@/utils/taro'
+import { useToast, useBack } from '@/utils/taro'
 import { Cell, Button, Field, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
@@ -90,7 +90,7 @@ class Phone extends Component {
 
   onGetPhoneNumber = (e) => {
     if (e.detail.errMsg && e.detail.errMsg !== 'getPhoneNumber:ok') {
-      showToast('获取手机失败')
+      useToast('获取手机失败')
       return
     }
     const that = this
@@ -140,11 +140,11 @@ class Phone extends Component {
 
   bindSmsCode = () => {
     if (!this.state.phone) {
-      showToast('手机号为空')
+      useToast('手机号为空')
       return
     }
     if (!checkMobile(this.state.phone)) {
-      showToast('手机号格式错误')
+      useToast('手机号格式错误')
       return
     }
     this.setState({ disable: true })
@@ -196,7 +196,7 @@ class Phone extends Component {
           this.cleanUserInfo()
           return
         }
-        showToast('退出失败')
+        useToast('退出失败')
       })
   }
 
@@ -217,15 +217,15 @@ class Phone extends Component {
 
   openBindPhone = () => {
     if (!this.state.phone) {
-      showToast('手机号为空')
+      useToast('手机号为空')
       return
     }
     if (!checkMobile(this.state.phone)) {
-      showToast('手机号格式错误')
+      useToast('手机号格式错误')
       return
     }
     if (!this.state.code) {
-      showToast('验证码为空')
+      useToast('验证码为空')
       return
     }
     console.log(this.state.edit)

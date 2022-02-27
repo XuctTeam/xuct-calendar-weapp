@@ -4,16 +4,17 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-22 16:50:27
+ * @LastEditTime: 2022-02-27 19:40:37
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import Router from 'tarojs-router-next'
 import { ScrollView, View } from '@tarojs/components'
 import { Empty, DropdownMenu, List, Loading } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { IMessagePageComponent, IMessage } from '~/../@types/message'
-import { list } from '@/api/message'
+import { list, read } from '@/api/message'
 import { MessageBody } from './ui'
 
 import './index.scss'
@@ -81,6 +82,36 @@ const MessageManager: FunctionComponent = () => {
     }
   }
 
+  const viewHandler = (id: string) => {
+    const msgIndex: number | undefined = messages.findIndex((m) => m.id === id)
+    if (msgIndex < 0) return
+    const msg = messages[msgIndex]
+    if (msg.status === 0) {
+      const writeMessages = [...messages]
+      read(id)
+        .then(() => {
+          msg.status = 1
+          writeMessages.splice(msgIndex, 1, msg)
+          setMessages(writeMessages)
+          _toDetail(msg)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      return
+    }
+    _toDetail(msg)
+  }
+
+  const _toDetail = (msg: IMessage) => {
+    Router.toMessagedetail({
+      params: {
+        id: msg.id
+      },
+      data: msg
+    })
+  }
+
   return (
     <CommonMain className='vi-message-manager-warpper' left={false} title='消息管理' fixed>
       <View className='vi-message-manager-warpper_container'>
@@ -110,9 +141,9 @@ const MessageManager: FunctionComponent = () => {
                 setScrollTop(e.detail.scrollTop)
               }}
             >
-              <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={() => refresh()}>
+              <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={() => refresh(status, sort)}>
                 {messages.map((item, i) => (
-                  <MessageBody key={i} message={item}></MessageBody>
+                  <MessageBody key={i} message={item} viewHandler={viewHandler}></MessageBody>
                 ))}
                 <List.Placeholder>
                   {loading && <Loading>加载中...</Loading>}

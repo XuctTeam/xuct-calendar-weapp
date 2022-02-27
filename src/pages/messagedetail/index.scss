@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-22 17:47:03
+ * @LastEditTime: 2022-02-26 20:41:59
  */
 
 .vi-message-detail-warpper {
@@ -14,5 +14,14 @@
 
   &_container {
     flex: 1;
+  }
+
+  &_button {
+    margin: 30px;
+    padding-bottom: 20px;
+
+    .taroify-button {
+      width: 100%;
+    }
   }
 }

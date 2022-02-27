@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-07 10:37:58
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-19 20:34:23
+ * @LastEditTime: 2022-02-25 15:45:25
  */
 import { Component } from 'react'
 import { connect } from 'react-redux'
@@ -14,10 +14,10 @@ import dayjs from 'dayjs'
 import { bindActionCreators } from 'redux'
 import { View, Image, Navigator } from '@tarojs/components'
 import { ArrowLeft } from '@taroify/icons'
-import { showToast } from '@/utils/taro'
+import { useToast } from '@/utils/taro'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/token'
 import { DvaProps } from '../../../@types/dva'
-import { H5Form, WechatForm } from './ui'
+import { WebForm, WechatForm } from './ui'
 
 import { action } from './actionCreater'
 
@@ -72,7 +72,7 @@ class Login extends Component {
           }
         },
         fail(res) {
-          showToast(res.errMsg)
+          useToast(res.errMsg)
         }
       })
     }
@@ -87,11 +87,11 @@ class Login extends Component {
    */
   loginByCode = async () => {
     if (!this.state.icode) {
-      showToast('微信登录失败')
+      useToast('微信登录失败')
       return
     }
     if (this.state.icode.ts - dayjs().valueOf() > 1000 * 60 * 5) {
-      showToast('请在规定时间内完成授权')
+      useToast('请在规定时间内完成授权')
       return
     }
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
@@ -180,7 +180,7 @@ class Login extends Component {
             {process.env.TARO_ENV !== 'h5' ? (
               <WechatForm code={this.state.icode ? this.state.icode.code : ''} onGetUserInfo={this.loginByCode.bind(this)} />
             ) : (
-              <H5Form loginByPhoneOrUsername={this.loginByPhoneOrUsername.bind(this)} />
+              <WebForm loginByPhoneOrUsername={this.loginByPhoneOrUsername.bind(this)} />
             )}
           </View>
         </View>

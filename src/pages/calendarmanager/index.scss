@@ -4,17 +4,35 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-07 20:11:03
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 17:36:01
+ * @LastEditTime: 2022-02-25 10:47:33
  */
 .vi-calendar-manager-wrapper {
   display: flex;
   flex-direction: column;
   height: 100%;
 
+  &_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .list {
+      flex: 1;
+    }
+  }
+
   &_list {
-    margin: 10px 20px;
-    background: rgb(242, 242, 242);
-    border-radius: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+
+    .container {
+      width: 100%;
+      display: inline-block;
+      background: rgb(242, 242, 242);
+      border-radius: 8px;
+    }
 
     .header {
       padding-top: 10px;

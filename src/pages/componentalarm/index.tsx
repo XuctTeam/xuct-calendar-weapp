@@ -4,14 +4,14 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-02 15:31:09
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 18:14:15
+ * @LastEditTime: 2022-02-25 15:49:24
  */
 import React, { useEffect, useState } from 'react'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { Cell, Checkbox, Radio, Button } from '@taroify/core'
 import CommonMain from '@/components/mixin'
-import { back } from '@/utils/taro'
+import { useBack } from '@/utils/taro'
 
 import './index.scss'
 
@@ -68,7 +68,7 @@ const Componentalarm: React.FC<IPageStateProps> = () => {
     const sortAlarmTime = alarmTime.sort((n1, n2) => {
       return Number.parseInt(n1) - Number.parseInt(n2)
     })
-    back(1, {
+    useBack(1, {
       alarmType: openAlarm === '1' ? '0' : alarmType,
       alarmTimes: openAlarm === '1' ? [] : sortAlarmTime
     })

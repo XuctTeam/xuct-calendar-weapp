@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-22 16:48:03
- * @LastEditTime: 2022-02-19 20:43:49
+ * @LastEditTime: 2022-02-25 15:50:46
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -10,7 +10,7 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Cell, Button, Textarea } from '@taroify/core'
 import CommonMain from '@/components/mixin'
-import { back } from '@/utils/taro'
+import { useBack } from '@/utils/taro'
 
 import './index.scss'
 
@@ -106,7 +106,7 @@ class Location extends Component {
   }
 
   saveLocation = () => {
-    back(1, {
+    useBack(1, {
       location: this.state.location
     })
   }

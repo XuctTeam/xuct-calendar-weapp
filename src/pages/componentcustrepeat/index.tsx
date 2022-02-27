@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-28 18:54:31
- * @LastEditTime: 2022-02-16 18:12:50
+ * @LastEditTime: 2022-02-25 15:49:35
  * @LastEditors: Derek Xu
  */
 
@@ -13,7 +13,7 @@ import { Cell, ActionSheet, Button } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 import dayjs from 'dayjs'
-import { back } from '@/utils/taro'
+import { useBack } from '@/utils/taro'
 import { Weekly, Monthly, IntervalPicker } from './ui'
 
 import './index.scss'
@@ -164,7 +164,7 @@ class ScheduleCustRepeat extends Component {
    * 保存
    */
   saveCustRepeat = () => {
-    back(1, {
+    useBack(1, {
       repeatType: this.state.repeatType,
       repeatInterval: this.state.repeatInterval,
       selectedWeek: this.state.selectedWeek.sort((n1, n2) => Number.parseInt(n1) - Number.parseInt(n2)),

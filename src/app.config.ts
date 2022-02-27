@@ -3,17 +3,18 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-02-19 20:28:19
+ * @LastEditTime: 2022-02-26 19:56:08
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
 
 export default {
   pages: [
+    'pages/aboutme/index',
     'pages/contactmanager/index',
     'pages/index/index',
-    'pages/aboutme/index',
     'pages/messagemanager/index',
+    'pages/messagedetail/index',
     'pages/login/index',
     'pages/memberinfo/index',
     'pages/membermodifypassword/index',
@@ -74,9 +75,6 @@ export default {
   permission: {
     'scope.userLocation': {
       desc: '楚日历需获取您的地理位置'
-    },
-    'scope.writePhotosAlbum': {
-      desc: '楚日历需获取您的相册权限'
     }
   },
   // eslint-disable-next-line react-hooks/rules-of-hooks

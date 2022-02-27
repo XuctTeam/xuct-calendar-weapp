@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-02-19 20:48:59
+ * @LastEditTime: 2022-02-25 15:43:54
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -161,10 +161,10 @@ export const getStorage = (key: string): any => {
   return null
 }
 
-export const showToast = (msg: string): void => {
+export const useToast = (msg: string, success: boolean = false): void => {
   Taro.showToast({
     title: msg,
-    icon: 'error',
+    icon: success ? 'success' : 'error',
     duration: 1500,
     fail(res) {
       console.log(res)
@@ -179,11 +179,11 @@ export const showToast = (msg: string): void => {
 export const respErrorToast = (res: any) => {
   console.log(res)
   if (res.status) {
-    showToast(res.statusText)
+    useToash(res.statusText)
     return
   }
   if (res['errMsg']) {
-    showToast(res['errMsg'])
+    useToash(res['errMsg'])
   }
 }
 
@@ -193,7 +193,7 @@ export const respErrorToast = (res: any) => {
  * @param data
  * @returns
  */
-export const back = (to: number, data?: any) => {
+export const useBack = (to: number, data?: any) => {
   try {
     if (data) {
       Router.back(data)

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-17 13:12:37
+ * @LastEditTime: 2022-02-25 15:52:09
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useState } from 'react'
@@ -12,6 +12,7 @@ import { Search, Empty } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IGroup } from '~/../@types/group'
 import { search, apply } from '@/api/group'
+import { useToast } from '@/utils/taro'
 import { GroupList } from './ui'
 
 import './index.scss'
@@ -21,6 +22,7 @@ const GroupSearch: FunctionComponent = () => {
   const [list, setList] = useState<IGroup[]>([])
 
   const searchHandle = () => {
+    if (!value) return
     search(value)
       .then((res) => {
         setList(res as any as Array<IGroup>)
@@ -37,7 +39,9 @@ const GroupSearch: FunctionComponent = () => {
       success: function (res) {
         if (res.confirm) {
           apply(id)
-            .then((rs) => {})
+            .then(() => {
+              useToast('申请成功', true)
+            })
             .catch((err) => {
               console.log(err)
             })

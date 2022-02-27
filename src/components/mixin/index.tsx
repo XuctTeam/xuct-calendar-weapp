@@ -3,14 +3,13 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:05:22
  * @FilePath: \react-lesson-20\src\utils\mixin.ts
- * @LastEditTime: 2022-02-17 18:14:41
+ * @LastEditTime: 2022-02-25 15:48:50
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react'
-import Taro from '@tarojs/taro'
+import { FunctionComponent, ReactNode } from 'react'
 import { Navbar } from '@taroify/core'
 
-import { back } from '@/utils/taro'
+import { useBack } from '@/utils/taro'
 import { View } from '@tarojs/components'
 import { ViewProps } from '@tarojs/components/types/View'
 import classnames from 'classnames'
@@ -31,7 +30,7 @@ interface IHeaderProps extends ViewProps {
 const CommonMain: FunctionComponent<IHeaderProps> = (props) => {
   const routerToBack = () => {
     if (!props.to) props.to = 1
-    back(props.to, props.data)
+    useBack(props.to, props.data)
   }
 
   /**

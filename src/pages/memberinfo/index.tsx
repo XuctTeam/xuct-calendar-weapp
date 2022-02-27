@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-22 15:14:29
+ * @LastEditTime: 2022-02-25 15:46:24
  */
 import { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
@@ -15,7 +15,7 @@ import Router, { NavigateType } from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { ArrowRight } from '@taroify/icons'
 import { Cell, Button, Avatar } from '@taroify/core'
-import { showToast, back } from '@/utils/taro'
+import { useToast, useBack } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
 import { updateName, baseUserInfo, logout, auths } from '@/api/user'
 import { DvaProps } from '../../../@types/dva'
@@ -176,7 +176,7 @@ class User extends Component {
    */
   modifyNameHandler = (name: string) => {
     if (!name) {
-      showToast('名称不能为空')
+      useToast('名称不能为空')
       return
     }
     console.log(name)
@@ -209,7 +209,7 @@ class User extends Component {
           this.cleanUserInfo()
           return
         }
-        showToast('退出失败')
+        useToast('退出失败')
       })
   }
 

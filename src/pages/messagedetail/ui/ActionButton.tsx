@@ -2,28 +2,20 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-22 17:48:56
- * @LastEditTime: 2022-02-22 17:55:29
+ * @LastEditTime: 2022-02-26 22:49:23
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
-import { Button } from '@taroify/core'
+import GroupButton from './GroupButton'
 
-interface IPageStateProps {
+interface IPageProps {
   type: string
+  state: number
 }
 
-const ActionButton: FunctionComponent<IPageStateProps> = (props) => {
-  return (
-    <View className='button'>
-      <Button variant='text' color='warning'>
-        警告按钮
-      </Button>
-      <Button variant='text' color='danger'>
-        危险按钮
-      </Button>
-    </View>
-  )
+const ActionButton: FunctionComponent<IPageProps> = (props) => {
+  return <View className='button'>{props.type === 'GROUP' ? <GroupButton state={props.state}></GroupButton> : <></>}</View>
 }
 
 export default ActionButton

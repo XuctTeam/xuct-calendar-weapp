@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-12 12:49:07
- * @LastEditTime: 2022-02-14 21:41:09
+ * @LastEditTime: 2022-02-25 15:47:52
  * @LastEditors: Derek Xu
  */
 import dva from '@/utils/dva'
 import { tokenRefresh } from '@/api/token'
 import dayjs from 'dayjs'
 import http from './index'
-import { getStorage, pageCleanToLogin, showToast } from '../taro'
+import { getStorage, pageCleanToLogin, useToast } from '../taro'
 
 interface ITask {
   url: string
@@ -79,7 +79,7 @@ class RefreshSubscribers {
       })
       .catch((error) => {
         console.log(error)
-        showToast('获取登录信息失败')
+        useToast('获取登录信息失败')
         this.cleanTask()
         setTimeout(() => {
           pageCleanToLogin()

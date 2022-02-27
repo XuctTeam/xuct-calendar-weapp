@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:50
- * @LastEditTime: 2022-02-19 20:43:39
+ * @LastEditTime: 2022-02-25 15:44:23
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -14,7 +14,7 @@ import { Cell, Field, Button, Switch, Input } from '@taroify/core'
 import { get, update, create } from '@/api/calendar'
 import CommonMain from '@/components/mixin'
 import { IUserInfo } from '~/../@types/user'
-import { showToast, back } from '@/utils/taro'
+import { useToast, useBack } from '@/utils/taro'
 import { ColorRadio, AlarmRadio } from './ui'
 
 import './index.scss'
@@ -179,7 +179,7 @@ class CaldavCreate extends Component {
       icon: 'success'
     })
     setTimeout(() => {
-      back(2, {
+      useBack(2, {
         data: '1'
       })
     }, 1000)
@@ -190,17 +190,17 @@ class CaldavCreate extends Component {
     this.setState({
       loading: false
     })
-    showToast(err)
+    useToast(err)
     return false
   }
 
   _checkForm() {
     if (!this.state.name) {
-      showToast('名称不能为空')
+      useToast('名称不能为空')
       return false
     }
     if (!this.state.description) {
-      showToast('描述不能为空')
+      useToast('描述不能为空')
       return false
     }
     return true

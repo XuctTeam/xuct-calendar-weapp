@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:28:54
- * @LastEditTime: 2022-02-16 13:54:23
+ * @LastEditTime: 2022-02-25 15:45:37
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -10,7 +10,7 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Cell, Field, Button, Flex, Input, Checkbox } from '@taroify/core'
 import { checkMobile } from '@/utils/utils'
-import { showToast } from '@/utils/taro'
+import { useToast } from '@/utils/taro'
 import { sendSmsCode } from '@/api/user'
 import Router from 'tarojs-router-next'
 
@@ -106,7 +106,7 @@ class H5Form extends Component {
    */
   pushCode = () => {
     if (!checkMobile(this.state.phone)) {
-      showToast('手机号错误')
+      useToast('手机号错误')
       return
     }
     this._startSmsCode()
@@ -168,25 +168,25 @@ class H5Form extends Component {
   _checkParam = (): boolean => {
     if (this.state.phoneForm) {
       if (!checkMobile(this.state.phone)) {
-        showToast('手机号错误')
+        useToast('手机号错误')
         return false
       }
       if (!this.state.smsCode) {
-        showToast('验证码不为空')
+        useToast('验证码不为空')
         return false
       }
     } else {
       if (!this.state.username) {
-        showToast('用户名不为空')
+        useToast('用户名不为空')
         return false
       }
       if (!this.state.password) {
-        showToast('密码不为空')
+        useToast('密码不为空')
         return false
       }
     }
     if (!this.state.selfCheck) {
-      showToast('请先勾选隐私协议')
+      useToast('请先勾选隐私协议')
       return false
     }
     return true

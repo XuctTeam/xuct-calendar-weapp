@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 14:43:44
- * @LastEditTime: 2022-02-21 16:40:48
+ * @LastEditTime: 2022-02-26 10:37:18
  * @LastEditors: Derek Xu
  */
 export interface IMessage {
@@ -12,7 +12,7 @@ export interface IMessage {
   createTime: Date
   operation: number
   status: number
-  content?: JSON
+  content: JSON | null
 }
 
 export interface IMessagePageComponent {

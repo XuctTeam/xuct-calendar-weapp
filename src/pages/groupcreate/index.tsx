@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-19 20:46:49
+ * @LastEditTime: 2022-02-25 15:45:01
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -11,7 +11,7 @@ import { BaseEventOrig, FormProps, View } from '@tarojs/components'
 import { Button, Cell, Form, Input, Uploader } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { FormItemInstance } from '@taroify/core/form'
-import { showToast, getStorage, back } from '@/utils/taro'
+import { useToast, getStorage, useBack } from '@/utils/taro'
 import { upload, addGroup } from '@/api/group'
 import './index.scss'
 
@@ -77,7 +77,7 @@ const GroupCreate: FunctionComponent = () => {
 
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     if (uploading) {
-      showToast('正在上传图像')
+      useToast('正在上传图像')
       return
     }
     setLoading(true)
@@ -86,12 +86,12 @@ const GroupCreate: FunctionComponent = () => {
     const { name } = data
     addGroup(name, urlRef.current).then(() => {
       setLoading(false)
-      back(4)
+      useBack(4)
     })
   }
 
   const _uploadFail = () => {
-    showToast('上传失败')
+    useToast('上传失败')
     setUploading(false)
     itemRef.current?.setValue([])
     urlRef.current = ''

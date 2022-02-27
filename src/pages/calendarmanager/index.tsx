@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:39
- * @LastEditTime: 2022-02-19 20:45:16
+ * @LastEditTime: 2022-02-24 22:09:52
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -12,8 +12,7 @@ import Router from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
 import { IDavCalendar } from '~/../@types/calendar'
 import { DvaProps } from '~/../@types/dva'
-import { View } from '@tarojs/components'
-import { CaldavList } from './ui'
+import { WeappCalendarList, WebCalendarList } from './ui'
 import { action } from './actionCreater'
 
 import './index.scss'
@@ -85,12 +84,21 @@ class CaldavManager extends Component {
   render() {
     return (
       <CommonMain className='vi-calendar-manager-wrapper' title='日历管理' to={4} fixed left>
-        <CaldavList
-          calendars={this.props.calendars}
-          loading={this.props.refreshLoading}
-          calendarRefresh={this.calendarRefresh.bind(this)}
-          editCalendar={this.editCalendar.bind(this)}
-        ></CaldavList>
+        {process.env.TARO_ENV === 'h5' ? (
+          <WebCalendarList
+            calendars={this.props.calendars}
+            loading={this.props.refreshLoading}
+            calendarRefresh={this.calendarRefresh.bind(this)}
+            editCalendar={this.editCalendar.bind(this)}
+          ></WebCalendarList>
+        ) : (
+          <WeappCalendarList
+            calendars={this.props.calendars}
+            loading={this.props.refreshLoading}
+            calendarRefresh={this.calendarRefresh.bind(this)}
+            editCalendar={this.editCalendar.bind(this)}
+          ></WeappCalendarList>
+        )}
       </CommonMain>
     )
   }

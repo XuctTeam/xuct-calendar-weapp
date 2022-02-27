@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-16 17:37:28
+ * @LastEditTime: 2022-02-25 15:50:55
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -20,7 +20,7 @@ import { DvaProps } from '~/../@types/dva'
 import { DatetimePickerType } from '@taroify/core/datetime-picker/datetime-picker.shared'
 import { IDavCalendar, IDavComponent } from '~/../@types/calendar'
 import { add, getById } from '@/api/component'
-import { showToast, back } from '@/utils/taro'
+import { useToast, useBack } from '@/utils/taro'
 import { formatRepeatTime, fiveMinutes, formatAlarmText, alarmTypeToCode } from '@/utils/utils'
 
 import CommonMain from '@/components/mixin'
@@ -412,26 +412,26 @@ class Components extends Component {
 
   addComponent = () => {
     if (!this.state.summary) {
-      showToast('标题不能为空')
+      useToast('标题不能为空')
       return
     }
     if (!this.state.selectedCalendar) {
-      showToast('选择日历不能为空')
+      useToast('选择日历不能为空')
       return
     }
 
     if (this.state.repeatStatus !== '0' && !this.state.repeatUntil) {
-      showToast('循环日期不能为空')
+      useToast('循环日期不能为空')
       return
     }
     const start: Dayjs = dayjs(this.state.dtstart)
     const end: Dayjs = dayjs(this.state.dtend)
     if (end.isBefore(start)) {
-      showToast('结束时间小于开始时间')
+      useToast('结束时间小于开始时间')
       return
     }
     if (end.diff(start) < 3600) {
-      showToast('时间范围应大于1小时')
+      useToast('时间范围应大于1小时')
       return
     }
     const that = this
@@ -474,7 +474,7 @@ class Components extends Component {
     })
 
     if (this.state.edit) {
-      back(1, { ...data, color: this.state.selectedCalendar?.color, calendarName: this.state.selectedCalendar?.name, edit: true })
+      useBack(1, { ...data, color: this.state.selectedCalendar?.color, calendarName: this.state.selectedCalendar?.name, edit: true })
       return
     }
     Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: { componentId: data.id } })
