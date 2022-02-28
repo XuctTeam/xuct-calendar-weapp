@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-25 15:50:55
+ * @LastEditTime: 2022-02-28 21:47:58
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -412,26 +412,26 @@ class Components extends Component {
 
   addComponent = () => {
     if (!this.state.summary) {
-      useToast('标题不能为空')
+      useToast({ title: '标题不能为空' })
       return
     }
     if (!this.state.selectedCalendar) {
-      useToast('选择日历不能为空')
+      useToast({ title: '选择日历不能为空' })
       return
     }
 
     if (this.state.repeatStatus !== '0' && !this.state.repeatUntil) {
-      useToast('循环日期不能为空')
+      useToast({ title: '循环日期不能为空' })
       return
     }
     const start: Dayjs = dayjs(this.state.dtstart)
     const end: Dayjs = dayjs(this.state.dtend)
     if (end.isBefore(start)) {
-      useToast('结束时间小于开始时间')
+      useToast({ title: '结束时间小于开始时间' })
       return
     }
     if (end.diff(start) < 3600) {
-      useToast('时间范围应大于1小时')
+      useToast({ title: '时间范围应大于1小时' })
       return
     }
     const that = this
@@ -474,7 +474,7 @@ class Components extends Component {
     })
 
     if (this.state.edit) {
-      useBack(1, { ...data, color: this.state.selectedCalendar?.color, calendarName: this.state.selectedCalendar?.name, edit: true })
+      useBack({ to: 1, data: { ...data, color: this.state.selectedCalendar?.color, calendarName: this.state.selectedCalendar?.name, edit: true } })
       return
     }
     Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: { componentId: data.id } })

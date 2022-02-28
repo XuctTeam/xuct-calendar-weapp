@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-25 15:46:00
+ * @LastEditTime: 2022-02-28 21:53:01
  */
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
@@ -90,7 +90,7 @@ class Phone extends Component {
 
   onGetPhoneNumber = (e) => {
     if (e.detail.errMsg && e.detail.errMsg !== 'getPhoneNumber:ok') {
-      useToast('获取手机失败')
+      useToast({ title: '获取手机失败' })
       return
     }
     const that = this
@@ -140,11 +140,11 @@ class Phone extends Component {
 
   bindSmsCode = () => {
     if (!this.state.phone) {
-      useToast('手机号为空')
+      useToast({ title: '手机号为空' })
       return
     }
     if (!checkMobile(this.state.phone)) {
-      useToast('手机号格式错误')
+      useToast({ title: '手机号格式错误' })
       return
     }
     this.setState({ disable: true })
@@ -196,7 +196,7 @@ class Phone extends Component {
           this.cleanUserInfo()
           return
         }
-        useToast('退出失败')
+        useToast({ title: '退出失败' })
       })
   }
 
@@ -217,15 +217,15 @@ class Phone extends Component {
 
   openBindPhone = () => {
     if (!this.state.phone) {
-      useToast('手机号为空')
+      useToast({ title: '手机号为空' })
       return
     }
     if (!checkMobile(this.state.phone)) {
-      useToast('手机号格式错误')
+      useToast({ title: '手机号格式错误' })
       return
     }
     if (!this.state.code) {
-      useToast('验证码为空')
+      useToast({ title: '验证码为空' })
       return
     }
     console.log(this.state.edit)
@@ -256,8 +256,11 @@ class Phone extends Component {
       icon: 'success',
       duration: 800
     })
-    back(2, {
-      data: '1'
+    useBack({
+      to: 2,
+      data: {
+        data: '1'
+      }
     })
   }
 

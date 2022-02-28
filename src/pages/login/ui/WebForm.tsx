@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:28:54
- * @LastEditTime: 2022-02-25 15:45:37
+ * @LastEditTime: 2022-02-28 21:52:03
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -106,7 +106,7 @@ class H5Form extends Component {
    */
   pushCode = () => {
     if (!checkMobile(this.state.phone)) {
-      useToast('手机号错误')
+      useToast({ title: '手机号错误' })
       return
     }
     this._startSmsCode()
@@ -168,25 +168,25 @@ class H5Form extends Component {
   _checkParam = (): boolean => {
     if (this.state.phoneForm) {
       if (!checkMobile(this.state.phone)) {
-        useToast('手机号错误')
+        useToast({ title: '手机号错误' })
         return false
       }
       if (!this.state.smsCode) {
-        useToast('验证码不为空')
+        useToast({ title: '验证码不为空' })
         return false
       }
     } else {
       if (!this.state.username) {
-        useToast('用户名不为空')
+        useToast({ title: '用户名不为空' })
         return false
       }
       if (!this.state.password) {
-        useToast('密码不为空')
+        useToast({ title: '密码不为空' })
         return false
       }
     }
     if (!this.state.selfCheck) {
-      useToast('请先勾选隐私协议')
+      useToast({ title: '请先勾选隐私协议' })
       return false
     }
     return true

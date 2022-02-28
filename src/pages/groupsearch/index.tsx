@@ -2,17 +2,17 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-25 15:52:09
+ * @LastEditTime: 2022-02-28 22:25:49
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useCallback, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Search, Empty } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IGroup } from '~/../@types/group'
 import { search, apply } from '@/api/group'
-import { useToast } from '@/utils/taro'
+import { useToast, useModal } from '@/utils/taro'
 import { GroupList } from './ui'
 
 import './index.scss'
@@ -20,6 +20,11 @@ import './index.scss'
 const GroupSearch: FunctionComponent = () => {
   const [value, setValue] = useState('')
   const [list, setList] = useState<IGroup[]>([])
+
+  const [show] = useModal({
+    title: '提示',
+    content: '是否申请加入'
+  })
 
   const searchHandle = () => {
     if (!value) return
@@ -32,25 +37,25 @@ const GroupSearch: FunctionComponent = () => {
       })
   }
 
-  const onJoinClickHandle = (id) => {
-    Taro.showModal({
-      title: '提示',
-      content: '是否申请加入',
-      success: function (res) {
-        if (res.confirm) {
+  const onJoinClickHandle = useCallback(
+    (id) => {
+      show()
+        .then((res) => {
+          if (res.cancel) return
           apply(id)
             .then(() => {
-              useToast('申请成功', true)
+              useToast({ title: '申请成功' })
             })
             .catch((err) => {
               console.log(err)
             })
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
-  }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    [show]
+  )
 
   return (
     <CommonMain className='vi-group-search-warpper' title='加入群组' fixed to={4} left>

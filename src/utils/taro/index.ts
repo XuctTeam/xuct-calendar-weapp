@@ -3,13 +3,16 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-02-28 18:55:36
+ * @LastEditTime: 2022-02-28 21:44:50
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
 import dva from '@/utils/dva'
 import { Rect, IAppInfo } from '~/../@types/app'
-import Router, { NavigateType } from 'tarojs-router-next'
+import useWebEnv from './useWebEnv'
+import useModal from './useModal'
+import useBack from './useBack'
+import useToast from './useToast'
 
 /**
  * @name: 初始化系统参数
@@ -162,59 +165,4 @@ export const getStorage = (key: string): any => {
   return null
 }
 
-export const useToast = (msg: string, success: boolean = false): void => {
-  Taro.showToast({
-    title: msg,
-    icon: success ? 'success' : 'error',
-    duration: 1500,
-    fail(res) {
-      console.log(res)
-    }
-  })
-}
-
-/**
- * 封装处理 request非200的请求
- * @param res
- */
-export const respErrorToast = (res: any) => {
-  console.log(res)
-  if (res.status) {
-    useToast(res.statusText)
-    return
-  }
-  if (res['errMsg']) {
-    useToast(res['errMsg'])
-  }
-}
-
-/**
- * 封装回退方法
- * @param to
- * @param data
- * @returns
- */
-export const useBack = (to: number, data?: any) => {
-  try {
-    if (data) {
-      Router.back(data)
-      return
-    }
-    Router.back()
-  } catch (err) {
-    if (to === 1) {
-      Router.toIndex({ type: NavigateType.switchTab })
-    } else if (to === 2) {
-      //Router.toAboutme({ type: NavigateType.switchTab })
-      Router.toContactmanager({ type: NavigateType.switchTab })
-    } else if (to === 3) {
-      Router.toMessagemanager({ type: NavigateType.switchTab })
-      //Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: data })
-    } else if (to === 4) {
-      //Router.toContactmanager({ type: NavigateType.switchTab })
-      Router.toAboutme({ type: NavigateType.switchTab })
-    } else if (to === 5) {
-      Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: data })
-    }
-  }
-}
+export { useWebEnv, useBack, useModal, useToast }

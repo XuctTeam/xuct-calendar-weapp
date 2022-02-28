@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:42:57
- * @LastEditTime: 2022-02-28 14:28:58
+ * @LastEditTime: 2022-02-28 22:30:47
  * @LastEditors: Derek Xu
  */
-import { Fragment, FunctionComponent } from 'react'
-import Taro from '@tarojs/taro'
+import { Fragment, FunctionComponent, useCallback } from 'react'
 import { View } from '@tarojs/components'
 import { Button, Cell, SwipeCell } from '@taroify/core'
 import { IGroup } from '~/../@types/group'
+import { useModal } from '@/utils/taro'
 
 interface IPageProps {
   groups: Array<IGroup>
@@ -18,35 +18,34 @@ interface IPageProps {
 }
 
 const ApplyMine: FunctionComponent<IPageProps> = (props) => {
-  const applyAgreeHandler = (gid: string = '', mid: string = '') => {
-    if (!gid || !mid) return
-    Taro.showModal({
-      title: '提示',
-      content: '确定同意么？',
-      success: function (res) {
-        if (res.confirm) {
-          props.applyAgree(gid, mid)
-        } else if (res.cancel) {
-          console.log('用户取消')
-        }
-      }
-    })
-  }
+  const [show] = useModal({
+    title: '提示',
+    content: '确定同意么？'
+  })
 
-  const applyRefuseHandler = (gid: string = '', mid: string = '') => {
-    if (!gid || !mid) return
-    Taro.showModal({
-      title: '提示',
-      content: '确定拒绝么？',
-      success: function (res) {
-        if (res.confirm) {
-          props.applyRefuse(gid, mid)
-        } else if (res.cancel) {
-          console.log('用户取消')
-        }
-      }
-    })
-  }
+  const applyAgreeHandler = useCallback(
+    (gid: string = '', mid: string = '') => {
+      if (!gid || !mid) return
+      show().then((res) => {
+        if (res.cancel) return
+        props.applyAgree(gid, mid)
+      })
+    },
+    [show]
+  )
+
+  const applyRefuseHandler = useCallback(
+    (gid: string = '', mid: string = '') => {
+      if (!gid || !mid) return
+      show({
+        content: '确定拒绝么？'
+      }).then((res) => {
+        if (res.cancel) return
+        props.applyRefuse(gid, mid)
+      })
+    },
+    [show]
+  )
 
   return (
     <Fragment>

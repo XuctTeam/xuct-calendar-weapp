@@ -68,9 +68,12 @@ const Componentalarm: React.FC<IPageStateProps> = () => {
     const sortAlarmTime = alarmTime.sort((n1, n2) => {
       return Number.parseInt(n1) - Number.parseInt(n2)
     })
-    useBack(1, {
-      alarmType: openAlarm === '1' ? '0' : alarmType,
-      alarmTimes: openAlarm === '1' ? [] : sortAlarmTime
+    useBack({
+      to: 1,
+      data: {
+        alarmType: openAlarm === '1' ? '0' : alarmType,
+        alarmTimes: openAlarm === '1' ? [] : sortAlarmTime
+      }
     })
   }
 

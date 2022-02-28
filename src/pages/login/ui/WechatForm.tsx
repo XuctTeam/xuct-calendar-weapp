@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 14:29:20
- * @LastEditTime: 2022-02-25 15:45:53
+ * @LastEditTime: 2022-02-28 21:52:51
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
@@ -21,7 +21,7 @@ export default function WechatForm(props: IPageStateProps) {
 
   const getUserInfo = () => {
     if (!selfCheck) {
-      useToast('请勾选隐私协议')
+      useToast({ title: '请勾选隐私协议' })
       return
     }
     props.onGetUserInfo()

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:50
- * @LastEditTime: 2022-02-25 15:44:23
+ * @LastEditTime: 2022-02-28 21:47:37
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -179,8 +179,11 @@ class CaldavCreate extends Component {
       icon: 'success'
     })
     setTimeout(() => {
-      useBack(2, {
-        data: '1'
+      useBack({
+        to: 2,
+        data: {
+          data: '1'
+        }
       })
     }, 1000)
     return true
@@ -190,17 +193,19 @@ class CaldavCreate extends Component {
     this.setState({
       loading: false
     })
-    useToast(err)
+    useToast({
+      title: err
+    })
     return false
   }
 
   _checkForm() {
     if (!this.state.name) {
-      useToast('名称不能为空')
+      useToast({ title: '名称不能为空' })
       return false
     }
     if (!this.state.description) {
-      useToast('描述不能为空')
+      useToast({ title: '描述不能为空' })
       return false
     }
     return true

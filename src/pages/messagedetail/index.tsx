@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-28 10:51:52
+ * @LastEditTime: 2022-02-28 21:56:01
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -33,7 +33,7 @@ const MessageDetail: FunctionComponent = ({}) => {
       if (!data) {
         const msgId: string = Router.getParams['id']
         if (msgId) {
-          useToast('获取参数失败')
+          useToast({ title: '获取参数失败' })
           return
         }
         get(msgId)

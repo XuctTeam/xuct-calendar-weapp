@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:05:22
  * @FilePath: \react-lesson-20\src\utils\mixin.ts
- * @LastEditTime: 2022-02-25 15:48:50
+ * @LastEditTime: 2022-02-28 21:36:54
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, ReactNode } from 'react'
@@ -30,7 +30,7 @@ interface IHeaderProps extends ViewProps {
 const CommonMain: FunctionComponent<IHeaderProps> = (props) => {
   const routerToBack = () => {
     if (!props.to) props.to = 1
-    useBack(props.to, props.data)
+    useBack({ to: props.to, data: props.data })
   }
 
   /**

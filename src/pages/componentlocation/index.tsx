@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-22 16:48:03
- * @LastEditTime: 2022-02-25 15:50:46
+ * @LastEditTime: 2022-02-28 21:39:31
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -106,8 +106,11 @@ class Location extends Component {
   }
 
   saveLocation = () => {
-    useBack(1, {
-      location: this.state.location
+    useBack({
+      to: 1,
+      data: {
+        location: this.state.location
+      }
     })
   }
 

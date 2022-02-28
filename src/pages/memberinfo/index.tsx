@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-25 15:46:24
+ * @LastEditTime: 2022-02-28 21:59:49
  */
 import { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
@@ -15,7 +15,7 @@ import Router, { NavigateType } from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { ArrowRight } from '@taroify/icons'
 import { Cell, Button, Avatar } from '@taroify/core'
-import { useToast, useBack } from '@/utils/taro'
+import { useToast, useBack, useModal } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
 import { updateName, baseUserInfo, logout, auths } from '@/api/user'
 import { DvaProps } from '../../../@types/dva'
@@ -102,13 +102,9 @@ class User extends Component {
       auths: []
     })
     if (this.props.logouting) {
-      Taro.showToast({
-        title: '退出成功',
-        icon: 'success',
-        duration: 1000
-      })
+      useToast({ title: '退出成功', icon: 'success' })
       Taro.eventCenter.trigger(USER_LOGOUT_EVENT)
-      back(4)
+      useBack({ to: 4 })
     }
   }
 
@@ -176,7 +172,7 @@ class User extends Component {
    */
   modifyNameHandler = (name: string) => {
     if (!name) {
-      useToast('名称不能为空')
+      useToast({ title: '名称不能为空' })
       return
     }
     console.log(name)
@@ -209,7 +205,7 @@ class User extends Component {
           this.cleanUserInfo()
           return
         }
-        useToast('退出失败')
+        useToast({ title: '退出失败' })
       })
   }
 

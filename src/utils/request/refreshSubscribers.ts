@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-12 12:49:07
- * @LastEditTime: 2022-02-25 15:47:52
+ * @LastEditTime: 2022-02-28 21:56:10
  * @LastEditors: Derek Xu
  */
 import dva from '@/utils/dva'
@@ -79,7 +79,7 @@ class RefreshSubscribers {
       })
       .catch((error) => {
         console.log(error)
-        useToast('获取登录信息失败')
+        useToast({ title: '获取登录信息失败' })
         this.cleanTask()
         setTimeout(() => {
           pageCleanToLogin()

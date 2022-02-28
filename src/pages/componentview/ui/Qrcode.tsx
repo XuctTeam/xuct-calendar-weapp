@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-02-28 13:57:08
+ * @LastEditTime: 2022-02-28 21:48:48
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef } from 'react'
@@ -190,15 +190,15 @@ const H5Qrcode: FunctionComponent<IPageStateProps> = (props) => {
           filePath: res.tempFilePath
         })
           .then(() => {
-            useToast('上传成功', true)
+            useToast({ title: '上传成功', icon: 'success' })
           })
           .catch(() => {
-            useToast('图片保存失败')
+            useToast({ title: '图片保存失败' })
             return
           })
       })
       .catch(() => {
-        useToast('生成临时图片失败')
+        useToast({ title: '生成临时图片失败' })
       })
   }
 

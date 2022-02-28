@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-28 16:39:19
+ * @LastEditTime: 2022-02-28 21:49:32
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -49,7 +49,7 @@ const GroupApply: FunctionComponent = () => {
   const applyAgree = (gid: string, mid: string) => {
     applyAgreeJoinGroup(gid, mid)
       .then(() => {
-        useToast('操作成功', true)
+        useToast({ title: '操作成功', icon: 'success' })
         setApplyMineGroups([])
         _listApplyMine()
       })
@@ -61,7 +61,7 @@ const GroupApply: FunctionComponent = () => {
   const applyRefuse = (gid: string, mid: string) => {
     applyRefuseJoinGroup(gid, mid)
       .then(() => {
-        useToast('操作成功', true)
+        useToast({ title: '操作成功', icon: 'success' })
         setApplyMineGroups([])
         _listApplyMine()
       })

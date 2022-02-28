@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-28 18:54:31
- * @LastEditTime: 2022-02-25 15:49:35
+ * @LastEditTime: 2022-02-28 21:39:05
  * @LastEditors: Derek Xu
  */
 
@@ -164,11 +164,14 @@ class ScheduleCustRepeat extends Component {
    * 保存
    */
   saveCustRepeat = () => {
-    useBack(1, {
-      repeatType: this.state.repeatType,
-      repeatInterval: this.state.repeatInterval,
-      selectedWeek: this.state.selectedWeek.sort((n1, n2) => Number.parseInt(n1) - Number.parseInt(n2)),
-      selectedMonthDay: this.state.selectedMonthDay
+    useBack({
+      to: 1,
+      data: {
+        repeatType: this.state.repeatType,
+        repeatInterval: this.state.repeatInterval,
+        selectedWeek: this.state.selectedWeek.sort((n1, n2) => Number.parseInt(n1) - Number.parseInt(n2)),
+        selectedMonthDay: this.state.selectedMonthDay
+      }
     })
   }
 

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 14:48:28
- * @LastEditTime: 2022-02-25 15:50:39
+ * @LastEditTime: 2022-02-28 21:39:19
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -44,8 +44,11 @@ class Sheduledesc extends Component {
   }
 
   back = () => {
-    useBack(1, {
-      description: this.state.description
+    useBack({
+      to: 1,
+      data: {
+        description: this.state.description
+      }
     })
   }
 

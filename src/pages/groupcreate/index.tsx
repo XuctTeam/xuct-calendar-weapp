@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-25 15:45:01
+ * @LastEditTime: 2022-02-28 21:49:51
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -77,7 +77,7 @@ const GroupCreate: FunctionComponent = () => {
 
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     if (uploading) {
-      useToast('正在上传图像')
+      useToast({ title: '正在上传图像', icon: 'loading' })
       return
     }
     setLoading(true)
@@ -86,12 +86,12 @@ const GroupCreate: FunctionComponent = () => {
     const { name } = data
     addGroup(name, urlRef.current).then(() => {
       setLoading(false)
-      useBack(4)
+      useBack({ to: 4 })
     })
   }
 
   const _uploadFail = () => {
-    useToast('上传失败')
+    useToast({ title: '上传失败' })
     setUploading(false)
     itemRef.current?.setValue([])
     urlRef.current = ''

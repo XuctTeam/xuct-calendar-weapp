@@ -4,14 +4,14 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-25 15:46:36
+ * @LastEditTime: 2022-02-28 21:55:21
  */
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Component } from 'react'
 import { Cell, Field, Button, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
-import { useToast } from '@/utils/taro'
+import { useToast, useBack } from '@/utils/taro'
 import { password } from '@/api/user'
 
 import './index.scss'
@@ -65,22 +65,22 @@ class Password extends Component {
 
   modifyPassword = () => {
     if (!this.state.password) {
-      useToast('密码不能为空')
+      useToast({ title: '密码不能为空' })
       return
     }
     if (!this.state.comfirmPassword) {
-      useToast('确认密码不能为空')
+      useToast({ title: '确认密码不能为空' })
       return
     }
     if (this.state.password !== this.state.comfirmPassword) {
-      useToast('密码不一致')
+      useToast({ title: '密码不一致' })
       return
     }
     password(this.state.password)
       .then(() => {
-        useToast('修改成功', true)
+        useToast({ title: '修改成功', icon: 'success' })
         window.setTimeout(() => {
-          Taro.navigateBack({ delta: 1 })
+          useBack({ to: 4 })
         }, 1000)
       })
       .catch((err) => {

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-07 10:37:58
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-25 15:45:25
+ * @LastEditTime: 2022-02-28 21:51:30
  */
 import { Component } from 'react'
 import { connect } from 'react-redux'
@@ -14,7 +14,7 @@ import dayjs from 'dayjs'
 import { bindActionCreators } from 'redux'
 import { View, Image, Navigator } from '@tarojs/components'
 import { ArrowLeft } from '@taroify/icons'
-import { useToast } from '@/utils/taro'
+import { useToast, useBack } from '@/utils/taro'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/token'
 import { DvaProps } from '../../../@types/dva'
 import { WebForm, WechatForm } from './ui'
@@ -72,7 +72,7 @@ class Login extends Component {
           }
         },
         fail(res) {
-          useToast(res.errMsg)
+          useToast({ title: res.errMsg })
         }
       })
     }
@@ -87,11 +87,11 @@ class Login extends Component {
    */
   loginByCode = async () => {
     if (!this.state.icode) {
-      useToast('微信登录失败')
+      useToast({ title: '微信登录失败' })
       return
     }
     if (this.state.icode.ts - dayjs().valueOf() > 1000 * 60 * 5) {
-      useToast('请在规定时间内完成授权')
+      useToast({ title: '请在规定时间内完成授权' })
       return
     }
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
@@ -102,7 +102,7 @@ class Login extends Component {
         wechatLogin(code, res.iv, res.encryptedData)
           .then((rs) => {
             this._saveTokenToCache(rs.access_token, rs.refresh_token)
-            Taro.navigateBack({ delta: 1 })
+            useBack({ to: 4 })
           })
           .catch((err) => {
             console.log(err)
@@ -156,11 +156,7 @@ class Login extends Component {
   }
 
   back = () => {
-    try {
-      Router.back()
-    } catch (err) {
-      Router.navigate({ url: '/pages/aboutme/index' }, { type: NavigateType.reLaunch })
-    }
+    useBack({ to: 4 })
   }
 
   render() {

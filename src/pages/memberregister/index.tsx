@@ -4,10 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-25 15:47:18
+ * @LastEditTime: 2022-02-28 21:55:34
  */
 import { FunctionComponent, useEffect, useState } from 'react'
-import Taro from '@tarojs/taro'
 import { BaseEventOrig, FormProps, Input, View } from '@tarojs/components'
 import { Button, Cell, Field, Form, Image } from '@taroify/core'
 import CommonMain from '@/components/mixin'
@@ -50,15 +49,15 @@ const MemberRegister: FunctionComponent = () => {
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     const formData: IFormData = event.detail.value as any as IFormData
     if (!formData.captcha || formData.captcha.length !== 5) {
-      useToast('验证码错误')
+      useToast({ title: '验证码错误' })
       return
     }
     formData.key = key
     register(formData)
       .then(() => {
-        useToast('注册成功', true)
+        useToast({ title: '注册成功', icon: 'success' })
         setTimeout(() => {
-          useBack(4)
+          useBack({ to: 4 })
         }, 1000)
       })
       .catch((err) => {

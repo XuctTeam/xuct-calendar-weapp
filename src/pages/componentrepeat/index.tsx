@@ -2,7 +2,7 @@
  * @Description: 日程重复
  * @Author: Derek Xu
  * @Date: 2021-12-24 16:14:50
- * @LastEditTime: 2022-02-16 17:19:56
+ * @LastEditTime: 2022-02-28 21:39:47
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -229,13 +229,16 @@ class Schedulerepet extends Component {
   }
 
   repeatSave = () => {
-    useBack(1, {
-      repeatType: this.state.repeatType,
-      repeatByday: this.state.repeatByday,
-      repeatBymonth: this.state.repeatBymonth,
-      repeatBymonthday: this.state.repeatBymonthday,
-      repeatInterval: this.state.repeatInterval,
-      repeatStatus: this.state.repeatStatus
+    useBack({
+      to: 1,
+      data: {
+        repeatType: this.state.repeatType,
+        repeatByday: this.state.repeatByday,
+        repeatBymonth: this.state.repeatBymonth,
+        repeatBymonthday: this.state.repeatBymonthday,
+        repeatInterval: this.state.repeatInterval,
+        repeatStatus: this.state.repeatStatus
+      }
     })
   }
 
