@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-17 13:04:39
+ * @LastEditTime: 2022-02-28 15:12:42
  */
 import http from '@/utils/request'
 
@@ -47,4 +47,38 @@ export const search = (word: string) => {
  */
 export const apply = (id: string) => {
   return http.post('/ums/api/app/v1/group/apply', { id })
+}
+
+/**
+ * 我申请的列表
+ * @returns
+ */
+export const mineApplyList = () => {
+  return http.get('/ums/api/app/v1/group/mine/apply')
+}
+
+/**
+ * 申请我的列表
+ * @returns
+ */
+export const applyMineList = () => {
+  return http.get('/ums/api/app/v1/group/apply/mine')
+}
+
+/**
+ * 同意加入群组
+ * @param groupId
+ * @param memberId
+ */
+export const applyAgreeJoinGroup = (groupId: string, memberId: string) => {
+  return http.post('/ums/api/app/v1/group/apply/agree', { groupId, memberId })
+}
+
+/**
+ * 拒绝加入群组
+ * @param groupId
+ * @param memberId
+ */
+export const applyRefuseJoinGroup = (groupId: string, memberId: string) => {
+  return http.post('/ums/api/app/v1/group/apply/refuse', { groupId, memberId })
 }

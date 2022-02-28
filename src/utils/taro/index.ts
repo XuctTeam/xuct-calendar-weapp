@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-02-25 15:43:54
+ * @LastEditTime: 2022-02-28 18:55:36
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -179,11 +180,11 @@ export const useToast = (msg: string, success: boolean = false): void => {
 export const respErrorToast = (res: any) => {
   console.log(res)
   if (res.status) {
-    useToash(res.statusText)
+    useToast(res.statusText)
     return
   }
   if (res['errMsg']) {
-    useToash(res['errMsg'])
+    useToast(res['errMsg'])
   }
 }
 

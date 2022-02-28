@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-02-26 19:56:08
+ * @LastEditTime: 2022-02-28 10:56:07
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -36,7 +36,8 @@ export default {
     'pages/customerservice/index',
     'pages/groupmanager/index',
     'pages/groupcreate/index',
-    'pages/groupsearch/index'
+    'pages/groupsearch/index',
+    'pages/groupapply/index'
   ],
   window: {
     backgroundTextStyle: 'light',

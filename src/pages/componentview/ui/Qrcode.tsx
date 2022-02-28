@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-02-25 15:44:52
+ * @LastEditTime: 2022-02-28 13:57:08
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef } from 'react'
@@ -189,12 +190,7 @@ const H5Qrcode: FunctionComponent<IPageStateProps> = (props) => {
           filePath: res.tempFilePath
         })
           .then(() => {
-            Taro.showModal({
-              title: '图片保存成功',
-              content: '图片保存成功',
-              showCancel: false,
-              confirmText: '确认'
-            })
+            useToast('上传成功', true)
           })
           .catch(() => {
             useToast('图片保存失败')

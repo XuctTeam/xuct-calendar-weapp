@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-02-25 15:49:10
+ * @LastEditTime: 2022-02-28 18:54:33
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -17,7 +17,7 @@ import { IDavComponent } from '~/../@types/calendar'
 import CommonMain from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
-import { useBack } from '@/utils/taro'
+import { useBack, useFriendStatus } from '@/utils/taro'
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'

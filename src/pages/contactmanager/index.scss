@@ -4,29 +4,25 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-08 20:06:21
+ * @LastEditTime: 2022-02-28 18:09:33
  */
 
 .vi-group-manager-warpper {
-  // &_group-list {
-  //   // display: flex;
-  //   // align-items: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
-  //   // .taroify-cell__value {
-  //   //   display: flex;
-  //   //   flex-direction: row;
-  //   // }
+  &_header {
+    position: fixed;
+    height: 100px;
+    width: 100%;
+  }
 
-  //   // .cell {
-  //   //   padding-left: 20px;
-
-  //   //   .title {
-  //   //     font-size: 32px;
-  //   //     font-weight: 400;
-  //   //   }
-  //   //   .number {
-  //   //     font-size: 10px;
-  //   //   }
-  //   // }
-  // }
+  &_list {
+    overflow-y: auto;
+    //flex: 1;
+    height: 100%;
+    border: 1px solid red;
+  }
 }

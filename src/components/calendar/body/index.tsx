@@ -123,7 +123,7 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
     })
   }
 
-  private animateMoveSlide = (offset: number, callback?: Function): void => {
+  private animateMoveSlide = (offset: number, useBack?: Function): void => {
     this.setState(
       {
         isAnimate: true
@@ -138,7 +138,7 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
               isAnimate: false
             },
             () => {
-              callback && callback()
+              useBack && useBack()
             }
           )
         }, ANIMTE_DURATION)

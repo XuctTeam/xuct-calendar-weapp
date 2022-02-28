@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-26 22:48:30
+ * @LastEditTime: 2022-02-28 10:51:52
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -55,9 +55,6 @@ const MessageDetail: FunctionComponent = ({}) => {
     <CommonMain className='vi-message-detail-warpper' title='消息详情' fixed to={3} left>
       <View className='vi-message-detail-warpper_container'>
         {message.type === 'GROUP' ? <GroupBody content={message.content}></GroupBody> : <SystemBody></SystemBody>}
-      </View>
-      <View className='vi-message-detail-warpper_button'>
-        <ActionButton type={message.type} state={message.status}></ActionButton>
       </View>
     </CommonMain>
   )
