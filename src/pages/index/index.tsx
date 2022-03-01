@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-02-22 16:18:19
+ * @LastEditTime: 2022-03-01 17:11:31
  * @LastEditors: Derek Xu
  */
 import React, { Component, Fragment } from 'react'
@@ -18,6 +19,7 @@ import dayjs from 'dayjs'
 import { DvaProps } from '~/../@types/dva'
 import { ICurrentDay } from '~/../@types/date'
 import { getToday } from '@/utils/utils'
+import { useWebEnv } from '@/utils/taro'
 import { USER_LOGOUT_EVENT } from '@/constants/index'
 import CalendarTypes from '@/components/calendar/types/calendar'
 import { IDavCalendar, ICalendarComponent, IDavComponent } from '~/../@types/calendar'
@@ -371,8 +373,10 @@ class Index extends Component {
             viewComponent={this.viewComponent.bind(this)}
           ></Event>
         </CommonMain>
-        <View className='vi-index_home-fab' style={{ bottom: process.env.TARO_ENV === 'h5' ? '80px' : '20px' }}>
-          {this.props.accessToken && <Button shape='round' variant='contained' color='primary' icon={<Plus />} onClick={this.createComponent.bind(this)} />}
+        <View className='vi-index_home-fab' style={{ bottom: useWebEnv() ? '80px' : '20px' }}>
+          {this.props.accessToken && (
+            <Button size='small' variant='contained' color='primary' shape='round' icon={<Plus />} onClick={this.createComponent.bind(this)} />
+          )}
         </View>
         <CaldavList
           hasLogin={!!this.props.accessToken}
@@ -383,11 +387,7 @@ class Index extends Component {
         ></CaldavList>
 
         {this.state.selectedDay !== day.current && (
-          <View
-            className='vi-index_today-icon'
-            style={process.env.TARO_ENV === 'weapp' ? `bottom:10px` : `bottom: 80px`}
-            onClick={this.currentClickHandle.bind(this)}
-          >
+          <View className='vi-index_today-icon' style={{ bottom: useWebEnv() ? '80px' : '10px' }} onClick={this.currentClickHandle.bind(this)}>
             今
           </View>
         )}

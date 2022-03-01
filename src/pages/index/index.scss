@@ -129,7 +129,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  right: 44px;
+  width: 100px;
+  height: 100px;
+  right: 50px;
+
+  .taroify-button {
+    width: 100%;
+    height: 100%;
+  }
+
+  .taroify-button__content {
+    .van-icon {
+      padding-left: 6px;
+    }
+  }
 }
 
 /* 日历弹出样式 */

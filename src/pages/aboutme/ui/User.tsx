@@ -2,15 +2,16 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 13:27:57
- * @LastEditTime: 2022-01-29 18:04:07
+ * @LastEditTime: 2022-03-01 17:41:14
  * @LastEditors: Derek Xu
  */
-import Taro from '@tarojs/taro'
+import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
+import Router from 'tarojs-router-next'
 import { Avatar } from '@taroify/core'
 import '../index.scss'
 
-interface IUserProps {
+interface IPageOption {
   hasLogin: boolean
   nickname: string
   avatar?: string
@@ -18,7 +19,7 @@ interface IUserProps {
 
 const defaultAvatar = 'http://images.xuct.com.cn/avatar_default.png'
 
-const User = (props: IUserProps): JSX.Element => {
+const User: FunctionComponent<IPageOption> = (props) => {
   return (
     <View className='vi-aboutme-wrapper_head'>
       <View className='top'>
@@ -26,7 +27,7 @@ const User = (props: IUserProps): JSX.Element => {
           <Avatar src={props.avatar ? props.avatar : defaultAvatar} size='large' />
         </View>
         {!props.hasLogin ? (
-          <View className='top-info' onClick={() => Taro.navigateTo({ url: '/pages/login/index' })}>
+          <View className='top-info' onClick={() => Router.toLogin()}>
             <View className='top-info_need'>立即登录</View>
             <View className='top-info_text'>登录后才可以创建、管理日程</View>
           </View>

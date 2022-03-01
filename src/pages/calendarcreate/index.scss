@@ -12,6 +12,12 @@
     margin: 20px;
     padding-bottom: 10px;
   }
+
+  .taroify-radio-group {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
 }
 
 .taroify-grid-item__content {
