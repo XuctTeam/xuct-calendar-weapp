@@ -4,32 +4,28 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-09 19:39:54
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-28 20:38:10
+ * @LastEditTime: 2022-03-01 15:29:35
  */
 
 import { Fragment, FunctionComponent, useState } from 'react'
-import { Cell, IndexList, PullRefresh } from '@taroify/core'
-import _ from 'lodash'
+import { Empty, IndexList, PullRefresh } from '@taroify/core'
 import { usePageScroll } from '@tarojs/taro'
+import { IPinYinGroupMember } from '~/../@types/group'
+import UserBodyList from './UserBodyList'
 
-interface IPageProps {
+interface IPageOption {
   loading: boolean
+  pinYinMembers: Array<IPinYinGroupMember>
   refresh: () => void
+  disabled: boolean
 }
 
-const UserList: FunctionComponent<IPageProps> = (props) => {
-  const indexList: string[] = []
-  const charCodeOfA = 'A'.charCodeAt(0)
+const UserList: FunctionComponent<IPageOption> = (props) => {
   const [reachTop, setReachTop] = useState(true)
 
   usePageScroll(({ scrollTop }) => setReachTop(scrollTop === 0))
 
-  for (let i = 0; i < 26; i++) {
-    indexList.push(String.fromCharCode(charCodeOfA + i))
-  }
-
   const refresh = () => {
-    //setLoading(true)
     props.refresh()
   }
 
@@ -38,22 +34,28 @@ const UserList: FunctionComponent<IPageProps> = (props) => {
       style={{ height: '100%' }}
       loading={props.loading}
       reachTop={reachTop}
+      disabled={props.disabled}
       onRefresh={() => {
         refresh()
       }}
     >
-      <IndexList>
-        {_.map(indexList, (index) => {
-          return (
-            <Fragment key={index}>
-              <IndexList.Anchor index={index} />
-              <Cell title='文本' />
-              <Cell title='文本' />
-              <Cell title='文本' />
-            </Fragment>
-          )
-        })}
-      </IndexList>
+      {props.pinYinMembers.length === 0 ? (
+        <Empty>
+          <Empty.Image />
+          <Empty.Description>暂无数据</Empty.Description>
+        </Empty>
+      ) : (
+        <IndexList>
+          {props.pinYinMembers.map((item) => {
+            return (
+              <Fragment key={item.charCode}>
+                <IndexList.Anchor index={item.charCode} />
+                <UserBodyList charCode={item.charCode} members={item.members}></UserBodyList>
+              </Fragment>
+            )
+          })}
+        </IndexList>
+      )}
     </PullRefresh>
   )
 }

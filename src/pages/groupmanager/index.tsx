@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-28 15:25:59
+ * @LastEditTime: 2022-03-01 14:08:18
  */
 import { FunctionComponent, useEffect, useState } from 'react'
 import CommonMain from '@/components/mixin'
@@ -53,14 +53,9 @@ const Index: FunctionComponent = () => {
       })
   }
 
-  const applyHandler = () => {
-    Router.toGroupapply()
-  }
-
   return (
     <CommonMain className='vi-group-manager-wrapper' title='我的群组' fixed to={2} left>
       <View className='vi-group-manager-wrapper_container'>
-        <Cell icon={<FriendsOutlined />} title='群组申请' bordered clickable onClick={() => applyHandler()}></Cell>
         <Cell icon={<AddOutlined />} title='添加群组' bordered clickable onClick={() => addGroupHandler()}></Cell>
         <Cell icon={<Search />} title='加入群组' bordered clickable onClick={() => searchGroupHandler()}></Cell>
         <Cell.Group title='我的群组'>

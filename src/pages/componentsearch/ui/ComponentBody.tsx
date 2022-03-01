@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-24 15:28:37
- * @LastEditTime: 2022-01-28 15:21:39
+ * @LastEditTime: 2022-03-01 14:36:10
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -11,12 +11,12 @@ import { View } from '@tarojs/components'
 import { IDavComponent } from '~/../@types/calendar'
 import '../index.scss'
 
-interface IPageStateProps {
+interface IPageOption {
   component: IDavComponent
   viewComponent: (component: IDavComponent) => void
 }
 
-const ComponentBody: React.FC<IPageStateProps> = (props) => {
+const ComponentBody: React.FC<IPageOption> = (props) => {
   const { component } = props
 
   const view = () => {

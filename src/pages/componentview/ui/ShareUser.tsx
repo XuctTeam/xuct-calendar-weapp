@@ -2,19 +2,19 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 16:13:36
- * @LastEditTime: 2022-02-04 16:00:44
+ * @LastEditTime: 2022-03-01 14:35:56
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
 import { ShareSheet } from '@taroify/core'
 
-interface IPageStateProps {
+interface IPageOption {
   open: boolean
   selected: (event: ShareSheet.OptionObject) => void
   close: () => void
 }
 
-const ShareUser: FunctionComponent<IPageStateProps> = (props) => {
+const ShareUser: FunctionComponent<IPageOption> = (props) => {
   return (
     <ShareSheet open={props.open} onSelect={props.selected} onClose={props.close} onCancel={props.close}>
       <ShareSheet.Header title='立即分享给好友' />

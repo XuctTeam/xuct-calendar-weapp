@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-13 10:03:33
- * @LastEditTime: 2022-01-31 15:56:29
+ * @LastEditTime: 2022-03-01 14:38:08
  * @LastEditors: Derek Xu
  */
 import { View } from '@tarojs/components'
 import { Grid, Radio } from '@taroify/core'
+import { GridItem } from '@taroify/core/grid/grid-item'
 import { colors } from '@/constants/index'
 import { styled } from 'linaria/react'
-import GridItem from '@taroify/core/grid/grid-item'
 
 interface IColorPropState {
   defaultColor: string

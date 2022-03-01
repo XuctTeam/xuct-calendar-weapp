@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-02-28 21:48:48
+ * @LastEditTime: 2022-03-01 14:35:42
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef } from 'react'
@@ -15,7 +15,7 @@ import { useToast } from '@/utils/taro'
 
 import '../index.scss'
 
-interface IPageStateProps {
+interface IPageOption {
   open: boolean
   componentId: string
   width: number
@@ -23,7 +23,7 @@ interface IPageStateProps {
   close: () => void
 }
 
-const H5Qrcode: FunctionComponent<IPageStateProps> = (props) => {
+const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
   const canvas = useRef<any>()
   useEffect(() => {
     let time = 0

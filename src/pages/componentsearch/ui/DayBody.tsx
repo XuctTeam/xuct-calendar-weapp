@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-24 15:26:05
- * @LastEditTime: 2022-01-28 15:20:02
+ * @LastEditTime: 2022-03-01 14:36:18
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -12,13 +12,13 @@ import dayjs from 'dayjs'
 import { formatWeek } from '@/utils/utils'
 import ComponentBody from './ComponentBody'
 
-interface IPageStateProps {
+interface IPageOption {
   day: string
   components: Array<IDavComponent>
   viewComponent: (component: IDavComponent) => void
 }
 
-const DayBody: React.FC<IPageStateProps> = (props) => {
+const DayBody: React.FC<IPageOption> = (props) => {
   const formatDay = (): string => {
     return dayjs(props.day).format('MM-DD') + ' ' + formatWeek(dayjs(props.day).get('day'))
   }

@@ -2,19 +2,19 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-30 11:18:24
- * @LastEditTime: 2022-01-18 11:04:03
+ * @LastEditTime: 2022-03-01 14:36:37
  * @LastEditors: Derek Xu
  */
 import React from 'react'
 import { formatWeek } from '@/utils/utils'
 import { Cell, Checkbox } from '@taroify/core'
 
-interface IPageStateProps {
+interface IPageOption {
   defaultValues: Array<string>
   weekSelected: (weeks: Array<string>) => void
 }
 
-const Weekly: React.FC<IPageStateProps> = (props) => {
+const Weekly: React.FC<IPageOption> = (props) => {
   return (
     <>
       <Checkbox.Group defaultValue={props.defaultValues} onChange={props.weekSelected}>

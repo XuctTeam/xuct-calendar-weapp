@@ -2,13 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-28 19:24:31
- * @LastEditTime: 2022-01-19 11:57:42
+ * @LastEditTime: 2022-03-01 14:36:30
  * @LastEditors: Derek Xu
  */
 import React from 'react'
 import { Popup, Picker } from '@taroify/core'
 
-interface IPageStateProps {
+interface IPageOption {
   open: boolean
   type: string
   repeatInterval: number
@@ -16,7 +16,7 @@ interface IPageStateProps {
   closeHandler: () => void
 }
 
-const IntervalPicker: React.FC<IPageStateProps> = (props) => {
+const IntervalPicker: React.FC<IPageOption> = (props) => {
   return (
     <Popup open={props.open} rounded placement='bottom' onClose={props.closeHandler}>
       <Picker defaultValue={props.repeatInterval} onCancel={props.closeHandler} onConfirm={props.intervalSelected}>

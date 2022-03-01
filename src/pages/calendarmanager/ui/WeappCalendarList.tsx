@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-08 09:07:48
- * @LastEditTime: 2022-02-25 10:11:46
+ * @LastEditTime: 2022-03-01 15:27:35
  * @LastEditors: Derek Xu
  */
 import { usePageScroll } from '@tarojs/taro'
@@ -22,8 +22,6 @@ interface IPageStateProps {
 }
 
 const CalendarList: React.FC<IPageStateProps> = (props) => {
-  const [reachTop, setReachTop] = useState(true)
-  //usePageScroll(({ scrollTop }) => setReachTop(scrollTop === 0))
   const [scrollTop, setScrollTop] = useState<number>(0)
 
   const onRefresherRefresh = () => {
@@ -31,20 +29,6 @@ const CalendarList: React.FC<IPageStateProps> = (props) => {
   }
 
   return (
-    // <PullRefresh
-    //   reachTop={reachTop}
-    //   loading={props.loading}
-    //   onRefresh={() => {
-    //     props.calendarRefresh()
-    //   }}
-    //   style={{ height: '100%' }}
-    // >
-    //   <View>
-    //     {props.calendars.map((item) => {
-    //       return <CalendarListBody key={item.id + ''} item={item} editCalendar={props.editCalendar}></CalendarListBody>
-    //     })}
-    //   </View>
-    // </PullRefresh>
     <View className='vi-calendar-manager-wrapper_container'>
       <View className='list'>
         <ScrollView

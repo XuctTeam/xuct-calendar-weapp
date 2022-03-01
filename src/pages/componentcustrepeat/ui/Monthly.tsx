@@ -2,20 +2,20 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-31 02:24:12
- * @LastEditTime: 2021-12-31 15:19:41
+ * @LastEditTime: 2022-03-01 14:36:34
  * @LastEditors: Derek Xu
  */
 import React from 'react'
 import { Cell, Radio } from '@taroify/core'
 import dayjs from 'dayjs'
 
-interface IPageStateProps {
+interface IPageOption {
   selectedDate: Date
   selectedMonthDay: string
   monthDaySelected: (name: string) => void
 }
 
-const Monthly: React.FC<IPageStateProps> = (props) => {
+const Monthly: React.FC<IPageOption> = (props) => {
   return (
     <>
       <Radio.Group defaultValue={props.selectedMonthDay} onChange={props.monthDaySelected}>

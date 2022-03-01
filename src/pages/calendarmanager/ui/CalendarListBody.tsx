@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 10:37:56
- * @LastEditTime: 2022-02-25 10:24:31
+ * @LastEditTime: 2022-03-01 14:37:03
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -13,12 +13,12 @@ import { IDavCalendar } from '~/../@types/calendar'
 
 import '../index.scss'
 
-interface IPageStateProps {
+interface IPageOption {
   item: IDavCalendar
   editCalendar: (id: string | null) => void
 }
 
-const CalendarListBody: React.FC<IPageStateProps> = (props) => {
+const CalendarListBody: React.FC<IPageOption> = (props) => {
   const { id, name, color, description, createMemberName } = props.item || { id: '' }
   return (
     <View className='vi-calendar-manager-wrapper_list'>

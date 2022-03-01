@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:42:57
- * @LastEditTime: 2022-02-28 22:30:47
+ * @LastEditTime: 2022-03-01 14:34:43
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback } from 'react'
@@ -11,13 +11,13 @@ import { Button, Cell, SwipeCell } from '@taroify/core'
 import { IGroup } from '~/../@types/group'
 import { useModal } from '@/utils/taro'
 
-interface IPageProps {
+interface IPageOption {
   groups: Array<IGroup>
   applyAgree: (gid: string, mid: string) => void
   applyRefuse: (gid: string, mid: string) => void
 }
 
-const ApplyMine: FunctionComponent<IPageProps> = (props) => {
+const ApplyMine: FunctionComponent<IPageOption> = (props) => {
   const [show] = useModal({
     title: '提示',
     content: '确定同意么？'

@@ -4,21 +4,21 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-04 15:50:51
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-05 20:23:00
+ * @LastEditTime: 2022-03-01 14:36:00
  */
 import { FunctionComponent } from 'react'
 import { Dialog } from '@taroify/core'
 import { Button, View } from '@tarojs/components'
 import { useShareAppMessage } from '@tarojs/taro'
 
-interface IPageStateProps {
+interface IPageOption {
   open: boolean
   componentTitle: string
   componentId: string
   onClose: () => void
 }
 
-const WeappShare: FunctionComponent<IPageStateProps> = (props) => {
+const WeappShare: FunctionComponent<IPageOption> = (props) => {
   useShareAppMessage((res) => {
     if (res.from === 'button') {
       // 来自页面内转发按钮

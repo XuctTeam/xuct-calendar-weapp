@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-18 18:24:40
- * @LastEditTime: 2022-01-30 11:43:31
+ * @LastEditTime: 2022-03-01 14:35:35
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -10,7 +10,7 @@ import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import { formatRepeatTime, formatDifferentDayTime } from '@/utils/utils'
 
-interface IPageState {
+interface IPageOption {
   dtstart: Date
   dtend: Date
   fullDay: number
@@ -23,7 +23,7 @@ interface IPageState {
   repeatUntil?: string
 }
 
-const DifferentDay: React.FC<IPageState> = (props) => {
+const DifferentDay: React.FC<IPageOption> = (props) => {
   const {
     repeatStatus = '0',
     repeatType = '',

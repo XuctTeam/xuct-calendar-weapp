@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 09:58:53
- * @LastEditTime: 2022-02-16 16:20:52
+ * @LastEditTime: 2022-03-01 14:36:56
  * @LastEditors: Derek Xu
  */
 import { View } from '@tarojs/components'
@@ -10,12 +10,12 @@ import dayjs from 'dayjs'
 import React from 'react'
 import { Flex } from '@taroify/core'
 
-type PageStateProps = {
+type IPageOption = {
   time: Date
   fullDay: number
 }
 
-const Time: React.FC<PageStateProps> = (props) => {
+const Time: React.FC<IPageOption> = (props) => {
   const day = dayjs(props.time).format('DD/MM/YYYY')
   const week = dayjs(props.time).format('ddd')
   const second = dayjs(props.time).format('HH:mm')

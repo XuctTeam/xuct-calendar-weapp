@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 11:31:41
- * @LastEditTime: 2022-02-16 16:20:35
+ * @LastEditTime: 2022-03-01 14:36:43
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -11,14 +11,14 @@ import { ActionSheet } from '@taroify/core'
 import { IDavCalendar } from '~/../@types/calendar'
 import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 
-type PageStateProps = {
+type IPageOption = {
   open: boolean
   calendars: Array<IDavCalendar>
   closeHandler: () => void
   selectedHandler: (id: any) => void
 }
 
-const CalendarAction: React.FC<PageStateProps> = (props) => {
+const CalendarAction: React.FC<IPageOption> = (props) => {
   const selected = (data: ActionSheetActionObject) => {
     props.selectedHandler(data.value)
   }

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:37:59
- * @LastEditTime: 2022-02-17 18:10:52
+ * @LastEditTime: 2022-03-01 14:36:14
  * @LastEditors: Derek Xu
  */
 import { useState } from 'react'
@@ -11,7 +11,7 @@ import { List, Loading } from '@taroify/core'
 import { ICalendarComponent, IDavComponent } from '~/../@types/calendar'
 import DayBody from './DayBody'
 
-interface IPageStateProps {
+interface IPageOption {
   loading: boolean
   hasMore: boolean
   list: Array<ICalendarComponent>
@@ -19,7 +19,7 @@ interface IPageStateProps {
   viewComponent: (component: IDavComponent) => void
 }
 
-const EventList: React.FC<IPageStateProps> = (props) => {
+const EventList: React.FC<IPageOption> = (props) => {
   const [scrollTop, setScrollTop] = useState(0)
 
   return (

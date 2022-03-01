@@ -1,15 +1,15 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Version: 1.0
  * @Autor: Derek Xu
  * @Date: 2021-11-07 10:37:58
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-28 21:51:30
+ * @LastEditTime: 2022-03-01 09:53:45
  */
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import Taro from '@tarojs/taro'
-import Router, { NavigateType } from 'tarojs-router-next'
 import dayjs from 'dayjs'
 import { bindActionCreators } from 'redux'
 import { View, Image, Navigator } from '@tarojs/components'
@@ -156,7 +156,12 @@ class Login extends Component {
   }
 
   back = () => {
-    useBack({ to: 4 })
+    useBack({
+      to: 4,
+      data: {
+        isLogin: true
+      }
+    })
   }
 
   render() {

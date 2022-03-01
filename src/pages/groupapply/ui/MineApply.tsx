@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:40:50
- * @LastEditTime: 2022-02-28 14:40:05
+ * @LastEditTime: 2022-03-01 14:34:49
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent } from 'react'
@@ -10,11 +10,11 @@ import { View } from '@tarojs/components'
 import { Button, Cell, SwipeCell } from '@taroify/core'
 import { IGroup } from '~/../@types/group'
 
-interface IPageProps {
+interface IPageOption {
   groups: Array<IGroup>
 }
 
-const MineApply: FunctionComponent<IPageProps> = (props) => {
+const MineApply: FunctionComponent<IPageOption> = (props) => {
   return (
     <Fragment>
       {props.groups.length === 0 ? (

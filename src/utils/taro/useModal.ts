@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-28 21:41:35
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-28 22:24:32
+ * @LastEditTime: 2022-03-01 08:47:55
  */
 import { showModal } from '@tarojs/taro'
 import { useCallback, useEffect, useRef } from 'react'
@@ -39,6 +39,7 @@ function useModal(option?: ModalOption): [ShowModal] {
   }, [option])
 
   const showModalAsync = useCallback<ShowModal>(
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     (option?: ModalOption) => {
       return new Promise((resolve, reject) => {
         try {

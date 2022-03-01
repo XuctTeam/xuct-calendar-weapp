@@ -2,13 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-28 09:13:40
- * @LastEditTime: 2022-01-07 17:26:47
+ * @LastEditTime: 2022-03-01 14:36:48
  * @LastEditors: Derek Xu
  */
 import { DatetimePicker, Popup } from '@taroify/core'
 import React, { useState } from 'react'
 
-interface IPageStateProps {
+interface IPageOption {
   selectedDate: Date | null
   open: boolean
   minDate: Date
@@ -16,7 +16,7 @@ interface IPageStateProps {
   confirmHandler: (date: Date) => void
 }
 
-const RepeatPicker: React.FC<IPageStateProps> = (props) => {
+const RepeatPicker: React.FC<IPageOption> = (props) => {
   const [maxDate] = useState(new Date(2030, 10, 1))
   const [defaultValue] = useState(new Date())
 
