@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-16 21:32:36
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-06 09:45:44
+ * @LastEditTime: 2022-03-01 22:09:10
  */
 import React, { useState } from 'react'
 import { View } from '@tarojs/components'
@@ -12,17 +12,17 @@ import { Popup, Cell, Field, Button, Input } from '@taroify/core'
 
 import '../index.scss'
 
-type IPageState = {
+type IPageOption = {
   open: boolean
   name: string
   closeHanler: () => void
   modifyNameHandler: (name: string) => void
 }
 
-const ModifyName: React.FC<IPageState> = (props) => {
+const ModifyName: React.FC<IPageOption> = (props) => {
   const [modifyName, setModifyName] = useState(props.name)
   return (
-    <Popup className='vi-user-wrapper_ui-name' open={props.open} placement='bottom' style={{ height: '30%' }} onClose={props.closeHanler}>
+    <Popup className='vi-user-wrapper_ui-name' rounded open={props.open} placement='bottom' style={{ height: '30%' }} onClose={props.closeHanler}>
       <View className='form'>
         <Cell.Group inset>
           <Field label='名称'>
