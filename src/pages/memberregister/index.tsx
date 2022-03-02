@@ -10,8 +10,8 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import { BaseEventOrig, FormProps, Input, View } from '@tarojs/components'
 import { Button, Cell, Field, Form, Image } from '@taroify/core'
 import CommonMain from '@/components/mixin'
-import { useToast, useBack } from '@/utils/taro'
-import { captcha, register } from '@/api/user'
+import { toast, back } from '@/utils/taro'
+import { captcha as toGetCaptcha, register } from '@/api/user'
 import './index.scss'
 
 interface ICaptcha {
@@ -35,7 +35,7 @@ const MemberRegister: FunctionComponent = () => {
   }, [])
 
   const getCaptcha = () => {
-    captcha()
+    toGetCaptcha()
       .then((res) => {
         const captcha: ICaptcha = res as any as ICaptcha
         setImage(captcha.image)
@@ -49,15 +49,15 @@ const MemberRegister: FunctionComponent = () => {
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     const formData: IFormData = event.detail.value as any as IFormData
     if (!formData.captcha || formData.captcha.length !== 5) {
-      useToast({ title: '验证码错误' })
+      toast({ title: '验证码错误' })
       return
     }
     formData.key = key
     register(formData)
       .then(() => {
-        useToast({ title: '注册成功', icon: 'success' })
+        toast({ title: '注册成功', icon: 'success' })
         setTimeout(() => {
-          useBack({ to: 4 })
+          back({ to: 4 })
         }, 1000)
       })
       .catch((err) => {

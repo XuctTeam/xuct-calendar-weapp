@@ -31,12 +31,19 @@
       margin: 20px;
     }
   }
+}
 
-  &_upload {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+.vi-user-wrapper_upload {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+
+  .button {
+    width: 100%;
+    margin-top: 10px;
   }
 }

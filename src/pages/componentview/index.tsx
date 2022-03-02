@@ -17,7 +17,7 @@ import { IDavComponent } from '~/../@types/calendar'
 import CommonMain from '@/components/mixin'
 import { getById, deleteById } from '@/api/component'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
-import { useBack } from '@/utils/taro'
+import { back } from '@/utils/taro'
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
@@ -122,7 +122,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
             })
             window.setTimeout(() => {
               setDelLoading(false)
-              useBack({ to: 1 })
+              back({ to: 1 })
             }, 300)
           })
         } else if (res.cancel) {

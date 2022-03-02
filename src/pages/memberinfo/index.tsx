@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 22:02:15
+ * @LastEditTime: 2022-03-02 14:10:29
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,7 +18,7 @@ import { ArrowRight } from '@taroify/icons'
 import { DEFAULT_AVATAR, USER_LOGOUT_EVENT } from '@/constants/index'
 import { useToast, useBack, useModal } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
-import { updateName, baseUserInfo, logout, auths } from '@/api/user'
+import { updateName, baseUserInfo, logout, auths, updateAvatar } from '@/api/user'
 import { ModifyName, UploadHeader } from './ui'
 
 const MemberInfo: FunctionComponent = () => {
@@ -29,6 +29,9 @@ const MemberInfo: FunctionComponent = () => {
   const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
   const dispatch = useDispatch()
   const removeLoading = loadingEffect.effects['common/removeStoreSync']
+  const [back] = useBack()
+  const [toast] = useToast()
+
   const [show] = useModal({
     title: '提示',
     content: '确定退出吗？'
@@ -36,10 +39,11 @@ const MemberInfo: FunctionComponent = () => {
 
   useEffect(() => {
     if (removeLoading) {
-      useToast({ title: '退出成功', icon: 'success' })
+      toast({ title: '退出成功', icon: 'success' })
       Taro.eventCenter.trigger(USER_LOGOUT_EVENT)
-      useBack({ to: 4 })
+      back({ to: 4 })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [removeLoading])
 
   const wxAuth = userAuth.find((i) => i.identityType === 'open_id')
@@ -57,11 +61,12 @@ const MemberInfo: FunctionComponent = () => {
   }
 
   const callLogout = useCallback(() => {
-    show({}).then((res) => {
+    show().then((res) => {
       if (res.cancel) return
       //@ts-ignore
       _logout()
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show])
 
   const cleanUserInfo = () => {
@@ -74,13 +79,6 @@ const MemberInfo: FunctionComponent = () => {
         auths: []
       }
     })
-  }
-
-  /**
-   * 修改名称关闭回调
-   */
-  const modifyNameClose = () => {
-    setNameOpen(false)
   }
 
   const toModifyPhone = async (phone: string) => {
@@ -108,11 +106,6 @@ const MemberInfo: FunctionComponent = () => {
     }
   }
 
-  /**
-   * 修改账号
-   * @param username
-   * @returns
-   */
   const toModifyUserName = async (username: string) => {
     try {
       const result = await Router.toMemberbindusername({
@@ -138,32 +131,39 @@ const MemberInfo: FunctionComponent = () => {
     }
   }
 
-  /**
-   * 修改名称
-   * @param name
-   */
   const modifyNameHandler = (name: string) => {
     if (!name) {
-      useToast({ title: '名称不能为空' })
+      toast({ title: '名称不能为空' })
       return
     }
-    console.log(name)
     updateName(name)
       .then(() => {
         /** 刷新用户 */
-        _updateUserInfo()
-        dispatch({
-          type: 'calendar/updateCalendarMemberName',
-          payload: {
-            createMemberId: userInfo.id,
-            createMemberName: name
-          }
+        _updateUserInfo().then(() => {
+          dispatch({
+            type: 'calendar/updateCalendarMemberName',
+            payload: {
+              createMemberId: userInfo.id,
+              createMemberName: name
+            }
+          })
         })
       })
       .catch((err) => {
         console.log(err)
       })
     setNameOpen(false)
+  }
+
+  const modiftAvatar = (avatar: string) => {
+    updateAvatar(avatar)
+      .then(() => {
+        _updateUserInfo()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    setHeaderOpen(false)
   }
 
   const _logout = () => {
@@ -178,29 +178,32 @@ const MemberInfo: FunctionComponent = () => {
           cleanUserInfo()
           return
         }
-        useToast({ title: '退出失败' })
+        toast({ title: '退出失败' })
       })
   }
 
-  const _updateUserInfo = () => {
-    baseUserInfo()
-      .then((res) => {
-        const { id, name, avatar } = res
-        console.log(name)
-        dispatch({
-          type: 'common/saveStorageSync',
-          payload: {
-            userInfo: {
-              id,
-              name,
-              avatar
+  const _updateUserInfo = (): Promise<any> => {
+    return new Promise((resolve, reject) => {
+      baseUserInfo()
+        .then((res) => {
+          const { id, name, avatar } = res
+          dispatch({
+            type: 'common/saveStorageSync',
+            payload: {
+              userInfo: {
+                id,
+                name,
+                avatar
+              }
             }
-          }
+          })
+          resolve(true)
         })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        .catch((err) => {
+          console.log(err)
+          reject(err)
+        })
+    })
   }
 
   return (
@@ -230,8 +233,13 @@ const MemberInfo: FunctionComponent = () => {
           </Button>
         </View>
       </CommonMain>
-      <ModifyName open={nameOpen} name={userInfo.name} closeHanler={modifyNameClose} modifyNameHandler={modifyNameHandler}></ModifyName>
-      <UploadHeader open={headerOpen} close={() => setHeaderOpen(false)} avatar={userInfo.avatar ? userInfo.avatar : DEFAULT_AVATAR}></UploadHeader>
+      <ModifyName open={nameOpen} name={userInfo.name} closeHanler={() => setNameOpen(false)} modifyNameHandler={modifyNameHandler}></ModifyName>
+      <UploadHeader
+        open={headerOpen}
+        close={() => setHeaderOpen(false)}
+        updateAvatar={modiftAvatar}
+        avatar={userInfo.avatar ? userInfo.avatar : DEFAULT_AVATAR}
+      ></UploadHeader>
     </Fragment>
   )
 }

@@ -11,7 +11,7 @@ import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import CommonMain from '@/components/mixin'
 import { IMessage } from '~/../@types/message'
-import { useToast } from '@/utils/taro'
+import { toast } from '@/utils/taro'
 import { get } from '@/api/message'
 import { GroupBody, SystemBody, ActionButton } from './ui'
 
@@ -33,7 +33,7 @@ const MessageDetail: FunctionComponent = ({}) => {
       if (!data) {
         const msgId: string = Router.getParams['id']
         if (msgId) {
-          useToast({ title: '获取参数失败' })
+          toast({ title: '获取参数失败' })
           return
         }
         get(msgId)

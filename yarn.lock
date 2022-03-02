@@ -1217,13 +1217,13 @@
   "resolved" "https://registry.npmjs.org/@stencil/core/-/core-2.9.0.tgz"
   "version" "2.9.0"
 
-"@taroify/core@^0.0.27-alpha.5":
-  "integrity" "sha512-Nvb2uowz0Js3fdUuBmvyaCrgcqBLG3+uaZzC9C6cBiiB3urEfZkKQR8OXv8zU0zN75YDGedUkTohXukHq50dqg=="
-  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.27-alpha.5.tgz"
-  "version" "0.0.27-alpha.5"
+"@taroify/core@^0.0.27-alpha.6":
+  "integrity" "sha512-zf8F/rAh/4nkhP4OyHC37pElxfR7JhjTBie+iPP6E3a9cX1xhSRBHYuymEsixHlPx2vkiFMEvVduqS+niNRaGA=="
+  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.27-alpha.6.tgz"
+  "version" "0.0.27-alpha.6"
   dependencies:
-    "@taroify/hooks" "^0.0.27-alpha.5"
-    "@taroify/icons" "^0.0.27-alpha.5"
+    "@taroify/hooks" "^0.0.27-alpha.6"
+    "@taroify/icons" "^0.0.27-alpha.6"
     "classnames" "^2.2.6"
     "lodash" "^4.17.21"
     "promise" "^8.1.0"
@@ -1231,19 +1231,19 @@
     "react-is" "^17.0.2"
     "react-transition-group" "^4.4.1"
 
-"@taroify/hooks@^0.0.27-alpha.5":
-  "integrity" "sha512-g+dzFYYAkpXXwj4NhSRxeJ54k47ZRU/Oviht7B+Tze7nkYPYgpYwx2sDxY3c8e+QVosMRjQouZOcUPgQwXC/3A=="
-  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.27-alpha.5.tgz"
-  "version" "0.0.27-alpha.5"
+"@taroify/hooks@^0.0.27-alpha.6":
+  "integrity" "sha512-nj/eyJ/rwO8KFecLqgS4Gnw42gq8TgojLJrh6nVjSkUuFJZ8+oQ2XSMNOCsiCo8ZbgQyuLM0rt3T/hmiBaujcg=="
+  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.27-alpha.6.tgz"
+  "version" "0.0.27-alpha.6"
   dependencies:
     "@vant/area-data" "^1.2.1"
     "lodash" "^4.17.21"
     "react" "^17.0.2"
 
-"@taroify/icons@^0.0.27-alpha.5":
-  "integrity" "sha512-4R7Q/Y7+Rx46Uhs2B5TfOOt9NIw/rfv3ACW5xeOxGoP8/CDUZV53EICb/0F0qf/SUWtWrRZM4Re/V4/kGoEBrA=="
-  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.27-alpha.5.tgz"
-  "version" "0.0.27-alpha.5"
+"@taroify/icons@^0.0.27-alpha.6":
+  "integrity" "sha512-Smd0QoVfm1zF3f3+Tiq7kV0vHqJoRmdIm9G6qjIyKzT/grMueyXSzIQM8hOYzdB2JkUwmrov3Sh+RUw6v+lISQ=="
+  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.27-alpha.6.tgz"
+  "version" "0.0.27-alpha.6"
   dependencies:
     "classnames" "^2.2.6"
 
@@ -2675,6 +2675,11 @@
   "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
   "version" "3.7.2"
 
+"blueimp-canvas-to-blob@^3.29.0":
+  "integrity" "sha512-0pcSSGxC0QxT+yVkivxIqW0Y4VlO2XSDPofBAqoJ1qJxgH9eiUDLv50Rixij2cDuEfx4M6DpD9UGZpRhT5Q8qg=="
+  "resolved" "https://registry.npmjs.org/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.29.0.tgz"
+  "version" "3.29.0"
+
 "bn.js@^4.0.0":
   "integrity" "sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA=="
   "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-4.12.0.tgz"
@@ -3397,6 +3402,14 @@
     "on-headers" "~1.0.2"
     "safe-buffer" "5.1.2"
     "vary" "~1.1.2"
+
+"compressorjs@^1.1.1":
+  "integrity" "sha512-SysRuUPfmUNoq+RviE0iMFVUmoX2q/x+7PkEPUmk6NGkd85hDrmvujx0Qtp8UCGA6KMe5kuodsylPQcNaLf60w=="
+  "resolved" "https://registry.npmjs.org/compressorjs/-/compressorjs-1.1.1.tgz"
+  "version" "1.1.1"
+  dependencies:
+    "blueimp-canvas-to-blob" "^3.29.0"
+    "is-blob" "^2.1.0"
 
 "concat-map@0.0.1":
   "integrity" "sha1-2Klr13/Wjfd5OnMDajug1UBdR3s="
@@ -5962,6 +5975,11 @@
   "version" "2.1.0"
   dependencies:
     "binary-extensions" "^2.0.0"
+
+"is-blob@^2.1.0":
+  "integrity" "sha512-SZ/fTft5eUhQM6oF/ZaASFDEdbFVe89Imltn9uZr03wdKMcWNVYSMjQPFtg05QuNkt5l5c135ElvXEQG0rk4tw=="
+  "resolved" "https://registry.npmjs.org/is-blob/-/is-blob-2.1.0.tgz"
+  "version" "2.1.0"
 
 "is-boolean-object@^1.1.0":
   "integrity" "sha512-gDYaKHJmnj4aWxyj6YHyXVpdQawtVLHU5cb+eztPGczf6cjuTdwve5ZIEfgXqH4e57An1D1AKf8CZ3kYrQRqYA=="

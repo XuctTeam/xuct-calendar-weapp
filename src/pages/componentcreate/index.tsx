@@ -20,7 +20,7 @@ import { DvaProps } from '~/../@types/dva'
 import { DatetimePickerType } from '@taroify/core/datetime-picker/datetime-picker.shared'
 import { IDavCalendar, IDavComponent } from '~/../@types/calendar'
 import { add, getById } from '@/api/component'
-import { useToast, useBack } from '@/utils/taro'
+import { toast, back } from '@/utils/taro'
 import { formatRepeatTime, fiveMinutes, formatAlarmText, alarmTypeToCode } from '@/utils/utils'
 
 import CommonMain from '@/components/mixin'
@@ -412,26 +412,26 @@ class Components extends Component {
 
   addComponent = () => {
     if (!this.state.summary) {
-      useToast({ title: '标题不能为空' })
+      toast({ title: '标题不能为空' })
       return
     }
     if (!this.state.selectedCalendar) {
-      useToast({ title: '选择日历不能为空' })
+      toast({ title: '选择日历不能为空' })
       return
     }
 
     if (this.state.repeatStatus !== '0' && !this.state.repeatUntil) {
-      useToast({ title: '循环日期不能为空' })
+      toast({ title: '循环日期不能为空' })
       return
     }
     const start: Dayjs = dayjs(this.state.dtstart)
     const end: Dayjs = dayjs(this.state.dtend)
     if (end.isBefore(start)) {
-      useToast({ title: '结束时间小于开始时间' })
+      toast({ title: '结束时间小于开始时间' })
       return
     }
     if (end.diff(start) < 3600) {
-      useToast({ title: '时间范围应大于1小时' })
+      toast({ title: '时间范围应大于1小时' })
       return
     }
     const that = this
@@ -474,7 +474,7 @@ class Components extends Component {
     })
 
     if (this.state.edit) {
-      useBack({ to: 1, data: { ...data, color: this.state.selectedCalendar?.color, calendarName: this.state.selectedCalendar?.name, edit: true } })
+      back({ to: 1, data: { ...data, color: this.state.selectedCalendar?.color, calendarName: this.state.selectedCalendar?.name, edit: true } })
       return
     }
     Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: { componentId: data.id } })

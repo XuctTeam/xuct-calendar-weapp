@@ -10,7 +10,7 @@ import { View } from '@tarojs/components'
 import { Button, Textarea } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { DvaProps } from '~/../@types/dva'
-import { useBack } from '@/utils/taro'
+import { back } from '@/utils/taro'
 
 import './index.scss'
 
@@ -44,7 +44,7 @@ class Sheduledesc extends Component {
   }
 
   back = () => {
-    useBack({
+    back({
       to: 1,
       data: {
         description: this.state.description

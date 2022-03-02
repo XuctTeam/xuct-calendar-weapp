@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { View, Button as TaroButton } from '@tarojs/components'
-import { useToast, useBack } from '@/utils/taro'
+import { toast, back } from '@/utils/taro'
 import { Cell, Button, Field, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
@@ -90,7 +90,7 @@ class Phone extends Component {
 
   onGetPhoneNumber = (e) => {
     if (e.detail.errMsg && e.detail.errMsg !== 'getPhoneNumber:ok') {
-      useToast({ title: '获取手机失败' })
+      toast({ title: '获取手机失败' })
       return
     }
     const that = this
@@ -140,11 +140,11 @@ class Phone extends Component {
 
   bindSmsCode = () => {
     if (!this.state.phone) {
-      useToast({ title: '手机号为空' })
+      toast({ title: '手机号为空' })
       return
     }
     if (!checkMobile(this.state.phone)) {
-      useToast({ title: '手机号格式错误' })
+      toast({ title: '手机号格式错误' })
       return
     }
     this.setState({ disable: true })
@@ -196,7 +196,7 @@ class Phone extends Component {
           this.cleanUserInfo()
           return
         }
-        useToast({ title: '退出失败' })
+        toast({ title: '退出失败' })
       })
   }
 
@@ -217,15 +217,15 @@ class Phone extends Component {
 
   openBindPhone = () => {
     if (!this.state.phone) {
-      useToast({ title: '手机号为空' })
+      toast({ title: '手机号为空' })
       return
     }
     if (!checkMobile(this.state.phone)) {
-      useToast({ title: '手机号格式错误' })
+      toast({ title: '手机号格式错误' })
       return
     }
     if (!this.state.code) {
-      useToast({ title: '验证码为空' })
+      toast({ title: '验证码为空' })
       return
     }
     console.log(this.state.edit)
@@ -256,7 +256,7 @@ class Phone extends Component {
       icon: 'success',
       duration: 800
     })
-    useBack({
+    back({
       to: 2,
       data: {
         data: '1'

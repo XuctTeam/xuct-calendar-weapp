@@ -10,7 +10,7 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Cell, Button, Textarea } from '@taroify/core'
 import CommonMain from '@/components/mixin'
-import { useBack } from '@/utils/taro'
+import { back } from '@/utils/taro'
 
 import './index.scss'
 
@@ -106,7 +106,7 @@ class Location extends Component {
   }
 
   saveLocation = () => {
-    useBack({
+    back({
       to: 1,
       data: {
         location: this.state.location

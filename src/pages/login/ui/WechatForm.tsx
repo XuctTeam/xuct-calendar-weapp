@@ -9,7 +9,7 @@ import { useState } from 'react'
 import { View } from '@tarojs/components'
 import { Button, Checkbox } from '@taroify/core'
 import { Navigator } from '@tarojs/components'
-import { useToast } from '@/utils/taro'
+import { toast } from '@/utils/taro'
 
 type IPageStateProps = {
   code: string | null | undefined
@@ -21,7 +21,7 @@ export default function WechatForm(props: IPageStateProps) {
 
   const getUserInfo = () => {
     if (!selfCheck) {
-      useToast({ title: '请勾选隐私协议' })
+      toast({ title: '请勾选隐私协议' })
       return
     }
     props.onGetUserInfo()

@@ -2,13 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-20 21:40:21
+ * @LastEditTime: 2022-03-02 14:08:22
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
 import Router, { NavigateType } from 'tarojs-router-next'
 import { Button, Cell, Form, Input } from '@taroify/core'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
+import { useBack } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
 import { bindUserName } from '@/api/user'
 
@@ -18,6 +19,7 @@ const BindUserName: FunctionComponent = () => {
   const [username, setUsername] = useState('')
   const [edit, setEdit] = useState(false)
   const [password, setPassword] = useState('')
+  const [back] = useBack()
 
   useEffect(() => {
     const data = Router.getData()
@@ -29,19 +31,9 @@ const BindUserName: FunctionComponent = () => {
 
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     bindUserName(event.detail.value)
-      .then(() => {
-        try {
-          Router.back({
-            data: '1'
-          })
-        } catch (err) {
-          console.log(err)
-          Router.navigate({ url: '/pages/userinfo/index' }, { type: NavigateType.redirectTo })
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    back({
+      to: 4
+    })
   }
 
   return (

@@ -3,13 +3,13 @@
 
  * @Author: Derek Xu
  * @Date: 2021-11-09 09:14:24
- * @LastEditTime: 2022-02-20 21:56:22
+ * @LastEditTime: 2022-03-02 13:26:37
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
 
 import interceptors from './customInterceptor'
-import { getStorage } from '../taro'
+import { storage } from '../taro'
 import { base64 } from '../utils'
 
 interceptors.forEach((interceptorItem) => Taro.addInterceptor(interceptorItem))
@@ -28,7 +28,7 @@ class httpRequest<T> {
     if (!(url.includes('/uaa/sms') || url.includes('/uaa/captcha') || url.includes('/register'))) {
       /* 非登录接口都要通过token请求 */
       if (!url.includes('/oauth/token')) {
-        header['Authorization'] = getStorage('accessToken')
+        header['Authorization'] = storage('accessToken')
       } else {
         header['Authorization'] = this._getAuthorization()
       }

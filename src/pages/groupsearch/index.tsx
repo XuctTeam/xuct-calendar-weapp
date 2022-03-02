@@ -2,17 +2,16 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-28 22:25:49
+ * @LastEditTime: 2022-03-02 14:22:35
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useState } from 'react'
-import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Search, Empty } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IGroup } from '~/../@types/group'
 import { search, apply } from '@/api/group'
-import { useToast, useModal } from '@/utils/taro'
+import { toast, useModal } from '@/utils/taro'
 import { GroupList } from './ui'
 
 import './index.scss'
@@ -44,7 +43,7 @@ const GroupSearch: FunctionComponent = () => {
           if (res.cancel) return
           apply(id)
             .then(() => {
-              useToast({ title: '申请成功' })
+              toast({ title: '申请成功' })
             })
             .catch((err) => {
               console.log(err)

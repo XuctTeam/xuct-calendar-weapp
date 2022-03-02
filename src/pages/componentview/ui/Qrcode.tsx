@@ -11,7 +11,7 @@ import Taro from '@tarojs/taro'
 import { Button, Dialog } from '@taroify/core'
 import { Canvas } from '@tarojs/components'
 import { createQrCodeImg } from '@/components/qrode/qrcode'
-import { useToast } from '@/utils/taro'
+import { toast } from '@/utils/taro'
 
 import '../index.scss'
 
@@ -190,15 +190,15 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
           filePath: res.tempFilePath
         })
           .then(() => {
-            useToast({ title: '上传成功', icon: 'success' })
+            toast({ title: '上传成功', icon: 'success' })
           })
           .catch(() => {
-            useToast({ title: '图片保存失败' })
+            toast({ title: '图片保存失败' })
             return
           })
       })
       .catch(() => {
-        useToast({ title: '生成临时图片失败' })
+        toast({ title: '生成临时图片失败' })
       })
   }
 

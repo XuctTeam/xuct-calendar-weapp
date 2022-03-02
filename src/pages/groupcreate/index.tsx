@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-28 21:49:51
+ * @LastEditTime: 2022-03-02 14:03:17
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -11,27 +12,20 @@ import { BaseEventOrig, FormProps, View } from '@tarojs/components'
 import { Button, Cell, Form, Input, Uploader } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { FormItemInstance } from '@taroify/core/form'
-import { useToast, getStorage, useBack } from '@/utils/taro'
-import { upload, addGroup } from '@/api/group'
+import { useToast, storage, useBack } from '@/utils/taro'
+import { addGroup } from '@/api/group'
+import { upload } from '@/api/common'
+import { IUploadInfo } from '~/../@types/common'
+
 import './index.scss'
-
-interface IUploadInfo {
-  code: number
-  success: boolean
-  data: IUploadInfoData
-}
-
-interface IUploadInfoData {
-  url: string
-  width: number
-  height: number
-}
 
 const GroupCreate: FunctionComponent = () => {
   const itemRef = useRef<FormItemInstance>()
   const urlRef = useRef<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [uploading, setUploading] = useState<boolean>(false)
+  const [toast] = useToast()
+  const [back] = useBack()
 
   const onUpload = () => {
     Taro.chooseImage({
@@ -54,7 +48,7 @@ const GroupCreate: FunctionComponent = () => {
         filePath: tempFiles[0].path,
         name: 'smfile',
         header: {
-          Authorization: getStorage('accessToken')
+          Authorization: storage('accessToken')
         },
         success(res) {
           if (!res.data) {
@@ -77,7 +71,7 @@ const GroupCreate: FunctionComponent = () => {
 
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     if (uploading) {
-      useToast({ title: '正在上传图像', icon: 'loading' })
+      toast({ title: '正在上传图像', icon: 'loading' })
       return
     }
     setLoading(true)
@@ -86,12 +80,12 @@ const GroupCreate: FunctionComponent = () => {
     const { name } = data
     addGroup(name, urlRef.current).then(() => {
       setLoading(false)
-      useBack({ to: 4 })
+      back({ to: 4 })
     })
   }
 
   const _uploadFail = () => {
-    useToast({ title: '上传失败' })
+    toast({ title: '上传失败' })
     setUploading(false)
     itemRef.current?.setValue([])
     urlRef.current = ''

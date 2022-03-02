@@ -4,14 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 12:02:31
+ * @LastEditTime: 2022-03-02 08:59:58
  */
 import http from '@/utils/request'
-
-export const upload = (): string => {
-  //@ts-ignore
-  return SERVICE_URL + '/ums/api/app/v1/group/upload'
-}
 
 /**
  * 查询会员群组

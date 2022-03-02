@@ -10,7 +10,7 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Cell, Field, Button, Flex, Input, Checkbox } from '@taroify/core'
 import { checkMobile } from '@/utils/utils'
-import { useToast } from '@/utils/taro'
+import { toast } from '@/utils/taro'
 import { sendSmsCode } from '@/api/user'
 import Router from 'tarojs-router-next'
 
@@ -106,7 +106,7 @@ class H5Form extends Component {
    */
   pushCode = () => {
     if (!checkMobile(this.state.phone)) {
-      useToast({ title: '手机号错误' })
+      toast({ title: '手机号错误' })
       return
     }
     this._startSmsCode()
@@ -168,25 +168,25 @@ class H5Form extends Component {
   _checkParam = (): boolean => {
     if (this.state.phoneForm) {
       if (!checkMobile(this.state.phone)) {
-        useToast({ title: '手机号错误' })
+        toast({ title: '手机号错误' })
         return false
       }
       if (!this.state.smsCode) {
-        useToast({ title: '验证码不为空' })
+        toast({ title: '验证码不为空' })
         return false
       }
     } else {
       if (!this.state.username) {
-        useToast({ title: '用户名不为空' })
+        toast({ title: '用户名不为空' })
         return false
       }
       if (!this.state.password) {
-        useToast({ title: '密码不为空' })
+        toast({ title: '密码不为空' })
         return false
       }
     }
     if (!this.state.selfCheck) {
-      useToast({ title: '请先勾选隐私协议' })
+      toast({ title: '请先勾选隐私协议' })
       return false
     }
     return true

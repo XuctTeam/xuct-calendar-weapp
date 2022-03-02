@@ -14,7 +14,7 @@ import dayjs from 'dayjs'
 import { bindActionCreators } from 'redux'
 import { View, Image, Navigator } from '@tarojs/components'
 import { ArrowLeft } from '@taroify/icons'
-import { useToast, useBack } from '@/utils/taro'
+import { toast, back } from '@/utils/taro'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/token'
 import { DvaProps } from '../../../@types/dva'
 import { WebForm, WechatForm } from './ui'
@@ -72,7 +72,7 @@ class Login extends Component {
           }
         },
         fail(res) {
-          useToast({ title: res.errMsg })
+          toast({ title: res.errMsg })
         }
       })
     }
@@ -87,11 +87,11 @@ class Login extends Component {
    */
   loginByCode = async () => {
     if (!this.state.icode) {
-      useToast({ title: '微信登录失败' })
+      toast({ title: '微信登录失败' })
       return
     }
     if (this.state.icode.ts - dayjs().valueOf() > 1000 * 60 * 5) {
-      useToast({ title: '请在规定时间内完成授权' })
+      toast({ title: '请在规定时间内完成授权' })
       return
     }
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
@@ -102,7 +102,7 @@ class Login extends Component {
         wechatLogin(code, res.iv, res.encryptedData)
           .then((rs) => {
             this._saveTokenToCache(rs.access_token, rs.refresh_token)
-            useBack({ to: 4 })
+            back({ to: 4 })
           })
           .catch((err) => {
             console.log(err)
@@ -156,7 +156,7 @@ class Login extends Component {
   }
 
   back = () => {
-    useBack({
+    back({
       to: 4,
       data: {
         isLogin: true

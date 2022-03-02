@@ -11,7 +11,7 @@ import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { Cell, Checkbox, Radio, Button } from '@taroify/core'
 import CommonMain from '@/components/mixin'
-import { useBack } from '@/utils/taro'
+import { back } from '@/utils/taro'
 
 import './index.scss'
 
@@ -68,7 +68,7 @@ const Componentalarm: React.FC<IPageStateProps> = () => {
     const sortAlarmTime = alarmTime.sort((n1, n2) => {
       return Number.parseInt(n1) - Number.parseInt(n2)
     })
-    useBack({
+    back({
       to: 1,
       data: {
         alarmType: openAlarm === '1' ? '0' : alarmType,

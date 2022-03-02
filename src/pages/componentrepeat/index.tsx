@@ -13,7 +13,7 @@ import dayjs from 'dayjs'
 import { Button, Cell, Radio } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { formatRepeatTime } from '@/utils/utils'
-import { useBack } from '@/utils/taro'
+import { back } from '@/utils/taro'
 
 import './index.scss'
 
@@ -229,7 +229,7 @@ class Schedulerepet extends Component {
   }
 
   repeatSave = () => {
-    useBack({
+    back({
       to: 1,
       data: {
         repeatType: this.state.repeatType,

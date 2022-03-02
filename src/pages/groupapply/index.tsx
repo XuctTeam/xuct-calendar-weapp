@@ -11,7 +11,7 @@ import { Collapse } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IGroup } from '~/../@types/group'
 import { applyMineList, mineApplyList, applyAgreeJoinGroup, applyRefuseJoinGroup } from '@/api/group'
-import { useToast } from '@/utils/taro'
+import { toast } from '@/utils/taro'
 import { ApplyMine, MineApply } from './ui'
 
 import './index.scss'
@@ -49,7 +49,7 @@ const GroupApply: FunctionComponent = () => {
   const applyAgree = (gid: string, mid: string) => {
     applyAgreeJoinGroup(gid, mid)
       .then(() => {
-        useToast({ title: '操作成功', icon: 'success' })
+        toast({ title: '操作成功', icon: 'success' })
         setApplyMineGroups([])
         _listApplyMine()
       })
@@ -61,7 +61,7 @@ const GroupApply: FunctionComponent = () => {
   const applyRefuse = (gid: string, mid: string) => {
     applyRefuseJoinGroup(gid, mid)
       .then(() => {
-        useToast({ title: '操作成功', icon: 'success' })
+        toast({ title: '操作成功', icon: 'success' })
         setApplyMineGroups([])
         _listApplyMine()
       })

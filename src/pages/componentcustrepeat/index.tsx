@@ -13,7 +13,7 @@ import { Cell, ActionSheet, Button } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 import dayjs from 'dayjs'
-import { useBack } from '@/utils/taro'
+import { back } from '@/utils/taro'
 import { Weekly, Monthly, IntervalPicker } from './ui'
 
 import './index.scss'
@@ -164,7 +164,7 @@ class ScheduleCustRepeat extends Component {
    * 保存
    */
   saveCustRepeat = () => {
-    useBack({
+    back({
       to: 1,
       data: {
         repeatType: this.state.repeatType,
