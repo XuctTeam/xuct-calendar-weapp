@@ -1,73 +1,118 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-02 14:03:17
+ * @LastEditTime: 2022-03-04 17:47:12
  * @LastEditors: Derek Xu
  */
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Taro from '@tarojs/taro'
-import { FunctionComponent, useRef, useState } from 'react'
+import Router from 'tarojs-router-next'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
 import { Button, Cell, Form, Input, Uploader } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { FormItemInstance } from '@taroify/core/form'
-import { useToast, storage, useBack } from '@/utils/taro'
-import { addGroup } from '@/api/group'
-import { upload } from '@/api/common'
+import { useStorage, useToast, useBack, useFile, useImage } from '@/utils/taro'
+import { addGroup, getGroupInfo } from '@/api/group'
+import { upload as uploadPath } from '@/api/common'
 import { IUploadInfo } from '~/../@types/common'
+import { IGroup } from '~/../@types/group'
 
 import './index.scss'
 
 const GroupCreate: FunctionComponent = () => {
   const itemRef = useRef<FormItemInstance>()
+  const formRef = React.createRef<JSX.Element>()
+  const idRef = useRef<string>('')
+
   const urlRef = useRef<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [uploading, setUploading] = useState<boolean>(false)
+  const [title, setTitle] = useState<string>('新建群组')
+  const [edit, setEdit] = useState<boolean>()
   const [toast] = useToast()
   const [back] = useBack()
+  const [, { get }] = useStorage()
+  const { upload } = useFile()
+  const [, { choose }] = useImage({})
 
-  const onUpload = () => {
-    Taro.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera']
-    }).then(({ tempFiles }) => {
-      setUploading(true)
-      urlRef.current = ''
+  useEffect(() => {
+    const data = Router.getData()
+    if (!data) {
+      const params = Router.getParams()
+      if (!params) {
+        return
+      }
+      const { id } = params
+      if (!id) return
+      getGroupInfo(id).then((res) => {
+        init(res as any as IGroup)
+        return
+      })
+      return
+    }
+    init(data)
+  })
+
+  const init = (group: IGroup) => {
+    setTitle('编辑群组')
+    Taro.setNavigationBarTitle({
+      title: '日历编辑'
+    })
+    itemRef.current?.setValue([
+      {
+        url: group.images,
+        type: 'images/png'
+      }
+    ])
+    if (formRef.current == null) return
+    //@ts-ignore
+    formRef.current.setValues({
+      name: group.name
+    })
+    idRef.current = group.id ? group.id : ''
+    urlRef.current = group.images ? group.images : ''
+    setEdit(true)
+  }
+
+  const onUpload = useCallback(async () => {
+    if (uploading) {
+      toast({ title: '正在上传图像', icon: 'loading' })
+      return
+    }
+    const assessToken = await get('accessToken')
+    const fileInfo = await choose()
+    if (fileInfo?.tempFilePaths?.length) {
+      const updateFile = fileInfo.tempFiles[0]
+      const uploadFilePath = fileInfo.tempFilePaths[0]
       itemRef.current?.setValue([])
       itemRef.current?.setValue([
         {
-          url: tempFiles[0].path,
-          type: tempFiles[0].type,
-          name: tempFiles[0].originalFileObj?.name
+          url: uploadFilePath,
+          type: updateFile.type
         }
       ])
-      Taro.uploadFile({
-        url: upload(), //仅为示例，非真实的接口地址
-        filePath: tempFiles[0].path,
+      setUploading(true)
+      const uploadResult = await upload({
+        url: uploadPath(),
+        filePath: uploadFilePath,
         name: 'smfile',
-        header: {
-          Authorization: storage('accessToken')
-        },
-        success(res) {
-          if (!res.data) {
-            _uploadFail()
-            return
-          }
-          const result: IUploadInfo = JSON.parse(res.data)
-          if (!result.success) {
-            _uploadFail()
-            return
-          }
-          setUploading(false)
-          urlRef.current = result.data.url
-        }
-      }).catch(() => {
-        _uploadFail()
+        header: { Authorization: assessToken }
       })
-    })
-  }
+      if (uploadResult?.statusCode !== 200) {
+        _uploadFail()
+        return
+      }
+      const result: IUploadInfo = JSON.parse(uploadResult?.data)
+      if (!result.success) {
+        _uploadFail()
+        return
+      }
+      setLoading(false)
+      urlRef.current = result.data.url
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [get])
 
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     if (uploading) {
@@ -78,9 +123,9 @@ const GroupCreate: FunctionComponent = () => {
     const data = event.detail.value
     //@ts-ignore
     const { name } = data
-    addGroup(name, urlRef.current).then(() => {
+    addGroup(idRef.current, name, urlRef.current).then(() => {
       setLoading(false)
-      back({ to: 4 })
+      back({ to: 2, data: { edit } })
     })
   }
 
@@ -92,8 +137,8 @@ const GroupCreate: FunctionComponent = () => {
   }
 
   return (
-    <CommonMain className='vi-group-create-warpper' title='新建群组' fixed to={2} left>
-      <Form onSubmit={onSubmit}>
+    <CommonMain className='vi-group-create-warpper' title={title} fixed to={2} left>
+      <Form onSubmit={onSubmit} ref={formRef}>
         <View className='main'>
           <View className='form'>
             <Cell.Group inset>

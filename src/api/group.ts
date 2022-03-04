@@ -4,12 +4,12 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-02 08:59:58
+ * @LastEditTime: 2022-03-04 17:33:29
  */
 import http from '@/utils/request'
 
 /**
- * 查询会员群组
+ * 查询会员所在群组（包括人数）
  * @param phone
  * @param code
  */
@@ -18,12 +18,21 @@ export const groupList = (): Promise<any> => {
 }
 
 /**
+ * 通过群组id查询群组信息（包括人数）
+ * @param id
+ * @returns
+ */
+export const getGroupInfo = (id: string): Promise<any> => {
+  return http.get('/ums/api/app/v1/group/get', { id })
+}
+
+/**
  * 添加群组
  * @param url
  * @param name
  */
-export const addGroup = (name: string, imageUrl: string) => {
-  return http.post('/ums/api/app/v1/group', { name, imageUrl })
+export const addGroup = (id: string, name: string, imageUrl: string) => {
+  return http.post('/ums/api/app/v1/group', { id, name, imageUrl })
 }
 
 /**

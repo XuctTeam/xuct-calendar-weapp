@@ -4,23 +4,41 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:52:06
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-13 22:23:52
+ * @LastEditTime: 2022-03-04 17:59:37
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
 import { Cell, Avatar } from '@taroify/core'
-import { Arrow } from '@taroify/icons'
+import { Ellipsis } from '@taroify/icons'
 import { IGroup } from '~/../@types/group'
 
 interface IPageStateProps {
   group: IGroup
+  groupClick: (id: string) => void
 }
 
 const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
-  const { name, images, count } = props.group
+  const { id, name, images, count } = props.group
+
+  const groupEditHandler = () => {
+    if (!id) return
+    props.groupClick(id)
+  }
 
   return (
-    <Cell className='vi-group-manager-warpper_group-list' rightIcon={<Arrow />} clickable>
+    <Cell
+      className='vi-group-manager-warpper_group-list'
+      rightIcon={
+        <Ellipsis
+          onClick={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            groupEditHandler()
+          }}
+        />
+      }
+      clickable
+    >
       {images ? <Avatar src={images}></Avatar> : <Avatar>G</Avatar>}
       <View className='cell'>
         <View className='title'>{name}</View>
