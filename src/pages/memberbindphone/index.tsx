@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-28 21:53:01
+ * @LastEditTime: 2022-03-02 21:33:51
  */
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { Component } from 'react'
@@ -18,8 +18,7 @@ import { Cell, Button, Field, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
 import { getPhoneNumber, bindPhoneSmsCode, logout, bindPhone, unbindPhone } from '@/api/user'
-import { DvaProps } from '../../../@types/dva'
-import { IUserInfo } from '../../../@types/user'
+import { DvaProps, IUserInfo } from '../../../@types/dva'
 import { action } from './actionCreater'
 
 import './index.scss'

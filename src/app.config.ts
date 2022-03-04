@@ -3,14 +3,14 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-02-28 10:56:07
+ * @LastEditTime: 2022-03-02 22:19:25
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
 
 export default {
   pages: [
-    'pages/aboutme/index',
+    'pages/membermine/index',
     'pages/contactmanager/index',
     'pages/index/index',
     'pages/messagemanager/index',
@@ -66,7 +66,7 @@ export default {
         selectedIconPath: 'assets/icon/chat_focus.png'
       },
       {
-        pagePath: 'pages/aboutme/index',
+        pagePath: 'pages/membermine/index',
         text: '我的',
         iconPath: 'assets/icon/burger.png',
         selectedIconPath: 'assets/icon/burger_focus.png'

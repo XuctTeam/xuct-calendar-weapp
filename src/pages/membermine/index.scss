@@ -50,23 +50,35 @@
         }
       }
 
-      .top-user {
-        font-size: 34px;
-        margin-left: 30px;
-        margin-top: 30px;
+      .top-refresh {
+        display: flex;
+        height: 60px;
+        flex-direction: row;
+        align-items: center;
+        margin: 40px 0px 0px 20px;
+
+        .top-user {
+          font-size: 32px;
+          margin-right: 20px;
+        }
+
+        .button {
+          width: 30px;
+          height: 54px;
+          display: flex;
+          box-sizing: border-box;
+
+          .taroify-button {
+            height: 100%;
+            width: 100%;
+          }
+        }
+
+        .taroify-loading {
+          color: red;
+        }
       }
     }
-
-    // .top:after {
-    //   width: 140%;
-    //   height: 300px;
-    //   position: absolute;
-    //   left: -20%;
-    //   top: 0;
-    //   content: '';
-    //   border-radius: 0 0 50% 50%;
-    //   background: linear-gradient(#40e0d0, rgb(46, 207, 207)) !important;
-    // }
   }
 
   /** 设置操作 */

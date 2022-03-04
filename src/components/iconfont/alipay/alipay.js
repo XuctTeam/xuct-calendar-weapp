@@ -1,6 +1,6 @@
 Component({
   props: {
-    // duigou | jiantou | rili | jinri
+    // 29Refresh_01 | qunzu-copy | qunzu | jiantou | rili | jinri
     name: null,
     // string | string[]
     color: '',
