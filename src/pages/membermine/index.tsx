@@ -3,21 +3,28 @@
  * @Author: Xutao
  * @Date: 2021-07-23 16:36:43
  * @FilePath: \react-lesson-20\src\pages\authorize\index.tsx
- * @LastEditTime: 2022-03-02 22:12:05
+ * @LastEditTime: 2022-03-05 21:05:48
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { View } from '@tarojs/components'
-import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
-import { baseUserInfo } from '@/api/user'
+import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
+import { baseUserInfo, auths } from '@/api/user'
 import { User, Menu } from './ui'
 
-const AboutMe: FunctionComponent = () => {
+const MemberMine: FunctionComponent = () => {
   const dispatch = useDispatch()
   const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (accessToken && !userInfo) {
+      refresh()
+      queryAuths()
+    }
+  }, [accessToken])
 
   const refresh = () => {
     setLoading(true)
@@ -46,12 +53,33 @@ const AboutMe: FunctionComponent = () => {
       })
   }
 
+  const queryAuths = () => {
+    auths()
+      .then((res) => {
+        dispatch({
+          type: 'common/saveStorageSync',
+          payload: {
+            auths: res as any as Array<IUserAuth>
+          }
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   return (
     <View className='vi-aboutme-wrapper'>
-      <User hasLogin={!!accessToken} nickname={userInfo.name} avatar={userInfo.avatar} refresh={refresh} loading={loading}></User>
-      <Menu user={userInfo}></Menu>
+      <User
+        hasLogin={!!accessToken}
+        nickname={userInfo ? userInfo.name : ''}
+        avatar={userInfo && userInfo.avatar ? userInfo.avatar : ''}
+        refresh={refresh}
+        loading={loading}
+      ></User>
+      <Menu></Menu>
     </View>
   )
 }
 
-export default AboutMe
+export default MemberMine

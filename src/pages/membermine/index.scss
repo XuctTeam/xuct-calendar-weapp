@@ -7,76 +7,49 @@
   &_head {
     overflow: hidden;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
+    flex-direction: row;
     background: no-repeat url('http://www.youlai.tech:81/static/user-bg.jpg');
     background-size: 100% 100%;
+    align-items: center;
+    height: 300px;
+    padding-left: 30px;
 
-    .top {
-      position: relative;
-      width: 100%;
-      height: 300px;
-      line-height: 50px;
+    .top-info {
+      font-size: 26px;
+      padding-left: 30px;
+
+      .top-info_need {
+        font-size: 30px;
+        font-weight: 600;
+      }
+    }
+
+    .top-refresh {
       display: flex;
+      height: 60px;
+      flex-direction: row;
       align-items: center;
+      margin: 20px 0px 0px 20px;
 
-      .top-thumb {
+      .top-user {
+        font-size: 32px;
+        margin-right: 20px;
+      }
+
+      .button {
+        width: 30px;
+        height: 54px;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 40px;
-        margin-left: 30px;
-        letter-spacing: 2px;
-        line-height: 42px;
-        background-size: 100% 100%;
+        box-sizing: border-box;
 
-        .at-avatar {
-          margin-left: 20px;
+        .taroify-button {
+          height: 100%;
+          width: 100%;
         }
       }
 
-      .top-info {
-        height: 60px;
-        margin-left: 30px;
-
-        &_need {
-          font-size: 30px;
-          font-weight: 700;
-        }
-
-        &_text {
-          font-size: 24px;
-        }
-      }
-
-      .top-refresh {
-        display: flex;
-        height: 60px;
-        flex-direction: row;
-        align-items: center;
-        margin: 40px 0px 0px 20px;
-
-        .top-user {
-          font-size: 32px;
-          margin-right: 20px;
-        }
-
-        .button {
-          width: 30px;
-          height: 54px;
-          display: flex;
-          box-sizing: border-box;
-
-          .taroify-button {
-            height: 100%;
-            width: 100%;
-          }
-        }
-
-        .taroify-loading {
-          color: red;
-        }
+      .taroify-loading {
+        color: red;
       }
     }
   }

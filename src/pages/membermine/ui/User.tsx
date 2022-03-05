@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 13:27:57
- * @LastEditTime: 2022-03-02 22:09:39
+ * @LastEditTime: 2022-03-05 20:52:37
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -11,8 +11,9 @@ import Router from 'tarojs-router-next'
 import { Avatar } from '@taroify/core'
 import IconFont from '@/components/iconfont'
 import { DEFAULT_AVATAR } from '@/constants/index'
-import '../index.scss'
 import { Loading } from '@taroify/core'
+
+import '../index.scss'
 
 interface IPageOption {
   hasLogin: boolean
@@ -25,10 +26,8 @@ interface IPageOption {
 const User: FunctionComponent<IPageOption> = (props) => {
   return (
     <View className='vi-aboutme-wrapper_head'>
+      <Avatar src={props.avatar || DEFAULT_AVATAR} size='large' />
       <View className='top'>
-        <View className='top-thumb'>
-          <Avatar src={props.avatar ? props.avatar : DEFAULT_AVATAR} size='large' />
-        </View>
         {!props.hasLogin ? (
           <View className='top-info' onClick={() => Router.toLogin()}>
             <View className='top-info_need'>立即登录</View>

@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-02 14:10:29
+ * @LastEditTime: 2022-03-05 20:57:27
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,7 +24,7 @@ import { ModifyName, UploadHeader } from './ui'
 const MemberInfo: FunctionComponent = () => {
   const [nameOpen, setNameOpen] = useState<boolean>(false)
   const [headerOpen, setHeaderOpen] = useState<boolean>(false)
-  const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
+  const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { name: '', avatar: DEFAULT_AVATAR }
   const userAuth: IUserAuth[] = useSelector<IDvaCommonProps, IUserAuth[]>((state) => state.common.auths)
   const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
   const dispatch = useDispatch()
@@ -102,7 +102,7 @@ const MemberInfo: FunctionComponent = () => {
       }
     } catch (error) {
       console.log(error)
-      Router.toAboutme({ type: NavigateType.switchTab })
+      Router.toMembermine({ type: NavigateType.switchTab })
     }
   }
 
@@ -127,7 +127,7 @@ const MemberInfo: FunctionComponent = () => {
       }
     } catch (err) {
       console.log(err)
-      Router.toAboutme({ type: NavigateType.switchTab })
+      Router.toMembermine({ type: NavigateType.switchTab })
     }
   }
 
@@ -211,7 +211,7 @@ const MemberInfo: FunctionComponent = () => {
       <CommonMain className='vi-user-wrapper' title='我的' fixed={false} left to={4}>
         <View className='vi-user-wrapper_menu'>
           <Cell title='头像' align='center'>
-            <Avatar src={userInfo.avatar ? userInfo.avatar : DEFAULT_AVATAR} onClick={() => setHeaderOpen(true)} />
+            <Avatar src={userInfo.avatar} onClick={() => setHeaderOpen(true)} />
           </Cell>
           <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => setNameOpen(true)}>
             {userInfo.name}

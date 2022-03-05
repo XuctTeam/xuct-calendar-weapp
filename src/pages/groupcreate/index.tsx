@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-04 17:47:12
+ * @LastEditTime: 2022-03-05 21:10:02
  * @LastEditors: Derek Xu
  */
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -59,19 +59,21 @@ const GroupCreate: FunctionComponent = () => {
     Taro.setNavigationBarTitle({
       title: '日历编辑'
     })
-    itemRef.current?.setValue([
-      {
-        url: group.images,
-        type: 'images/png'
-      }
-    ])
+    idRef.current = group.id || ''
+    if (group.images) {
+      itemRef.current?.setValue([
+        {
+          url: group.images,
+          type: 'images/png'
+        }
+      ])
+      urlRef.current = group.images
+    }
     if (formRef.current == null) return
     //@ts-ignore
     formRef.current.setValues({
       name: group.name
     })
-    idRef.current = group.id ? group.id : ''
-    urlRef.current = group.images ? group.images : ''
     setEdit(true)
   }
 

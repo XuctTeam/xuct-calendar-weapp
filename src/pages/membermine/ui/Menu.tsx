@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-02-22 16:32:12
+ * @LastEditTime: 2022-03-05 20:49:29
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -11,18 +11,9 @@ import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { Cell } from '@taroify/core'
 import { Arrow, CalendarOutlined, ManagerOutlined, SettingOutlined, TvOutlined, UserCircleOutlined } from '@taroify/icons'
-import { IUserInfo } from '../../../../@types/user'
 import '../index.scss'
 
-interface PageOwerStateProps {}
-
-export interface ISettingProps {
-  user: IUserInfo
-}
-
-type SettingProps = ISettingProps & PageOwerStateProps
-
-const Setting: FunctionComponent<SettingProps> = (props) => {
+const Setting: FunctionComponent = () => {
   /**
    * 列表点击
    */
