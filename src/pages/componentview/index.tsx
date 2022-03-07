@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-02-28 22:31:19
+ * @LastEditTime: 2022-03-07 17:07:50
  * @LastEditors: Derek Xu
  */
 import { Fragment, useEffect, useState } from 'react'
@@ -248,7 +248,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
           </Flex>
         </View>
       </CommonMain>
-      <ActionSheet open={open} onSelect={() => componentDelete()} onClose={() => setOpen(false)} onCancel={() => setOpen(false)}>
+      <ActionSheet open={open} onSelect={() => componentDelete()} onClose={() => setOpen(false)} onCancel={() => setOpen(false)} rounded={false}>
         <ActionSheet.Action value='1' name='删除' />
         <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>

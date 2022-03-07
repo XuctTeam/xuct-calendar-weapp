@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-28 18:54:31
- * @LastEditTime: 2022-02-28 21:39:05
+ * @LastEditTime: 2022-03-07 17:08:27
  * @LastEditors: Derek Xu
  */
 
@@ -204,7 +204,7 @@ class ScheduleCustRepeat extends Component {
           </View>
         </CommonMain>
 
-        <ActionSheet open={this.state.repeatTypeOpen} onClose={this.repeatOpen.bind(this, false)} onSelect={this.repeatSelected.bind(this)}>
+        <ActionSheet open={this.state.repeatTypeOpen} onClose={this.repeatOpen.bind(this, false)} onSelect={this.repeatSelected.bind(this)} rounded={false}>
           <ActionSheet.Action name='天' value='DAILY'></ActionSheet.Action>
           <ActionSheet.Action name='周' value='WEEKLY'></ActionSheet.Action>
           <ActionSheet.Action name='月' value='MONTHLY'></ActionSheet.Action>

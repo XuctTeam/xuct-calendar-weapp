@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:42:57
- * @LastEditTime: 2022-03-01 14:34:43
+ * @LastEditTime: 2022-03-07 08:57:52
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback } from 'react'
@@ -31,6 +31,7 @@ const ApplyMine: FunctionComponent<IPageOption> = (props) => {
         props.applyAgree(gid, mid)
       })
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [show]
   )
 
@@ -44,6 +45,7 @@ const ApplyMine: FunctionComponent<IPageOption> = (props) => {
         props.applyRefuse(gid, mid)
       })
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [show]
   )
 

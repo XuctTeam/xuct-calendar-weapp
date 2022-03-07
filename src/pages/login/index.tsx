@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Version: 1.0
  * @Autor: Derek Xu
  * @Date: 2021-11-07 10:37:58
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 09:53:45
+ * @LastEditTime: 2022-03-07 11:51:21
  */
 import { Component } from 'react'
 import { connect } from 'react-redux'

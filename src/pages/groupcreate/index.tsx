@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-05 21:10:02
+ * @LastEditTime: 2022-03-07 09:39:52
  * @LastEditors: Derek Xu
  */
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -110,7 +110,7 @@ const GroupCreate: FunctionComponent = () => {
         _uploadFail()
         return
       }
-      setLoading(false)
+      setUploading(false)
       urlRef.current = result.data.url
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

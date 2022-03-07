@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-03-01 17:11:31
+ * @LastEditTime: 2022-03-07 11:51:13
  * @LastEditors: Derek Xu
  */
 import React, { Component, Fragment } from 'react'

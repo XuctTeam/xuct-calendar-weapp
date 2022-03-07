@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-04 17:33:29
+ * @LastEditTime: 2022-03-07 14:02:35
  */
 import http from '@/utils/request'
 
@@ -33,6 +33,15 @@ export const getGroupInfo = (id: string): Promise<any> => {
  */
 export const addGroup = (id: string, name: string, imageUrl: string) => {
   return http.post('/ums/api/app/v1/group', { id, name, imageUrl })
+}
+
+/**
+ * 删除群组
+ * @param id
+ * @returns
+ */
+export const deleteGroup = (id: string) => {
+  return http.post('/ums/api/app/v1/group/delete', { id })
 }
 
 /**
@@ -88,8 +97,16 @@ export const applyRefuseJoinGroup = (groupId: string, memberId: string) => {
 }
 
 /**
- * 用户下所有群组用户
+ * 按拼音分组用户
  */
-export const groupMemberList = () => {
+export const groupMemberPinYinList = () => {
   return http.get('/ums/api/app/v1/mbr/group')
+}
+
+/**
+ * 通过群组查询
+ * @param id
+ */
+export const groupMemberList = (id: string) => {
+  return http.get('/ums/api/app/v1/mbr/group/query', { groupId: id })
 }

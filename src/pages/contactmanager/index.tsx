@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-01 15:42:23
+ * @LastEditTime: 2022-03-07 13:58:59
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -12,7 +12,7 @@ import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { Arrow, FriendsOutlined, UserOutlined } from '@taroify/icons'
 import { useWebEnv } from '@/utils/taro'
-import { groupMemberList } from '@/api/group'
+import { groupMemberPinYinList } from '@/api/group'
 import { IPinYinGroupMember } from '~/../@types/group'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { WebUserList, WeappUserList } from './ui'
@@ -33,13 +33,22 @@ const Index: FunctionComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken])
 
-  const mineGroupClickHandle = () => {
-    Router.toGroupmanager()
+  const mineGroupClickHandle = async () => {
+    try {
+      const result = await Router.toGroupmanager()
+      if (!result) return
+      const { edit } = result
+      if (edit) {
+        refresh()
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const refresh = () => {
     setLoading(true)
-    groupMemberList()
+    groupMemberPinYinList()
       .then((res) => {
         setLoading(false)
         setPinYinList(res as any as Array<IPinYinGroupMember>)

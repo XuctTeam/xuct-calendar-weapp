@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:52:06
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-04 17:59:37
+ * @LastEditTime: 2022-03-07 13:53:35
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
@@ -15,6 +15,7 @@ import { IGroup } from '~/../@types/group'
 interface IPageStateProps {
   group: IGroup
   groupClick: (id: string) => void
+  groupView: (id: string) => void
 }
 
 const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
@@ -25,9 +26,15 @@ const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
     props.groupClick(id)
   }
 
+  const groupViewHanler = () => {
+    if (!id) return
+    props.groupView(id)
+  }
+
   return (
     <Cell
       className='vi-group-manager-warpper_group-list'
+      onClick={() => groupViewHanler()}
       rightIcon={
         <Ellipsis
           onClick={(e) => {

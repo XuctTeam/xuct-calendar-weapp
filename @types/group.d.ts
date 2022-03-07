@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:44:01
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-04 16:25:10
+ * @LastEditTime: 2022-03-07 14:41:54
  */
 export interface IGroup {
   id?: string
@@ -22,6 +22,7 @@ export interface IGroupMember {
   memberId: string
   groupId: string
   groupName: string
+  groupCreateMemberId?: string
 }
 
 export interface IPinYinGroupMember {

@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /*
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-03-05 20:28:09
+ * @LastEditTime: 2022-03-07 11:51:19
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'

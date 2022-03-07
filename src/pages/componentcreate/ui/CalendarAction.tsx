@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 11:31:41
- * @LastEditTime: 2022-03-01 14:36:43
+ * @LastEditTime: 2022-03-07 17:08:37
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -25,7 +25,7 @@ const CalendarAction: React.FC<IPageOption> = (props) => {
 
   return (
     <View className='vi-component-wrapper_calendar-action'>
-      <ActionSheet open={props.open} onSelect={selected} onClose={props.closeHandler} onCancel={props.closeHandler}>
+      <ActionSheet open={props.open} onSelect={selected} onClose={props.closeHandler} onCancel={props.closeHandler} rounded={false}>
         <ActionSheet.Header>日历选择</ActionSheet.Header>
         {props.calendars.map((item, i) => {
           return <ActionSheet.Action key={i} style={{ color: `#${item.color}` }} name={item.name} value={item.id}></ActionSheet.Action>
