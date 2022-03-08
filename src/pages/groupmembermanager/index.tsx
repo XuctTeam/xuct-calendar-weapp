@@ -2,14 +2,15 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-07 11:47:25
- * @LastEditTime: 2022-03-07 17:57:18
+ * @LastEditTime: 2022-03-08 17:31:49
  * @LastEditors: Derek Xu
  */
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommonMain from '@/components/mixin'
 import Router from 'tarojs-router-next'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
+import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 import { IGroupMember } from '~/../@types/group'
 import { groupMemberList } from '@/api/group'
 import { ActionSheet } from '@taroify/core'
@@ -18,12 +19,12 @@ import { UserBody } from './ui'
 import './index.scss'
 
 const GroupMemberManager: FunctionComponent = () => {
-  const [gid, setGid] = useState<string>('')
-  const [mid, setMid] = useState<string>('')
   const [members, setMembers] = useState<IGroupMember[]>([])
   const [out, setOut] = useState<boolean>(false)
   const [leave, setLeave] = useState<boolean>(false)
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
+  const groupRef = useRef<string>('')
+  const memberIdRef = useRef<string>('')
 
   useEffect(() => {
     const data = Router.getData()
@@ -38,7 +39,6 @@ const GroupMemberManager: FunctionComponent = () => {
   }, [])
 
   const _list = (id: string) => {
-    setGid(id)
     groupMemberList(id)
       .then((res) => {
         setMembers(res as any as Array<IGroupMember>)
@@ -46,6 +46,7 @@ const GroupMemberManager: FunctionComponent = () => {
       .catch((err) => {
         console.log(err)
       })
+    groupRef.current = id
   }
 
   const actionClickHandler = (ty: number, memberId: string) => {
@@ -54,6 +55,16 @@ const GroupMemberManager: FunctionComponent = () => {
       return
     }
     setOut(true)
+    memberIdRef.current = memberId
+  }
+
+  const memberLeaveHander = (data: ActionSheetActionObject) => {
+    console.log(data)
+    setLeave(false)
+  }
+
+  const memberGoOutHandler = (data: ActionSheetActionObject) => {
+    console.log(memberIdRef.current)
   }
 
   return (
@@ -67,10 +78,10 @@ const GroupMemberManager: FunctionComponent = () => {
           )
         })}
       </CommonMain>
-      <ActionSheet open={leave} onSelect={() => setLeave(false)} onCancel={() => setLeave(false)} onClose={setLeave} rounded={false}>
+      <ActionSheet open={leave} onSelect={memberLeaveHander} onCancel={() => setLeave(false)} onClose={setLeave} rounded={false}>
         <ActionSheet.Action value='1' name='退出' />
       </ActionSheet>
-      <ActionSheet open={out} onSelect={() => setOut(false)} onCancel={() => setOut(false)} onClose={setOut} rounded={false}>
+      <ActionSheet open={out} onSelect={memberGoOutHandler} onCancel={() => setOut(false)} onClose={setOut} rounded={false}>
         <ActionSheet.Action value='1' name='请出' />
         <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-07 17:50:39
+ * @LastEditTime: 2022-03-08 13:09:53
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -26,7 +26,7 @@ const Index: FunctionComponent = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const [groups, setGroups] = useState<IGroup[]>([])
   const [open, setOpen] = useState<boolean>(false)
-  const [gid, setGid] = useState<string>('')
+  const idRef = useRef('')
   const [toast] = useToast()
   const [show] = useModal({
     title: '提示',
@@ -66,11 +66,11 @@ const Index: FunctionComponent = () => {
 
   const groupClickHandler = (id: string) => {
     setOpen(true)
-    setGid(id)
+    idRef.current = id
   }
 
   const selectedHandler = (event: ActionSheetActionObject) => {
-    const group: IGroup | undefined = groups.find((x) => x.id === gid)
+    const group: IGroup | undefined = groups.find((x) => x.id === idRef.current)
     if (!group) {
       setOpen(false)
       return
@@ -127,7 +127,6 @@ const Index: FunctionComponent = () => {
   )
 
   const groupViewHandler = async (id: string) => {
-    setGid(id)
     const group: IGroup | undefined = groups.find((x) => x.id === id)
     if (group === null) return
     try {
