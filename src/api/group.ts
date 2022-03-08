@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-07 14:02:35
+ * @LastEditTime: 2022-03-08 22:06:39
  */
 import http from '@/utils/request'
 
@@ -109,4 +109,14 @@ export const groupMemberPinYinList = () => {
  */
 export const groupMemberList = (id: string) => {
   return http.get('/ums/api/app/v1/mbr/group/query', { groupId: id })
+}
+
+/**
+ * 会员主动退出或被请出群组
+ * @param groupId
+ * @param action
+ * @param memberId
+ */
+export const groupMemberLeave = (groupId: string, action: number, memberId?: string) => {
+  return http.post('/ums/api/app/v1/mbr/group/leave', { groupId, action, memberId })
 }

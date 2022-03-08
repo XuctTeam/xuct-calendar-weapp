@@ -2,18 +2,19 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-07 11:47:25
- * @LastEditTime: 2022-03-08 17:31:49
+ * @LastEditTime: 2022-03-08 22:10:06
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommonMain from '@/components/mixin'
 import Router from 'tarojs-router-next'
+import { ActionSheet } from '@taroify/core'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 import { IGroupMember } from '~/../@types/group'
-import { groupMemberList } from '@/api/group'
-import { ActionSheet } from '@taroify/core'
+import { groupMemberList, groupMemberLeave } from '@/api/group'
+import { useBack } from '@/utils/taro'
 import { UserBody } from './ui'
 
 import './index.scss'
@@ -25,6 +26,7 @@ const GroupMemberManager: FunctionComponent = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const groupRef = useRef<string>('')
   const memberIdRef = useRef<string>('')
+  const { back } = useBack()
 
   useEffect(() => {
     const data = Router.getData()
@@ -50,21 +52,32 @@ const GroupMemberManager: FunctionComponent = () => {
   }
 
   const actionClickHandler = (ty: number, memberId: string) => {
+    memberIdRef.current = memberId
     if (ty === 1) {
       setLeave(true)
       return
     }
     setOut(true)
-    memberIdRef.current = memberId
   }
 
-  const memberLeaveHander = (data: ActionSheetActionObject) => {
-    console.log(data)
+  /**
+   * 主动离开
+   */
+  const memberLeaveHander = () => {
     setLeave(false)
+    groupMemberLeave(groupRef.current, 3).then(() => {
+      back(2, { edit: true })
+    })
   }
 
-  const memberGoOutHandler = (data: ActionSheetActionObject) => {
+  /**
+   * 被请出
+   */
+  const memberGoOutHandler = () => {
     console.log(memberIdRef.current)
+    groupMemberLeave(groupRef.current, 4, memberIdRef.current).then(() => {
+      _list(groupRef.current)
+    })
   }
 
   return (
