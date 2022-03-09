@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-28 21:47:58
+ * @LastEditTime: 2022-03-09 09:41:44
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -285,9 +285,7 @@ class Components extends Component {
    * 选择日历关闭
    */
   selectedCalendarCloseHandler = () => {
-    this.setState({
-      selectedCalendarOpen: false
-    })
+    debugger
   }
 
   /**
@@ -627,7 +625,11 @@ class Components extends Component {
           open={this.state.selectedCalendarOpen}
           calendars={this.props.calendars}
           selectedHandler={this.selectdCalendarSelectHandler.bind(this)}
-          closeHandler={this.selectedCalendarCloseHandler.bind(this)}
+          closeHandler={() => {
+            this.setState({
+              selectedCalendarOpen: false
+            })
+          }}
         ></CalendarAction>
 
         <RepeatPicker

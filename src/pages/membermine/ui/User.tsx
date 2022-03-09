@@ -2,16 +2,15 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 13:27:57
- * @LastEditTime: 2022-03-05 20:52:37
+ * @LastEditTime: 2022-03-09 09:33:09
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
-import { Avatar } from '@taroify/core'
+import { Avatar, Loading } from '@taroify/core'
 import IconFont from '@/components/iconfont'
 import { DEFAULT_AVATAR } from '@/constants/index'
-import { Loading } from '@taroify/core'
 
 import '../index.scss'
 

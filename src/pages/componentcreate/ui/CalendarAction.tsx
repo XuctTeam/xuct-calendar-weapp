@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 11:31:41
- * @LastEditTime: 2022-03-07 17:08:37
+ * @LastEditTime: 2022-03-09 09:42:28
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -30,8 +30,7 @@ const CalendarAction: React.FC<IPageOption> = (props) => {
         {props.calendars.map((item, i) => {
           return <ActionSheet.Action key={i} style={{ color: `#${item.color}` }} name={item.name} value={item.id}></ActionSheet.Action>
         })}
-
-        <ActionSheet.Button>取消</ActionSheet.Button>
+        <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>
     </View>
   )

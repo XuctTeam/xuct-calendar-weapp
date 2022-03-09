@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-07 11:51:15
+ * @LastEditTime: 2022-03-09 09:33:41
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -210,7 +210,7 @@ const MemberInfo: FunctionComponent = () => {
       <CommonMain className='vi-user-wrapper' title='我的' fixed={false} left to={4}>
         <View className='vi-user-wrapper_menu'>
           <Cell title='头像' align='center'>
-            <Avatar src={userInfo.avatar} onClick={() => setHeaderOpen(true)} />
+            <Avatar src={userInfo.avatar || DEFAULT_AVATAR} onClick={() => setHeaderOpen(true)} />
           </Cell>
           <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => setNameOpen(true)}>
             {userInfo.name}

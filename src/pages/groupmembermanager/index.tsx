@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-07 11:47:25
- * @LastEditTime: 2022-03-08 22:10:06
+ * @LastEditTime: 2022-03-09 08:51:53
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -11,7 +11,6 @@ import CommonMain from '@/components/mixin'
 import Router from 'tarojs-router-next'
 import { ActionSheet } from '@taroify/core'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
-import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 import { IGroupMember } from '~/../@types/group'
 import { groupMemberList, groupMemberLeave } from '@/api/group'
 import { useBack } from '@/utils/taro'
@@ -26,7 +25,7 @@ const GroupMemberManager: FunctionComponent = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const groupRef = useRef<string>('')
   const memberIdRef = useRef<string>('')
-  const { back } = useBack()
+  const [back] = useBack()
 
   useEffect(() => {
     const data = Router.getData()
@@ -66,7 +65,7 @@ const GroupMemberManager: FunctionComponent = () => {
   const memberLeaveHander = () => {
     setLeave(false)
     groupMemberLeave(groupRef.current, 3).then(() => {
-      back(2, { edit: true })
+      back({ to: 2, data: { edit: true } })
     })
   }
 
@@ -74,9 +73,11 @@ const GroupMemberManager: FunctionComponent = () => {
    * 被请出
    */
   const memberGoOutHandler = () => {
+    setOut(false)
     console.log(memberIdRef.current)
     groupMemberLeave(groupRef.current, 4, memberIdRef.current).then(() => {
       _list(groupRef.current)
+      Router.setBackResult({ edit: true })
     })
   }
 
@@ -93,6 +94,7 @@ const GroupMemberManager: FunctionComponent = () => {
       </CommonMain>
       <ActionSheet open={leave} onSelect={memberLeaveHander} onCancel={() => setLeave(false)} onClose={setLeave} rounded={false}>
         <ActionSheet.Action value='1' name='退出' />
+        <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>
       <ActionSheet open={out} onSelect={memberGoOutHandler} onCancel={() => setOut(false)} onClose={setOut} rounded={false}>
         <ActionSheet.Action value='1' name='请出' />
