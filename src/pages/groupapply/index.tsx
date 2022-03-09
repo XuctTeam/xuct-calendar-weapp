@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-28 21:49:32
+ * @LastEditTime: 2022-03-09 22:15:51
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
 import { Collapse } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IGroup } from '~/../@types/group'
-import { applyMineList, mineApplyList, applyAgreeJoinGroup, applyRefuseJoinGroup } from '@/api/group'
+import { applyMineList, mineApplyList, applyAgreeJoinGroup, applyRefuseJoinGroup } from '@/api/groupmember'
 import { toast } from '@/utils/taro'
 import { ApplyMine, MineApply } from './ui'
 

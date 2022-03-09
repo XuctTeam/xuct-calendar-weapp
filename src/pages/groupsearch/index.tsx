@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-02 14:22:35
+ * @LastEditTime: 2022-03-09 22:16:19
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useState } from 'react'
@@ -10,7 +10,8 @@ import { View } from '@tarojs/components'
 import { Search, Empty } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IGroup } from '~/../@types/group'
-import { search, apply } from '@/api/group'
+import { search } from '@/api/group'
+import { apply } from '@/api/groupmember'
 import { toast, useModal } from '@/utils/taro'
 import { GroupList } from './ui'
 

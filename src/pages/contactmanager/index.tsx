@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-07 13:58:59
+ * @LastEditTime: 2022-03-09 22:16:27
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -12,7 +12,7 @@ import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { Arrow, FriendsOutlined, UserOutlined } from '@taroify/icons'
 import { useWebEnv } from '@/utils/taro'
-import { groupMemberPinYinList } from '@/api/group'
+import { groupMemberPinYinList } from '@/api/groupmember'
 import { IPinYinGroupMember } from '~/../@types/group'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { WebUserList, WeappUserList } from './ui'

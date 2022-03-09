@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-09 09:41:44
+ * @LastEditTime: 2022-03-09 21:52:49
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -66,6 +66,7 @@ type PageStateProps = {
   repeatUntil: Date | null
   alarmType: string
   alarmTimes: Array<string>
+  memberIds: Array<string>
 }
 
 type IProps = ModelProps & PageDispatchProps & PageOwnProps
@@ -112,7 +113,8 @@ class Components extends Component {
       repeatInterval: 1,
       repeatUntil: null,
       alarmType: '0',
-      alarmTimes: []
+      alarmTimes: [],
+      memberIds: []
     }
   }
 
@@ -478,6 +480,26 @@ class Components extends Component {
     Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: { componentId: data.id } })
   }
 
+  /**
+   * 选择参会者
+   */
+  selectedMembers = async () => {
+    try {
+      const result = await Router.toComponentmembers({
+        data: {
+          memberIds: this.state.memberIds
+        }
+      })
+      if (!result) return
+      const memberIds = { result }
+      this.setState({
+        memberIds: memberIds
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   render() {
     return (
       <Fragment>
@@ -517,7 +539,7 @@ class Components extends Component {
                 ) : (
                   <></>
                 )}
-                <Cell icon={<FriendsOutlined />} title='添加参与者' clickable size='large'></Cell>
+                <Cell icon={<FriendsOutlined />} title='添加参与者' clickable size='large' onClick={this.selectedMembers.bind(this)}></Cell>
                 {this.state.repeatStatus !== '0' ? (
                   <>
                     <Cell

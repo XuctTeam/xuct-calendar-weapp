@@ -12,7 +12,7 @@ import Router from 'tarojs-router-next'
 import { ActionSheet } from '@taroify/core'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import { IGroupMember } from '~/../@types/group'
-import { groupMemberList, groupMemberLeave } from '@/api/group'
+import { groupMemberList, groupMemberLeave } from '@/api/groupmember'
 import { useBack } from '@/utils/taro'
 import { UserBody } from './ui'
 
