@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-09 21:52:49
+ * @LastEditTime: 2022-03-10 14:02:16
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -207,12 +207,6 @@ class Components extends Component {
     })
   }
 
-  summaryChage = (value: string) => {
-    this.setState({
-      summary: value
-    })
-  }
-
   openChooseLocation = async () => {
     try {
       const result = await Router.toComponentlocation()
@@ -222,18 +216,6 @@ class Components extends Component {
     } catch (err) {
       console.log(err)
     }
-  }
-
-  locationChage = () => {
-    this.setState({
-      location: ''
-    })
-  }
-
-  descritionChage = () => {
-    this.setState({
-      description: ''
-    })
   }
 
   fullDayChage = (value: boolean) => {
@@ -281,13 +263,6 @@ class Components extends Component {
       dtend: date,
       pickDtEndOpen: false
     })
-  }
-
-  /**
-   * 选择日历关闭
-   */
-  selectedCalendarCloseHandler = () => {
-    debugger
   }
 
   /**
@@ -360,31 +335,10 @@ class Components extends Component {
     })
   }
 
-  /**
-   * 循环时间的过期时间
-   */
-  openRepeatUntil = () => {
-    this.setState({
-      repeatPickerOpen: true
-    })
-  }
-
-  repeatPickClose = () => {
-    this.setState({
-      repeatPickerOpen: false
-    })
-  }
-
   repeatUntilChage = (date: Date) => {
     this.setState({
       repeatUntil: date,
       repeatPickerOpen: false
-    })
-  }
-
-  cleanRepeatUntil = () => {
-    this.setState({
-      repeatUntil: null
     })
   }
 
@@ -491,7 +445,7 @@ class Components extends Component {
         }
       })
       if (!result) return
-      const memberIds = { result }
+      const { memberIds } = result
       this.setState({
         memberIds: memberIds
       })
@@ -513,7 +467,11 @@ class Components extends Component {
                 style={{ width: '100%', height: '40px' }}
                 limit={120}
                 autoFocus
-                onInput={(e) => this.summaryChage(e.detail.value)}
+                onInput={(e) =>
+                  this.setState({
+                    summary: e.detail.value
+                  })
+                }
               />
             </View>
             <View className='content'>
@@ -533,13 +491,19 @@ class Components extends Component {
                   </View>
                 </Cell>
                 {this.state.location ? (
-                  <Cell icon={<LocationOutlined />} rightIcon={<Cross onClick={this.locationChage.bind(this)} />} clickable>
+                  <Cell icon={<LocationOutlined />} rightIcon={<Cross onClick={() => this.setState({ location: '' })} />} clickable>
                     {this.state.location}
                   </Cell>
                 ) : (
                   <></>
                 )}
-                <Cell icon={<FriendsOutlined />} title='添加参与者' clickable size='large' onClick={this.selectedMembers.bind(this)}></Cell>
+                <Cell
+                  icon={<FriendsOutlined />}
+                  title={'添加参与者' + (this.state.memberIds.length !== 0 ? `(${this.state.memberIds.length})个` : '')}
+                  clickable
+                  size='large'
+                  onClick={this.selectedMembers.bind(this)}
+                ></Cell>
                 {this.state.repeatStatus !== '0' ? (
                   <>
                     <Cell
@@ -570,12 +534,18 @@ class Components extends Component {
                       className='vi-component-wrapper_repeat-until'
                       clickable
                       title={!this.state.repeatUntil ? '选择结束时间' : ''}
-                      onClick={this.openRepeatUntil.bind(this)}
+                      onClick={() => {
+                        this.setState({
+                          repeatPickerOpen: true
+                        })
+                      }}
                       rightIcon={
                         <Cross
                           onClick={(e) => {
                             e.stopPropagation()
-                            this.cleanRepeatUntil()
+                            this.setState({
+                              repeatUntil: null
+                            })
                           }}
                         />
                       }
@@ -590,7 +560,7 @@ class Components extends Component {
                   {formatAlarmText(this.state.alarmType, this.state.alarmTimes)}
                 </Cell>
                 {this.state.description ? (
-                  <Cell size='large' icon={<Description />} rightIcon={<Cross onClick={this.descritionChage.bind(this)} />} clickable>
+                  <Cell size='large' icon={<Description />} rightIcon={<Cross onClick={() => this.setState({ description: '' })} />} clickable>
                     {this.state.description}
                   </Cell>
                 ) : (
@@ -657,7 +627,11 @@ class Components extends Component {
         <RepeatPicker
           open={this.state.repeatPickerOpen}
           selectedDate={this.state.repeatUntil}
-          closeHanler={this.repeatPickClose.bind(this)}
+          closeHanler={() => {
+            this.setState({
+              repeatPickerOpen: false
+            })
+          }}
           confirmHandler={this.repeatUntilChage.bind(this)}
           minDate={this.state.dtend}
         ></RepeatPicker>

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:44:01
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-07 14:41:54
+ * @LastEditTime: 2022-03-10 11:53:11
  */
 export interface IGroup {
   id?: string
@@ -23,6 +23,16 @@ export interface IGroupMember {
   groupId: string
   groupName: string
   groupCreateMemberId?: string
+}
+
+/**
+ *  参会人选择类型
+ */
+export interface ICheckGroupMember {
+  name: string
+  avatar: string
+  memberId: string
+  checked: boolean
 }
 
 export interface IPinYinGroupMember {

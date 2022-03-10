@@ -2,14 +2,13 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-09 09:11:18
- * @LastEditTime: 2022-02-16 14:12:14
+ * @LastEditTime: 2022-03-10 09:39:46
  * @LastEditors: Derek Xu
  */
 import Taro, { Chain } from '@tarojs/taro'
 import dayjs from 'dayjs'
 import { HTTP_STATUS } from './statusCode'
 import codeMessage from './codeMessage'
-import { pageCleanToLogin } from '../taro'
 import refreshSubscribers from './refreshSubscribers'
 
 const OAUTHTOKEN_URL: string = '/oauth/token'
@@ -68,7 +67,7 @@ const customInterceptor = (chain: Chain): Promise<any> => {
         if (!toastMsg && errMsg) {
           toastMsg = errMsg
         }
-        if (!toastMsg || status === 502 || status === 503 || status === 504) {
+        if (!toastMsg || status === 500 || status === 502 || status === 503 || status === 504) {
           toastMsg = codeMessage[status]
         }
         /** 兼容刷新token 异常情况*/
