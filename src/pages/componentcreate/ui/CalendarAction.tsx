@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-24 11:31:41
- * @LastEditTime: 2022-03-09 09:42:28
+ * @LastEditTime: 2022-03-13 16:23:48
  * @LastEditors: Derek Xu
  */
 import React from 'react'
@@ -19,6 +19,8 @@ type IPageOption = {
 }
 
 const CalendarAction: React.FC<IPageOption> = (props) => {
+  console.log(props.calendars)
+
   const selected = (data: ActionSheetActionObject) => {
     props.selectedHandler(data.value)
   }

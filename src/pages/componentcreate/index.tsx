@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-10 14:02:16
+ * @LastEditTime: 2022-03-13 16:44:56
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -14,9 +14,20 @@ import dayjs, { Dayjs } from 'dayjs'
 import { View } from '@tarojs/components'
 import Router, { NavigateType } from 'tarojs-router-next'
 import { Cell, Switch, Button, Grid, Textarea } from '@taroify/core'
-import { Arrow, ClockOutlined, FriendsOutlined, LocationOutlined, BulbOutlined, PhotoOutlined, Replay, Description, Cross } from '@taroify/icons'
+import {
+  Arrow,
+  ClockOutlined,
+  FriendsOutlined,
+  LocationOutlined,
+  BulbOutlined,
+  PhotoOutlined,
+  Replay,
+  Description,
+  Cross,
+  ManagerOutlined
+} from '@taroify/icons'
 
-import { DvaProps } from '~/../@types/dva'
+import { DvaProps, IUserInfo } from '~/../@types/dva'
 import { DatetimePickerType } from '@taroify/core/datetime-picker/datetime-picker.shared'
 import { IDavCalendar, IDavComponent } from '~/../@types/calendar'
 import { add, getById } from '@/api/component'
@@ -32,6 +43,7 @@ import './index.scss'
 
 interface ModelProps extends DvaProps {
   calendars: Array<IDavCalendar>
+  userInfo: IUserInfo
 }
 
 type PageDispatchProps = {
@@ -81,8 +93,9 @@ const today = dayjs().toDate()
 const connects: Function = connect
 
 @connects(
-  ({ calendar }) => ({
-    calendars: calendar.calendars
+  ({ calendar, common }) => ({
+    calendars: calendar.calendars,
+    userInfo: common.userInfo
   }),
   (dispatch) => bindActionCreators(action, dispatch)
 )
@@ -147,7 +160,6 @@ class Components extends Component {
     getById(componentId).then((res) => {
       this._setUpdateComponent(calendars, res as any as IDavComponent)
     })
-    return
   }
 
   /**
@@ -191,6 +203,7 @@ class Components extends Component {
       calendars = await this.props.listSync()
     }
     const majorCalendar = calendars.find((i) => i.calendarId === component.calendarId)
+    /** 加载邀请人 */
 
     this.setState({
       ...component,
@@ -497,9 +510,16 @@ class Components extends Component {
                 ) : (
                   <></>
                 )}
+                {this.state.memberIds.length !== 0 ? (
+                  <Cell icon={<ManagerOutlined />} title='组织者'>
+                    {this.props.userInfo ? this.props.userInfo.name : '1111'}
+                  </Cell>
+                ) : (
+                  <Fragment></Fragment>
+                )}
                 <Cell
                   icon={<FriendsOutlined />}
-                  title={'添加参与者' + (this.state.memberIds.length !== 0 ? `(${this.state.memberIds.length})个` : '')}
+                  title={this.state.memberIds.length !== 0 ? `共邀请（${this.state.memberIds.length}）人` : '添加参与者'}
                   clickable
                   size='large'
                   onClick={this.selectedMembers.bind(this)}
