@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
  * @FilePath: \react-lesson-20\src\utils\utils.ts
- * @LastEditTime: 2022-01-30 12:43:44
+ * @LastEditTime: 2022-03-14 21:00:44
  * @LastEditors: Derek Xu
  */
 
@@ -132,7 +132,6 @@ export const alarmCodeToType = (code: string) => {
  * @returns
  */
 export const formatAlarmText = (alarmType: string, alarmTimes: Array<string>): string => {
-  console.log(alarmType)
   if (alarmType === '0') return '不提醒'
   if (alarmTimes.length === 0) return '不提醒'
   const formatTimes: Array<string> = alarmTimes.map((i) => {

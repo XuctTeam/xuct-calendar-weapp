@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-14 11:01:16
+ * @LastEditTime: 2022-03-14 22:30:36
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -40,6 +40,7 @@ import { SelectCalendar, Picker, Time, CalendarAction, RepeatPicker } from './ui
 import { action } from './actionCreater'
 
 import './index.scss'
+import { userInfo } from '@'
 
 interface ModelProps extends DvaProps {
   calendars: Array<IDavCalendar>
@@ -57,6 +58,7 @@ type PageStateProps = {
   edit: boolean
   id?: string
   title: string
+  creatorMemberId: string
   summary: string
   location: string
   description: string
@@ -107,6 +109,7 @@ class Components extends Component {
       id: '',
       title: '新建日程',
       summary: '',
+      creatorMemberId: '',
       location: '',
       fullDay: 0,
       description: '',
@@ -189,7 +192,8 @@ class Components extends Component {
       dtstart: dayjs(selectedDay).toDate(),
       dtend: dayjs(selectedDay).add(1, 'hour').toDate(),
       alarmType: this.state.alarmType,
-      alarmTimes: this.state.alarmTimes
+      alarmTimes: this.state.alarmTimes,
+      creatorMemberId: this.props.userInfo.id
     }
     if (majorCalendar) {
       data.alarmType = majorCalendar.alarmType + ''
@@ -211,8 +215,6 @@ class Components extends Component {
       calendars = await this.props.listSync()
     }
     const majorCalendar = calendars.find((i) => i.calendarId === component.calendarId)
-    /** 加载邀请人 */
-    //const memberIds = await queryComponentMemberIds(component.id)
     this.setState({
       ...component,
       dtstart: dayjs(component.dtstart).toDate(),
@@ -224,6 +226,7 @@ class Components extends Component {
       pickDateType: component.fullDay === 1 ? 'date' : 'date-minute',
       repeatStatus: component.repeatStatus + '',
       repeatUntil: component.repeatUntil ? dayjs(component.repeatUntil).toDate() : null,
+      creatorMemberId: component.creatorMemberId,
       memberIds: memberIds,
       edit: true
     })
@@ -415,6 +418,7 @@ class Components extends Component {
       id: this.state.id,
       summary: this.state.summary,
       calendarId: this.state.selectedCalendar.calendarId,
+      creatorMemberId: this.state.creatorMemberId,
       location: this.state.location,
       description: this.state.description,
       dtstart: this.state.dtstart,

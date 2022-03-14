@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-03-14 19:03:53
+ * @LastEditTime: 2022-03-14 22:31:19
  * @LastEditors: Derek Xu
  */
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -145,21 +145,21 @@ const Componentview: React.FC<IPageStateProps> = () => {
     show()
       .then((res) => {
         if (res.cancel) return
+        setDelLoading(true)
+        deleteById(component.id).then(() => {
+          dispatch({
+            type: 'component/refreshTime',
+            payload: dayjs().unix()
+          })
+          window.setTimeout(() => {
+            setDelLoading(false)
+            back({ to: 1 })
+          }, 300)
+        })
       })
       .catch((err) => {
         console.log(err)
       })
-    setDelLoading(true)
-    deleteById(component.id).then(() => {
-      dispatch({
-        type: 'component/refreshTime',
-        payload: dayjs().unix()
-      })
-      window.setTimeout(() => {
-        setDelLoading(false)
-        back({ to: 1 })
-      }, 300)
-    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show])
 

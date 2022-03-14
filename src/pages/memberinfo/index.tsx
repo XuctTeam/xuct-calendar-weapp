@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-09 09:33:41
+ * @LastEditTime: 2022-03-14 21:54:24
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ import { View } from '@tarojs/components'
 import CommonMain from '@/components/mixin'
 import { Avatar, Button, Cell } from '@taroify/core'
 import { ArrowRight } from '@taroify/icons'
+import { debounce } from 'lodash'
 import { DEFAULT_AVATAR, USER_LOGOUT_EVENT } from '@/constants/index'
 import { useToast, useBack, useModal } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
@@ -205,6 +206,19 @@ const MemberInfo: FunctionComponent = () => {
     })
   }
 
+  const to = useCallback(
+    debounce((ty: number) => {
+      if (ty === 2) {
+        toModifyUserName(userNameAuth.username)
+      } else if (ty === 3) {
+        toModifyPhone(phoneAuth.username)
+      } else if (ty === 4) {
+        Router.toMembermodifypassword()
+      }
+    }, 200),
+    []
+  )
+
   return (
     <Fragment>
       <CommonMain className='vi-user-wrapper' title='我的' fixed={false} left to={4}>
@@ -215,16 +229,16 @@ const MemberInfo: FunctionComponent = () => {
           <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => setNameOpen(true)}>
             {userInfo.name}
           </Cell>
-          <Cell title='登录账号' rightIcon={<ArrowRight />} clickable onClick={() => toModifyUserName(userNameAuth.username)}>
+          <Cell title='登录账号' rightIcon={<ArrowRight />} clickable onClick={() => to(2)}>
             {userNameAuth.username ? userNameAuth.username : '未绑定'}
           </Cell>
-          <Cell title='手机号' rightIcon={<ArrowRight />} clickable onClick={() => toModifyPhone(phoneAuth.username)}>
+          <Cell title='手机号' rightIcon={<ArrowRight />} clickable onClick={() => to(3)}>
             {phoneAuth.username ? phoneAuth.username : '未绑定'}
           </Cell>
           <Cell title='微信' rightIcon={<ArrowRight />} clickable>
             {wxAuth ? wxAuth.nickName : ''}
           </Cell>
-          <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => Router.toMembermodifypassword()}></Cell>
+          <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => to(4)}></Cell>
         </View>
         <View className='vi-user-wrapper_button'>
           <Button color='warning' block onClick={() => callLogout()}>

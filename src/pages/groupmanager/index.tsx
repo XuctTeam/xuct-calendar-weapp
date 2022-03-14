@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-08 13:09:53
+ * @LastEditTime: 2022-03-14 22:03:07
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -13,6 +13,7 @@ import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { ActionSheet, Cell, Empty } from '@taroify/core'
 import { AddOutlined, Search } from '@taroify/icons'
+import { debounce } from 'lodash'
 import { IGroup } from '~/../@types/group'
 import { useToast, useModal } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
@@ -149,12 +150,23 @@ const Index: FunctionComponent = () => {
     }
   }
 
+  const to = useCallback(
+    debounce((ty: number) => {
+      if (ty === 1) {
+        addGroupHandler()
+      } else if (ty == 2) {
+        searchGroupHandler()
+      }
+    }, 200),
+    []
+  )
+
   return (
     <Fragment>
       <CommonMain className='vi-group-manager-wrapper' title='我的群组' fixed to={2} left>
         <View className='vi-group-manager-wrapper_container'>
-          <Cell icon={<AddOutlined />} title='添加群组' bordered clickable onClick={() => addGroupHandler()}></Cell>
-          <Cell icon={<Search />} title='加入群组' bordered clickable onClick={() => searchGroupHandler()}></Cell>
+          <Cell icon={<AddOutlined />} title='添加群组' bordered clickable onClick={() => to(1)}></Cell>
+          <Cell icon={<Search />} title='加入群组' bordered clickable onClick={() => to(2)}></Cell>
           <Cell.Group title='我的群组'>
             {groups.length === 0 ? (
               <Empty>
