@@ -2,11 +2,12 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-03-07 11:51:19
+ * @LastEditTime: 2022-03-14 15:17:39
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
 import dva from '@/utils/dva'
+import Router, { NavigateType } from 'tarojs-router-next'
 import { Rect, IAppInfo } from '~/../@types/app'
 import useWebEnv from './useWebEnv'
 import useModal from './useModal'
@@ -16,7 +17,8 @@ import useEnv from './useEnv'
 import useStorage from './useStorage'
 import useImage from './useImage'
 import useFile from './useFile'
-import Router, { NavigateType } from 'tarojs-router-next'
+import useSystemInfo from './useSystemInfo'
+import useClipboardData from './useClipboardData'
 
 export interface ToastOption {
   title: string
@@ -193,6 +195,7 @@ const back = (backOption: BackOption): Promise<TaroGeneral.CallbackResult> => {
   try {
     return backOption.data ? Router.back(backOption.data) : Router.back()
   } catch (err) {
+    console.log(err)
     switch (backOption.to) {
       case 2:
         return Router.toContactmanager({ type: NavigateType.switchTab })
@@ -211,4 +214,4 @@ const back = (backOption: BackOption): Promise<TaroGeneral.CallbackResult> => {
   }
 }
 
-export { back, toast, storage, useWebEnv, useBack, useModal, useToast, useEnv, useStorage, useImage, useFile }
+export { back, toast, storage, useWebEnv, useBack, useModal, useToast, useEnv, useStorage, useImage, useFile, useSystemInfo, useClipboardData }

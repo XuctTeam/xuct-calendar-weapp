@@ -2,22 +2,24 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-03-07 17:07:50
+ * @LastEditTime: 2022-03-14 19:03:53
  * @LastEditors: Derek Xu
  */
-import { Fragment, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import Taro from '@tarojs/taro'
+import { Fragment, useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import dayjs from 'dayjs'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
-import { ActionSheet, Button, Flex, Backdrop, Loading } from '@taroify/core'
-import { Ellipsis, ClockOutlined, BulbOutlined } from '@taroify/icons'
-import dayjs from 'dayjs'
+import { ActionSheet, Button, Backdrop, Loading, Cell } from '@taroify/core'
+import { Ellipsis, ClockOutlined, BulbOutlined, FriendsOutlined, ManagerOutlined } from '@taroify/icons'
 import { IDavComponent } from '~/../@types/calendar'
+import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import CommonMain from '@/components/mixin'
-import { getById, deleteById } from '@/api/component'
+import ButtonGroup, { ButtonOption } from '@/components/buttongroup'
+import { getById, deleteById, queryComponentMemberIds } from '@/api/component'
+import { getName } from '@/api/user'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
-import { back } from '@/utils/taro'
+import { back, useSystemInfo, useModal, useClipboardData, useToast } from '@/utils/taro'
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
@@ -43,8 +45,11 @@ const defaultComponent: IDavComponent = {
   calendarName: ''
 }
 const Componentview: React.FC<IPageStateProps> = () => {
+  const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
+  const systemInfo = useSystemInfo() || { screenWidth: 0, screenHeight: 0 }
   const [open, setOpen] = useState(false)
   const [alarmType, setAlarmType] = useState('0')
+  const [memberName, setMemberName] = useState<string>('')
   const [alarmTimes, setAlarmTimes] = useState<string[]>([])
   const [component, setComponent] = useState<IDavComponent>(defaultComponent)
   const [delLoading, setDelLoading] = useState(false)
@@ -52,28 +57,47 @@ const Componentview: React.FC<IPageStateProps> = () => {
   const [shareOpen, setShareOpen] = useState(false)
   const [qrOpen, setQrOpen] = useState(false)
   const [weappShareOpen, setWeappShareOpen] = useState(false)
-  const [width, setWidth] = useState(0)
-  const [height, setHeight] = useState(0)
+  const [, { set }] = useClipboardData()
+  const [toast] = useToast({
+    title: '复制完成'
+  })
+  const [show] = useModal({
+    title: '提示',
+    content: '确定删除吗？'
+  })
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const sys = Taro.getSystemInfoSync()
-    setWidth(sys.screenWidth)
-    setHeight(sys.screenHeight)
-
     const data: any = Router.getData()
     if (data) {
-      _setComponent(data.component)
+      _queryMemberIds(data.component)
       return
     }
     const { componentId } = Router.getParams()
     if (!componentId) return
     getById(componentId).then((res) => {
-      _setComponent(res as any as IDavComponent)
+      _queryMemberIds(res as any as IDavComponent)
       return
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  /**
+   * 加载邀请人
+   * @param id
+   */
+  const _queryMemberIds = (comp: IDavComponent) => {
+    queryComponentMemberIds(comp.id)
+      .then((res) => {
+        comp.memberIds = res as any as Array<string>
+        _setComponent(comp)
+      })
+      .catch((err) => {
+        console.log(err)
+        _setComponent(comp)
+      })
+  }
 
   const _setComponent = (comp: IDavComponent) => {
     setComponent(comp)
@@ -83,9 +107,18 @@ const Componentview: React.FC<IPageStateProps> = () => {
     if (comp.alarmTimes) {
       setAlarmTimes(comp.alarmTimes.split(','))
     }
-
     if (comp.endTime && dayjs(Number.parseInt(comp.endTime)).isBefore(dayjs())) {
       setExpire(true)
+    }
+    /** 加载组织者姓名 */
+    if (comp.memberIds?.length !== 0) {
+      if (comp.creatorMemberId === userInfo.id) {
+        setMemberName(userInfo.name)
+        return
+      }
+      getName(comp.creatorMemberId).then((res) => {
+        setMemberName(res as any as string)
+      })
     }
   }
 
@@ -107,30 +140,28 @@ const Componentview: React.FC<IPageStateProps> = () => {
     }
   }
 
-  const componentDelete = () => {
+  const componentDelete = useCallback(() => {
     setOpen(false)
-    Taro.showModal({
-      title: '提示',
-      content: '确定删除吗？',
-      success: function (res) {
-        if (res.confirm) {
-          setDelLoading(true)
-          deleteById(component.id).then(() => {
-            dispatch({
-              type: 'component/refreshTime',
-              payload: dayjs().unix()
-            })
-            window.setTimeout(() => {
-              setDelLoading(false)
-              back({ to: 1 })
-            }, 300)
-          })
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
+    show()
+      .then((res) => {
+        if (res.cancel) return
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    setDelLoading(true)
+    deleteById(component.id).then(() => {
+      dispatch({
+        type: 'component/refreshTime',
+        payload: dayjs().unix()
+      })
+      window.setTimeout(() => {
+        setDelLoading(false)
+        back({ to: 1 })
+      }, 300)
     })
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show])
 
   /**
    * 分享好友
@@ -142,29 +173,12 @@ const Componentview: React.FC<IPageStateProps> = () => {
     if (value === '3') {
       setQrOpen(true)
     } else if (value === '2') {
-      Taro.setClipboardData({
-        data: getShareTitle(),
-        success: function () {
-          Taro.showToast({
-            title: '复制完成'
-          })
-        }
+      set(getShareTitle()).then(() => {
+        toast()
       })
     } else if (value === '1') {
       setWeappShareOpen(true)
     }
-  }
-
-  const shareClose = () => {
-    setShareOpen(false)
-  }
-
-  const setQrOpenClose = () => {
-    setQrOpen(false)
-  }
-
-  const setWeappShareClose = () => {
-    setWeappShareOpen(false)
   }
 
   const getShareTitle = () => {
@@ -185,6 +199,32 @@ const Componentview: React.FC<IPageStateProps> = () => {
     return title
   }
 
+  const shareButtonClickHandler = (val: ButtonOption) => {
+    console.log(val)
+  }
+
+  const buttonViews = (): JSX.Element => {
+    if (!component || !component.creatorMemberId) return <Fragment></Fragment>
+    if (userInfo.id === component.creatorMemberId) {
+      return (
+        <Button color='warning' disabled={expire} onClick={() => componentEdit()}>
+          编辑
+        </Button>
+      )
+    }
+    return (
+      <ButtonGroup
+        actived={2}
+        buttons={[
+          { name: '待定', value: '1' },
+          { name: '接受', value: '2' },
+          { name: '拒绝', value: '3' }
+        ]}
+        onClick={shareButtonClickHandler}
+      ></ButtonGroup>
+    )
+  }
+
   return (
     <Fragment>
       <CommonMain className='vi-component-view-wrapper' title='事项详情' to={1} fixed={false} left>
@@ -198,12 +238,14 @@ const Componentview: React.FC<IPageStateProps> = () => {
                   <View className='calendar'>{component.calendarName}</View>
                 </View>
               </View>
-              <View>
-                <Ellipsis onClick={() => setOpen(true)}></Ellipsis>
-              </View>
+              {userInfo.id === component.creatorMemberId && (
+                <Fragment>
+                  <Ellipsis onClick={() => setOpen(true)}></Ellipsis>
+                </Fragment>
+              )}
             </View>
           </View>
-          <View className='cell-item time-repeat'>
+          <View className='cell-item time-repeat taroify-hairline--bottom'>
             <View className='event-icon'>
               <ClockOutlined size={20} />
             </View>
@@ -225,6 +267,15 @@ const Componentview: React.FC<IPageStateProps> = () => {
               )}
             </View>
           </View>
+          {component.memberIds && component.memberIds.length !== 0 && (
+            <Fragment>
+              <Cell size='large' className='attend' title='组织者' icon={<ManagerOutlined size={20} />}>
+                {memberName}
+              </Cell>
+              <Cell className='attend' icon={<FriendsOutlined size={20} />} title={`共邀请（${component.memberIds.length}）人`} clickable size='large'></Cell>
+            </Fragment>
+          )}
+
           <View className='divider'></View>
           <View className='cell-item event-item remind taroify-hairline--bottom'>
             <View className='event-icon'>
@@ -234,18 +285,12 @@ const Componentview: React.FC<IPageStateProps> = () => {
           </View>
         </View>
         <View className='vi-component-view-wrapper_button'>
-          <Flex gutter={10}>
-            <Flex.Item span={12}>
-              <Button color='warning' size='large' disabled={expire} onClick={() => componentEdit()}>
-                编辑
-              </Button>
-            </Flex.Item>
-            <Flex.Item span={12}>
-              <Button color='success' size='large' onClick={() => setShareOpen(true)}>
-                分享好友
-              </Button>
-            </Flex.Item>
-          </Flex>
+          <View className='attend'>{buttonViews()}</View>
+          <View className='share'>
+            <Button color='success' onClick={() => setShareOpen(true)}>
+              分享好友
+            </Button>
+          </View>
         </View>
       </CommonMain>
       <ActionSheet open={open} onSelect={() => componentDelete()} onClose={() => setOpen(false)} onCancel={() => setOpen(false)} rounded={false}>
@@ -259,9 +304,15 @@ const Componentview: React.FC<IPageStateProps> = () => {
           </View>
         </View>
       </Backdrop>
-      <ShareUser open={shareOpen} close={shareClose} selected={shareSelected}></ShareUser>
-      <Qrcode open={qrOpen} close={setQrOpenClose} componentId={component.id} width={width - 60} height={height - 160}></Qrcode>
-      <WeappShare open={weappShareOpen} onClose={setWeappShareClose} componentTitle={component.summary} componentId={component.id}></WeappShare>
+      <ShareUser open={shareOpen} close={() => setShareOpen(false)} selected={shareSelected}></ShareUser>
+      <Qrcode
+        open={qrOpen}
+        close={() => setQrOpen(false)}
+        componentId={component.id}
+        width={systemInfo.screenWidth - 60}
+        height={systemInfo.screenHeight - 160}
+      ></Qrcode>
+      <WeappShare open={weappShareOpen} onClose={() => setWeappShareOpen(false)} componentTitle={component.summary} componentId={component.id}></WeappShare>
     </Fragment>
   )
 }

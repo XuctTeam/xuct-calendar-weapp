@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-05 16:50:55
- * @LastEditTime: 2022-01-28 16:06:38
+ * @LastEditTime: 2022-03-14 10:50:24
  * @LastEditors: Derek Xu
  */
 
@@ -47,6 +47,7 @@ export interface IDavComponent {
   repeatBymonthday?: string
   repeatInterval?: number
   repeatUntil?: string
+  memberIds?: string[]
 }
 
 export interface ICalendarComponent {

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-13 16:44:56
+ * @LastEditTime: 2022-03-14 11:01:16
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -30,7 +30,7 @@ import {
 import { DvaProps, IUserInfo } from '~/../@types/dva'
 import { DatetimePickerType } from '@taroify/core/datetime-picker/datetime-picker.shared'
 import { IDavCalendar, IDavComponent } from '~/../@types/calendar'
-import { add, getById } from '@/api/component'
+import { add, getById, queryComponentMemberIds } from '@/api/component'
 import { toast, back } from '@/utils/taro'
 import { formatRepeatTime, fiveMinutes, formatAlarmText, alarmTypeToCode } from '@/utils/utils'
 
@@ -150,7 +150,7 @@ class Components extends Component {
    */
   _updateComponent = async (componentId: string, component: IDavComponent | null) => {
     if (component) {
-      this._setUpdateComponent(this.props.calendars, component)
+      this._setUpdateComponent(this.props.calendars, component, component.memberIds ? component.memberIds : [])
       return
     }
     let calendars = this.props.calendars
@@ -158,7 +158,15 @@ class Components extends Component {
       calendars = await this.props.listSync()
     }
     getById(componentId).then((res) => {
-      this._setUpdateComponent(calendars, res as any as IDavComponent)
+      const comp: IDavComponent = res as any as IDavComponent
+      queryComponentMemberIds(comp.id)
+        .then((rs) => {
+          this._setUpdateComponent(calendars, comp, rs as any as string[])
+        })
+        .catch((err) => {
+          console.log(err)
+          this._setUpdateComponent(calendars, comp, [])
+        })
     })
   }
 
@@ -195,7 +203,7 @@ class Components extends Component {
    * @param calendars
    * @param component
    */
-  _setUpdateComponent = async (calendars: Array<IDavCalendar>, component: IDavComponent) => {
+  _setUpdateComponent = async (calendars: Array<IDavCalendar>, component: IDavComponent, memberIds: string[]) => {
     Taro.setNavigationBarTitle({
       title: '日程编辑'
     })
@@ -204,7 +212,7 @@ class Components extends Component {
     }
     const majorCalendar = calendars.find((i) => i.calendarId === component.calendarId)
     /** 加载邀请人 */
-
+    //const memberIds = await queryComponentMemberIds(component.id)
     this.setState({
       ...component,
       dtstart: dayjs(component.dtstart).toDate(),
@@ -216,6 +224,7 @@ class Components extends Component {
       pickDateType: component.fullDay === 1 ? 'date' : 'date-minute',
       repeatStatus: component.repeatStatus + '',
       repeatUntil: component.repeatUntil ? dayjs(component.repeatUntil).toDate() : null,
+      memberIds: memberIds,
       edit: true
     })
   }
@@ -419,7 +428,8 @@ class Components extends Component {
       repeatBymonthday: this.state.repeatBymonthday,
       repeatUntil: this.state.repeatUntil,
       alarmType: this.state.alarmType,
-      alarmTimes: this.state.alarmTimes
+      alarmTimes: this.state.alarmTimes,
+      memberIds: this.state.memberIds
     }
     add(addOrUpdateComponent)
       .then((res) => {
@@ -470,7 +480,7 @@ class Components extends Component {
   render() {
     return (
       <Fragment>
-        <CommonMain className='vi-component-wrapper' title={this.state.title} to={this.state.edit ? 3 : 1} fixed left data={{ componentId: this.state.id }}>
+        <CommonMain className='vi-component-wrapper' title={this.state.title} to={this.state.edit ? 5 : 1} fixed left data={{ componentId: this.state.id }}>
           <View className='vi-component-wrapper_container'>
             <View className='summary'>
               <Textarea

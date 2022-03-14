@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-04 10:39:35
- * @LastEditTime: 2022-01-27 11:59:21
+ * @LastEditTime: 2022-03-14 09:58:33
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -16,6 +16,14 @@ import http from '@/utils/request'
  */
 export const componentsDaysById = (calendarId: string, start: string, end: string) => {
   return http.get('/cms/api/app/v1/component/list/calendar/days', { calendarId, start, end })
+}
+
+/**
+ * 通过事件查询邀请人
+ * @param componentId
+ */
+export const queryComponentMemberIds = (componentId: string) => {
+  return http.get('/cms/api/app/v1/component/query/member/ids', { componentId })
 }
 
 /**

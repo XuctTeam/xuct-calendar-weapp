@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-03-02 11:27:16
+ * @LastEditTime: 2022-03-14 15:12:12
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -71,6 +71,14 @@ export const password = (pwd: string): Promise<any> => {
  */
 export const updateName = (name: string): Promise<any> => {
   return http.post('/ums/api/app/v1/member/name', { name })
+}
+
+/**
+ * 通过ID查询名称
+ * @param memberId
+ */
+export const getName = (memberId: string): Promise<any> => {
+  return http.get('/ums/api/app/v1/member/name', { memberId })
 }
 
 /**
