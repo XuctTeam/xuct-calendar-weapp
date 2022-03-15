@@ -1,0 +1,50 @@
+.vi-component-members-view-warpper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &_self {
+    .taroify-cell__value {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .label {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .item {
+        padding-left: 20px;
+      }
+    }
+  }
+
+  &_list {
+    flex: 1;
+
+    .taroify-cell__value {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .label {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .item {
+        padding-left: 20px;
+      }
+    }
+  }
+
+  &_button {
+    margin: 20px;
+    padding-bottom: 10px;
+  }
+}

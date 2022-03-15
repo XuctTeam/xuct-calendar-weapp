@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-14 21:54:24
+ * @LastEditTime: 2022-03-15 16:00:50
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +14,7 @@ import { View } from '@tarojs/components'
 import CommonMain from '@/components/mixin'
 import { Avatar, Button, Cell } from '@taroify/core'
 import { ArrowRight } from '@taroify/icons'
-import { debounce } from 'lodash'
+import { throttle } from 'lodash'
 import { DEFAULT_AVATAR, USER_LOGOUT_EVENT } from '@/constants/index'
 import { useToast, useBack, useModal } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
@@ -206,8 +206,8 @@ const MemberInfo: FunctionComponent = () => {
     })
   }
 
-  const to = useCallback(
-    debounce((ty: number) => {
+  const to = throttle(
+    (ty: number) => {
       if (ty === 2) {
         toModifyUserName(userNameAuth.username)
       } else if (ty === 3) {
@@ -215,8 +215,11 @@ const MemberInfo: FunctionComponent = () => {
       } else if (ty === 4) {
         Router.toMembermodifypassword()
       }
-    }, 200),
-    []
+    },
+    800,
+    {
+      trailing: false
+    }
   )
 
   return (

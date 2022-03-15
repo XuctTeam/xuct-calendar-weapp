@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-04 10:39:35
- * @LastEditTime: 2022-03-14 09:58:33
+ * @LastEditTime: 2022-03-15 15:24:28
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -16,14 +16,6 @@ import http from '@/utils/request'
  */
 export const componentsDaysById = (calendarId: string, start: string, end: string) => {
   return http.get('/cms/api/app/v1/component/list/calendar/days', { calendarId, start, end })
-}
-
-/**
- * 通过事件查询邀请人
- * @param componentId
- */
-export const queryComponentMemberIds = (componentId: string) => {
-  return http.get('/cms/api/app/v1/component/query/member/ids', { componentId })
 }
 
 /**
@@ -69,4 +61,36 @@ export const search = (word: string, page: number, limit: number) => {
  */
 export const deleteById = (id: string) => {
   return http.delete('/cms/api/app/v1/component/'.concat(id))
+}
+
+/**
+ * 通过事件查询邀请人
+ * @param componentId
+ */
+export const queryComponentMemberIds = (componentId: string) => {
+  return http.get('/cms/api/app/v1/component/attend/member/ids', { componentId })
+}
+
+/**
+ * 获取邀请状态
+ * @param componentId
+ */
+export const getAttendStatus = (componentId: string) => {
+  return http.get('/cms/api/app/v1/component/attend/status', { componentId })
+}
+
+/**
+ * 更新邀请状态
+ * @param componentId
+ */
+export const updateAttendStatus = (componentId: string, status: number) => {
+  return http.post('/cms/api/app/v1/component/attend/status', { componentId, status })
+}
+
+/**
+ * 拒绝邀请
+ * @param componentId
+ */
+export const refuseAttend = (componentId: string) => {
+  return http.delete('/cms/api/app/v1/component/attend/'.concat(componentId))
 }

@@ -2,15 +2,15 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-03-14 21:30:16
+ * @LastEditTime: 2022-03-15 16:00:15
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, useCallback } from 'react'
+import { FunctionComponent } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { Cell } from '@taroify/core'
-import { debounce } from 'lodash'
+import { throttle } from 'lodash'
 import { Arrow, CalendarOutlined, ManagerOutlined, SettingOutlined, TvOutlined, UserCircleOutlined } from '@taroify/icons'
 import '../index.scss'
 
@@ -18,8 +18,8 @@ const Setting: FunctionComponent = () => {
   /**
    * 列表点击
    */
-  const atListItemClickHandle = useCallback(
-    debounce((params) => {
+  const atListItemClickHandle = throttle(
+    (params) => {
       if (params === 1) {
         Router.toCalendarmanager()
       } else if (params === 2) {
@@ -31,8 +31,11 @@ const Setting: FunctionComponent = () => {
       } else if (params === 5) {
         Router.toMemberinfo()
       }
-    }, 200),
-    []
+    },
+    800,
+    {
+      trailing: false
+    }
   )
 
   const _copy = () => {

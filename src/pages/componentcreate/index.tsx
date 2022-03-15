@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-14 22:30:36
+ * @LastEditTime: 2022-03-15 09:16:20
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -40,7 +40,6 @@ import { SelectCalendar, Picker, Time, CalendarAction, RepeatPicker } from './ui
 import { action } from './actionCreater'
 
 import './index.scss'
-import { userInfo } from '@'
 
 interface ModelProps extends DvaProps {
   calendars: Array<IDavCalendar>
@@ -153,7 +152,10 @@ class Components extends Component {
    */
   _updateComponent = async (componentId: string, component: IDavComponent | null) => {
     if (component) {
-      this._setUpdateComponent(this.props.calendars, component, component.memberIds ? component.memberIds : [])
+      if (!component.memberIds) {
+        component.memberIds = []
+      }
+      this._setUpdateComponent(this.props.calendars, component)
       return
     }
     let calendars = this.props.calendars
@@ -162,13 +164,16 @@ class Components extends Component {
     }
     getById(componentId).then((res) => {
       const comp: IDavComponent = res as any as IDavComponent
+      if (!comp) return
+      comp.memberIds = []
       queryComponentMemberIds(comp.id)
         .then((rs) => {
-          this._setUpdateComponent(calendars, comp, rs as any as string[])
+          comp.memberIds = rs as any as string[]
+          this._setUpdateComponent(calendars, comp)
         })
         .catch((err) => {
           console.log(err)
-          this._setUpdateComponent(calendars, comp, [])
+          this._setUpdateComponent(calendars, comp)
         })
     })
   }
@@ -207,7 +212,7 @@ class Components extends Component {
    * @param calendars
    * @param component
    */
-  _setUpdateComponent = async (calendars: Array<IDavCalendar>, component: IDavComponent, memberIds: string[]) => {
+  _setUpdateComponent = async (calendars: Array<IDavCalendar>, component: IDavComponent) => {
     Taro.setNavigationBarTitle({
       title: '日程编辑'
     })
@@ -226,8 +231,6 @@ class Components extends Component {
       pickDateType: component.fullDay === 1 ? 'date' : 'date-minute',
       repeatStatus: component.repeatStatus + '',
       repeatUntil: component.repeatUntil ? dayjs(component.repeatUntil).toDate() : null,
-      creatorMemberId: component.creatorMemberId,
-      memberIds: memberIds,
       edit: true
     })
   }

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-14 22:03:07
+ * @LastEditTime: 2022-03-15 15:55:41
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -13,7 +13,7 @@ import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { ActionSheet, Cell, Empty } from '@taroify/core'
 import { AddOutlined, Search } from '@taroify/icons'
-import { debounce } from 'lodash'
+import { throttle } from 'lodash'
 import { IGroup } from '~/../@types/group'
 import { useToast, useModal } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
@@ -150,16 +150,13 @@ const Index: FunctionComponent = () => {
     }
   }
 
-  const to = useCallback(
-    debounce((ty: number) => {
-      if (ty === 1) {
-        addGroupHandler()
-      } else if (ty == 2) {
-        searchGroupHandler()
-      }
-    }, 200),
-    []
-  )
+  const to = throttle((ty: number) => {
+    if (ty === 1) {
+      addGroupHandler()
+    } else if (ty == 2) {
+      searchGroupHandler()
+    }
+  }, 200)
 
   return (
     <Fragment>

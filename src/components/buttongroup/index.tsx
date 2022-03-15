@@ -2,10 +2,10 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-14 17:31:01
- * @LastEditTime: 2022-03-14 18:47:06
+ * @LastEditTime: 2022-03-15 15:17:24
  * @LastEditors: Derek Xu
  */
-import { Fragment, FunctionComponent, useState } from 'react'
+import { Fragment, FunctionComponent, useEffect, useState } from 'react'
 import { View } from '@tarojs/components'
 import { Button } from '@taroify/core'
 import './index.scss'
@@ -22,10 +22,7 @@ interface IButtonGroupOption {
 }
 
 const ButtonGroup: FunctionComponent<IButtonGroupOption> = (props) => {
-  const [active, setActive] = useState<number>(props.actived)
-
   const click = (index: number) => {
-    setActive(index)
     props.onClick(props.buttons[index])
   }
 
@@ -34,7 +31,7 @@ const ButtonGroup: FunctionComponent<IButtonGroupOption> = (props) => {
       {props.buttons.map((item, index) => {
         return (
           <Fragment key={index}>
-            {index === active ? (
+            {index === props.actived ? (
               <Button color='warning' onClick={() => click(index)}>
                 {item.name}
               </Button>

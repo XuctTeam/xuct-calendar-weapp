@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-03-14 22:31:19
+ * @LastEditTime: 2022-03-15 15:25:10
  * @LastEditors: Derek Xu
  */
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -16,13 +16,14 @@ import { IDavComponent } from '~/../@types/calendar'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import CommonMain from '@/components/mixin'
 import ButtonGroup, { ButtonOption } from '@/components/buttongroup'
-import { getById, deleteById, queryComponentMemberIds } from '@/api/component'
+import { getById, deleteById, queryComponentMemberIds, getAttendStatus, updateAttendStatus, refuseAttend } from '@/api/component'
 import { getName } from '@/api/user'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back, useSystemInfo, useModal, useClipboardData, useToast } from '@/utils/taro'
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
+import { useMemo } from 'react'
 
 interface IPageStateProps {
   open: boolean
@@ -42,21 +43,24 @@ const defaultComponent: IDavComponent = {
   status: '',
   alarmType: '0',
   color: 'fff',
-  calendarName: ''
+  calendarName: '',
+  attendStatus: 0
 }
 const Componentview: React.FC<IPageStateProps> = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
+  const dispatch = useDispatch()
   const systemInfo = useSystemInfo() || { screenWidth: 0, screenHeight: 0 }
   const [open, setOpen] = useState(false)
   const [alarmType, setAlarmType] = useState('0')
   const [memberName, setMemberName] = useState<string>('')
   const [alarmTimes, setAlarmTimes] = useState<string[]>([])
   const [component, setComponent] = useState<IDavComponent>(defaultComponent)
-  const [delLoading, setDelLoading] = useState(false)
-  const [expire, setExpire] = useState(false)
-  const [shareOpen, setShareOpen] = useState(false)
-  const [qrOpen, setQrOpen] = useState(false)
-  const [weappShareOpen, setWeappShareOpen] = useState(false)
+  const [delLoading, setDelLoading] = useState<boolean>(false)
+  const [expire, setExpire] = useState<boolean>(false)
+  const [shareOpen, setShareOpen] = useState<boolean>(false)
+  const [qrOpen, setQrOpen] = useState<boolean>(false)
+  const [weappShareOpen, setWeappShareOpen] = useState<boolean>(false)
+  const [attendStatus, setAttendStatus] = useState<number>(0)
   const [, { set }] = useClipboardData()
   const [toast] = useToast({
     title: '复制完成'
@@ -66,8 +70,6 @@ const Componentview: React.FC<IPageStateProps> = () => {
     content: '确定删除吗？'
   })
 
-  const dispatch = useDispatch()
-
   useEffect(() => {
     const data: any = Router.getData()
     if (data) {
@@ -76,10 +78,14 @@ const Componentview: React.FC<IPageStateProps> = () => {
     }
     const { componentId } = Router.getParams()
     if (!componentId) return
-    getById(componentId).then((res) => {
-      _queryMemberIds(res as any as IDavComponent)
-      return
-    })
+    getById(componentId)
+      .then((res) => {
+        _queryMemberIds(res as any as IDavComponent)
+        return
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -100,7 +106,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
   }
 
   const _setComponent = (comp: IDavComponent) => {
-    setComponent(comp)
+    setComponent({ ...comp })
     if (comp.alarmType) {
       setAlarmType(alarmTypeToCode(comp.alarmType))
     }
@@ -110,16 +116,24 @@ const Componentview: React.FC<IPageStateProps> = () => {
     if (comp.endTime && dayjs(Number.parseInt(comp.endTime)).isBefore(dayjs())) {
       setExpire(true)
     }
-    /** 加载组织者姓名 */
+    if (comp.creatorMemberId === userInfo.id) {
+      setMemberName(userInfo.name)
+      return
+    }
+    /**加载组织者 */
     if (comp.memberIds?.length !== 0) {
-      if (comp.creatorMemberId === userInfo.id) {
-        setMemberName(userInfo.name)
-        return
-      }
       getName(comp.creatorMemberId).then((res) => {
         setMemberName(res as any as string)
       })
     }
+    /** 加载邀请状态 */
+    getAttendStatus(comp.id)
+      .then((res) => {
+        setAttendStatus(res as any as number)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   /**
@@ -140,31 +154,22 @@ const Componentview: React.FC<IPageStateProps> = () => {
     }
   }
 
-  const componentDelete = useCallback(() => {
-    setOpen(false)
-    show()
-      .then((res) => {
+  const componentDelete = useCallback(
+    (id: string) => {
+      setOpen(false)
+      show().then((res) => {
         if (res.cancel) return
-        setDelLoading(true)
-        deleteById(component.id).then(() => {
-          dispatch({
-            type: 'component/refreshTime',
-            payload: dayjs().unix()
-          })
-          window.setTimeout(() => {
-            setDelLoading(false)
-            back({ to: 1 })
-          }, 300)
-        })
+        _deleteComponent(1, id)
       })
-      .catch((err) => {
-        console.log(err)
-      })
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show])
+    [show]
+  )
 
   /**
    * 分享好友
+   * @param data
+   * @returns
    */
   const shareSelected = (data: any) => {
     setShareOpen(false)
@@ -199,8 +204,32 @@ const Componentview: React.FC<IPageStateProps> = () => {
     return title
   }
 
+  /**
+   * 更新邀请状态
+   * @param val
+   * @returns
+   */
   const shareButtonClickHandler = (val: ButtonOption) => {
-    console.log(val)
+    if (val.value === '2') {
+      show({
+        content: '确定拒绝吗？'
+      }).then((res) => {
+        if (res.cancel) {
+          setAttendStatus(attendStatus)
+          return
+        }
+        _deleteComponent(2, component.id)
+      })
+      return
+    }
+    setAttendStatus(Number.parseInt(val.value))
+    updateAttendStatus(component.id, Number.parseInt(val.value))
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   const buttonViews = (): JSX.Element => {
@@ -214,15 +243,53 @@ const Componentview: React.FC<IPageStateProps> = () => {
     }
     return (
       <ButtonGroup
-        actived={2}
+        actived={attendStatus}
         buttons={[
-          { name: '待定', value: '1' },
-          { name: '接受', value: '2' },
-          { name: '拒绝', value: '3' }
+          { name: '待定', value: '0' },
+          { name: '接受', value: '1' },
+          { name: '拒绝', value: '2' }
         ]}
         onClick={shareButtonClickHandler}
       ></ButtonGroup>
     )
+  }
+
+  /**
+   * 删除事件
+   */
+  const _deleteComponent = (ty: number, id: string) => {
+    setDelLoading(true)
+    if (ty === 0) {
+      deleteById(id)
+        .then(() => {
+          _deleteSuccess()
+        })
+        .catch((err) => {
+          console.log(err)
+          setDelLoading(false)
+        })
+      return
+    }
+    refuseAttend(id)
+      .then(() => {
+        _deleteSuccess()
+      })
+      .catch((err) => {
+        console.log(err)
+        setDelLoading(false)
+      })
+  }
+
+  const _deleteSuccess = () => {
+    setDelLoading(false)
+    dispatch({
+      type: 'component/refreshTime',
+      payload: dayjs().unix()
+    })
+    window.setTimeout(() => {
+      setDelLoading(false)
+      back({ to: 1 })
+    }, 500)
   }
 
   return (
@@ -293,7 +360,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
           </View>
         </View>
       </CommonMain>
-      <ActionSheet open={open} onSelect={() => componentDelete()} onClose={() => setOpen(false)} onCancel={() => setOpen(false)} rounded={false}>
+      <ActionSheet open={open} onSelect={() => componentDelete(component.id)} onClose={() => setOpen(false)} onCancel={() => setOpen(false)} rounded={false}>
         <ActionSheet.Action value='1' name='删除' />
         <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>
