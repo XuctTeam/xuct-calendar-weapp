@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-15 15:55:41
+ * @LastEditTime: 2022-03-15 17:16:24
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -150,13 +150,17 @@ const Index: FunctionComponent = () => {
     }
   }
 
-  const to = throttle((ty: number) => {
-    if (ty === 1) {
-      addGroupHandler()
-    } else if (ty == 2) {
-      searchGroupHandler()
-    }
-  }, 200)
+  const to = throttle(
+    (ty: number) => {
+      if (ty === 1) {
+        addGroupHandler()
+      } else if (ty == 2) {
+        searchGroupHandler()
+      }
+    },
+    800,
+    { trailing: false }
+  )
 
   return (
     <Fragment>

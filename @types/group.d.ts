@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:44:01
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-10 11:53:11
+ * @LastEditTime: 2022-03-15 16:21:15
  */
 export interface IGroup {
   id?: string
@@ -16,25 +16,34 @@ export interface IGroup {
   createMemberName?: string
 }
 
-export interface IGroupMember {
+/**
+ * 通讯录人
+ */
+export type TMember = {
   name: string
   avatar: string
   memberId: string
+}
+
+/**
+ *  群组通讯录
+ */
+export interface IGroupMember extends TMember {
   groupId: string
   groupName: string
   groupCreateMemberId?: string
 }
 
 /**
- *  参会人选择类型
+ *  选择通讯通人员
  */
-export interface ICheckGroupMember {
-  name: string
-  avatar: string
-  memberId: string
+export interface ICheckGroupMember extends TMember {
   checked: boolean
 }
 
+/**
+ * 按拼音分组
+ */
 export interface IPinYinGroupMember {
   charCode: string
   members: Array<IGroupMember>

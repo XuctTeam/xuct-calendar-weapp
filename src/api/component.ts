@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-04 10:39:35
- * @LastEditTime: 2022-03-15 15:24:28
+ * @LastEditTime: 2022-03-15 17:05:55
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -64,11 +64,20 @@ export const deleteById = (id: string) => {
 }
 
 /**
- * 通过事件查询邀请人
+ * 通过事件查询邀请人ID
  * @param componentId
  */
 export const queryComponentMemberIds = (componentId: string) => {
   return http.get('/cms/api/app/v1/component/attend/member/ids', { componentId })
+}
+
+/**
+ * 通过事件查询参会人
+ * @param createMemberId
+ * @param componentId
+ */
+export const queryComponentMembers = (createMemberId: string, componentId: string) => {
+  return http.get('/cms/api/app/v1/component/attend/member', { createMemberId, componentId })
 }
 
 /**

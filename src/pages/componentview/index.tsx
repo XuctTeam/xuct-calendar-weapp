@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-03-15 15:25:10
+ * @LastEditTime: 2022-03-15 17:19:32
  * @LastEditors: Derek Xu
  */
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
+import { throttle } from 'lodash'
 import { ActionSheet, Button, Backdrop, Loading, Cell } from '@taroify/core'
 import { Ellipsis, ClockOutlined, BulbOutlined, FriendsOutlined, ManagerOutlined } from '@taroify/icons'
 import { IDavComponent } from '~/../@types/calendar'
@@ -23,7 +24,6 @@ import { back, useSystemInfo, useModal, useClipboardData, useToast } from '@/uti
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
-import { useMemo } from 'react'
 
 interface IPageStateProps {
   open: boolean
@@ -254,6 +254,19 @@ const Componentview: React.FC<IPageStateProps> = () => {
     )
   }
 
+  const viewMembersHandler = throttle(
+    () => {
+      Router.toComponentmembersview({
+        params: {
+          componentId: component.id,
+          creatorMemberId: component.creatorMemberId
+        }
+      })
+    },
+    800,
+    { trailing: false }
+  )
+
   /**
    * 删除事件
    */
@@ -339,7 +352,14 @@ const Componentview: React.FC<IPageStateProps> = () => {
               <Cell size='large' className='attend' title='组织者' icon={<ManagerOutlined size={20} />}>
                 {memberName}
               </Cell>
-              <Cell className='attend' icon={<FriendsOutlined size={20} />} title={`共邀请（${component.memberIds.length}）人`} clickable size='large'></Cell>
+              <Cell
+                className='attend'
+                icon={<FriendsOutlined size={20} />}
+                title={`共邀请（${component.memberIds.length}）人`}
+                clickable
+                size='large'
+                onClick={viewMembersHandler}
+              ></Cell>
             </Fragment>
           )}
 
