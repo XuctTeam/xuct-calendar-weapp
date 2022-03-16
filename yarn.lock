@@ -1217,13 +1217,13 @@
   "resolved" "https://registry.npmjs.org/@stencil/core/-/core-2.9.0.tgz"
   "version" "2.9.0"
 
-"@taroify/core@^0.0.28-alpha.0":
-  "integrity" "sha512-LL2jHwqV6e6p7jtAwNszQmymMUv2bQY43tfUXpreym8AxAWicImXO3/wMqLn+T6RNUI3qEOgStlwxo0fMWZvKQ=="
-  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.28-alpha.0.tgz"
-  "version" "0.0.28-alpha.0"
+"@taroify/core@^0.0.28-alpha.1":
+  "integrity" "sha512-NWsYkSj4IhLRRo1UCf0kbDNZfqTRteegcu1fFdkgmChRzDYSlQDtFmdNhMb94HPhqt/DYTKSPN6BsIZAPGmGfQ=="
+  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.28-alpha.1.tgz"
+  "version" "0.0.28-alpha.1"
   dependencies:
-    "@taroify/hooks" "^0.0.28-alpha.0"
-    "@taroify/icons" "^0.0.28-alpha.0"
+    "@taroify/hooks" "^0.0.28-alpha.1"
+    "@taroify/icons" "^0.0.28-alpha.1"
     "classnames" "^2.2.6"
     "lodash" "^4.17.21"
     "promise" "^8.1.0"
@@ -1231,19 +1231,19 @@
     "react-is" "^17.0.2"
     "react-transition-group" "^4.4.1"
 
-"@taroify/hooks@^0.0.28-alpha.0":
-  "integrity" "sha512-zdLyug/RGUQYk0jiJeTghOrsvAKV+jFxdSkQqAxsrs2DNg33knwcxLENLYHqY0x4KZ0t0y1SBaz8uHcyGoXrQA=="
-  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.28-alpha.0.tgz"
-  "version" "0.0.28-alpha.0"
+"@taroify/hooks@^0.0.28-alpha.1":
+  "integrity" "sha512-lEFGH+5jB/UnjTTZoAoVTcBDu8LoZvtSB4o5RJN3gjOWt2ekadsp+rIbpCyJugXU8EzjUxqu039fNgKrr33Gow=="
+  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.28-alpha.1.tgz"
+  "version" "0.0.28-alpha.1"
   dependencies:
     "@vant/area-data" "^1.2.1"
     "lodash" "^4.17.21"
     "react" "^17.0.2"
 
-"@taroify/icons@^0.0.28-alpha.0":
-  "integrity" "sha512-06qiclosM8721OvMwT6EKF+PwSkqbyyvBAZeqzc9ljBhmFd1f+RsZ3YIwdcb1XS1xLUIngqEb2SAoh2tH+S3yQ=="
-  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.28-alpha.0.tgz"
-  "version" "0.0.28-alpha.0"
+"@taroify/icons@^0.0.28-alpha.1":
+  "integrity" "sha512-v+pZBhi6VwNInMSVoZgz0DkcU55d1hE+koO/Elg7oNnxP6RB43KfhWWiEh71wqeGkM81KEO3ZylW1VFYFGqCSA=="
+  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.28-alpha.1.tgz"
+  "version" "0.0.28-alpha.1"
   dependencies:
     "classnames" "^2.2.6"
 

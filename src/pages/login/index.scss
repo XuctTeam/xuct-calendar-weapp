@@ -3,6 +3,14 @@
   flex-direction: column;
   height: 100%;
 
+  .taroify-form-label {
+    align-items: center;
+  }
+  .taroify-checkbox__label {
+    display: flex;
+    flex-direction: row;
+  }
+
   .section {
     display: flex;
     flex-direction: column;
@@ -50,33 +58,44 @@
 
   .footer {
     position: relative;
-    height: 260px;
+    height: 240px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
 
     .left-bottom-sign {
       position: absolute;
       left: -240px;
-      bottom: -300px;
+      bottom: -360px;
       border: 100px solid #d0d1fd;
       border-radius: 50%;
       padding: 180px;
     }
 
-    .register {
-      position: absolute;
+    .bottom {
+      width: 100%;
       bottom: 80px;
       display: flex;
-      width: 100%;
+      flex-direction: column;
       align-items: center;
       text-align: center;
       justify-content: center;
-      font-size: 28px;
-      height: 40px;
-      line-height: 40px;
 
-      navigator {
-        font-size: 28px;
-        color: blue;
+      .btn1 {
+        width: 200px;
+        height: 200rpx;
+        margin-top: 20rpx;
+        border-radius: 0rpx;
+        background-color: transparent;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+
+      .btn1::after {
+        border: 0;
       }
     }
   }
@@ -91,65 +110,43 @@
     }
   }
 
-  .wrapper {
-    flex: 1;
+  &_form {
     display: flex;
+    flex-direction: column;
     align-items: center;
-  }
+    height: 460px;
+    padding: 30px;
+    box-sizing: border-box;
 
-  &_ui-form {
-    flex: 2;
-    margin: 40px 30px;
+    .form {
+      margin-bottom: 20px;
+    }
 
     .btn {
-      margin: 20px 20px 0px 20px;
-    }
-
-    .taroify-flex {
-      text-align: center;
-    }
-
-    .smsCode {
       display: flex;
-    }
-
-    .self {
-      padding-left: 40px;
-    }
-
-    .taroify-checkbox {
-      font-size: 24px;
-      height: 40px;
-      line-height: 40px;
-    }
-  }
-
-  .weapp-login {
-    .wechat-checkbox {
-      display: flex;
-      margin-top: 30px;
-      margin-bottom: 20px;
-      align-items: center;
-
-      navigator {
-        font-size: 28px;
-        color: blue;
-      }
-    }
-
-    .button {
+      flex-direction: row;
+      margin-bottom: 30px;
+      margin-top: 10px;
+      padding-left: 30px;
+      padding-right: 30px;
       box-sizing: border-box;
-
-      .phone-login {
-        margin-top: 30px;
-      }
+      width: 100%;
+      justify-content: space-between;
+      font-size: 26px;
     }
   }
 
-  .h5-login-type {
-    font-size: 24px;
-    color: #000;
-    padding-top: 20px;
-    font-weight: 600;
+  &_self {
+    padding-left: 30px;
+    box-sizing: border-box;
+
+    .custom-color {
+      .taroify-checkbox__icon--checked {
+        .taroify-icon {
+          border-color: #ee0a24;
+          background: #ee0a24;
+        }
+      }
+    }
   }
 }

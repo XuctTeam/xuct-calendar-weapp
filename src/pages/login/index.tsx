@@ -2,18 +2,24 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-16 14:12:06
+ * @LastEditTime: 2022-03-16 22:24:18
  * @LastEditors: Derek Xu
  */
-import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import Router from 'tarojs-router-next'
+import { Button as TBbutton } from '@tarojs/components'
+import { Button, Cell, Checkbox, Field, Form, Input } from '@taroify/core'
 import dayjs from 'dayjs'
 import { View, Image, Navigator } from '@tarojs/components'
-import { ArrowLeft } from '@taroify/icons'
+import { ArrowLeft, Wechat } from '@taroify/icons'
 import { toast, back, useEnv, useLogin, useUserInfo } from '@/utils/taro'
+import { checkMobile } from '@/utils/utils'
 import { IUserInfo } from '@/utils/taro/useUserInfo'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/token'
-import { WebForm, WechatForm } from './ui'
+import { sendSmsCode } from '@/api/user'
+
+import { DEFAULT_LOG_IMAGE } from '@/constants/index'
 
 import './index.scss'
 
@@ -23,16 +29,30 @@ type ICode = {
 }
 
 const Login: FunctionComponent = () => {
+  const smsBtnLoadingTime: number = 120
   const [icode, setIcode] = useState<ICode | null>(null)
   const dispatch = useDispatch()
   const env = useEnv()
   const [login] = useLogin()
   const [, { getUserProfile }] = useUserInfo()
-  const [show, setShow] = useState<boolean>(false)
+  const [self, setSelf] = useState<boolean>()
+  const [phoneForm, setPhoneForm] = useState<boolean>(false)
+  const [username, setUsername] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [phone, setPhone] = useState<string>('')
+  const [smsCode, setSmsCode] = useState<string>('')
+  const [smsText, setSmsText] = useState<string>('发送短信')
+  const [smsLoading, setSmsLoading] = useState<boolean>(false)
+  const timerRef = useRef<number>(0)
 
   useEffect(() => {
     if (env === 'WEAPP') {
       handleLogin()
+    }
+    return () => {
+      if (timerRef.current > 0) {
+        _stopSmsCode()
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [env])
@@ -46,11 +66,34 @@ const Login: FunctionComponent = () => {
   }, [login])
 
   /**
+   * 发送短信验证码
+   */
+  const pushCode = () => {
+    if (!checkMobile(phone)) {
+      toast({ title: '手机号错误' })
+      return
+    }
+    _startSmsCode()
+    sendSmsCode(phone)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((error) => {
+        console.log(error)
+        _stopSmsCode()
+      })
+  }
+
+  /**
    * 微信授权登录
    * @param res
    * @returns
    */
   const loginByCode = async () => {
+    if (!self) {
+      toast({ title: '请先勾选协议' })
+      return
+    }
     if (!icode) {
       toast({ title: '微信登录失败' })
       return
@@ -88,16 +131,44 @@ const Login: FunctionComponent = () => {
    * @param phone
    * @param smsCode
    */
-  const loginByPhoneOrUsername = async (phone: string, smsCode: string, username: string, password: string, type: boolean) => {
-    /* 电话登录 */
-    if (type) {
-      return _phoneLogin(phone, smsCode)
+  const loginByPhoneOrUsername = async () => {
+    if (!self) {
+      toast({ title: '请先勾选协议' })
+      return
     }
-    return _usernameLogin(username, password)
-  }
+    /* 电话登录 */
+    if (phoneForm) {
+      if (!phone) {
+        toast({ title: '手机号码不能为空' })
+        return
+      }
+      if (!smsCode) {
+        toast({ title: '验证码不能为空' })
+        return
+      }
 
-  const wechatLoginByPhone = () => {
-    setShow(true)
+      _phoneLogin(phone, smsCode).then((res) => {
+        if (!res) {
+          return
+        }
+        back({ to: 4 })
+      })
+      return
+    }
+    if (!username) {
+      toast({ title: '账号不能为空' })
+      return
+    }
+    if (!password) {
+      toast({ title: '验证码不能为空' })
+      return
+    }
+    _usernameLogin(username, password).then((res) => {
+      if (!res) {
+        return
+      }
+      back({ to: 4 })
+    })
   }
 
   const _phoneLogin = async (phone: string, smsCode: string): Promise<boolean> => {
@@ -134,6 +205,31 @@ const Login: FunctionComponent = () => {
     })
   }
 
+  const _startSmsCode = () => {
+    setSmsLoading(true)
+    _setTimeOut(smsBtnLoadingTime - 1)
+  }
+
+  const _stopSmsCode = () => {
+    setSmsText('发送短信')
+    setSmsLoading(false)
+    if (timerRef.current > 0) {
+      window.clearTimeout(timerRef.current)
+      timerRef.current = 0
+    }
+  }
+
+  const _setTimeOut = (sec: number) => {
+    if (sec === 0) {
+      _stopSmsCode()
+      return
+    }
+    setSmsText('重发(' + sec + ')')
+    timerRef.current = window.setTimeout(() => {
+      _setTimeOut(sec - 1)
+    }, 1000)
+  }
+
   return (
     <Fragment>
       <View className='vi-login-wrapper'>
@@ -145,24 +241,72 @@ const Login: FunctionComponent = () => {
           )}
           <View className='right-top-sign' />
           <View className='vi-login-wrapper_logo'>
-            <Image src='http://images.xuct.com.cn/login_default.png' mode='aspectFit'></Image>
+            <Image src={DEFAULT_LOG_IMAGE} mode='aspectFit'></Image>
           </View>
-          <View className='wrapper'>
-            {env === 'WEAPP' ? (
-              <WechatForm code={icode?.code} onGetUserInfo={loginByCode} loginByPhone={wechatLoginByPhone} />
+          <View className='vi-login-wrapper_form'>
+            {!phoneForm ? (
+              <Cell.Group inset className='form'>
+                <Field label='账号'>
+                  <Input placeholder='请输入账号' value={username} onChange={(e) => setUsername(e.detail.value)} />
+                </Field>
+                <Field label='密码'>
+                  <Input password placeholder='请输入密码' value={password} onChange={(e) => setPassword(e.detail.value)} />
+                  <Button size='small' variant='text' color='primary'>
+                    忘记密码
+                  </Button>
+                </Field>
+              </Cell.Group>
             ) : (
-              <WebForm loginByPhoneOrUsername={loginByPhoneOrUsername} />
+              <Cell.Group inset className='form'>
+                <Field label='手机号'>
+                  <Input placeholder='请输入手机号' value={phone} maxlength={11} type='number' onChange={(e) => setPhone(e.detail.value)} />
+                </Field>
+                <Field label='验证码'>
+                  <Input placeholder='请输入验证码' maxlength={4} type='number' value={smsCode} onChange={(e) => setSmsCode(e.detail.value)} />
+                  <Button size='small' variant='text' color='primary' loading={smsLoading} disabled={smsLoading} onClick={pushCode}>
+                    {smsText}
+                  </Button>
+                </Field>
+              </Cell.Group>
             )}
+            <View className='btn'>
+              <View onClick={() => setPhoneForm(!phoneForm)}>{phoneForm ? '验证码登录' : '账号密码登录'}</View>
+              <View onClick={() => Router.toMemberregister()}>立即注册</View>
+            </View>
+            <Button color='danger' block onClick={loginByPhoneOrUsername}>
+              登录
+            </Button>
+          </View>
+          <View className='vi-login-wrapper_self'>
+            <Checkbox className='custom-color' onChange={(e) => setSelf(e)}>
+              登录即已同意
+              {env === 'WEAPP' ? (
+                <Navigator path='pages/selfprivacy/index'>《隐私保护政策》</Navigator>
+              ) : (
+                <a
+                  href='#!'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    Router.toSelfprivacy()
+                  }}
+                >
+                  《隐私保护政策》
+                </a>
+              )}
+            </Checkbox>
           </View>
         </View>
         <View className='footer'>
           <View className='left-bottom-sign'></View>
-          <View className='register'>
-            还没账号?
-            <Navigator url='/pages/memberregister/index' openType='navigate'>
-              去注册
-            </Navigator>
-          </View>
+          {env === 'WEAPP' && (
+            <View className='bottom'>
+              <TBbutton className='btn1' open-type='getUserInfo' onGetUserInfo={loginByCode}>
+                <Wechat size={40} />
+                <View>微信授权登录</View>
+              </TBbutton>
+            </View>
+          )}
         </View>
       </View>
     </Fragment>
