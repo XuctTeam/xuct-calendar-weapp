@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-03-01 17:53:27
+ * @LastEditTime: 2022-03-16 13:54:47
  * @LastEditors: Derek Xu
  */
 /* eslint-disable import/no-commonjs */
@@ -67,6 +67,7 @@ const config = {
         }
       }
     },
+    
     webpackChain(chain) {
       // linaria/loader 选项详见 https://github.com/callstack/linaria/blob/master/docs/BUNDLERS_INTEGRATION.md#webpack
       chain.module
@@ -76,6 +77,9 @@ const config = {
         .options({
           sourceMap: process.env.NODE_ENV !== 'production'
         })
+      
+        chain.plugin('analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
       
         chain.plugin("lodash-webpack-plugin")
         .use(require("lodash-webpack-plugin"), [{

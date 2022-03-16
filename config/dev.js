@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-07-23 12:39:07
- * @LastEditTime: 2022-02-24 09:13:45
+ * @LastEditTime: 2022-03-16 13:54:18
  * @LastEditors: Derek Xu
  */
 const TerserPlugin = require('terser-webpack-plugin')
