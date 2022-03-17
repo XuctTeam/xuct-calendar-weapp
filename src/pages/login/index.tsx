@@ -2,24 +2,23 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-16 22:24:18
+ * @LastEditTime: 2022-03-17 14:43:28
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Router from 'tarojs-router-next'
-import { Button as TBbutton } from '@tarojs/components'
-import { Button, Cell, Checkbox, Field, Form, Input } from '@taroify/core'
+import { Button, Cell, Checkbox, Field, Input, Image } from '@taroify/core'
 import dayjs from 'dayjs'
-import { View, Image, Navigator } from '@tarojs/components'
-import { ArrowLeft, Wechat } from '@taroify/icons'
+import { View, Navigator, Button as TBbutton } from '@tarojs/components'
+import { ArrowLeft } from '@taroify/icons'
 import { toast, back, useEnv, useLogin, useUserInfo } from '@/utils/taro'
 import { checkMobile } from '@/utils/utils'
 import { IUserInfo } from '@/utils/taro/useUserInfo'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/token'
 import { sendSmsCode } from '@/api/user'
 
-import { DEFAULT_LOG_IMAGE } from '@/constants/index'
+import { DEFAULT_LOG_IMAGE, DEFAULT_WECHAT_IMAGE } from '@/constants/index'
 
 import './index.scss'
 
@@ -122,6 +121,7 @@ const Login: FunctionComponent = () => {
           })
       })
       .catch((err) => {
+        toast({ title: '授权失败' })
         console.log(err)
       })
   }
@@ -147,7 +147,7 @@ const Login: FunctionComponent = () => {
         return
       }
 
-      _phoneLogin(phone, smsCode).then((res) => {
+      _phoneLogin().then((res) => {
         if (!res) {
           return
         }
@@ -163,7 +163,7 @@ const Login: FunctionComponent = () => {
       toast({ title: '验证码不能为空' })
       return
     }
-    _usernameLogin(username, password).then((res) => {
+    _usernameLogin().then((res) => {
       if (!res) {
         return
       }
@@ -171,7 +171,7 @@ const Login: FunctionComponent = () => {
     })
   }
 
-  const _phoneLogin = async (phone: string, smsCode: string): Promise<boolean> => {
+  const _phoneLogin = async (): Promise<boolean> => {
     return await phoneLogin(phone, smsCode)
       .then((res) => {
         _saveTokenToCache(res.access_token, res.refresh_token)
@@ -183,7 +183,7 @@ const Login: FunctionComponent = () => {
       })
   }
 
-  const _usernameLogin = async (username: string, password: string): Promise<boolean> => {
+  const _usernameLogin = async (): Promise<boolean> => {
     return await usernameLogin(username, password)
       .then((res) => {
         _saveTokenToCache(res.access_token, res.refresh_token)
@@ -241,38 +241,41 @@ const Login: FunctionComponent = () => {
           )}
           <View className='right-top-sign' />
           <View className='vi-login-wrapper_logo'>
-            <Image src={DEFAULT_LOG_IMAGE} mode='aspectFit'></Image>
+            <Image src={DEFAULT_LOG_IMAGE} style={{ width: '140px', height: '120px' }}></Image>
           </View>
           <View className='vi-login-wrapper_form'>
-            {!phoneForm ? (
-              <Cell.Group inset className='form'>
-                <Field label='账号'>
-                  <Input placeholder='请输入账号' value={username} onChange={(e) => setUsername(e.detail.value)} />
-                </Field>
-                <Field label='密码'>
-                  <Input password placeholder='请输入密码' value={password} onChange={(e) => setPassword(e.detail.value)} />
-                  <Button size='small' variant='text' color='primary'>
-                    忘记密码
-                  </Button>
-                </Field>
-              </Cell.Group>
-            ) : (
-              <Cell.Group inset className='form'>
-                <Field label='手机号'>
-                  <Input placeholder='请输入手机号' value={phone} maxlength={11} type='number' onChange={(e) => setPhone(e.detail.value)} />
-                </Field>
-                <Field label='验证码'>
-                  <Input placeholder='请输入验证码' maxlength={4} type='number' value={smsCode} onChange={(e) => setSmsCode(e.detail.value)} />
-                  <Button size='small' variant='text' color='primary' loading={smsLoading} disabled={smsLoading} onClick={pushCode}>
-                    {smsText}
-                  </Button>
-                </Field>
-              </Cell.Group>
-            )}
-            <View className='btn'>
-              <View onClick={() => setPhoneForm(!phoneForm)}>{phoneForm ? '验证码登录' : '账号密码登录'}</View>
-              <View onClick={() => Router.toMemberregister()}>立即注册</View>
+            <View className='form'>
+              {!phoneForm ? (
+                <Cell.Group>
+                  <Field label='账号'>
+                    <Input placeholder='请输入账号' value={username} onChange={(e) => setUsername(e.detail.value)} />
+                  </Field>
+                  <Field label='密码'>
+                    <Input password placeholder='请输入密码' value={password} onChange={(e) => setPassword(e.detail.value)} />
+                    <Button size='small' variant='text' color='primary'>
+                      忘记密码
+                    </Button>
+                  </Field>
+                </Cell.Group>
+              ) : (
+                <Cell.Group>
+                  <Field label='手机号'>
+                    <Input placeholder='请输入手机号' value={phone} maxlength={11} type='number' onChange={(e) => setPhone(e.detail.value)} />
+                  </Field>
+                  <Field label='验证码'>
+                    <Input placeholder='请输入验证码' maxlength={4} type='number' value={smsCode} onChange={(e) => setSmsCode(e.detail.value)} />
+                    <Button size='small' variant='text' color='primary' loading={smsLoading} disabled={smsLoading} onClick={pushCode}>
+                      {smsText}
+                    </Button>
+                  </Field>
+                </Cell.Group>
+              )}
+              <View className='btn'>
+                <View onClick={() => setPhoneForm(!phoneForm)}>{phoneForm ? '验证码登录' : '账号密码登录'}</View>
+                <View onClick={() => Router.toMemberregister()}>立即注册</View>
+              </View>
             </View>
+
             <Button color='danger' block onClick={loginByPhoneOrUsername}>
               登录
             </Button>
@@ -281,7 +284,7 @@ const Login: FunctionComponent = () => {
             <Checkbox className='custom-color' onChange={(e) => setSelf(e)}>
               登录即已同意
               {env === 'WEAPP' ? (
-                <Navigator path='pages/selfprivacy/index'>《隐私保护政策》</Navigator>
+                <Navigator url='/pages/selfprivacy/index'>《隐私保护政策》</Navigator>
               ) : (
                 <a
                   href='#!'
@@ -300,12 +303,10 @@ const Login: FunctionComponent = () => {
         <View className='footer'>
           <View className='left-bottom-sign'></View>
           {env === 'WEAPP' && (
-            <View className='bottom'>
-              <TBbutton className='btn1' open-type='getUserInfo' onGetUserInfo={loginByCode}>
-                <Wechat size={40} />
-                <View>微信授权登录</View>
-              </TBbutton>
-            </View>
+            <TBbutton className='btn1' open-type='getUserInfo' onClick={loginByCode}>
+              <Image src={DEFAULT_WECHAT_IMAGE} style={{ width: '30px', height: '30px' }} mode='aspectFill' />
+              <View className='label'>微信 · 授权登录</View>
+            </TBbutton>
           )}
         </View>
       </View>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-10 13:38:16
- * @LastEditTime: 2022-03-16 20:02:00
+ * @LastEditTime: 2022-03-17 08:53:11
  * @LastEditors: Derek Xu
  */
 export const colors = [
@@ -101,3 +101,5 @@ export const USER_LOGOUT_EVENT = 'USER_LOGOUT_EVENT'
 export const DEFAULT_AVATAR = 'http://images.xuct.com.cn/avatar_default.png'
 
 export const DEFAULT_LOG_IMAGE = 'http://images.xuct.com.cn/login_default.png'
+
+export const DEFAULT_WECHAT_IMAGE = 'http://images.xuct.com.cn/wechat.png'

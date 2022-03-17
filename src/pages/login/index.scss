@@ -11,6 +11,45 @@
     flex-direction: row;
   }
 
+  .left-bottom-sign {
+    position: absolute;
+    left: -240px;
+    bottom: -360px;
+    border: 100px solid #d0d1fd;
+    border-radius: 50%;
+    padding: 180px;
+  }
+
+  .right-top-sign {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+  }
+
+  .right-top-sign:before {
+    -webkit-transform: rotate(50deg);
+    transform: rotate(50deg);
+    border-radius: 0 50px 0 0;
+  }
+
+  .right-top-sign:after {
+    position: absolute;
+    right: -99px;
+    top: 0;
+    -webkit-transform: rotate(-50deg);
+    transform: rotate(-50deg);
+    border-radius: 50px 0 0 0 /* background: pink; */;
+  }
+
+  .right-top-sign:before,
+  .right-top-sign:after {
+    display: block;
+    content: '';
+    width: 200px;
+    height: 40px;
+    background: #b4f3e2;
+  }
+
   .section {
     display: flex;
     flex-direction: column;
@@ -24,90 +63,13 @@
       top: 20px;
       color: #303133;
     }
-
-    .right-top-sign {
-      position: absolute;
-      top: 40px;
-      right: 40px;
-    }
-
-    .right-top-sign:before {
-      -webkit-transform: rotate(50deg);
-      transform: rotate(50deg);
-      border-radius: 0 50px 0 0;
-    }
-
-    .right-top-sign:after {
-      position: absolute;
-      right: -99px;
-      top: 0;
-      -webkit-transform: rotate(-50deg);
-      transform: rotate(-50deg);
-      border-radius: 50px 0 0 0 /* background: pink; */;
-    }
-
-    .right-top-sign:before,
-    .right-top-sign:after {
-      display: block;
-      content: '';
-      width: 200px;
-      height: 40px;
-      background: #b4f3e2;
-    }
-  }
-
-  .footer {
-    position: relative;
-    height: 240px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-
-    .left-bottom-sign {
-      position: absolute;
-      left: -240px;
-      bottom: -360px;
-      border: 100px solid #d0d1fd;
-      border-radius: 50%;
-      padding: 180px;
-    }
-
-    .bottom {
-      width: 100%;
-      bottom: 80px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      justify-content: center;
-
-      .btn1 {
-        width: 200px;
-        height: 200rpx;
-        margin-top: 20rpx;
-        border-radius: 0rpx;
-        background-color: transparent;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-      }
-
-      .btn1::after {
-        border: 0;
-      }
-    }
   }
 
   &_logo {
     align-items: center;
     justify-content: center;
     text-align: center;
-
-    .taro-img__mode-aspectfit {
-      height: 400px;
-    }
+    padding-top: 60px;
   }
 
   &_form {
@@ -119,25 +81,24 @@
     box-sizing: border-box;
 
     .form {
-      margin-bottom: 20px;
+      flex: 1;
     }
 
     .btn {
       display: flex;
       flex-direction: row;
-      margin-bottom: 30px;
-      margin-top: 10px;
+      margin-top: 30px;
       padding-left: 30px;
       padding-right: 30px;
       box-sizing: border-box;
       width: 100%;
       justify-content: space-between;
-      font-size: 26px;
+      font-size: 28px;
     }
   }
 
   &_self {
-    padding-left: 30px;
+    padding-left: 36px;
     box-sizing: border-box;
 
     .custom-color {
@@ -147,6 +108,40 @@
           background: #ee0a24;
         }
       }
+    }
+
+    navigator {
+      color: blue;
+    }
+  }
+
+  .footer {
+    position: relative;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+
+    .btn1 {
+      width: 300px;
+      height: 100%;
+      border-radius: 0px;
+      background-color: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .btn1::after {
+      border: 0;
+    }
+
+    .label {
+      display: flex;
+      flex-direction: row;
     }
   }
 }

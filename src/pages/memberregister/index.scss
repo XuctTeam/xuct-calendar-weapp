@@ -12,8 +12,8 @@
 
   form {
     height: 100%;
-    display: flex;
     flex-direction: column;
+    display: block;
   }
 
   .form {
@@ -27,7 +27,10 @@
   }
 
   &_button {
-    margin: 20px;
-    padding-bottom: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
   }
 }

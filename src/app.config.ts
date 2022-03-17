@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-03-15 15:45:42
+ * @LastEditTime: 2022-03-17 13:11:06
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -58,21 +58,21 @@ export default {
       },
       {
         pagePath: 'pages/contactmanager/index',
-        text: '联系人',
-        iconPath: 'assets/icon/discovery.png',
-        selectedIconPath: 'assets/icon/discovery_focus.png'
+        text: '通讯录',
+        iconPath: 'assets/icon/group.png',
+        selectedIconPath: 'assets/icon/group_focus.png'
       },
       {
         pagePath: 'pages/messagemanager/index',
         text: '消息',
-        iconPath: 'assets/icon/chat.png',
-        selectedIconPath: 'assets/icon/chat_focus.png'
+        iconPath: 'assets/icon/message.png',
+        selectedIconPath: 'assets/icon/message_focus.png'
       },
       {
         pagePath: 'pages/membermine/index',
         text: '我的',
-        iconPath: 'assets/icon/burger.png',
-        selectedIconPath: 'assets/icon/burger_focus.png'
+        iconPath: 'assets/icon/mine.png',
+        selectedIconPath: 'assets/icon/mine_focus.png'
       }
     ]
   },
