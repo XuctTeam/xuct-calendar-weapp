@@ -1194,23 +1194,23 @@
   "resolved" "https://registry.npmjs.org/@prefresh/babel-plugin/-/babel-plugin-0.4.1.tgz"
   "version" "0.4.1"
 
-"@prefresh/core@^1.3.1":
-  "integrity" "sha512-Iv+uI698KDgWsrKpLvOgN3hmAMyvhVgn09mcnhZ98BUNdg/qrxE7tcUf5yFCImkgqED5/Dcn8G5hFy4IikEDvg=="
-  "resolved" "https://registry.npmjs.org/@prefresh/core/-/core-1.3.2.tgz"
-  "version" "1.3.2"
+"@prefresh/core@^1.3.3":
+  "integrity" "sha512-s7iNsnyJ3lZEUrYIgmVIB/hKtp4U6mdD91a31Zg7Q8M49O0x2KThrbrMQYraoDDrs4STdFB8Zv6bceUguOoX1A=="
+  "resolved" "https://registry.npmjs.org/@prefresh/core/-/core-1.3.4.tgz"
+  "version" "1.3.4"
 
-"@prefresh/utils@^1.1.0":
-  "integrity" "sha512-MUhT5m2XNN5NsZl4GnpuvlzLo6VSTa/+wBfBd3fiWUvHGhv0GF9hnA1pd//v0uJaKwUnVRQ1hYElxCV7DtYsCQ=="
-  "resolved" "https://registry.npmjs.org/@prefresh/utils/-/utils-1.1.1.tgz"
-  "version" "1.1.1"
+"@prefresh/utils@^1.1.2":
+  "integrity" "sha512-Mb9abhJTOV4yCfkXrMrcgFiFT7MfNOw8sDa+XyZBdq/Ai2p4Zyxqsb3EgHLOEdHpMj6J9aiZ54W8H6FTam1u+A=="
+  "resolved" "https://registry.npmjs.org/@prefresh/utils/-/utils-1.1.3.tgz"
+  "version" "1.1.3"
 
 "@prefresh/webpack@^3.2.3":
-  "integrity" "sha512-1cX0t5G7IXWO2164sl2O32G02BzDl6C4UUZWfDb0x1CQM1g3It9PSLWd+rIlHfSg4MEU9YHM8e6/OK8uavRJhA=="
-  "resolved" "https://registry.npmjs.org/@prefresh/webpack/-/webpack-3.3.2.tgz"
-  "version" "3.3.2"
+  "integrity" "sha512-uT+A7ZuA7fuuUPNEde6Gmzr4oFnzreW9xw6iqw01nPpDiv46o6YWq1j0oGCbdffzHl3fBpcgkPuY07vIfmZ9Lg=="
+  "resolved" "https://registry.npmjs.org/@prefresh/webpack/-/webpack-3.3.3.tgz"
+  "version" "3.3.3"
   dependencies:
-    "@prefresh/core" "^1.3.1"
-    "@prefresh/utils" "^1.1.0"
+    "@prefresh/core" "^1.3.3"
+    "@prefresh/utils" "^1.1.2"
 
 "@stencil/core@2.9.0":
   "integrity" "sha512-kY3xYolZoJO1MKslL0NQccHy72R3TIl1prHgfmIrEoGcnMgc6uiskdWaGMuI5/sCGz9T+QuTVz76B1H2ySyBZg=="
@@ -1357,15 +1357,15 @@
     "webpack-chain" "4.9.0"
     "webpack-format-messages" "^2.0.5"
 
-"@tarojs/plugin-framework-react@^3.4.2":
-  "integrity" "sha512-oZ254Vs/aH7uFroELkydlf9rxSLVupBOkumR7j+J1dzTaejDtjFvTonYZ7elJkLQ3Kn3JFpt9YuiD0MHgVgjcg=="
-  "resolved" "https://registry.npmjs.org/@tarojs/plugin-framework-react/-/plugin-framework-react-3.4.2.tgz"
-  "version" "3.4.2"
+"@tarojs/plugin-framework-react@^3.4.3":
+  "integrity" "sha512-i+BkvLWhvpsJ3m6UZ4Q7Mga/VaS1aLUffnsk1DWWeBAapOPhFZsxBz4WX8ku8cno4+HO8I0xHGlG+Gs/XwuuRQ=="
+  "resolved" "https://registry.npmjs.org/@tarojs/plugin-framework-react/-/plugin-framework-react-3.4.3.tgz"
+  "version" "3.4.3"
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "0.4.3"
     "@prefresh/webpack" "^3.2.3"
-    "@tarojs/runtime" "3.4.2"
-    "@tarojs/shared" "3.4.2"
+    "@tarojs/runtime" "3.4.3"
+    "@tarojs/shared" "3.4.3"
     "acorn" "^8.0.4"
     "acorn-walk" "^8.0.0"
 
@@ -1452,16 +1452,6 @@
     "@tarojs/helper" "3.4.3"
     "scss-bundle" "^3.0.2"
 
-"@tarojs/runtime@3.4.2":
-  "integrity" "sha512-aWOIEzQnmCXvX7yGyOgM37ZQDcnk/PVKrZ9FEiAzZknXesfyF5TPiwhoKY6wm1KnRoSzcaUeWMFSnT8wXaAY6g=="
-  "resolved" "https://registry.npmjs.org/@tarojs/runtime/-/runtime-3.4.2.tgz"
-  "version" "3.4.2"
-  dependencies:
-    "@tarojs/shared" "3.4.2"
-    "inversify" "5.1.1"
-    "lodash-es" "4.17.15"
-    "reflect-metadata" "^0.1.13"
-
 "@tarojs/runtime@3.4.3":
   "integrity" "sha512-0NhQIGkw/Mu9b1Sh1XXaKvvCCVLHUDZfZQnVWDOSRY7zDM7y05PdzwTEZFCWjiPufY5+U6PfKFMBfJiO3JPRvA=="
   "resolved" "https://registry.npmjs.org/@tarojs/runtime/-/runtime-3.4.3.tgz"
@@ -1486,11 +1476,6 @@
     "resolve" "^1.6.0"
     "tapable" "^1.1.3"
     "webpack-merge" "^4.2.2"
-
-"@tarojs/shared@3.4.2":
-  "integrity" "sha512-01DkLfC5f/XPqIe8PDHsps4spdbQ4yV1XHWBpe8kwvgdjfdqbcnyTTocGaoKd7c+gqueITKSapwHVQ0I4C6spg=="
-  "resolved" "https://registry.npmjs.org/@tarojs/shared/-/shared-3.4.2.tgz"
-  "version" "3.4.2"
 
 "@tarojs/shared@3.4.3":
   "integrity" "sha512-tCVuDI7UV5YMC9tv/GlGXxfzc5FGlZajZZ2rwLrG+QXeIyMD5Zi1psz4Ad38cpVxlw5rFuv1dgSHcs6d3zKMhg=="
@@ -2693,11 +2678,6 @@
   "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
   "version" "3.7.2"
 
-"blueimp-canvas-to-blob@^3.29.0":
-  "integrity" "sha512-0pcSSGxC0QxT+yVkivxIqW0Y4VlO2XSDPofBAqoJ1qJxgH9eiUDLv50Rixij2cDuEfx4M6DpD9UGZpRhT5Q8qg=="
-  "resolved" "https://registry.npmjs.org/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.29.0.tgz"
-  "version" "3.29.0"
-
 "bn.js@^4.0.0":
   "integrity" "sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA=="
   "resolved" "https://registry.npmjs.org/bn.js/-/bn.js-4.12.0.tgz"
@@ -3420,14 +3400,6 @@
     "on-headers" "~1.0.2"
     "safe-buffer" "5.1.2"
     "vary" "~1.1.2"
-
-"compressorjs@^1.1.1":
-  "integrity" "sha512-SysRuUPfmUNoq+RviE0iMFVUmoX2q/x+7PkEPUmk6NGkd85hDrmvujx0Qtp8UCGA6KMe5kuodsylPQcNaLf60w=="
-  "resolved" "https://registry.npmjs.org/compressorjs/-/compressorjs-1.1.1.tgz"
-  "version" "1.1.1"
-  dependencies:
-    "blueimp-canvas-to-blob" "^3.29.0"
-    "is-blob" "^2.1.0"
 
 "concat-map@0.0.1":
   "integrity" "sha1-2Klr13/Wjfd5OnMDajug1UBdR3s="
@@ -5993,11 +5965,6 @@
   "version" "2.1.0"
   dependencies:
     "binary-extensions" "^2.0.0"
-
-"is-blob@^2.1.0":
-  "integrity" "sha512-SZ/fTft5eUhQM6oF/ZaASFDEdbFVe89Imltn9uZr03wdKMcWNVYSMjQPFtg05QuNkt5l5c135ElvXEQG0rk4tw=="
-  "resolved" "https://registry.npmjs.org/is-blob/-/is-blob-2.1.0.tgz"
-  "version" "2.1.0"
 
 "is-boolean-object@^1.1.0":
   "integrity" "sha512-gDYaKHJmnj4aWxyj6YHyXVpdQawtVLHU5cb+eztPGczf6cjuTdwve5ZIEfgXqH4e57An1D1AKf8CZ3kYrQRqYA=="

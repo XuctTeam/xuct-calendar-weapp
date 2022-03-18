@@ -4,12 +4,11 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-02 22:46:09
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-28 16:29:30
+ * @LastEditTime: 2022-03-18 08:55:53
  */
 import Taro from '@tarojs/taro'
 import { View, CheckboxGroup, Checkbox } from '@tarojs/components'
 import { Popup, Empty, Button, Cell } from '@taroify/core'
-import _ from 'lodash'
 import { IDavCalendar } from '~/../@types/calendar'
 import { useEffect, useState } from 'react'
 

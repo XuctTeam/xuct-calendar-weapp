@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
 
   .taroify-form-label {
     align-items: center;
@@ -9,15 +10,7 @@
   .taroify-checkbox__label {
     display: flex;
     flex-direction: row;
-  }
-
-  .left-bottom-sign {
-    position: absolute;
-    left: -240px;
-    bottom: -360px;
-    border: 100px solid #d0d1fd;
-    border-radius: 50%;
-    padding: 180px;
+    font-size: 28px;
   }
 
   .right-top-sign {
@@ -116,32 +109,18 @@
   }
 
   .footer {
-    position: relative;
     height: 240px;
+    text-align: center;
+    position: relative;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
+    justify-content: center;
 
-    .btn1 {
-      width: 300px;
-      height: 100%;
-      border-radius: 0px;
-      background-color: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-
-    .btn1::after {
-      border: 0;
-    }
-
-    .label {
-      display: flex;
-      flex-direction: row;
+    .btn {
+      position: absolute;
+      bottom: 40px;
+      font-size: 24px;
+      font-weight: 600;
+      color: gray;
     }
   }
 }

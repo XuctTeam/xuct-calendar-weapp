@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-03-15 16:00:15
+ * @LastEditTime: 2022-03-18 08:56:14
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -10,7 +10,7 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { Cell } from '@taroify/core'
-import { throttle } from 'lodash'
+import { throttle } from 'lodash/function'
 import { Arrow, CalendarOutlined, ManagerOutlined, SettingOutlined, TvOutlined, UserCircleOutlined } from '@taroify/icons'
 import '../index.scss'
 

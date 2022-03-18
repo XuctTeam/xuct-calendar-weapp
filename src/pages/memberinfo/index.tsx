@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-15 16:00:50
+ * @LastEditTime: 2022-03-18 08:56:07
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +14,7 @@ import { View } from '@tarojs/components'
 import CommonMain from '@/components/mixin'
 import { Avatar, Button, Cell } from '@taroify/core'
 import { ArrowRight } from '@taroify/icons'
-import { throttle } from 'lodash'
+import { throttle } from 'lodash/function'
 import { DEFAULT_AVATAR, USER_LOGOUT_EVENT } from '@/constants/index'
 import { useToast, useBack, useModal } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'

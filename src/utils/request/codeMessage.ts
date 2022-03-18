@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-30 13:24:21
- * @LastEditTime: 2022-02-16 14:13:02
+ * @LastEditTime: 2022-03-18 10:09:14
  * @LastEditors: Derek Xu
  */
 const codeMessage = {
@@ -26,6 +26,7 @@ const codeMessage = {
   1003: '账号或密码错误',
   1004: '无效的Token',
   1007: '无效的验证码',
+  1001: '无效登陆方式',
   1103: '账号被冻结',
   1101: '用户未认证',
   1104: '账号不存在或异常',

@@ -3,13 +3,12 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-02 11:59:54
- * @LastEditTime: 2022-03-02 12:58:11
+ * @LastEditTime: 2022-03-18 16:51:23
  * @LastEditors: Derek Xu
  */
 
 import { useCallback, useState } from 'react'
 import Taro, { saveImageToPhotosAlbum, previewImage, getImageInfo, compressImage, chooseImage } from '@tarojs/taro'
-import Compressor from 'compressorjs'
 import useEnv from '../useEnv'
 import { saveImageForH5, downloadImage, generateBlobUrl } from './utils'
 import { ENV_TYPE } from '../constant'
@@ -171,42 +170,6 @@ function useImage(options: ChooseImageOption): [IFileInfo, IAction] {
     [env]
   )
 
-  const compressImageAsync = useCallback<CompressImageAction>(
-    (src, quality) => {
-      return new Promise(async (resolve, reject) => {
-        if (!src) {
-          reject('you must provide src')
-        }
-        try {
-          if (env === ENV_TYPE.WEB) {
-            const blob = await downloadImage(src)
-            new Compressor(blob, {
-              quality: (quality || 80) / 100,
-              success: (res) => {
-                const tempFilePath = generateBlobUrl(res)
-                resolve({
-                  tempFilePath,
-                  errMsg: 'compressImage:ok'
-                })
-              },
-              error: reject
-            })
-          } else {
-            Taro.compressImage({
-              src,
-              ...(quality ? { quality } : {}),
-              success: resolve,
-              fail: reject
-            }).catch(reject)
-          }
-        } catch (e) {
-          reject(e)
-        }
-      })
-    },
-    [env]
-  )
-
   return [
     fileInfo,
     {
@@ -214,8 +177,7 @@ function useImage(options: ChooseImageOption): [IFileInfo, IAction] {
       chooseMessageFile: chooseMessageFileAsync,
       preview: previewImageAsync,
       save: saveImageToPhotosAlbumAsync,
-      getInfo: getImageInfoAsync,
-      compress: compressImageAsync
+      getInfo: getImageInfoAsync
     }
   ]
 }

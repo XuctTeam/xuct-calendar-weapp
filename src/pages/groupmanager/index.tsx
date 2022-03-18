@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-15 17:16:24
+ * @LastEditTime: 2022-03-18 08:55:47
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -13,7 +13,7 @@ import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { ActionSheet, Cell, Empty } from '@taroify/core'
 import { AddOutlined, Search } from '@taroify/icons'
-import { throttle } from 'lodash'
+import { throttle } from 'lodash/function'
 import { IGroup } from '~/../@types/group'
 import { useToast, useModal } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'

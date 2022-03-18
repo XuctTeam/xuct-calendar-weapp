@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-17 13:14:20
+ * @LastEditTime: 2022-03-18 08:55:42
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux'
 import { Cell } from '@taroify/core'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
-import { throttle } from 'lodash'
+import { throttle } from 'lodash/function'
 import CommonMain from '@/components/mixin'
 import { Arrow, FriendsOutlined, UserOutlined } from '@taroify/icons'
 import { useWebEnv } from '@/utils/taro'

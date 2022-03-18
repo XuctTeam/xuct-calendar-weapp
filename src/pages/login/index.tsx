@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-17 14:43:28
+ * @LastEditTime: 2022-03-18 09:43:25
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -60,7 +60,14 @@ const Login: FunctionComponent = () => {
     login(true)
       .then((code: string) => setIcode({ code: code, ts: dayjs().valueOf() }))
       .catch(() => {
-        toast({ title: '获取code失败' })
+        login(false)
+          .then((code: string) => {
+            setIcode({ code: code, ts: dayjs().valueOf() })
+          })
+          .catch((err) => {
+            toast({ title: '获取code失败' })
+            console.log(err)
+          })
       })
   }, [login])
 
@@ -301,14 +308,17 @@ const Login: FunctionComponent = () => {
           </View>
         </View>
         <View className='footer'>
-          <View className='left-bottom-sign'></View>
-          {env === 'WEAPP' && (
-            <TBbutton className='btn1' open-type='getUserInfo' onClick={loginByCode}>
-              <Image src={DEFAULT_WECHAT_IMAGE} style={{ width: '30px', height: '30px' }} mode='aspectFill' />
-              <View className='label'>微信 · 授权登录</View>
-            </TBbutton>
-          )}
+          <View className='btn' onClick={loginByCode}>
+            <Image src={DEFAULT_WECHAT_IMAGE} style={{ width: '30px', height: '30px' }} mode='aspectFill' />
+            <View className='label'>微信 · 授权登录</View>
+          </View>
         </View>
+
+        {/* {env === 'WEAPP' && (
+            <TBbutton className='btn1' open-type='getUserInfo' onClick={loginByCode}>
+             
+            </TBbutton>
+          )} */}
       </View>
     </Fragment>
   )

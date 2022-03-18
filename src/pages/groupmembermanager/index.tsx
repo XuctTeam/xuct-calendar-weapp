@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-07 11:47:25
- * @LastEditTime: 2022-03-09 08:51:53
+ * @LastEditTime: 2022-03-18 10:35:32
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -18,7 +18,7 @@ import { UserBody } from './ui'
 
 import './index.scss'
 
-const GroupMemberManager: FunctionComponent = () => {
+const Index: FunctionComponent = () => {
   const [members, setMembers] = useState<IGroupMember[]>([])
   const [out, setOut] = useState<boolean>(false)
   const [leave, setLeave] = useState<boolean>(false)
@@ -103,4 +103,4 @@ const GroupMemberManager: FunctionComponent = () => {
     </Fragment>
   )
 }
-export default GroupMemberManager
+export default Index

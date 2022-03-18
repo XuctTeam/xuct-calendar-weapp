@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-03-15 17:19:32
+ * @LastEditTime: 2022-03-18 08:55:33
  * @LastEditors: Derek Xu
  */
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
-import { throttle } from 'lodash'
+import { throttle } from 'lodash/function'
 import { ActionSheet, Button, Backdrop, Loading, Cell } from '@taroify/core'
 import { Ellipsis, ClockOutlined, BulbOutlined, FriendsOutlined, ManagerOutlined } from '@taroify/icons'
 import { IDavComponent } from '~/../@types/calendar'

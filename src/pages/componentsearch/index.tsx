@@ -2,10 +2,10 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-02-19 09:04:04
+ * @LastEditTime: 2022-03-18 12:01:08
  * @LastEditors: Derek Xu
  */
-import React, { useRef, useState } from 'react'
+import { FunctionComponent, useRef, useState } from 'react'
 import { Empty, Search } from '@taroify/core'
 import Router from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
@@ -17,9 +17,7 @@ import { ComponentList } from './ui'
 
 import './index.scss'
 
-interface IPageStateProps {}
-
-const ComponentSearch: React.FC<IPageStateProps> = () => {
+const ComponentSearch: FunctionComponent = () => {
   const [value, setValue] = useState('')
   const [hasMore, setHasMore] = useState(true)
   const [list, setList] = useState<ICalendarComponent[]>([])

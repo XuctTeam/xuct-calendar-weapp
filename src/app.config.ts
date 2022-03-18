@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-03-17 13:11:06
+ * @LastEditTime: 2022-03-18 15:56:50
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -16,31 +16,33 @@ export default {
     'pages/messagemanager/index',
     'pages/messagedetail/index',
     'pages/login/index',
+
+    'pages/calendarcreate/index',
+    'pages/calendarmanager/index',
+    'pages/componentcreate/index',
+    'pages/componentview/index',
+    'pages/componentlocation/index',
+    'pages/componentdesc/index',
+    'pages/componentrepeat/index',
+    'pages/componentcustrepeat/index',
+
+    'pages/componentalarm/index',
+    'pages/componentsearch/index',
+    'pages/componentmembers/index',
+    'pages/componentmembersview/index',
+    'pages/groupmanager/index',
+    'pages/groupcreate/index',
+    'pages/groupsearch/index',
+    'pages/groupapply/index',
+    'pages/groupmembermanager/index',
     'pages/memberinfo/index',
     'pages/membermodifypassword/index',
     'pages/memberbindphone/index',
     'pages/memberbindusername/index',
     'pages/memberregister/index',
-    'pages/calendarcreate/index',
-    'pages/calendarmanager/index',
-    'pages/componentcreate/index',
-    'pages/componentlocation/index',
-    'pages/componentdesc/index',
-    'pages/componentrepeat/index',
-    'pages/componentcustrepeat/index',
-    'pages/componentalarm/index',
-    'pages/componentview/index',
-    'pages/componentsearch/index',
-    'pages/componentmembers/index',
-    'pages/componentmembersview/index',
     'pages/selfprivacy/index',
     'pages/systemsetting/index',
-    'pages/customerservice/index',
-    'pages/groupmanager/index',
-    'pages/groupcreate/index',
-    'pages/groupsearch/index',
-    'pages/groupapply/index',
-    'pages/groupmembermanager/index'
+    'pages/customerservice/index'
   ],
   window: {
     backgroundTextStyle: 'light',

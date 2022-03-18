@@ -4,8 +4,11 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-28 10:58:23
+ * @LastEditTime: 2022-03-18 10:30:05
  */
 
 .vi-group-apply-warpper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
