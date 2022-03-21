@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-21 12:55:27
+ * @LastEditTime: 2022-03-21 20:12:51
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -309,17 +309,13 @@ const Login: FunctionComponent = () => {
           </View>
         </View>
         <View className='footer'>
-          <View className='btn' onClick={loginByCode}>
-            <Image src={DEFAULT_WECHAT_IMAGE} style={{ width: '30px', height: '30px' }} mode='aspectFill' />
-            <View className='label'>微信 · 授权登录</View>
-          </View>
+          {env === 'WEAPP' && (
+            <View className='btn' onClick={loginByCode}>
+              <Image src={DEFAULT_WECHAT_IMAGE} style={{ width: '30px', height: '30px' }} mode='aspectFill' />
+              <View className='label'>微信 · 授权登录</View>
+            </View>
+          )}
         </View>
-
-        {/* {env === 'WEAPP' && (
-            <TBbutton className='btn1' open-type='getUserInfo' onClick={loginByCode}>
-             
-            </TBbutton>
-          )} */}
       </View>
     </Fragment>
   )

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-21 12:51:26
+ * @LastEditTime: 2022-03-21 20:23:08
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -85,7 +85,12 @@ const MemberInfo: FunctionComponent = () => {
   const toModifyPhone = async (phone: string) => {
     try {
       const result = await Router.toMemberbindphone({
-        data: phone
+        params: {
+          phone
+        },
+        data: {
+          phone
+        }
       })
       if (result && result.data === '1') {
         auths()

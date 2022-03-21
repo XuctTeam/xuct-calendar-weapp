@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-03-21 18:48:00
+ * @LastEditTime: 2022-03-21 20:24:52
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -35,9 +35,11 @@ const MemberBindPhone: FunctionComponent = () => {
   })
 
   useEffect(() => {
-    const data = Router.getData()
+    let data = Router.getData()
+    if (!data) {
+      data = Router.getParams()
+    }
     if (data) {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
       const { phone } = data
       setPhone(phone)
       setEdit(true)
@@ -167,7 +169,7 @@ const MemberBindPhone: FunctionComponent = () => {
       return
     }
     if (!code) {
-      toast({ title: '验证码为空' })
+      toast({ title: '验证码为空', icon: 'error' })
       return
     }
     console.log(edit)
@@ -212,7 +214,7 @@ const MemberBindPhone: FunctionComponent = () => {
         </Field>
         <Field align='center' label='短信验证码'>
           <Input placeholder='请输入短信验证码' maxlength={6} type='number' value={code} onChange={(e) => setCode(e.detail.value)} />
-          <Button size='small' color='primary' onClick={() => bindSmsCode()} disabled={disable}>
+          <Button size='small' variant='text' color='primary' onClick={() => bindSmsCode()} disabled={disable}>
             {smsText}
           </Button>
         </Field>
