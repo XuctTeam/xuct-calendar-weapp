@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-18 09:43:25
+ * @LastEditTime: 2022-03-21 12:55:27
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -10,11 +10,12 @@ import { useDispatch } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { Button, Cell, Checkbox, Field, Input, Image } from '@taroify/core'
 import dayjs from 'dayjs'
-import { View, Navigator, Button as TBbutton } from '@tarojs/components'
+import { View, Navigator } from '@tarojs/components'
 import { ArrowLeft } from '@taroify/icons'
-import { toast, back, useEnv, useLogin, useUserInfo } from '@/utils/taro'
+import { toast, back } from '@/utils/taro'
+import { useEnv, useLogin, useUserInfo } from 'taro-hooks'
 import { checkMobile } from '@/utils/utils'
-import { IUserInfo } from '@/utils/taro/useUserInfo'
+import { IUserInfo } from 'taro-hooks/dist/useUserInfo'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/token'
 import { sendSmsCode } from '@/api/user'
 

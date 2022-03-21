@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-03-18 15:56:50
+ * @LastEditTime: 2022-03-21 18:05:50
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -40,6 +40,7 @@ export default {
     'pages/memberbindphone/index',
     'pages/memberbindusername/index',
     'pages/memberregister/index',
+    'pages/memberforgetpassword/index',
     'pages/selfprivacy/index',
     'pages/systemsetting/index',
     'pages/customerservice/index'

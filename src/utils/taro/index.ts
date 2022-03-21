@@ -2,25 +2,15 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-03-16 11:22:43
+ * @LastEditTime: 2022-03-21 12:51:10
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
 import dva from '@/utils/dva'
 import Router, { NavigateType } from 'tarojs-router-next'
-import { Rect, IAppInfo } from '~/../@types/app'
 import useWebEnv from './useWebEnv'
-import useModal from './useModal'
 import useBack from './useBack'
 import useToast from './useToast'
-import useEnv from './useEnv'
-import useStorage from './useStorage'
-import useImage from './useImage'
-import useFile from './useFile'
-import useSystemInfo from './useSystemInfo'
-import useClipboardData from './useClipboardData'
-import useLogin from './useLogin'
-import useUserInfo from './useUserInfo'
 
 export interface ToastOption {
   title: string
@@ -124,20 +114,4 @@ const back = (backOption: BackOption): Promise<TaroGeneral.CallbackResult> => {
   }
 }
 
-export {
-  back,
-  toast,
-  storage,
-  useWebEnv,
-  useBack,
-  useModal,
-  useToast,
-  useEnv,
-  useStorage,
-  useImage,
-  useFile,
-  useSystemInfo,
-  useClipboardData,
-  useLogin,
-  useUserInfo
-}
+export { back, toast, storage, useBack, useWebEnv, useToast }

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-18 08:56:07
+ * @LastEditTime: 2022-03-21 12:51:26
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,7 +16,8 @@ import { Avatar, Button, Cell } from '@taroify/core'
 import { ArrowRight } from '@taroify/icons'
 import { throttle } from 'lodash/function'
 import { DEFAULT_AVATAR, USER_LOGOUT_EVENT } from '@/constants/index'
-import { useToast, useBack, useModal } from '@/utils/taro'
+import { useToast, useBack } from '@/utils/taro'
+import { useModal } from 'taro-hooks'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
 import { updateName, baseUserInfo, logout, auths, updateAvatar } from '@/api/user'
 import { ModifyName, UploadHeader } from './ui'

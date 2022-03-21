@@ -4,11 +4,12 @@
  * @Autor: Derek Xu
  * @Date: 2022-03-01 21:55:42
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-04 10:43:12
+ * @LastEditTime: 2022-03-21 12:53:41
  */
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { Button, Popup, Uploader } from '@taroify/core'
-import { toast, useStorage, useImage, useFile } from '@/utils/taro'
+import { toast } from '@/utils/taro'
+import { useStorage, useImage, useFile } from 'taro-hooks'
 import { upload as uploadPath } from '@/api/common'
 import { IUploadInfo } from '~/../@types/common'
 import { View } from '@tarojs/components'

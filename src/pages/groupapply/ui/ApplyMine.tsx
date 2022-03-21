@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:42:57
- * @LastEditTime: 2022-03-07 08:57:52
+ * @LastEditTime: 2022-03-21 12:56:22
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback } from 'react'
 import { View } from '@tarojs/components'
 import { Button, Cell, SwipeCell } from '@taroify/core'
 import { IGroup } from '~/../@types/group'
-import { useModal } from '@/utils/taro'
+import { useModal } from 'taro-hooks'
 
 interface IPageOption {
   groups: Array<IGroup>

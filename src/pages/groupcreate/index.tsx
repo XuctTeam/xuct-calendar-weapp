@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-07 09:39:52
+ * @LastEditTime: 2022-03-21 12:54:22
  * @LastEditors: Derek Xu
  */
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -12,7 +12,8 @@ import { BaseEventOrig, FormProps, View } from '@tarojs/components'
 import { Button, Cell, Form, Input, Uploader } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { FormItemInstance } from '@taroify/core/form'
-import { useStorage, useToast, useBack, useFile, useImage } from '@/utils/taro'
+import { useToast, useBack } from '@/utils/taro'
+import { useStorage, useFile, useImage } from 'taro-hooks'
 import { addGroup, getGroupInfo } from '@/api/group'
 import { upload as uploadPath } from '@/api/common'
 import { IUploadInfo } from '~/../@types/common'

@@ -1,122 +1,76 @@
-/* eslint-disable react/no-children-prop */
+/* eslint-disable react-hooks/exhaustive-deps */
 /*
  * @Description:
- * @Version: 1.0
- * @Autor: Derek Xu
- * @Date: 2021-11-28 10:47:10
+ * @Author: Derek Xu
+ * @Date: 2022-03-21 18:08:16
+ * @LastEditTime: 2022-03-21 18:48:00
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-02 21:33:51
  */
-import Taro, { getCurrentInstance } from '@tarojs/taro'
-import { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { FunctionComponent, useEffect, useRef, useState } from 'react'
+import Taro from '@tarojs/taro'
+import { useDispatch } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { View, Button as TaroButton } from '@tarojs/components'
-import { toast, back } from '@/utils/taro'
+import { back } from '@/utils/taro'
 import { Cell, Button, Field, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
+import { useToast, useModal } from 'taro-hooks'
 import { getPhoneNumber, bindPhoneSmsCode, logout, bindPhone, unbindPhone } from '@/api/user'
-import { DvaProps, IUserInfo } from '../../../@types/dva'
-import { action } from './actionCreater'
 
 import './index.scss'
 
-interface ModelProps extends DvaProps {
-  userInfo: IUserInfo
-}
+const MemberBindPhone: FunctionComponent = () => {
+  const dispatch = useDispatch()
+  const [edit, setEdit] = useState<boolean>(false)
+  const [phone, setPhone] = useState<string>('')
+  const [code, setCode] = useState<string>('')
+  const [disable, setDisable] = useState<boolean>(false)
+  const [smsText, setSmsText] = useState<string>('发短信')
+  const timerRef = useRef<number>(0)
+  const [toast] = useToast()
+  const [show] = useModal({
+    title: '提示',
+    content: '微信登录已失效,是否重新登录?'
+  })
 
-type PageDispatchProps = {
-  remove: (payload) => void
-}
-
-type PageOwnProps = {}
-
-type PageStateProps = {
-  edit: boolean
-  phone: string
-  code: string
-  disable: boolean
-  smsText: string
-}
-
-type IProps = ModelProps & PageDispatchProps & PageOwnProps
-
-interface Phone {
-  props: IProps
-  state: PageStateProps
-  $instance: Taro.Current
-  timer: number
-}
-
-const connects: Function = connect
-
-@connects(({}) => ({}), (dispatch) => bindActionCreators(action, dispatch))
-class Phone extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      edit: false,
-      phone: '',
-      code: '',
-      disable: false,
-      smsText: '发送短信'
-    }
-    this.$instance = getCurrentInstance()
-    this.timer = 0
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     const data = Router.getData()
     if (data) {
-      this.setState({
-        phone: data,
-        edit: true
-      })
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const { phone } = data
+      setPhone(phone)
+      setEdit(true)
       return
     }
-    this.setState({
-      edit: false
-    })
-  }
-
-  componentWillUnmount() {
-    if (this.timer > 0) {
-      window.clearTimeout(this.timer)
+    return () => {
+      if (timerRef.current > 0) {
+        window.clearTimeout(timerRef.current)
+        timerRef.current = 0
+      }
     }
-  }
+  }, [])
 
-  onGetPhoneNumber = (e) => {
+  const onGetPhoneNumber = (e) => {
     if (e.detail.errMsg && e.detail.errMsg !== 'getPhoneNumber:ok') {
       toast({ title: '获取手机失败' })
       return
     }
-    const that = this
     Taro.checkSession({
       success: function () {
         //获取手机号码
-        that.getUserPhone(e.detail.encryptedData, e.detail.iv)
+        getUserPhone(e.detail.encryptedData, e.detail.iv)
       },
       fail: function () {
-        Taro.showModal({
-          title: '提示',
-          content: '微信登录已失效,是否重新登录?',
-          success: function (res) {
-            if (res.confirm) {
-              that.toLogout()
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
-          }
-        })
+        show()
+          .then((res) => {
+            if (res.cancel) return
+            toLogout()
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
-    })
-  }
-
-  phoneChage = (val: string) => {
-    this.setState({
-      phone: val
     })
   }
 
@@ -125,123 +79,112 @@ class Phone extends Component {
    * @param encryptedData
    * @param ivStr
    */
-  getUserPhone(encryptedData: string, ivStr: string) {
+  const getUserPhone = (encryptedData: string, ivStr: string) => {
     getPhoneNumber(encryptedData, ivStr)
       .then((res) => {
-        this.setState({
-          phone: res
-        })
+        setPhone(res as any as string)
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
-  bindSmsCode = () => {
-    if (!this.state.phone) {
+  const bindSmsCode = () => {
+    if (!phone) {
       toast({ title: '手机号为空' })
       return
     }
-    if (!checkMobile(this.state.phone)) {
+    if (!checkMobile(phone)) {
       toast({ title: '手机号格式错误' })
       return
     }
-    this.setState({ disable: true })
-    this.setSmsTextTime(30)
-    bindPhoneSmsCode(this.state.edit, this.state.phone)
+    setDisable(true)
+    setSmsTextTime(30)
+    bindPhoneSmsCode(edit, phone)
       .then((res) => {
         console.log(res)
       })
       .catch((err) => {
         console.log(err)
-        this.setState({
-          disable: false
-        })
+        setDisable(false)
       })
   }
 
-  setSmsTextTime = (num: number) => {
+  const setSmsTextTime = (num: number) => {
     if (num === 0) {
-      this.setState({
-        disable: false,
-        smsText: '发送短信'
-      })
-      if (this.timer > 0) {
-        window.clearTimeout(this.timer)
+      setSmsText('发短信')
+      setDisable(false)
+
+      if (timerRef.current > 0) {
+        window.clearTimeout(timerRef.current)
+        timerRef.current = 0
       }
       return
     }
-    this.setState({
-      smsText: '重发(' + num + ')'
-    })
-    const that = this
-    this.timer = window.setTimeout(() => {
-      that.setSmsTextTime(num - 1)
+    setSmsText('重发(' + num + ')')
+    timerRef.current = window.setTimeout(() => {
+      setSmsTextTime(num - 1)
     }, 1000)
   }
 
   /**
    * 登出并清理缓存
    */
-  toLogout = () => {
+  const toLogout = () => {
     logout()
       .then(() => {
-        this.cleanUserInfo()
+        cleanUserInfo()
         return
       })
       .catch((error) => {
         console.log(error)
         if (error.status === 401) {
-          this.cleanUserInfo()
+          cleanUserInfo()
           return
         }
         toast({ title: '退出失败' })
       })
   }
 
-  smsCodeChage = (val: string) => {
-    this.setState({
-      code: val
+  const cleanUserInfo = () => {
+    dispatch({
+      type: 'common/removeStoreSync',
+      payload: {
+        accessToken: '',
+        refreshToken: '',
+        userInfo: null
+      }
     })
   }
 
-  cleanUserInfo() {
-    this.props.remove({
-      accessToken: '',
-      refreshToken: '',
-      userInfo: null
-    })
-    Taro.navigateBack({ delta: 1 })
-  }
-
-  openBindPhone = () => {
-    if (!this.state.phone) {
+  const openBindPhone = () => {
+    if (!phone) {
       toast({ title: '手机号为空' })
       return
     }
-    if (!checkMobile(this.state.phone)) {
+    if (!checkMobile(phone)) {
       toast({ title: '手机号格式错误' })
       return
     }
-    if (!this.state.code) {
+    if (!code) {
       toast({ title: '验证码为空' })
       return
     }
-    console.log(this.state.edit)
+    console.log(edit)
     /** 解绑 */
-    if (this.state.edit) {
+    if (edit) {
       /**绑定 */
-      unbindPhone(this.state.code)
+      unbindPhone(code)
         .then(() => {
-          this.optPhoneSuccess('解绑成功')
+          optPhoneSuccess('解绑成功')
         })
         .catch((err) => {
           console.log(err)
         })
     } else {
-      bindPhone(this.state.phone, this.state.code)
+      bindPhone(phone, code)
         .then(() => {
-          this.optPhoneSuccess('绑定成功')
+          optPhoneSuccess('绑定成功')
         })
         .catch((err) => {
           console.log(err)
@@ -249,11 +192,9 @@ class Phone extends Component {
     }
   }
 
-  optPhoneSuccess = (msg: string) => {
-    Taro.showToast({
-      title: msg,
-      icon: 'success',
-      duration: 800
+  const optPhoneSuccess = (msg: string) => {
+    toast({
+      title: msg
     })
     back({
       to: 2,
@@ -263,38 +204,36 @@ class Phone extends Component {
     })
   }
 
-  render() {
-    return (
-      <CommonMain className='vi-phone-wrapper' title='手机号绑定' to={4} data={{ data: '0' }} fixed={false} left>
-        <Cell.Group className='vi-phone-wrapper_form' inset>
-          <Field label='手机号'>
-            <Input type='text' readonly={this.state.edit} value={this.state.phone} onChange={(e) => this.phoneChage(e.detail.value)} maxlength={11} />
-          </Field>
-          <Field align='center' label='短信验证码'>
-            <Input placeholder='请输入短信验证码' maxlength={6} type='number' value={this.state.code} onChange={(e) => this.smsCodeChage(e.detail.value)} />
-            <Button size='small' color='primary' onClick={this.bindSmsCode.bind(this)} disabled={this.state.disable}>
-              {this.state.smsText}
-            </Button>
-          </Field>
-          <View className='warning'>解绑手机号后日程将无法同步~~</View>
-        </Cell.Group>
-        <View className='vi-phone-wrapper_button'>
-          {process.env.TARO_ENV === 'weapp' && !this.state.edit ? (
-            <View className='phone'>
-              <TaroButton type='warn' openType='getPhoneNumber' onGetPhoneNumber={this.onGetPhoneNumber.bind(this)}>
-                获取本机号码
-              </TaroButton>
-            </View>
-          ) : (
-            <></>
-          )}
-          <TaroButton type='primary' onClick={this.openBindPhone.bind(this)}>
-            {this.state.edit ? '解绑' : '绑定'}
-          </TaroButton>
-        </View>
-      </CommonMain>
-    )
-  }
+  return (
+    <CommonMain className='vi-phone-wrapper' title='手机号绑定' to={4} data={{ data: '0' }} fixed={false} left>
+      <Cell.Group className='vi-phone-wrapper_form' inset>
+        <Field label='手机号'>
+          <Input type='text' readonly={edit} value={phone} onChange={(e) => setPhone(e.detail.value)} maxlength={11} />
+        </Field>
+        <Field align='center' label='短信验证码'>
+          <Input placeholder='请输入短信验证码' maxlength={6} type='number' value={code} onChange={(e) => setCode(e.detail.value)} />
+          <Button size='small' color='primary' onClick={() => bindSmsCode()} disabled={disable}>
+            {smsText}
+          </Button>
+        </Field>
+        <View className='warning'>解绑手机号后日程将无法同步~~</View>
+      </Cell.Group>
+      <View className='vi-phone-wrapper_button'>
+        {process.env.TARO_ENV === 'weapp' && !edit ? (
+          <View className='phone'>
+            <TaroButton type='warn' openType='getPhoneNumber' onGetPhoneNumber={(e) => onGetPhoneNumber(e)}>
+              获取本机号码
+            </TaroButton>
+          </View>
+        ) : (
+          <></>
+        )}
+        <TaroButton type='primary' onClick={() => openBindPhone()}>
+          {edit ? '解绑' : '绑定'}
+        </TaroButton>
+      </View>
+    </CommonMain>
+  )
 }
 
-export default Phone
+export default MemberBindPhone

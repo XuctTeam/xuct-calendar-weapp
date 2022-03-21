@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-03-18 08:55:33
+ * @LastEditTime: 2022-03-21 12:50:42
  * @LastEditors: Derek Xu
  */
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -20,7 +20,8 @@ import ButtonGroup, { ButtonOption } from '@/components/buttongroup'
 import { getById, deleteById, queryComponentMemberIds, getAttendStatus, updateAttendStatus, refuseAttend } from '@/api/component'
 import { getName } from '@/api/user'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
-import { back, useSystemInfo, useModal, useClipboardData, useToast } from '@/utils/taro'
+import { back } from '@/utils/taro'
+import { useSystemInfo, useModal, useClipboardData, useToast } from 'taro-hooks'
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
