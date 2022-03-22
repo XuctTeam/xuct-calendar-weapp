@@ -2,11 +2,11 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-02 14:08:22
+ * @LastEditTime: 2022-03-22 17:50:52
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
-import Router, { NavigateType } from 'tarojs-router-next'
+import Router from 'tarojs-router-next'
 import { Button, Cell, Form, Input } from '@taroify/core'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
 import { useBack } from '@/utils/taro'

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-03-21 12:51:10
+ * @LastEditTime: 2022-03-22 08:43:01
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -10,7 +10,6 @@ import dva from '@/utils/dva'
 import Router, { NavigateType } from 'tarojs-router-next'
 import useWebEnv from './useWebEnv'
 import useBack from './useBack'
-import useToast from './useToast'
 
 export interface ToastOption {
   title: string
@@ -114,4 +113,4 @@ const back = (backOption: BackOption): Promise<TaroGeneral.CallbackResult> => {
   }
 }
 
-export { back, toast, storage, useBack, useWebEnv, useToast }
+export { back, toast, storage, useBack, useWebEnv }

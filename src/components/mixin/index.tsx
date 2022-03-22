@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:05:22
  * @FilePath: \react-lesson-20\src\utils\mixin.ts
- * @LastEditTime: 2022-03-02 13:54:15
+ * @LastEditTime: 2022-03-22 20:21:50
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, ReactNode } from 'react'
@@ -50,7 +50,7 @@ const CommonMain: FunctionComponent<IHeaderProps> = (props) => {
   return (
     <View className={classnames(props.className, 'vi-main', { 'vi-main-padding': process.env.TARO_ENV === 'h5' && props.fixed })}>
       {process.env.TARO_ENV === 'h5' && (
-        <Navbar title={props.title} fixed={props.fixed}>
+        <Navbar title={props.title} fixed={props.fixed} placeholder={false}>
           {props.left && <Navbar.NavLeft onClick={routerToBack}>返回</Navbar.NavLeft>}
           {props.right && (
             <Navbar.NavRight

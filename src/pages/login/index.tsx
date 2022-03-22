@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-21 20:12:51
+ * @LastEditTime: 2022-03-22 17:54:43
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -260,7 +260,7 @@ const Login: FunctionComponent = () => {
                   </Field>
                   <Field label='密码'>
                     <Input password placeholder='请输入密码' value={password} onChange={(e) => setPassword(e.detail.value)} />
-                    <Button size='small' variant='text' color='primary'>
+                    <Button size='small' variant='text' color='primary' onClick={() => Router.toMemberforgetpassword()}>
                       忘记密码
                     </Button>
                   </Field>
