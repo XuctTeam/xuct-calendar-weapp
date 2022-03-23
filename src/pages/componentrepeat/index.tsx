@@ -2,7 +2,7 @@
  * @Description: 日程重复
  * @Author: Derek Xu
  * @Date: 2021-12-24 16:14:50
- * @LastEditTime: 2022-02-28 21:39:47
+ * @LastEditTime: 2022-03-23 18:34:34
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -11,6 +11,7 @@ import IconFont from '@/components/iconfont'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import { Button, Cell, Radio } from '@taroify/core'
+import { Success } from '@taroify/icons'
 import CommonMain from '@/components/mixin'
 import { formatRepeatTime } from '@/utils/utils'
 import { back } from '@/utils/taro'
@@ -290,7 +291,7 @@ class Schedulerepet extends Component {
                 : ''
             }
           >
-            {this.state.repeatStatus === '8' ? <IconFont name='duigou' size={50}></IconFont> : <></>}
+            {this.state.repeatStatus === '8' ? <Success color='blue' size={20}></Success> : <></>}
           </Cell>
         </Radio.Group>
         <View className='vi-repeat-wrapper_button'>

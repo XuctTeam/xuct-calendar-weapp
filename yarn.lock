@@ -1217,13 +1217,13 @@
   "resolved" "https://registry.npmjs.org/@stencil/core/-/core-2.9.0.tgz"
   "version" "2.9.0"
 
-"@taroify/core@^0.0.29-alpha.1":
-  "integrity" "sha512-yy/b8uSDwKPzT6Lkmon8+2romACBK+cE3wl+zbw7irTIdhZOsFpMknrIUaE7c5If0mKoYVJrYAavk6MtwwsUYw=="
-  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.29-alpha.1.tgz"
-  "version" "0.0.29-alpha.1"
+"@taroify/core@^0.0.29-alpha.2":
+  "integrity" "sha512-H0tvJFRAAy2SA67WuJwRQ323Vs1GSZbWVO8xMNa9pay862p4nP2jXggj06TvLUttisJD7vwC3b11EYGtPdY+xQ=="
+  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.29-alpha.2.tgz"
+  "version" "0.0.29-alpha.2"
   dependencies:
-    "@taroify/hooks" "^0.0.29-alpha.1"
-    "@taroify/icons" "^0.0.29-alpha.1"
+    "@taroify/hooks" "^0.0.29-alpha.2"
+    "@taroify/icons" "^0.0.29-alpha.2"
     "classnames" "^2.2.6"
     "lodash" "^4.17.21"
     "promise" "^8.1.0"
@@ -1231,19 +1231,19 @@
     "react-is" "^17.0.2"
     "react-transition-group" "^4.4.1"
 
-"@taroify/hooks@^0.0.29-alpha.1":
-  "integrity" "sha512-XM9SRfwRGhHtZAUJynBafnwgCdUjvFGL5rlnjhSo4Uzz+iNeYu5+7UJcVLrUWb5hmKKKLvL1MLtSRi+1LOCwnw=="
-  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.29-alpha.1.tgz"
-  "version" "0.0.29-alpha.1"
+"@taroify/hooks@^0.0.29-alpha.2":
+  "integrity" "sha512-GgAluDeqNd/eFBh1QR/JtMpVqDEKfEDkfIeWIY9S8m/A/SA4hUGPZO8c6QcLHlts/kSuTmPcd7LbfGj6EuMCnQ=="
+  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.29-alpha.2.tgz"
+  "version" "0.0.29-alpha.2"
   dependencies:
     "@vant/area-data" "^1.2.1"
     "lodash" "^4.17.21"
     "react" "^17.0.2"
 
-"@taroify/icons@^0.0.29-alpha.1":
-  "integrity" "sha512-YQTW5mEqHNipAriMkosEmdV3vJdQJa9nbUyRapYoXuuyIo+86siwVF64BMRhoQD44t+TRikxuQn53TDV5unKVQ=="
-  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.29-alpha.1.tgz"
-  "version" "0.0.29-alpha.1"
+"@taroify/icons@^0.0.29-alpha.2":
+  "integrity" "sha512-yrvdzKDVmKfPuoDGif89GWVM31HwJHyi4anhAi/kaKDWHbSa1bbwVYIdQn9mtlbxVk1nosTAx8ggP/Ox846kBQ=="
+  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.29-alpha.2.tgz"
+  "version" "0.0.29-alpha.2"
   dependencies:
     "classnames" "^2.2.6"
 
@@ -2678,10 +2678,10 @@
   "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
   "version" "3.7.2"
 
-"blueimp-canvas-to-blob-global@^3.29.0":
-  "integrity" "sha512-4QyI3/uyoyeqNsR2DHsy6w4y7Z8ATuFt8UKAQw5d70QU7bJT7EywmkZbsStGdOLFbNeLiLYc3POOfj9UU/7jUg=="
-  "resolved" "https://registry.npmjs.org/blueimp-canvas-to-blob-global/-/blueimp-canvas-to-blob-global-3.29.0.tgz"
-  "version" "3.29.0"
+"blueimp-canvas-to-blob-global@^3.29.1":
+  "integrity" "sha512-7iiAoFX7nEdm8H8ErlewkvUvNZTMH47jro1sVOuvzCn3xcfNGsYBItmE/N/tcjADgOvCW9juiU/LFJjHUKw5fw=="
+  "resolved" "https://registry.npmjs.org/blueimp-canvas-to-blob-global/-/blueimp-canvas-to-blob-global-3.29.1.tgz"
+  "version" "3.29.1"
 
 "bn.js@^4.0.0":
   "integrity" "sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA=="
@@ -3406,12 +3406,12 @@
     "safe-buffer" "5.1.2"
     "vary" "~1.1.2"
 
-"compressorjs-global@^1.1.1":
-  "integrity" "sha512-7TuZJQGUhzv3Q3nVm8N83P1oIKmDj+VSpaj8lWqe+69irz9XKnX7vA/9TT+jSCRHEV0mwMSvEezOieYEh8EDww=="
-  "resolved" "https://registry.npmjs.org/compressorjs-global/-/compressorjs-global-1.1.1.tgz"
-  "version" "1.1.1"
+"compressorjs-global@^1.1.2":
+  "integrity" "sha512-f1p8JE5GcCHvq+WgKOKg8ER2dUU0ziOkS4adeBZhEOJdDk9u4VwI01zuL+Bpgk0CPwVTMOomPDeGfJUcyU4V3A=="
+  "resolved" "https://registry.npmjs.org/compressorjs-global/-/compressorjs-global-1.1.2.tgz"
+  "version" "1.1.2"
   dependencies:
-    "blueimp-canvas-to-blob-global" "^3.29.0"
+    "blueimp-canvas-to-blob-global" "^3.29.1"
     "is-blob" "^2.1.0"
 
 "concat-map@0.0.1":
@@ -10357,13 +10357,13 @@
     "css-mediaquery" "^0.1.2"
     "postcss-value-parser" "^3.3.0"
 
-"taro-hooks@^1.5.5":
-  "integrity" "sha512-s9TDZ3qbM4M4s2Q9mYz/asXM8QuxZ/GDhfLo22x81KurYBGltPrkbBvPyZi4V/8J8pHcaXuFq8RrUDx2CW8UHg=="
-  "resolved" "https://registry.npmjs.org/taro-hooks/-/taro-hooks-1.5.5.tgz"
-  "version" "1.5.5"
+"taro-hooks@^1.5.6":
+  "integrity" "sha512-MR61dHi0I3Pssgma7VjmlX7RNwtWRoaxd+SCiCGQ3QnZvtmYvvYHy1P9rgIHH/PBs6I51YCGwBv71YbPJ9Mwbw=="
+  "resolved" "https://registry.npmjs.org/taro-hooks/-/taro-hooks-1.5.6.tgz"
+  "version" "1.5.6"
   dependencies:
     "@babel/runtime" "^7.14.6"
-    "compressorjs-global" "^1.1.1"
+    "compressorjs-global" "^1.1.2"
     "lodash-wechat" "^1.0.0"
     "lodash.uniq" "^4.5.0"
     "querystring" "^0.2.1"

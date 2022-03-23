@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-22 17:54:43
+ * @LastEditTime: 2022-03-23 09:11:11
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -302,7 +302,7 @@ const Login: FunctionComponent = () => {
                     Router.toSelfprivacy()
                   }}
                 >
-                  《隐私保护政策》
+                  《隐私保护协议》
                 </a>
               )}
             </Checkbox>

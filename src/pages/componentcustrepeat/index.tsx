@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-18 13:14:14
+ * @LastEditTime: 2022-03-23 18:29:35
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -14,6 +14,7 @@ import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet
 import dayjs from 'dayjs'
 import { back } from '@/utils/taro'
 import { Weekly, Monthly, IntervalPicker } from './ui'
+import './index.scss'
 
 const ComponentCustRepeat: FunctionComponent = () => {
   const [repeatTypeOpen, setRepeatTypeOpen] = useState<boolean>(false)
@@ -95,11 +96,44 @@ const ComponentCustRepeat: FunctionComponent = () => {
   }
 
   return (
-    <ActionSheet open={repeatTypeOpen} onSelect={() => setRepeatTypeOpen(false)} onClose={setRepeatTypeOpen}>
-      <ActionSheet.Action value='1' name='选项一' />
-      <ActionSheet.Action value='2' name='选项二' />
-      <ActionSheet.Action value='3' name='选项三' />
-    </ActionSheet>
+    <Fragment>
+      <CommonMain className='vi-schedulecustrepeat-wrapper' title='自定义重复' to={1} fixed={false} left>
+        <View className='vi-schedulecustrepeat-wrapper_content'>
+          <Cell title='频率' clickable onClick={() => setRepeatTypeOpen(true)}>
+            {formatType(repeatType)}
+          </Cell>
+          <Cell title='每' clickable onClick={() => setIntervalOpen(true)}>
+            {repeatInterval + formatType(repeatType)}
+          </Cell>
+          {repeatType === 'WEEKLY' ? (
+            <Weekly defaultValues={selectedWeek} weekSelected={weekSelected}></Weekly>
+          ) : repeatType === 'MONTHLY' ? (
+            <Monthly selectedDate={selectedDate} selectedMonthDay={selectedMonthDay} monthDaySelected={monthDaySelected}></Monthly>
+          ) : (
+            <></>
+          )}
+        </View>
+        <View className='vi-schedulecustrepeat-wrapper_button'>
+          <Button color='success' block onClick={saveCustRepeat}>
+            保存
+          </Button>
+        </View>
+      </CommonMain>
+
+      <ActionSheet open={repeatTypeOpen} onClose={() => setRepeatTypeOpen(false)} onSelect={repeatSelected} rounded={false}>
+        <ActionSheet.Action name='天' value='DAILY'></ActionSheet.Action>
+        <ActionSheet.Action name='周' value='WEEKLY'></ActionSheet.Action>
+        <ActionSheet.Action name='月' value='MONTHLY'></ActionSheet.Action>
+        <ActionSheet.Action name='年' value='YEARLY'></ActionSheet.Action>
+      </ActionSheet>
+      <IntervalPicker
+        open={intervalOpen}
+        type={repeatType}
+        repeatInterval={repeatInterval}
+        closeHandler={() => setIntervalOpen(false)}
+        intervalSelected={intervalSelected}
+      ></IntervalPicker>
+    </Fragment>
   )
 }
 
