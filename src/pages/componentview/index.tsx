@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-03-21 12:50:42
+ * @LastEditTime: 2022-03-24 08:56:48
  * @LastEditors: Derek Xu
  */
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -51,12 +51,12 @@ const Componentview: React.FC<IPageStateProps> = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const dispatch = useDispatch()
   const systemInfo = useSystemInfo() || { screenWidth: 0, screenHeight: 0 }
+  const [loading, setLoading] = useState<boolean>(true)
   const [open, setOpen] = useState(false)
   const [alarmType, setAlarmType] = useState('0')
   const [memberName, setMemberName] = useState<string>('')
   const [alarmTimes, setAlarmTimes] = useState<string[]>([])
   const [component, setComponent] = useState<IDavComponent>(defaultComponent)
-  const [delLoading, setDelLoading] = useState<boolean>(false)
   const [expire, setExpire] = useState<boolean>(false)
   const [shareOpen, setShareOpen] = useState<boolean>(false)
   const [qrOpen, setQrOpen] = useState<boolean>(false)
@@ -86,6 +86,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -95,14 +96,17 @@ const Componentview: React.FC<IPageStateProps> = () => {
    * @param id
    */
   const _queryMemberIds = (comp: IDavComponent) => {
+    setLoading(true)
     queryComponentMemberIds(comp.id)
       .then((res) => {
         comp.memberIds = res as any as Array<string>
         _setComponent(comp)
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
         _setComponent(comp)
+        setLoading(false)
       })
   }
 
@@ -272,7 +276,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
    * 删除事件
    */
   const _deleteComponent = (ty: number, id: string) => {
-    setDelLoading(true)
+    setLoading(true)
     if (ty === 0) {
       deleteById(id)
         .then(() => {
@@ -280,7 +284,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
         })
         .catch((err) => {
           console.log(err)
-          setDelLoading(false)
+          setLoading(false)
         })
       return
     }
@@ -290,18 +294,18 @@ const Componentview: React.FC<IPageStateProps> = () => {
       })
       .catch((err) => {
         console.log(err)
-        setDelLoading(false)
+        setLoading(false)
       })
   }
 
   const _deleteSuccess = () => {
-    setDelLoading(false)
+    setLoading(false)
     dispatch({
       type: 'component/refreshTime',
       payload: dayjs().unix()
     })
     window.setTimeout(() => {
-      setDelLoading(false)
+      setLoading(false)
       back({ to: 1 })
     }, 500)
   }
@@ -360,10 +364,10 @@ const Componentview: React.FC<IPageStateProps> = () => {
                 clickable
                 size='large'
                 onClick={viewMembersHandler}
+                bordered={false}
               ></Cell>
             </Fragment>
           )}
-
           <View className='divider'></View>
           <View className='cell-item event-item remind taroify-hairline--bottom'>
             <View className='event-icon'>
@@ -385,7 +389,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
         <ActionSheet.Action value='1' name='删除' />
         <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>
-      <Backdrop open={delLoading} closeable onClose={() => setDelLoading(false)}>
+      <Backdrop open={loading} closeable onClose={() => setLoading(false)}>
         <View className='content-wrapper'>
           <View className='content-block'>
             <Loading type='spinner'>加载中...</Loading>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-02-28 21:56:01
+ * @LastEditTime: 2022-03-24 09:22:16
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -13,7 +13,7 @@ import CommonMain from '@/components/mixin'
 import { IMessage } from '~/../@types/message'
 import { toast } from '@/utils/taro'
 import { get } from '@/api/message'
-import { GroupBody, SystemBody, ActionButton } from './ui'
+import { GroupBody, SystemBody } from './ui'
 
 import './index.scss'
 
@@ -31,12 +31,12 @@ const MessageDetail: FunctionComponent = ({}) => {
     try {
       const data = Router.getData()
       if (!data) {
-        const msgId: string = Router.getParams['id']
-        if (msgId) {
+        const { id } = Router.getParams()
+        if (!id) {
           toast({ title: '获取参数失败' })
           return
         }
-        get(msgId)
+        get(id)
           .then((res) => {
             setMessage(res as any as IMessage)
           })
@@ -49,12 +49,16 @@ const MessageDetail: FunctionComponent = ({}) => {
     } catch (err) {
       console.log(err)
     }
-  })
+  }, [])
 
   return (
     <CommonMain className='vi-message-detail-warpper' title='消息详情' fixed to={3} left>
       <View className='vi-message-detail-warpper_container'>
-        {message.type === 'GROUP' ? <GroupBody content={message.content}></GroupBody> : <SystemBody></SystemBody>}
+        {message.type === 'GROUP' ? (
+          <GroupBody status={message.status} operation={message.operation} content={message.content}></GroupBody>
+        ) : (
+          <SystemBody status={message.status} operation={message.operation} content={message.content}></SystemBody>
+        )}
       </View>
     </CommonMain>
   )

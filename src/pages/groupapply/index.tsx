@@ -2,11 +2,11 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-09 22:15:51
+ * @LastEditTime: 2022-03-24 09:00:52
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
-import { Collapse } from '@taroify/core'
+import { Tabs } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IGroup } from '~/../@types/group'
 import { applyMineList, mineApplyList, applyAgreeJoinGroup, applyRefuseJoinGroup } from '@/api/groupmember'
@@ -71,14 +71,14 @@ const GroupApply: FunctionComponent = () => {
 
   return (
     <CommonMain className='vi-group-apply-warpper' title='群组申请' fixed to={2} left>
-      <Collapse accordion value={value} onChange={setValue}>
-        <Collapse.Item title='我的申请'>
+      <Tabs animated swipeable>
+        <Tabs.TabPane title='我的申请'>
           <MineApply groups={mineApplyGroups}></MineApply>
-        </Collapse.Item>
-        <Collapse.Item title='申请我的'>
+        </Tabs.TabPane>
+        <Tabs.TabPane title='申请我的'>
           <ApplyMine groups={applyMineGroups} applyAgree={applyAgree} applyRefuse={applyRefuse}></ApplyMine>
-        </Collapse.Item>
-      </Collapse>
+        </Tabs.TabPane>
+      </Tabs>
     </CommonMain>
   )
 }

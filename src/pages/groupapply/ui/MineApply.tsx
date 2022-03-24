@@ -2,12 +2,11 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:40:50
- * @LastEditTime: 2022-03-01 14:34:49
+ * @LastEditTime: 2022-03-24 09:02:02
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent } from 'react'
-import { View } from '@tarojs/components'
-import { Button, Cell, SwipeCell } from '@taroify/core'
+import { Button, Cell, Empty, SwipeCell } from '@taroify/core'
 import { IGroup } from '~/../@types/group'
 
 interface IPageOption {
@@ -18,7 +17,10 @@ const MineApply: FunctionComponent<IPageOption> = (props) => {
   return (
     <Fragment>
       {props.groups.length === 0 ? (
-        <View>暂无数据</View>
+        <Empty>
+          <Empty.Image />
+          <Empty.Description>暂无数据</Empty.Description>
+        </Empty>
       ) : (
         props.groups.map((item, key) => {
           return (

@@ -2,12 +2,11 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:42:57
- * @LastEditTime: 2022-03-21 12:56:22
+ * @LastEditTime: 2022-03-24 09:01:46
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback } from 'react'
-import { View } from '@tarojs/components'
-import { Button, Cell, SwipeCell } from '@taroify/core'
+import { Button, Cell, Empty, SwipeCell } from '@taroify/core'
 import { IGroup } from '~/../@types/group'
 import { useModal } from 'taro-hooks'
 
@@ -52,7 +51,10 @@ const ApplyMine: FunctionComponent<IPageOption> = (props) => {
   return (
     <Fragment>
       {props.groups.length === 0 ? (
-        <View>暂无数据</View>
+        <Empty>
+          <Empty.Image />
+          <Empty.Description>暂无数据</Empty.Description>
+        </Empty>
       ) : (
         props.groups.map((item, key) => {
           return (
