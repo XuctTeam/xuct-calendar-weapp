@@ -3,11 +3,10 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-03-21 20:24:52
+ * @LastEditTime: 2022-03-26 18:47:14
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, useEffect, useRef, useState } from 'react'
-import Taro from '@tarojs/taro'
+import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { View, Button as TaroButton } from '@tarojs/components'
@@ -15,7 +14,7 @@ import { back } from '@/utils/taro'
 import { Cell, Button, Field, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
-import { useToast, useModal } from 'taro-hooks'
+import { useToast, useModal, useLogin } from 'taro-hooks'
 import { getPhoneNumber, bindPhoneSmsCode, logout, bindPhone, unbindPhone } from '@/api/user'
 
 import './index.scss'
@@ -28,6 +27,7 @@ const MemberBindPhone: FunctionComponent = () => {
   const [disable, setDisable] = useState<boolean>(false)
   const [smsText, setSmsText] = useState<string>('发短信')
   const timerRef = useRef<number>(0)
+  const [checkSession] = useLogin()
   const [toast] = useToast()
   const [show] = useModal({
     title: '提示',
@@ -40,6 +40,7 @@ const MemberBindPhone: FunctionComponent = () => {
       data = Router.getParams()
     }
     if (data) {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const { phone } = data
       setPhone(phone)
       setEdit(true)
@@ -53,17 +54,16 @@ const MemberBindPhone: FunctionComponent = () => {
     }
   }, [])
 
-  const onGetPhoneNumber = (e) => {
-    if (e.detail.errMsg && e.detail.errMsg !== 'getPhoneNumber:ok') {
-      toast({ title: '获取手机失败' })
-      return
-    }
-    Taro.checkSession({
-      success: function () {
-        //获取手机号码
-        getUserPhone(e.detail.encryptedData, e.detail.iv)
-      },
-      fail: function () {
+  const onGetPhoneNumber = useCallback(
+    async (e) => {
+      if (e.detail.errMsg && e.detail.errMsg !== 'getPhoneNumber:ok') {
+        toast({ title: '获取手机失败' })
+        return
+      }
+      try {
+        await checkSession()
+      } catch (error) {
+        console.log(error)
         show()
           .then((res) => {
             if (res.cancel) return
@@ -73,8 +73,11 @@ const MemberBindPhone: FunctionComponent = () => {
             console.log(err)
           })
       }
-    })
-  }
+      //获取手机号码
+      getUserPhone(e.detail.encryptedData, e.detail.iv)
+    },
+    [checkSession]
+  )
 
   /**
    * 获取用户手机号码

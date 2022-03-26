@@ -2,57 +2,44 @@
  * @Description: 忘记密码
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:02:39
- * @LastEditTime: 2022-03-23 09:34:45
+ * @LastEditTime: 2022-03-27 04:16:14
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useState } from 'react'
 import { View } from '@tarojs/components'
 import CommonMain from '@/components/mixin'
-import { Button, Cell, Field, Input } from '@taroify/core'
+import { Steps } from '@taroify/core'
+import { Auth } from './ui'
+
 import './index.scss'
 
 const MemberForgetPassword: FunctionComponent = () => {
-  const [phoneForm, setPhoneForm] = useState<boolean>(true)
-  const [phone, setPhone] = useState<string>('')
+  const [step, setStep] = useState<number>(0)
+  const [memberId, setMemberId] = useState<string>('')
+
+  const sendPhoneCode = (phone: string): Promise<any> => {
+    return new Promise((resolve, reject) => {})
+  }
+
+  const sendEmailCode = (email: string): Promise<any> => {
+    return new Promise((resolve, reject) => {})
+  }
+
+  const validatePhone = (phone: string, code: string): void => {}
+
+  const validateEmail = (email: string, code: string): void => {}
 
   return (
     <CommonMain className='vi-member-forget-password' fixed title='忘记密码' left to={6}>
-      <View className='container'>
-        {phoneForm ? (
-          <Cell.Group inset>
-            <Field label='手机号'>
-              <Input placeholder='请输入手机号' value={phone} onChange={(e) => setPhone(e.detail.value)} />
-            </Field>
-            <Field align='center' label='短信验证码'>
-              <Input placeholder='请输入短信验证码' />
-              <Button size='small' color='primary' variant='text'>
-                发送验证码
-              </Button>
-            </Field>
-          </Cell.Group>
-        ) : (
-          <Cell.Group inset>
-            <Field align='center' label='短信验证码'>
-              <Input placeholder='请输入短信验证码' />
-              <Button size='small' color='primary' variant='text'>
-                发送验证码
-              </Button>
-            </Field>
-          </Cell.Group>
-        )}
-        <View className='swtch'>
-          <View>没有绑定过的手机无法找回</View>
-          <Button variant='contained' color='primary' shape='round' size='small'>
-            {phoneForm ? '邮箱找回' : '手机号找回'}
-          </Button>
-        </View>
-      </View>
-
-      <View className='button'>
-        <Button color='success' block>
-          确定
-        </Button>
-      </View>
+      <Steps value={step}>
+        <Steps.Step>验证账号</Steps.Step>
+        <Steps.Step>重置密码</Steps.Step>
+      </Steps>
+      {step === 0 ? (
+        <Auth sendPhoneCode={sendPhoneCode} sendEmailCode={sendEmailCode} validatePhone={validatePhone} validateEmail={validateEmail}></Auth>
+      ) : (
+        <View>sdfsdf</View>
+      )}
     </CommonMain>
   )
 }

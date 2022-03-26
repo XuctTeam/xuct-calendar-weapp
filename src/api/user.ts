@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-03-14 15:12:12
+ * @LastEditTime: 2022-03-26 20:16:22
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -13,7 +13,7 @@ import http from '@/utils/request'
  * @returns
  */
 export const sendSmsCode = (phone: String): Promise<any> => {
-  return http.post('/uaa/sms', { phone })
+  return http.post('/uaa/sms', { phone, type: 0 })
 }
 
 /**
@@ -104,7 +104,7 @@ export const getPhoneNumber = (encryptedData: string, ivStr: string): Promise<an
  * @param phone
  */
 export const bindPhoneSmsCode = (edit: boolean, phone: string): Promise<any> => {
-  return http.post('/ums/api/app/v1/sms/phone/bind/code', { edit, phone })
+  return http.post('/uaa/sms', { type: edit ? 1 : 2, phone })
 }
 
 /**
@@ -140,5 +140,5 @@ export const bindUserName = (formData: any) => {
  * @returns
  */
 export const register = (formData: any) => {
-  return http.post('/ums/api/app/v1/member/register', formData)
+  return http.post('/uaa/register', formData)
 }

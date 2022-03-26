@@ -4,10 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-26 08:48:25
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-24 09:39:26
+ * @LastEditTime: 2022-03-26 18:37:08
  */
 import { Fragment, FunctionComponent, useCallback } from 'react'
-import { View } from '@tarojs/components'
 import { Cell } from '@taroify/core'
 
 interface IPageOption {

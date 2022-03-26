@@ -4,9 +4,10 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-17 13:55:44
+ * @LastEditTime: 2022-03-26 23:10:36
  */
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import Taro from '@tarojs/taro'
 import { BaseEventOrig, FormProps, Input, View } from '@tarojs/components'
 import { Button, Cell, Field, Form, Image } from '@taroify/core'
 import CommonMain from '@/components/mixin'
@@ -34,17 +35,20 @@ const MemberRegister: FunctionComponent = () => {
     getCaptcha()
   }, [])
 
-  const getCaptcha = () => {
+  const getCaptcha = useCallback(() => {
     toGetCaptcha()
       .then((res) => {
         const captcha: ICaptcha = res as any as ICaptcha
-        setImage(captcha.image)
         setKey(captcha.key)
+        let array = Taro.base64ToArrayBuffer(captcha.image)
+        let base64 = Taro.arrayBufferToBase64(array)
+        setImage('data:image/jpeg;base64,' + base64)
       })
       .catch((err) => {
         console.log(err)
       })
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [image])
 
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     const formData: IFormData = event.detail.value as any as IFormData
@@ -85,8 +89,8 @@ const MemberRegister: FunctionComponent = () => {
                 <Input password placeholder='密码' />
               </Form.Control>
             </Form.Item>
-            <Field name='captcha' label={{ align: 'left', children: '验证码' }} className='captcha'>
-              <Input placeholder='请输入验证码' maxlength={5} />
+            <Field name='captcha' label={{ align: 'left', children: '图形码' }} className='captcha'>
+              <Input placeholder='请输入图形码' maxlength={5} />
               <Image src={image} alt='点击刷新' onClick={() => getCaptcha()} />
             </Field>
           </Cell.Group>
