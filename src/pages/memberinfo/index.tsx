@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-22 08:43:58
+ * @LastEditTime: 2022-03-27 21:58:39
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -59,6 +59,12 @@ const MemberInfo: FunctionComponent = () => {
     nickName: '',
     avatar: '',
     identityType: 'user_name'
+  }
+  const emailAuth: IUserAuth = userAuth.find((i) => i.identityType === 'email') || {
+    username: '',
+    nickName: '',
+    avatar: '',
+    identityType: 'email'
   }
 
   const callLogout = useCallback(() => {
@@ -172,6 +178,15 @@ const MemberInfo: FunctionComponent = () => {
     setHeaderOpen(false)
   }
 
+  const toModifyEmail = async (name: string) => {
+    try {
+      const result = Router.toMemberbindemail()
+      if (!result) return
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const _logout = () => {
     logout()
       .then(() => {
@@ -220,6 +235,8 @@ const MemberInfo: FunctionComponent = () => {
         toModifyPhone(phoneAuth.username)
       } else if (ty === 4) {
         Router.toMembermodifypassword()
+      } else if (ty === 5) {
+        toModifyEmail(emailAuth.username)
       }
     },
     800,
@@ -243,6 +260,9 @@ const MemberInfo: FunctionComponent = () => {
           </Cell>
           <Cell title='手机号' rightIcon={<ArrowRight />} clickable onClick={() => to(3)}>
             {phoneAuth.username ? phoneAuth.username : '未绑定'}
+          </Cell>
+          <Cell title='邮箱' rightIcon={<ArrowRight />} clickable onClick={() => to(5)}>
+            {emailAuth ? emailAuth.username : ''}
           </Cell>
           <Cell title='微信' rightIcon={<ArrowRight />} clickable>
             {wxAuth ? wxAuth.nickName : ''}

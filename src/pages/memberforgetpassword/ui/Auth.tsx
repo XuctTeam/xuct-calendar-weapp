@@ -2,20 +2,18 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-27 03:47:42
- * @LastEditTime: 2022-03-27 04:14:14
+ * @LastEditTime: 2022-03-27 15:28:37
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { View } from '@tarojs/components'
 import { useToast } from 'taro-hooks'
 import { Button, Cell, Field, Input } from '@taroify/core'
-import { checkMobile } from '@/utils/utils'
+import { checkMobile, checkEmail } from '@/utils/utils'
 
 interface IPageOption {
-  sendPhoneCode: (phone: string) => Promise<any>
-  sendEmailCode: (email: string) => Promise<any>
-  validatePhone: (phone: string, code: string) => void
-  validateEmail: (email: string, code: string) => void
+  sendForgetPasswordSmcCode: (phone: string, email: string, type: number) => Promise<any>
+  checkMemberCode: (phone: string, email: string, code: string, type: number) => void
 }
 
 const Auth: FunctionComponent<IPageOption> = (props) => {
@@ -27,6 +25,10 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
   const [phoneSmsCode, setPhoneSmsCode] = useState<string>('')
   const [mail, setMail] = useState('')
   const [emailSmsCode, setEmailSmsCode] = useState<string>('')
+  const [emailSmsText, setEmailSmsText] = useState('发送验证码')
+  const [emailDisable, setEmailDisable] = useState<boolean>(false)
+  const emailSmsCodeRef = useRef<number>(0)
+
   const [toast] = useToast({
     icon: 'error'
   })
@@ -37,10 +39,14 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
         window.clearTimeout(smsCodeRef.current)
         smsCodeRef.current = 0
       }
+      if (emailSmsCodeRef.current > 0) {
+        window.clearTimeout(emailSmsCodeRef.current)
+        emailSmsCodeRef.current = 0
+      }
     }
   }, [])
 
-  const sendSmsCode = () => {
+  const sendPhoneSmsCode = () => {
     if (!phone || !checkMobile(phone)) {
       toast({
         title: '手机号格式错误'
@@ -48,19 +54,16 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
       return
     }
     props
-      .sendPhoneCode(phone)
+      .sendForgetPasswordSmcCode(phone, '', 1)
       .then(() => {
-        setSmsTextTime(60)
+        setPhoneSmsTextTime(60)
       })
       .catch((err) => {
         console.log(err)
-        toast({
-          title: '发送验证码失败'
-        })
       })
   }
 
-  const setSmsTextTime = (num: number) => {
+  const setPhoneSmsTextTime = (num: number) => {
     if (num === 0) {
       setPhoneSmsText('发短信')
       setPhoneDisable(false)
@@ -75,15 +78,76 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
     setPhoneDisable(true)
 
     smsCodeRef.current = window.setTimeout(() => {
-      setSmsTextTime(num - 1)
+      setPhoneSmsTextTime(num - 1)
+    }, 1000)
+  }
+
+  const sendEmailSmsCode = () => {
+    if (!phone || !checkMobile(phone)) {
+      toast({
+        title: '手机号格式错误'
+      })
+      return
+    }
+    props
+      .sendForgetPasswordSmcCode(phone, '', 1)
+      .then(() => {
+        setEmailSmsTextTime(60)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const setEmailSmsTextTime = (num: number) => {
+    if (num === 0) {
+      setEmailSmsText('发短信')
+      setEmailDisable(false)
+
+      if (emailSmsCodeRef.current > 0) {
+        window.clearTimeout(emailSmsCodeRef.current)
+        emailSmsCodeRef.current = 0
+      }
+      return
+    }
+    setEmailSmsText('重发(' + num + ')')
+    setEmailDisable(true)
+
+    emailSmsCodeRef.current = window.setTimeout(() => {
+      setEmailSmsTextTime(num - 1)
     }, 1000)
   }
 
   const validateFormHandler = () => {
     if (phoneForm) {
-      props.validatePhone(phone, phoneSmsCode)
-      return
+      if (!phone || !checkMobile(phone)) {
+        toast({
+          title: '手机号格式错误'
+        })
+        return
+      }
+      if (!phoneSmsCode) {
+        toast({
+          title: '验证码错误'
+        })
+        return
+      }
     }
+    if (!phoneForm) {
+      if (!mail || !checkEmail(mail)) {
+        toast({
+          title: '邮箱格式错误'
+        })
+        return
+      }
+      if (!emailSmsCode) {
+        toast({
+          title: '验证码错误'
+        })
+        return
+      }
+    }
+    props.checkMemberCode(phone, mail, phoneForm ? phoneSmsCode : emailSmsCode, phoneForm ? 1 : 2)
   }
 
   return (
@@ -95,8 +159,8 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
               <Input placeholder='请输入手机号' value={phone} onChange={(e) => setPhone(e.detail.value)} />
             </Field>
             <Field align='center' label='短信验证码'>
-              <Input placeholder='请输入短信验证码' value={phoneSmsCode} onChange={(e) => setPhoneSmsCode(e.detail.value)} />
-              <Button size='small' color='primary' variant='text' onClick={sendSmsCode} disabled={phoneDisable}>
+              <Input placeholder='请输入短信验证码' value={phoneSmsCode} type='number' maxlength={4} onChange={(e) => setPhoneSmsCode(e.detail.value)} />
+              <Button size='small' color='primary' variant='text' onClick={sendPhoneSmsCode} disabled={phoneDisable}>
                 {phoneSmsText}
               </Button>
             </Field>
@@ -107,9 +171,9 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
               <Input placeholder='请输入邮箱' value={mail} onChange={(e) => setMail(e.detail.value)} />
             </Field>
             <Field align='center' label='邮箱验证码'>
-              <Input placeholder='请输入邮箱验证码' value={emailSmsCode} onChange={(e) => setEmailSmsCode(e.detail.value)} />
-              <Button size='small' color='primary' variant='text'>
-                发送验证码
+              <Input placeholder='请输入邮箱验证码' value={emailSmsCode} type='number' maxlength={4} onChange={(e) => setEmailSmsCode(e.detail.value)} />
+              <Button size='small' color='primary' variant='text' onClick={sendEmailSmsCode} disabled={emailDisable}>
+                {emailSmsText}
               </Button>
             </Field>
           </Cell.Group>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-09 09:11:18
- * @LastEditTime: 2022-03-15 09:42:43
+ * @LastEditTime: 2022-03-27 14:06:27
  * @LastEditors: Derek Xu
  */
 import Taro, { Chain } from '@tarojs/taro'
@@ -61,7 +61,6 @@ const customInterceptor = (chain: Chain): Promise<any> => {
         })
         return reject(error)
       }
-
       if (status !== HTTP_STATUS.AUTHENTICATE) {
         let toastMsg: string = statusText
         if (!toastMsg && errMsg) {

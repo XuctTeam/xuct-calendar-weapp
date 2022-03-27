@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
  * @FilePath: \react-lesson-20\src\utils\utils.ts
- * @LastEditTime: 2022-03-14 21:00:44
+ * @LastEditTime: 2022-03-27 15:21:54
  * @LastEditors: Derek Xu
  */
 
@@ -283,4 +283,13 @@ export const fiveMinutes = (date: Date): Date => {
  */
 export const checkMobile = (phone: string): boolean => {
   return /^1[3|4|5|8][0-9]\d{4,8}$/.test(phone)
+}
+
+/**
+ * 正则验证邮箱
+ * @param email
+ * @returns
+ */
+export const checkEmail = (email: string): boolean => {
+  return /^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/.test(email)
 }

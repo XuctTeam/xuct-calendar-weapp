@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-03-26 20:16:22
+ * @LastEditTime: 2022-03-27 16:22:18
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -141,4 +141,37 @@ export const bindUserName = (formData: any) => {
  */
 export const register = (formData: any) => {
   return http.post('/uaa/register', formData)
+}
+
+/**
+ * 忘记密码 -> 发送验证码
+ * @param phone
+ * @param email
+ * @param type
+ * @returns
+ */
+export const sendForgetPasswordCode = (phone: string, email: string, type: number) => {
+  return http.post('/uaa/forget/password/code', { phone, email, type })
+}
+
+/**
+ * 忘记密码 -> 认证用户
+ * @param phone
+ * @param email
+ * @param code
+ * @param type
+ * @returns
+ */
+export const forgetPasswordCheck = (phone: string, email: string, code: string, type: number) => {
+  return http.post('/uaa/forget/password/check', { phone, email, code, type })
+}
+
+/**
+ * 忘记密码 -> 修改密码
+ * @param memberId
+ * @param password
+ * @param code
+ */
+export const forgetModify = (memberId: string, password: string, code: string) => {
+  return http.post('/uaa/forget/password/modify', { memberId, password, code })
 }
