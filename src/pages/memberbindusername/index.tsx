@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-22 17:50:52
+ * @LastEditTime: 2022-03-28 09:47:16
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -50,7 +50,7 @@ const BindUserName: FunctionComponent = () => {
             <Form.Item name='password' rules={[{ pattern: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}$/, message: '密码规则不匹配' }]}>
               <Form.Label>密码</Form.Label>
               <Form.Control>
-                <Input password placeholder='密码' disabled={!edit} clearable value={password} />
+                <Input password placeholder='密码' disabled={!edit} clearable value={password} onChange={(e) => setPassword(e.detail.value)} />
               </Form.Control>
             </Form.Item>
           </Cell.Group>

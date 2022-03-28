@@ -2,18 +2,18 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-12 12:49:07
- * @LastEditTime: 2022-03-02 13:26:46
+ * @LastEditTime: 2022-03-28 16:08:14
  * @LastEditors: Derek Xu
  */
 import dva from '@/utils/dva'
-import { tokenRefresh } from '@/api/token'
+import { tokenRefresh } from '@/api/login'
 import dayjs from 'dayjs'
 import http from './index'
 import { storage, pageCleanToLogin, toast } from '../taro'
 
-interface ITask {
+interface ITask<T> {
   url: string
-  opt: Taro.RequestParams
+  opt: Taro.RequestParams<T>
   resolve: (value: unknown) => void
   reject: (value: unknown) => void
 }

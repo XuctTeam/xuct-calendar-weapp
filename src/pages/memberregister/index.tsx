@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-26 23:10:36
+ * @LastEditTime: 2022-03-28 16:09:20
  */
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
@@ -12,7 +12,8 @@ import { BaseEventOrig, FormProps, Input, View } from '@tarojs/components'
 import { Button, Cell, Field, Form, Image } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { toast, back } from '@/utils/taro'
-import { captcha as toGetCaptcha, register } from '@/api/user'
+import { captcha as toGetCaptcha } from '@/api/user'
+import { register } from '@/api/login'
 import './index.scss'
 
 interface ICaptcha {

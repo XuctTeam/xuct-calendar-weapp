@@ -1,4 +1,14 @@
 .vi-member-bind-email-warpper {
+  display: flex;
   flex-direction: column;
-  width: 100%;
+  height: 100%;
+
+  .content {
+    flex: 1;
+  }
+
+  .button {
+    margin: 20px;
+    padding-bottom: 10px;
+  }
 }

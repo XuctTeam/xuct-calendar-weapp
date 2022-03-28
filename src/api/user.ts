@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-03-27 16:22:18
+ * @LastEditTime: 2022-03-28 17:38:01
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -100,14 +100,6 @@ export const getPhoneNumber = (encryptedData: string, ivStr: string): Promise<an
 }
 
 /**
- * 绑定手机号发送短信
- * @param phone
- */
-export const bindPhoneSmsCode = (edit: boolean, phone: string): Promise<any> => {
-  return http.post('/uaa/sms', { type: edit ? 1 : 2, phone })
-}
-
-/**
  * 手机号绑定
  * @param phone
  * @param code
@@ -135,43 +127,20 @@ export const bindUserName = (formData: any) => {
 }
 
 /**
- * 会员注册
- * @param formData
- * @returns
- */
-export const register = (formData: any) => {
-  return http.post('/uaa/register', formData)
-}
-
-/**
- * 忘记密码 -> 发送验证码
- * @param phone
- * @param email
- * @param type
- * @returns
- */
-export const sendForgetPasswordCode = (phone: string, email: string, type: number) => {
-  return http.post('/uaa/forget/password/code', { phone, email, type })
-}
-
-/**
- * 忘记密码 -> 认证用户
- * @param phone
+ * 绑定邮箱
  * @param email
  * @param code
- * @param type
  * @returns
  */
-export const forgetPasswordCheck = (phone: string, email: string, code: string, type: number) => {
-  return http.post('/uaa/forget/password/check', { phone, email, code, type })
+export const bindEmail = (email: string, code: string) => {
+  return http.post('/ums/api/app/v1/member/email/bind', { email, code })
 }
 
 /**
- * 忘记密码 -> 修改密码
- * @param memberId
- * @param password
+ * 解绑邮箱
+ * @param email
  * @param code
  */
-export const forgetModify = (memberId: string, password: string, code: string) => {
-  return http.post('/uaa/forget/password/modify', { memberId, password, code })
+export const unbindEmail = (email: string, code: string) => {
+  return http.post('/ums/api/app/v1/member/email/unbind', { email, code })
 }

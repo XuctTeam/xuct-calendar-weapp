@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-27 21:58:39
+ * @LastEditTime: 2022-03-28 18:57:24
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,7 +26,7 @@ const MemberInfo: FunctionComponent = () => {
   const [nameOpen, setNameOpen] = useState<boolean>(false)
   const [headerOpen, setHeaderOpen] = useState<boolean>(false)
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { name: '', avatar: DEFAULT_AVATAR }
-  const userAuth: IUserAuth[] = useSelector<IDvaCommonProps, IUserAuth[]>((state) => state.common.auths)
+  const userAuths: IUserAuth[] = useSelector<IDvaCommonProps, IUserAuth[]>((state) => state.common.auths)
   const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
   const dispatch = useDispatch()
   const removeLoading = loadingEffect.effects['common/removeStoreSync']
@@ -47,20 +47,20 @@ const MemberInfo: FunctionComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [removeLoading])
 
-  const wxAuth = userAuth.find((i) => i.identityType === 'open_id')
-  const phoneAuth: IUserAuth = userAuth.find((i) => i.identityType === 'phone') || {
+  const wxAuth = userAuths.find((i) => i.identityType === 'open_id')
+  const phoneAuth: IUserAuth = userAuths.find((i) => i.identityType === 'phone') || {
     username: '',
     nickName: '',
     avatar: '',
     identityType: 'phone'
   }
-  const userNameAuth: IUserAuth = userAuth.find((i) => i.identityType === 'user_name') || {
+  const userNameAuth: IUserAuth = userAuths.find((i) => i.identityType === 'user_name') || {
     username: '',
     nickName: '',
     avatar: '',
     identityType: 'user_name'
   }
-  const emailAuth: IUserAuth = userAuth.find((i) => i.identityType === 'email') || {
+  const emailAuth: IUserAuth = userAuths.find((i) => i.identityType === 'email') || {
     username: '',
     nickName: '',
     avatar: '',
@@ -123,20 +123,19 @@ const MemberInfo: FunctionComponent = () => {
       const result = await Router.toMemberbindusername({
         data: { username: username, edit: !username }
       })
-      if (result && result.data === '1') {
-        auths()
-          .then((res) => {
-            dispatch({
-              type: 'common/saveStorageSync',
-              payload: {
-                auths: res as any as Array<IUserAuth>
-              }
-            })
+      if (!result || result.data !== '1') return
+      auths()
+        .then((res) => {
+          dispatch({
+            type: 'common/saveStorageSync',
+            payload: {
+              auths: res as any as Array<IUserAuth>
+            }
           })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     } catch (err) {
       console.log(err)
       Router.toMembermine({ type: NavigateType.switchTab })
@@ -178,14 +177,34 @@ const MemberInfo: FunctionComponent = () => {
     setHeaderOpen(false)
   }
 
-  const toModifyEmail = async (name: string) => {
-    try {
-      const result = Router.toMemberbindemail()
-      if (!result) return
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  const toModifyEmail = useCallback(
+    async (name: string) => {
+      try {
+        const result = await Router.toMemberbindemail({
+          data: { mail: name },
+          params: { mail: name }
+        })
+        if (!result) return
+        auths()
+          .then((res) => {
+            dispatch({
+              type: 'common/saveStorageSync',
+              payload: {
+                auths: res as any as Array<IUserAuth>
+              }
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      } catch (err) {
+        console.log(err)
+        Router.toMembermine({ type: NavigateType.switchTab })
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [emailAuth]
+  )
 
   const _logout = () => {
     logout()
@@ -262,7 +281,7 @@ const MemberInfo: FunctionComponent = () => {
             {phoneAuth.username ? phoneAuth.username : '未绑定'}
           </Cell>
           <Cell title='邮箱' rightIcon={<ArrowRight />} clickable onClick={() => to(5)}>
-            {emailAuth ? emailAuth.username : ''}
+            {emailAuth.username ? emailAuth.username : '未绑定'}
           </Cell>
           <Cell title='微信' rightIcon={<ArrowRight />} clickable>
             {wxAuth ? wxAuth.nickName : ''}

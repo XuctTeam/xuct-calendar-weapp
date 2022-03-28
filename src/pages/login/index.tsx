@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-26 23:08:16
+ * @LastEditTime: 2022-03-28 16:07:56
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -16,7 +16,7 @@ import { toast, back } from '@/utils/taro'
 import { useEnv, useLogin, useUserInfo } from 'taro-hooks'
 import { checkMobile } from '@/utils/utils'
 import { IUserInfo } from 'taro-hooks/dist/useUserInfo'
-import { wechatLogin, phoneLogin, usernameLogin } from '@/api/token'
+import { wechatLogin, phoneLogin, usernameLogin } from '@/api/login'
 import { sendSmsCode } from '@/api/user'
 
 import { DEFAULT_LOG_IMAGE, DEFAULT_WECHAT_IMAGE } from '@/constants/index'
@@ -279,7 +279,7 @@ const Login: FunctionComponent = () => {
                 </Cell.Group>
               )}
               <View className='btn'>
-                <View onClick={() => setPhoneForm(!phoneForm)}>{phoneForm ? '验证码登录' : '账号密码登录'}</View>
+                <View onClick={() => setPhoneForm(!phoneForm)}>{phoneForm ? '账号密码登录' : '验证码登录'}</View>
                 <View onClick={() => Router.toMemberregister()}>立即注册</View>
               </View>
             </View>

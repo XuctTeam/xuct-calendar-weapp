@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-03-26 18:47:14
+ * @LastEditTime: 2022-03-28 16:05:03
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -15,7 +15,8 @@ import { Cell, Button, Field, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
 import { useToast, useModal, useLogin } from 'taro-hooks'
-import { getPhoneNumber, bindPhoneSmsCode, logout, bindPhone, unbindPhone } from '@/api/user'
+import { getPhoneNumber, logout, bindPhone, unbindPhone } from '@/api/user'
+import { sendUmsSmsCode } from '@/api/common'
 
 import './index.scss'
 
@@ -105,7 +106,7 @@ const MemberBindPhone: FunctionComponent = () => {
     }
     setDisable(true)
     setSmsTextTime(30)
-    bindPhoneSmsCode(edit, phone)
+    sendUmsSmsCode(edit, phone)
       .then((res) => {
         console.log(res)
       })

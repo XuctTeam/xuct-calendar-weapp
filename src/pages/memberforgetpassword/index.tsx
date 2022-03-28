@@ -2,13 +2,13 @@
  * @Description: 忘记密码
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:02:39
- * @LastEditTime: 2022-03-27 16:35:50
+ * @LastEditTime: 2022-03-28 16:06:44
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useRef, useState } from 'react'
 import CommonMain from '@/components/mixin'
 import { Steps } from '@taroify/core'
-import { sendForgetPasswordCode, forgetPasswordCheck, forgetModify } from '@/api/user'
+import { sendForgetPasswordCode, forgetPasswordCheck, forgetModify } from '@/api/forget'
 import { useBack } from '@/utils/taro'
 import { useToast } from 'taro-hooks'
 import { Auth, Password } from './ui'

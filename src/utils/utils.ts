@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
  * @FilePath: \react-lesson-20\src\utils\utils.ts
- * @LastEditTime: 2022-03-27 15:21:54
+ * @LastEditTime: 2022-03-28 09:48:07
  * @LastEditors: Derek Xu
  */
 
@@ -292,4 +292,14 @@ export const checkMobile = (phone: string): boolean => {
  */
 export const checkEmail = (email: string): boolean => {
   return /^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/.test(email)
+}
+
+/**
+ * 正则校验密码
+ *
+ * @param password
+ * @returns
+ */
+export const checkPassowrd = (password: string): boolean => {
+  return /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}$/.test(password)
 }

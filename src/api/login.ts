@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-03 09:31:21
- * @LastEditTime: 2022-02-08 09:36:29
+ * @LastEditTime: 2022-03-28 16:04:22
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -75,4 +75,13 @@ export const tokenRefresh = (refresh_token: string): Promise<any> => {
     },
     'application/x-www-form-urlencoded; charset=UTF-8'
   )
+}
+
+/**
+ * 会员注册
+ * @param formData
+ * @returns
+ */
+export const register = (formData: any) => {
+  return http.post('/uaa/register', formData)
 }
