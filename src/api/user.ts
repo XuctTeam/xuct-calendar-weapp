@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-03-28 17:38:01
+ * @LastEditTime: 2022-03-29 09:54:27
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -112,8 +112,8 @@ export const bindPhone = (phone: string, code: string): Promise<any> => {
  * 手机号解绑
  * @param code
  */
-export const unbindPhone = (code: string): Promise<any> => {
-  return http.post('/ums/api/app/v1/member/phone/unbind', { code })
+export const unbindPhone = (phone: string, code: string): Promise<any> => {
+  return http.post('/ums/api/app/v1/member/phone/unbind', { phone, code })
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-02 08:59:45
- * @LastEditTime: 2022-03-28 16:19:44
+ * @LastEditTime: 2022-03-29 10:09:16
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -19,7 +19,7 @@ export const upload = (): string => {
  * @returns
  */
 export const sendUmsSmsCode = (edit: boolean, phone: string): Promise<any> => {
-  return http.post('/ums/api/v1/common/sms', { type: edit ? 1 : 2, phone })
+  return http.post('/ums/api/v1/common/sms', { type: edit ? 2 : 1, phone })
 }
 
 /**

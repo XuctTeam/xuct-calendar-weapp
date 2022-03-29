@@ -3,11 +3,11 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-03-28 16:05:03
+ * @LastEditTime: 2022-03-29 10:18:01
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { View, Button as TaroButton } from '@tarojs/components'
 import { back } from '@/utils/taro'
@@ -15,18 +15,22 @@ import { Cell, Button, Field, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
 import { useToast, useModal, useLogin } from 'taro-hooks'
-import { getPhoneNumber, logout, bindPhone, unbindPhone } from '@/api/user'
+import { getPhoneNumber, logout, bindPhone, unbindPhone, auths } from '@/api/user'
+import { IDvaCommonProps, IUserAuth } from '~/../@types/dva'
 import { sendUmsSmsCode } from '@/api/common'
 
 import './index.scss'
 
 const MemberBindPhone: FunctionComponent = () => {
   const dispatch = useDispatch()
+  const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
+  const saveLoading = loadingEffect.effects['common/saveStorageSync']
   const [edit, setEdit] = useState<boolean>(false)
   const [phone, setPhone] = useState<string>('')
   const [code, setCode] = useState<string>('')
   const [disable, setDisable] = useState<boolean>(false)
-  const [smsText, setSmsText] = useState<string>('发短信')
+
+  const [smsText, setSmsText] = useState<string>('发送验证码')
   const timerRef = useRef<number>(0)
   const [checkSession] = useLogin()
   const [toast] = useToast()
@@ -36,6 +40,23 @@ const MemberBindPhone: FunctionComponent = () => {
   })
 
   useEffect(() => {
+    _getData()
+    return () => {
+      if (timerRef.current && timerRef.current > 0) {
+        window.clearTimeout(timerRef.current)
+        timerRef.current = 0
+      }
+    }
+  }, [])
+
+  /**
+   * 保存成功后离开页面
+   */
+  if (saveLoading) {
+    back({ to: 4 })
+  }
+
+  const _getData = () => {
     let data = Router.getData()
     if (!data) {
       data = Router.getParams()
@@ -43,17 +64,12 @@ const MemberBindPhone: FunctionComponent = () => {
     if (data) {
       // eslint-disable-next-line @typescript-eslint/no-shadow
       const { phone } = data
+      if (!phone) return
       setPhone(phone)
       setEdit(true)
       return
     }
-    return () => {
-      if (timerRef.current > 0) {
-        window.clearTimeout(timerRef.current)
-        timerRef.current = 0
-      }
-    }
-  }, [])
+  }
 
   const onGetPhoneNumber = useCallback(
     async (e) => {
@@ -118,7 +134,7 @@ const MemberBindPhone: FunctionComponent = () => {
 
   const setSmsTextTime = (num: number) => {
     if (num === 0) {
-      setSmsText('发短信')
+      setSmsText('发送验证码')
       setDisable(false)
 
       if (timerRef.current > 0) {
@@ -180,7 +196,7 @@ const MemberBindPhone: FunctionComponent = () => {
     /** 解绑 */
     if (edit) {
       /**绑定 */
-      unbindPhone(code)
+      unbindPhone(phone, code)
         .then(() => {
           optPhoneSuccess('解绑成功')
         })
@@ -202,12 +218,18 @@ const MemberBindPhone: FunctionComponent = () => {
     toast({
       title: msg
     })
-    back({
-      to: 2,
-      data: {
-        data: '1'
-      }
-    })
+    auths()
+      .then((res) => {
+        dispatch({
+          type: 'common/saveStorageSync',
+          payload: {
+            auths: res as any as Array<IUserAuth>
+          }
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (

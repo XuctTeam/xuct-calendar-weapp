@@ -4,9 +4,10 @@
  * @Autor: Derek Xu
  * @Date: 2022-03-27 21:24:08
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-28 19:01:10
+ * @LastEditTime: 2022-03-29 10:21:49
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Router from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
 import { Button, Cell, Field, Input } from '@taroify/core'
@@ -15,11 +16,15 @@ import { useToast } from 'taro-hooks'
 import { useBack } from '@/utils/taro'
 import { checkEmail } from '@/utils/utils'
 import { sendUmsEmailCode } from '@/api/common'
-import { bindEmail, unbindEmail } from '@/api/user'
+import { bindEmail, unbindEmail, auths } from '@/api/user'
+import { IDvaCommonProps, IUserAuth } from '~/../@types/dva'
 
 import './index.scss'
 
 const Index: FunctionComponent = () => {
+  const dispatch = useDispatch()
+  const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
+  const saveLoading = loadingEffect.effects['common/saveStorageSync']
   const [email, setEmail] = useState<string>('')
   const [edit, setEdit] = useState<boolean>(false)
   const [canable, setCanable] = useState<boolean>(false)
@@ -44,6 +49,10 @@ const Index: FunctionComponent = () => {
       }
     }
   }, [])
+
+  if (saveLoading) {
+    back({ to: 4 })
+  }
 
   const _getData = async () => {
     const data = Router.getData()
@@ -134,11 +143,18 @@ const Index: FunctionComponent = () => {
       title: '操作成功',
       icon: 'success'
     })
-    back({
-      data: {
-        update: true
-      }
-    })
+    auths()
+      .then((res) => {
+        dispatch({
+          type: 'common/saveStorageSync',
+          payload: {
+            auths: res as any as Array<IUserAuth>
+          }
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (

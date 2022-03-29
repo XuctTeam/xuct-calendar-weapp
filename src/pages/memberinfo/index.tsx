@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-28 18:57:24
+ * @LastEditTime: 2022-03-29 10:31:26
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -67,10 +67,29 @@ const MemberInfo: FunctionComponent = () => {
     identityType: 'email'
   }
 
+  const toModifyUserName = async (username: string) => {
+    Router.toMemberbindusername({
+      data: { username: username, edit: !username }
+    })
+  }
+
+  const toModifyPhone = async (phone: string) => {
+    Router.toMemberbindphone({
+      params: { phone },
+      data: { phone }
+    })
+  }
+
+  const toModifyEmail = (name: string) => {
+    Router.toMemberbindemail({
+      data: { mail: name },
+      params: { mail: name }
+    })
+  }
+
   const callLogout = useCallback(() => {
     show().then((res) => {
       if (res.cancel) return
-      //@ts-ignore
       _logout()
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,60 +105,6 @@ const MemberInfo: FunctionComponent = () => {
         auths: []
       }
     })
-  }
-
-  const toModifyPhone = async (phone: string) => {
-    try {
-      const result = await Router.toMemberbindphone({
-        params: {
-          phone
-        },
-        data: {
-          phone
-        }
-      })
-      if (result && result.data === '1') {
-        auths()
-          .then((res) => {
-            dispatch({
-              type: 'common/saveStorageSync',
-              payload: {
-                auths: res as any as Array<IUserAuth>
-              }
-            })
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
-    } catch (error) {
-      console.log(error)
-      Router.toMembermine({ type: NavigateType.switchTab })
-    }
-  }
-
-  const toModifyUserName = async (username: string) => {
-    try {
-      const result = await Router.toMemberbindusername({
-        data: { username: username, edit: !username }
-      })
-      if (!result || result.data !== '1') return
-      auths()
-        .then((res) => {
-          dispatch({
-            type: 'common/saveStorageSync',
-            payload: {
-              auths: res as any as Array<IUserAuth>
-            }
-          })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    } catch (err) {
-      console.log(err)
-      Router.toMembermine({ type: NavigateType.switchTab })
-    }
   }
 
   const modifyNameHandler = (name: string) => {
@@ -176,35 +141,6 @@ const MemberInfo: FunctionComponent = () => {
       })
     setHeaderOpen(false)
   }
-
-  const toModifyEmail = useCallback(
-    async (name: string) => {
-      try {
-        const result = await Router.toMemberbindemail({
-          data: { mail: name },
-          params: { mail: name }
-        })
-        if (!result) return
-        auths()
-          .then((res) => {
-            dispatch({
-              type: 'common/saveStorageSync',
-              payload: {
-                auths: res as any as Array<IUserAuth>
-              }
-            })
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      } catch (err) {
-        console.log(err)
-        Router.toMembermine({ type: NavigateType.switchTab })
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [emailAuth]
-  )
 
   const _logout = () => {
     logout()
