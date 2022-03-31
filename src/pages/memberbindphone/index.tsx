@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-03-29 10:18:01
+ * @LastEditTime: 2022-03-31 21:57:43
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -175,6 +175,9 @@ const MemberBindPhone: FunctionComponent = () => {
         accessToken: '',
         refreshToken: '',
         userInfo: null
+      },
+      cb: () => {
+        back({ to: 4 })
       }
     })
   }

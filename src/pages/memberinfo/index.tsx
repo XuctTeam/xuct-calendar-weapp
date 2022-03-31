@@ -4,12 +4,11 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-29 10:31:26
+ * @LastEditTime: 2022-03-31 22:06:50
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Taro from '@tarojs/taro'
-import Router, { NavigateType } from 'tarojs-router-next'
+import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import CommonMain from '@/components/mixin'
 import { Avatar, Button, Cell } from '@taroify/core'
@@ -19,17 +18,25 @@ import { DEFAULT_AVATAR, USER_LOGOUT_EVENT } from '@/constants/index'
 import { useModal, useToast } from 'taro-hooks'
 import { useBack } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
-import { updateName, baseUserInfo, logout, auths, updateAvatar } from '@/api/user'
+import { updateName, baseUserInfo, logout, updateAvatar } from '@/api/user'
+import { useEvent } from 'taro-hooks'
 import { ModifyName, UploadHeader } from './ui'
+
+enum IActionType {
+  ON = 'on',
+  OFF = 'off',
+  TRIGGER = 'trigger',
+  ONCE = 'once',
+  ADD = 'add',
+  CLEAR = 'clear'
+}
 
 const MemberInfo: FunctionComponent = () => {
   const [nameOpen, setNameOpen] = useState<boolean>(false)
   const [headerOpen, setHeaderOpen] = useState<boolean>(false)
-  const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { name: '', avatar: DEFAULT_AVATAR }
+  const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const userAuths: IUserAuth[] = useSelector<IDvaCommonProps, IUserAuth[]>((state) => state.common.auths)
-  const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
-  const dispatch = useDispatch()
-  const removeLoading = loadingEffect.effects['common/removeStoreSync']
+  const reduxDispatch = useDispatch()
   const [back] = useBack()
   const [toast] = useToast()
 
@@ -37,15 +44,12 @@ const MemberInfo: FunctionComponent = () => {
     title: '提示',
     content: '确定退出吗？'
   })
+  const [, { dispatch }] = useEvent('taro-hooks')
+  const { name, avatar } = userInfo || { name: '', avatar: DEFAULT_AVATAR }
 
   useEffect(() => {
-    if (removeLoading) {
-      toast({ title: '退出成功', icon: 'success' })
-      Taro.eventCenter.trigger(USER_LOGOUT_EVENT)
-      back({ to: 4 })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [removeLoading])
+    noPermission()
+  }, [])
 
   const wxAuth = userAuths.find((i) => i.identityType === 'open_id')
   const phoneAuth: IUserAuth = userAuths.find((i) => i.identityType === 'phone') || {
@@ -95,14 +99,36 @@ const MemberInfo: FunctionComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show])
 
+  const noPermission = () => {
+    if (!userInfo) {
+      toast({
+        icon: 'error',
+        title: '非法访问'
+      })
+      setTimeout(() => {
+        back({ to: 4 })
+      }, 800)
+    }
+  }
+
   const cleanUserInfo = () => {
-    dispatch({
+    reduxDispatch({
       type: 'common/removeStoreSync',
       payload: {
         accessToken: '',
         refreshToken: '',
         userInfo: null,
         auths: []
+      },
+      cb: () => {
+        toast({ title: '退出成功', icon: 'success' })
+        dispatch({
+          type: IActionType.TRIGGER,
+          payload: USER_LOGOUT_EVENT
+        })
+        setTimeout(() => {
+          back({ to: 4 })
+        }, 800)
       }
     })
   }
@@ -116,7 +142,7 @@ const MemberInfo: FunctionComponent = () => {
       .then(() => {
         /** 刷新用户 */
         _updateUserInfo().then(() => {
-          dispatch({
+          reduxDispatch({
             type: 'calendar/updateCalendarMemberName',
             payload: {
               createMemberId: userInfo.id,
@@ -163,7 +189,7 @@ const MemberInfo: FunctionComponent = () => {
       baseUserInfo()
         .then((res) => {
           const { id, name, avatar } = res
-          dispatch({
+          reduxDispatch({
             type: 'common/saveStorageSync',
             payload: {
               userInfo: {
@@ -205,10 +231,10 @@ const MemberInfo: FunctionComponent = () => {
       <CommonMain className='vi-user-wrapper' title='我的' fixed={false} left to={4}>
         <View className='vi-user-wrapper_menu'>
           <Cell title='头像' align='center'>
-            <Avatar src={userInfo.avatar || DEFAULT_AVATAR} onClick={() => setHeaderOpen(true)} />
+            <Avatar src={avatar} onClick={() => setHeaderOpen(true)} />
           </Cell>
           <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => setNameOpen(true)}>
-            {userInfo.name}
+            {name}
           </Cell>
           <Cell title='登录账号' rightIcon={<ArrowRight />} clickable onClick={() => to(2)}>
             {userNameAuth.username ? userNameAuth.username : '未绑定'}
@@ -230,12 +256,12 @@ const MemberInfo: FunctionComponent = () => {
           </Button>
         </View>
       </CommonMain>
-      <ModifyName open={nameOpen} name={userInfo.name} closeHanler={() => setNameOpen(false)} modifyNameHandler={modifyNameHandler}></ModifyName>
+      <ModifyName open={nameOpen} name={name} closeHanler={() => setNameOpen(false)} modifyNameHandler={modifyNameHandler}></ModifyName>
       <UploadHeader
         open={headerOpen}
         close={() => setHeaderOpen(false)}
         updateAvatar={modiftAvatar}
-        avatar={userInfo.avatar ? userInfo.avatar : DEFAULT_AVATAR}
+        avatar={userInfo && userInfo.avatar ? userInfo.avatar : DEFAULT_AVATAR}
       ></UploadHeader>
     </Fragment>
   )

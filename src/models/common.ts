@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 13:12:22
  * @FilePath: \react-lesson-20\src\models\common.ts
- * @LastEditTime: 2021-12-20 09:28:37
+ * @LastEditTime: 2022-03-31 21:50:18
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -19,8 +19,12 @@ export default {
   },
 
   effects: {
-    // 异步方法, 在这里可以用put调用同步的方法
-    // generator  这里的方法第二个参数都是{call, put }, call调用异步方法, put 可以调用reducers中的方法
+    /**
+     * 异步保存至缓存
+     *
+     * @param param0
+     * @param param1
+     */
     *saveStorageSync({ payload, cb }, { call, put }) {
       for (let index = 0; index < Object.keys(payload).length; index++) {
         yield call(Taro.setStorage, {
@@ -36,14 +40,17 @@ export default {
     },
 
     /**
-     * 清除缓存
+     * 清除缓存 异步清除缓存
+     * @param param0
+     * @param param1
      */
-    *removeStoreSync({ payload }, { call, put }) {
+    *removeStoreSync({ payload, cb }, { call, put }) {
       for (let index = 0; index < Object.keys(payload).length; index++) {
         yield call(Taro.removeStorage, {
           key: Object.keys(payload)[index]
         })
       }
+      cb && cb()
       yield put({
         type: 'remove',
         payload
