@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-27 03:47:42
- * @LastEditTime: 2022-03-27 15:28:37
+ * @LastEditTime: 2022-03-31 17:18:31
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -65,7 +65,7 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
 
   const setPhoneSmsTextTime = (num: number) => {
     if (num === 0) {
-      setPhoneSmsText('发短信')
+      setPhoneSmsText('发送验证码')
       setPhoneDisable(false)
 
       if (smsCodeRef.current > 0) {
@@ -83,14 +83,14 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
   }
 
   const sendEmailSmsCode = () => {
-    if (!phone || !checkMobile(phone)) {
+    if (!mail || !checkEmail(mail)) {
       toast({
         title: '手机号格式错误'
       })
       return
     }
     props
-      .sendForgetPasswordSmcCode(phone, '', 1)
+      .sendForgetPasswordSmcCode('', mail, 2)
       .then(() => {
         setEmailSmsTextTime(60)
       })
@@ -101,7 +101,7 @@ const Auth: FunctionComponent<IPageOption> = (props) => {
 
   const setEmailSmsTextTime = (num: number) => {
     if (num === 0) {
-      setEmailSmsText('发短信')
+      setEmailSmsText('发送验证码')
       setEmailDisable(false)
 
       if (emailSmsCodeRef.current > 0) {

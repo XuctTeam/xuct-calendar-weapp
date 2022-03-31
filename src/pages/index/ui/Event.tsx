@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-02-22 15:32:29
+ * @LastEditTime: 2022-03-31 17:39:11
  * @LastEditors: Derek Xu
  */
 import { useEffect, useState } from 'react'
@@ -68,7 +68,7 @@ const Event: React.FC<IPageStateProps> = (props) => {
 
   return (
     <View className='vi-index-wrapper_event'>
-      {componentList.length == 0 && !props.loading ? (
+      {componentList.length == 0 ? (
         <Empty>
           <Empty.Image />
           <Empty.Description>暂无数据</Empty.Description>

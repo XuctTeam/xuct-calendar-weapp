@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-30 13:24:21
- * @LastEditTime: 2022-03-18 10:09:14
+ * @LastEditTime: 2022-03-31 17:22:39
  * @LastEditors: Derek Xu
  */
 const codeMessage = {
@@ -29,7 +29,7 @@ const codeMessage = {
   1001: '无效登陆方式',
   1103: '账号被冻结',
   1101: '用户未认证',
-  1104: '账号不存在或异常',
+  1104: '密码错误',
   1200: '服务器异常',
 
   5000: '用户中心异常',
