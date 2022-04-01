@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-31 22:06:50
+ * @LastEditTime: 2022-04-01 10:26:25
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,11 +15,10 @@ import { Avatar, Button, Cell } from '@taroify/core'
 import { ArrowRight } from '@taroify/icons'
 import { throttle } from 'lodash/function'
 import { DEFAULT_AVATAR, USER_LOGOUT_EVENT } from '@/constants/index'
-import { useModal, useToast } from 'taro-hooks'
+import { useModal, useToast, useEvent } from 'taro-hooks'
 import { useBack } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
 import { updateName, baseUserInfo, logout, updateAvatar } from '@/api/user'
-import { useEvent } from 'taro-hooks'
 import { ModifyName, UploadHeader } from './ui'
 
 enum IActionType {
@@ -49,6 +48,7 @@ const MemberInfo: FunctionComponent = () => {
 
   useEffect(() => {
     noPermission()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const wxAuth = userAuths.find((i) => i.identityType === 'open_id')
@@ -84,10 +84,10 @@ const MemberInfo: FunctionComponent = () => {
     })
   }
 
-  const toModifyEmail = (name: string) => {
+  const toModifyEmail = (mail: string) => {
     Router.toMemberbindemail({
-      data: { mail: name },
-      params: { mail: name }
+      data: { mail },
+      params: { mail }
     })
   }
 
@@ -133,12 +133,12 @@ const MemberInfo: FunctionComponent = () => {
     })
   }
 
-  const modifyNameHandler = (name: string) => {
-    if (!name) {
+  const modifyNameHandler = (username: string) => {
+    if (!username) {
       toast({ title: '名称不能为空' })
       return
     }
-    updateName(name)
+    updateName(username)
       .then(() => {
         /** 刷新用户 */
         _updateUserInfo().then(() => {
@@ -146,7 +146,7 @@ const MemberInfo: FunctionComponent = () => {
             type: 'calendar/updateCalendarMemberName',
             payload: {
               createMemberId: userInfo.id,
-              createMemberName: name
+              createMemberName: username
             }
           })
         })
@@ -157,8 +157,8 @@ const MemberInfo: FunctionComponent = () => {
     setNameOpen(false)
   }
 
-  const modiftAvatar = (avatar: string) => {
-    updateAvatar(avatar)
+  const modiftAvatar = (url: string) => {
+    updateAvatar(url)
       .then(() => {
         _updateUserInfo()
       })
@@ -188,6 +188,7 @@ const MemberInfo: FunctionComponent = () => {
     return new Promise((resolve, reject) => {
       baseUserInfo()
         .then((res) => {
+          // eslint-disable-next-line @typescript-eslint/no-shadow
           const { id, name, avatar } = res
           reduxDispatch({
             type: 'common/saveStorageSync',

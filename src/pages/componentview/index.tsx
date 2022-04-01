@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-03-24 08:56:48
+ * @LastEditTime: 2022-04-01 18:03:12
  * @LastEditors: Derek Xu
  */
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -277,7 +277,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
    */
   const _deleteComponent = (ty: number, id: string) => {
     setLoading(true)
-    if (ty === 0) {
+    if (ty === 1) {
       deleteById(id)
         .then(() => {
           _deleteSuccess()
