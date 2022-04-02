@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-15 09:16:20
+ * @LastEditTime: 2022-04-02 13:18:51
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -635,6 +635,7 @@ class Components extends Component {
           dataType={this.state.pickDateType}
           selected={this.state.dtstart}
           open={this.state.pickDtStartOpen}
+          minDate={today}
           pickSelectedHandler={this.pickSelectedHandler.bind(this)}
           closeHandler={this.pickCloseHandler.bind(this)}
         ></Picker>

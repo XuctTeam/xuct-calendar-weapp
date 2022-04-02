@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-03-07 15:42:16
+ * @LastEditTime: 2022-04-02 09:12:42
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -24,6 +24,8 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
         return '系统消息'
       case 'GROUP':
         return '群组消息'
+      case 'EVENT':
+        return '日程消息'
       default:
         return '其他消息'
     }
@@ -35,6 +37,8 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
         return operateSystemMessage(operate)
       case 'GROUP':
         return operateGroupMessage(operate)
+      case 'EVENT':
+        return operateEventMessage(operate)
       default:
         return '未知'
     }
@@ -59,6 +63,15 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
         return '拒绝入组'
       case 3:
         return '群组删除'
+      default:
+        return '未知'
+    }
+  }
+
+  const operateEventMessage = (operate: number): string => {
+    switch (operate) {
+      case 3:
+        return '删除'
       default:
         return '未知'
     }

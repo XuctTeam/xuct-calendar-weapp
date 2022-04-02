@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-23 09:23:25
+ * @LastEditTime: 2022-04-02 11:45:28
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -54,6 +54,7 @@ const MessageManager: FunctionComponent = () => {
   }
 
   const statusChageHandler = (val: any) => {
+    if (val === undefined) return
     _reset(0)
     setStatus(val)
     if (!accessToken) return
@@ -61,6 +62,7 @@ const MessageManager: FunctionComponent = () => {
   }
 
   const sortChageHandler = (val: any) => {
+    if (val === undefined) return
     _reset(0)
     setSort(val)
     if (!accessToken) return

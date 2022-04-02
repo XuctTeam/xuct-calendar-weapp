@@ -2,10 +2,10 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-24 09:22:16
+ * @LastEditTime: 2022-04-02 09:09:37
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
@@ -13,7 +13,7 @@ import CommonMain from '@/components/mixin'
 import { IMessage } from '~/../@types/message'
 import { toast } from '@/utils/taro'
 import { get } from '@/api/message'
-import { GroupBody, SystemBody } from './ui'
+import { EventBody, GroupBody, SystemBody } from './ui'
 
 import './index.scss'
 
@@ -51,15 +51,22 @@ const MessageDetail: FunctionComponent = ({}) => {
     }
   }, [])
 
+  const view = useCallback(() => {
+    switch (message.type) {
+      case 'GROUP':
+        return <GroupBody status={message.status} operation={message.operation} content={message.content}></GroupBody>
+      case 'SYSTEM':
+        return <SystemBody status={message.status} operation={message.operation} content={message.content}></SystemBody>
+      case 'EVENT':
+        return <EventBody status={message.status} operation={message.operation} content={message.content}></EventBody>
+      default:
+        return <></>
+    }
+  }, [message])
+
   return (
     <CommonMain className='vi-message-detail-warpper' title='消息详情' fixed to={3} left>
-      <View className='vi-message-detail-warpper_container'>
-        {message.type === 'GROUP' ? (
-          <GroupBody status={message.status} operation={message.operation} content={message.content}></GroupBody>
-        ) : (
-          <SystemBody status={message.status} operation={message.operation} content={message.content}></SystemBody>
-        )}
-      </View>
+      <View className='vi-message-detail-warpper_container'>{view()}</View>
     </CommonMain>
   )
 }

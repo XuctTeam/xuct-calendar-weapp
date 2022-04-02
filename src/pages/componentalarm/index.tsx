@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-02 15:31:09
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-25 15:49:24
+ * @LastEditTime: 2022-04-02 14:35:37
  */
 import React, { useEffect, useState } from 'react'
 import Router from 'tarojs-router-next'
@@ -90,8 +90,9 @@ const Componentalarm: React.FC<IPageStateProps> = () => {
 
         <Checkbox.Group value={alarmTime} onChange={(e) => alarmTimeChage(e)}>
           <Cell.Group clickable>
-            <Cell title='15分钟前'>
-              <Checkbox name='15' />
+            <Cell title='2分钟前'>
+              {/* <Checkbox name='15' /> */}
+              <Checkbox name='2' />
             </Cell>
             <Cell title='30分钟前'>
               <Checkbox name='30' />

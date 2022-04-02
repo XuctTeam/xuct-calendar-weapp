@@ -1217,13 +1217,13 @@
   "resolved" "https://registry.npmjs.org/@stencil/core/-/core-2.9.0.tgz"
   "version" "2.9.0"
 
-"@taroify/core@^0.0.29-alpha.3":
-  "integrity" "sha512-rHxQs0Lgd+BnroddoClg8Ek6KhcYmMeG/lP6aAbu2Gc+Vod3p+SkrjhlsjZpqdKYtzBaTQmWmstJuh6EaAPpZQ=="
-  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.29-alpha.3.tgz"
-  "version" "0.0.29-alpha.3"
+"@taroify/core@^0.0.29-alpha.4":
+  "integrity" "sha512-oRUt/2KVG2sIqPV01Uu3OkmpuniYeUgvNBQtzyJYNlQyXGKy8EkdE/OKkNrYTGIVj7nbQ72x6VTgkUTHh+eUGQ=="
+  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.29-alpha.4.tgz"
+  "version" "0.0.29-alpha.4"
   dependencies:
-    "@taroify/hooks" "^0.0.29-alpha.3"
-    "@taroify/icons" "^0.0.29-alpha.3"
+    "@taroify/hooks" "^0.0.29-alpha.4"
+    "@taroify/icons" "^0.0.29-alpha.4"
     "classnames" "^2.2.6"
     "lodash" "^4.17.21"
     "promise" "^8.1.0"
@@ -1231,17 +1231,17 @@
     "react-is" "^17.0.2"
     "react-transition-group" "^4.4.1"
 
-"@taroify/hooks@^0.0.29-alpha.3":
-  "integrity" "sha512-8Df1Ab0052J8K3IFa9ujVrp3WiGzHTA0uxyZjukIFLxcptEli+9rv+OxwqHFsuKoq0qGcF1Y8d82BDGoxj4Hog=="
-  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.29-alpha.3.tgz"
-  "version" "0.0.29-alpha.3"
+"@taroify/hooks@^0.0.29-alpha.4":
+  "integrity" "sha512-fk03zkOtgthdGSmFepLjjkeYVf6TubBnl7zPg2JjU774l+8XGaDcnoLK6+8dyN6RU9k2e3zPQJWExBdArfz/MQ=="
+  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.29-alpha.4.tgz"
+  "version" "0.0.29-alpha.4"
   dependencies:
     "@vant/area-data" "^1.2.1"
 
-"@taroify/icons@^0.0.29-alpha.3":
-  "integrity" "sha512-MLhWHw0HczzrBZMQxpXSAu1Lw+4mmZ/royyB6jJzK1A+7ZpDBMmpMiicctJPf1BnqBd8hm+Nre5Jrg3iLvh22Q=="
-  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.29-alpha.3.tgz"
-  "version" "0.0.29-alpha.3"
+"@taroify/icons@^0.0.29-alpha.4":
+  "integrity" "sha512-Au16aujhsQDwBtUEun83OtqKfkoUbYKzKFf25FzcQWwv0xjpddl9+8abbLw8AlV0UIx2Mngzx9qoxLr95NDygA=="
+  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.29-alpha.4.tgz"
+  "version" "0.0.29-alpha.4"
   dependencies:
     "classnames" "^2.2.6"
 
