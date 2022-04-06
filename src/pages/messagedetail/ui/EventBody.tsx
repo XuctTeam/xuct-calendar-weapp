@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-04-02 09:02:31
- * @LastEditTime: 2022-04-02 11:12:40
+ * @LastEditTime: 2022-04-06 10:42:05
  * @LastEditors: Derek Xu
  */
 import { Cell } from '@taroify/core'
@@ -37,9 +37,20 @@ const EventBody: FunctionComponent<IPageOption> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  /*0.新建邀请 1.更新邀请 2.事件删除 3.事件提醒 */
   const getType = () => {
-    if (props.operation === 3) return '删除消息'
-    return ''
+    switch (props.operation) {
+      case 0:
+        return '新建邀请'
+      case 1:
+        return '更新邀请'
+      case 2:
+        return '事件删除'
+      case 3:
+        return '事件提醒'
+      default:
+        return '未知'
+    }
   }
 
   return (

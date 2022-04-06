@@ -2,7 +2,7 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-03-18 12:01:08
+ * @LastEditTime: 2022-04-06 10:45:42
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useRef, useState } from 'react'
@@ -93,9 +93,9 @@ const ComponentSearch: FunctionComponent = () => {
         })
       }
     })
+    setHasMore(!findished)
     setList(componentList)
     page.current = page.current + 1
-    setHasMore(!findished)
   }
 
   return (

@@ -2,14 +2,17 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-03-07 11:51:11
+ * @LastEditTime: 2022-04-06 19:11:20
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { Button, Dialog } from '@taroify/core'
 import { Canvas } from '@tarojs/components'
 import { createQrCodeImg } from '@/components/qrode/qrcode'
+import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
+import { DEFAULT_AVATAR } from '@/constants/index'
 import { toast } from '@/utils/taro'
 
 import '../index.scss'
@@ -23,6 +26,7 @@ interface IPageOption {
 }
 
 const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
+  const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { username: '', avatar: DEFAULT_AVATAR }
   const canvas = useRef<any>()
   useEffect(() => {
     let time = 0
@@ -65,24 +69,39 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         ctx.fillRect(0, 0, cavs.width, cavs.height)
         ctx.clearRect(0, 0, 0, 0)
 
+        const avatarImg = _getImage(cavs)
+        avatarImg.crossOrigin = 'anonymous'
+        avatarImg.onload = function () {
+          _drawCircleImage(ctx, avatarImg, 50, 50, 24)
+        }
+
         const qrCodeImg = _getImage(cavs)
         qrCodeImg.crossOrigin = 'anonymous'
         qrCodeImg.onload = function () {
-          ctx.drawImage(qrCodeImg, props.width / 2 - 40, 330, 80, 80)
+          ctx.drawImage(qrCodeImg, props.width - 120, props.height - 80, 60, 60)
         }
+
+        // const logoImg = _getImage(cavs)
+        // logoImg.crossOrigin = 'anonymous'
+        // logoImg.onload = function () {
+        //   ctx.drawImage(logoImg, props.width - 180, props.height - 80, 160, 60)
+        // }
+
         const bgImg = _getImage(cavs)
-        bgImg.src = 'http://images.xuct.com.cn/login_default.png?timeStamp=' + new Date()
+        bgImg.src = 'http://images.xuct.com.cn/cm_attend_backgroup.png?timeStamp=' + new Date()
         bgImg.crossOrigin = 'anonymous'
         bgImg.onload = function () {
+          avatarImg.src = userInfo.avatar
+          //logoImg.src = 'http://images.xuct.com.cn/cm_attend_logo.png?timeStamp=' + new Date()
           qrCodeImg.src = createQrCodeImg(props.componentId, {
-            errorCorrectLevel: 'M',
+            errorCorrectLevel: 'L',
             typeNumber: 2,
             black: '#000000',
             white: '#FFFFFF',
-            size: 300
+            size: 60
           })
-          ctx.drawImage(bgImg, 0, 0, props.width, 300)
-          drawRanksTexts(ctx, '【下载二维码并保存】', 450, 80, props.width)
+          ctx.drawImage(bgImg, 0, 0, props.width, props.height)
+          //drawRanksTexts(ctx, '【下载二维码并保存】', 450, 80, props.width)
         }
         ctx.restore()
       })
@@ -127,6 +146,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
       return _downH5QRCode()
     }
     _downWeappQrCode()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const _getImage = (cavs: any): any => {
@@ -166,6 +186,23 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         }
       }
     })
+  }
+
+  /**
+   * ctx 画布上下文
+   * img 图片对象
+   * （x, y）圆心坐标
+   * radius 半径
+   * 注意：绘制圆形头像之前，保存画笔；绘制完成后恢复
+   * */
+  const _drawCircleImage = (ctx, img, x, y, radius) => {
+    ctx.save()
+    let size = 2 * radius
+    ctx.arc(x, y, radius, 0, 2 * Math.PI)
+    ctx.clip()
+    ctx.drawImage(img, x - radius, y - radius, size, size)
+
+    ctx.restore()
   }
 
   /**
@@ -211,7 +248,8 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
       <Dialog.Content>
         <Canvas type='2d' id='myCanvas' canvasId='myCanvas' style={{ width: '100%', height: '100%' }}></Canvas>
       </Dialog.Content>
-      <Dialog.Actions theme='round'>
+      <Dialog.Actions>
+        <Button onClick={props.close}>取消</Button>
         <Button onClick={() => saveQRCode()}>下载图片</Button>
       </Dialog.Actions>
     </Dialog>

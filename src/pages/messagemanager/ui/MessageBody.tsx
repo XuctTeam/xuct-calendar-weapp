@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-04-02 09:12:42
+ * @LastEditTime: 2022-04-06 10:06:08
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -68,10 +68,17 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
     }
   }
 
+  /** 0.新建邀请 1.更新邀请 2.事件删除 3.事件提醒  */
   const operateEventMessage = (operate: number): string => {
     switch (operate) {
+      case 0:
+        return '新增邀请'
+      case 1:
+        return '更新邀请'
+      case 2:
+        return '事件删除'
       case 3:
-        return '删除'
+        return '事件提醒'
       default:
         return '未知'
     }
