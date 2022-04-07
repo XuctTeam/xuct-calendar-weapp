@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-04-06 19:11:20
+ * @LastEditTime: 2022-04-07 11:30:01
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef } from 'react'
@@ -12,7 +12,7 @@ import { Button, Dialog } from '@taroify/core'
 import { Canvas } from '@tarojs/components'
 import { createQrCodeImg } from '@/components/qrode/qrcode'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
-import { DEFAULT_AVATAR } from '@/constants/index'
+import { DEFAULT_AVATAR, DEFAULT_ATTEND_BACKGROUD } from '@/constants/index'
 import { toast } from '@/utils/taro'
 
 import '../index.scss'
@@ -23,6 +23,10 @@ interface IPageOption {
   width: number
   height: number
   close: () => void
+}
+
+interface IImageOption {
+  src: string
 }
 
 const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
@@ -48,93 +52,301 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
    * canavs画布
    */
   const drawQrCode = () => {
-    Taro.createSelectorQuery()
-      .select('#myCanvas')
-      .node(function (res) {
-        const { node } = res
-        if (!node) return
-        canvas.current = node
-        const cavs = node
+    return new Promise(function (resolve, reject) {
+      Taro.createSelectorQuery()
+        .select('#myCanvas')
+        .node(async (res) => {
+          const { node } = res
+          if (!node) return
+          canvas.current = node
+          const cavs = node
 
-        const ctx = cavs.getContext('2d')
-        console.log(cavs)
+          const ctx = cavs.getContext('2d')
 
-        const dpr = Taro.getSystemInfoSync().pixelRatio
-        cavs.width = props.width * dpr
-        cavs.height = props.height * dpr
-        // console.log({ ctx })
-        ctx.scale(dpr, dpr)
+          const dpr = Taro.getSystemInfoSync().pixelRatio
+          cavs.width = props.width * dpr
+          cavs.height = props.height * dpr
+          ctx.scale(dpr, dpr)
+          ctx.fillStyle = '#FFFFFF'
+          ctx.fillRect(0, 0, props.width, props.height)
 
-        ctx.fillStyle = '#fff'
-        ctx.fillRect(0, 0, cavs.width, cavs.height)
-        ctx.clearRect(0, 0, 0, 0)
+          ctx.fillStyle = '#ffffff'
+          ctx.fillRect(0, 0, 300, 542)
 
-        const avatarImg = _getImage(cavs)
-        avatarImg.crossOrigin = 'anonymous'
-        avatarImg.onload = function () {
-          _drawCircleImage(ctx, avatarImg, 50, 50, 24)
-        }
-
-        const qrCodeImg = _getImage(cavs)
-        qrCodeImg.crossOrigin = 'anonymous'
-        qrCodeImg.onload = function () {
-          ctx.drawImage(qrCodeImg, props.width - 120, props.height - 80, 60, 60)
-        }
-
-        // const logoImg = _getImage(cavs)
-        // logoImg.crossOrigin = 'anonymous'
-        // logoImg.onload = function () {
-        //   ctx.drawImage(logoImg, props.width - 180, props.height - 80, 160, 60)
-        // }
-
-        const bgImg = _getImage(cavs)
-        bgImg.src = 'http://images.xuct.com.cn/cm_attend_backgroup.png?timeStamp=' + new Date()
-        bgImg.crossOrigin = 'anonymous'
-        bgImg.onload = function () {
-          avatarImg.src = userInfo.avatar
-          //logoImg.src = 'http://images.xuct.com.cn/cm_attend_logo.png?timeStamp=' + new Date()
-          qrCodeImg.src = createQrCodeImg(props.componentId, {
-            errorCorrectLevel: 'L',
-            typeNumber: 2,
-            black: '#000000',
-            white: '#FFFFFF',
-            size: 60
+          drawTxt({
+            context: ctx,
+            text: 'Because',
+            fillStyle: '#000000',
+            broken: true,
+            x: 52,
+            y: 8,
+            font: '13px sans-serif',
+            lineHeight: 18,
+            maxWidth: 450,
+            maxLine: 2
           })
-          ctx.drawImage(bgImg, 0, 0, props.width, props.height)
-          //drawRanksTexts(ctx, '【下载二维码并保存】', 450, 80, props.width)
-        }
-        ctx.restore()
-      })
-      .exec()
+
+          drawTxt({
+            context: ctx,
+            text: '给你推荐了个好东西',
+            fillStyle: '#666666',
+            broken: true,
+            x: 52,
+            y: 28,
+            font: '10px sans-serif',
+            lineHeight: 14,
+            maxWidth: 450,
+            maxLine: 2
+          })
+
+          // const avatarImg = _getImage(cavs)
+          // avatarImg.crossOrigin = 'anonymous'
+          // avatarImg.src = userInfo.avatar
+          // avatarImg.onload = function () {
+          //   _drawCircleImage(ctx, avatarImg, 50, 50, 20)
+          // }
+
+          // const qrCodeImg = _getImage(cavs)
+          // qrCodeImg.crossOrigin = 'anonymous'
+          // qrCodeImg.onload = function () {
+          //   ctx.drawImage(qrCodeImg, props.width - 120, props.height - 80, 60, 60)
+          // }
+
+          // const bgImg = _getImage(cavs)
+          // bgImg.src = +new Date()
+          // bgImg.crossOrigin = 'anonymous'
+          // bgImg.onload = function () {
+          //   //drawRanksTexts(ctx, '【下载二维码并保存】', 450, 80, props.width)
+          //   ctx.drawImage(bgImg, 0, 0, props.width, props.height)
+          // }
+
+          // //logoImg.src = 'http://images.xuct.com.cn/cm_attend_logo.png?timeStamp=' + new Date()
+          // qrCodeImg.src = createQrCodeImg(props.componentId, {
+          //   errorCorrectLevel: 'L',
+          //   typeNumber: 2,
+          //   black: '#000000',
+          //   white: '#FFFFFF',
+          //   size: 60
+          // })
+
+          // const logoImg = _getImage(cavs)
+          // logoImg.crossOrigin = 'anonymous'
+          // logoImg.onload = function () {
+          //   ctx.drawImage(logoImg, props.width - 180, props.height - 80, 160, 60)
+          // }
+
+          // const bgImg = _getImage(cavs)
+          // //bgImg.src = 'http://images.xuct.com.cn/cm_attend_backgroup.png?timeStamp=' + new Date()
+          // bgImg.crossOrigin = 'anonymous'
+          // bgImg.onload = function () {
+          //   //logoImg.src = 'http://images.xuct.com.cn/cm_attend_logo.png?timeStamp=' + new Date()
+          //   qrCodeImg.src = createQrCodeImg(props.componentId, {
+          //     errorCorrectLevel: 'L',
+          //     typeNumber: 2,
+          //     black: '#000000',
+          //     white: '#FFFFFF',
+          //     size: 60
+          //   })
+          //   ctx.drawImage(bgImg, 0, 0, props.width, props.height)
+          //   //drawRanksTexts(ctx, '【下载二维码并保存】', 450, 80, props.width)
+          // }
+          drawTxt({
+            context: ctx,
+            text: 'Because',
+            fillStyle: '#000000',
+            broken: true,
+            x: 52,
+            y: 8,
+            font: '13px sans-serif',
+            lineHeight: 18,
+            maxWidth: 450,
+            maxLine: 2
+          })
+
+          drawTxt({
+            context: ctx,
+            text: '给你推荐了个好东西',
+            fillStyle: '#666666',
+            broken: true,
+            x: 52,
+            y: 28,
+            font: '10px sans-serif',
+            lineHeight: 14,
+            maxWidth: 450,
+            maxLine: 2
+          })
+
+          drawTxt({
+            context: ctx,
+            text: '美的家用风管机一拖一 变频家用TR冷暖 智能空调直流变频智能WiFi',
+            fillStyle: '#000000',
+            broken: true,
+            x: 12,
+            y: 358,
+            font: '14px sans-serif',
+            lineHeight: 20,
+            maxWidth: 276,
+            maxLine: 2
+          })
+
+          drawTxt({
+            context: ctx,
+            text: '￥ 会员价',
+            fillStyle: '#FF7A45',
+            broken: true,
+            x: 12,
+            y: 400,
+            font: 'normal normal bold 16px sans-serif',
+            lineHeight: 28,
+            maxWidth: 80,
+            maxLine: 2
+          })
+
+          drawTxt({
+            context: ctx,
+            text: `建议零售价： ￥11.11`,
+            fillStyle: '#666666',
+            broken: true,
+            x: 12,
+            y: 425,
+            font: '12px sans-serif',
+            lineHeight: 17,
+            maxWidth: 276,
+            maxLine: 2
+          })
+
+          ctx.beginPath()
+          ctx.lineWidth = 0.5
+          ctx.fillStyle = '#666666'
+          ctx.moveTo(0, 450)
+          ctx.lineTo(props.width, 450)
+          ctx.stroke()
+
+          drawTxt({
+            context: ctx,
+            text: `扫面/长按识别二维码查看详情`,
+            fillStyle: '#666666',
+            broken: true,
+            x: 100,
+            y: 480,
+            font: '12px sans-serif',
+            lineHeight: 17,
+            maxWidth: 116,
+            maxLine: 2
+          })
+
+          // 将要绘制的图片放在一个数组中
+          let imgList: IImageOption[] = []
+          imgList.push(
+            {
+              src: 'http://images.xuct.com.cn/cm_attend_lo.png'
+            },
+            {
+              src: 'http://images.xuct.com.cn/cm_attend_lo.png'
+            },
+            // {
+            //   src: QRCodePath
+            // },
+            {
+              src: 'https://res.wx.qq.com/wxdoc/dist/assets/img/WXACode.fa3d686a.png'
+            }
+          )
+          // 对图片数组进行接口调用返回Promise并将结果存入Promise.all数组中
+          const imgPromise: any[] | void = await Promise.all(
+            imgList.map((item) => {
+              return Taro.getImageInfo({
+                src: item.src
+              })
+            })
+          ).catch((err) => {
+            reject(err)
+          })
+          if (imgPromise instanceof Array) {
+            // 对Promise.all数组进行图片绘制操作
+            imgPromise.forEach((item, index) => {
+              let imgtag = _getImage(ctx)
+              imgtag.src = item.src || imgList[index]
+              console.log(item)
+              if (index == 0) {
+                imgtag.onload = () => {
+                  ctx.drawImage(imgtag, 12, 8, 32, 32)
+                }
+              } else if (index == 1) {
+                imgtag.onload = () => {
+                  ctx.drawImage(imgtag, 0, 48, 300, 300)
+                }
+              } else if (index == 2) {
+                imgtag.onload = () => {
+                  ctx.drawImage(imgtag, 12, 460, 72, 72)
+                }
+              } else {
+                imgtag.onload = () => {
+                  ctx.drawImage(imgtag, 95 + (index - 3) * 36, 405, 32, 16)
+                }
+              }
+            })
+          }
+          ctx.restore()
+        })
+        .exec()
+    })
   }
 
-  /** 画多行文本
-   * @param ctx          canvas 上下文
-   * @param str          多行文本
-   * @param initHeight   容器初始 top值
-   * @param initWidth    容器初始 left值
-   * @param canvasWidth  容器宽度
+  /*方法说明
+   *@method drawTxt
+   *@param context canvas上下文
+   *@param text 绘制的文字
+   *@param fillStyle 字体样式
+   *@param broken 用来控制中英文截断
+   *@param x 绘制文字的x坐标
+   *@param y 绘制文字的y坐标
+   *@param font 字体的大小和种类等
+   *@param lineHeight 行高/换行高度
+   *@param maxWidth 一行最长长度
+   *@param maxLine 最多显示行数
    */
-  const drawRanksTexts = (ctx, str, initHeight, initWidth, canvasWidth) => {
-    let lineWidth = 0
-    let lastSubStrIndex = 0
-    /* 设置文字样式 */
-    ctx.fillStyle = '#303133'
-    ctx.font = 'normal 400 15px  PingFangSC-Regular'
-    for (let i = 0; i < str.length; i++) {
-      lineWidth += ctx.measureText(str[i]).width
-      if (lineWidth > canvasWidth) {
-        /* 换行 */
-        ctx.fillText(str.substring(lastSubStrIndex, i), initWidth, initHeight)
-        initHeight += 20
-        lineWidth = 0
-        lastSubStrIndex = i
-      }
-      if (i == str.length - 1) {
-        /* 无需换行 */
-        ctx.fillText(str.substring(lastSubStrIndex, i + 1), initWidth, initHeight)
+  const drawTxt = ({ context, text = 'test text', fillStyle = '#000', broken = true, ...rest }) => {
+    if (!context) throw Error('请传入绘制上下文环境context')
+    // 默认设置
+    let origin = { x: 0, y: 0, lineHeight: 30, maxWidth: 630, font: 28, maxLine: 2 }
+
+    // 获取最后的数据
+    let { x, y, font, lineHeight, maxWidth, maxLine } = { ...origin, ...rest }
+
+    // 设置字体样式
+    context.textAlign = 'left'
+    context.textBaseline = 'middle' // 没有好的方法控制行高，所以设置绘制文本时的基线为em 方框的正中
+    context.fillStyle = fillStyle
+    context.font = font
+
+    // broken: true  如果不考虑英文单词的完整性 适用于所有情况
+    // broken: false  考虑英文单词的完整性 仅适用于纯英文
+    //【TODO: 中英混排且考虑单词截断...】
+
+    let splitChar = broken ? '' : ' '
+
+    let arrText = text.split(splitChar)
+    let line = ''
+    let linesCount = 0
+
+    y = y + lineHeight / 2 // 配合context.textBaseline将文字至于中间部分
+    for (var n = 0; n < arrText.length; n++) {
+      let testLine = line + arrText[n] + splitChar
+      let testWidth = context.measureText(testLine).width
+      if (testWidth > maxWidth && n > 0) {
+        if (linesCount < maxLine) {
+          // 判断行数在限制行数内绘制文字
+          linesCount++
+          context.fillText(line, x, y)
+          line = arrText[n] + splitChar
+          y += lineHeight
+        }
+      } else {
+        // 一行还未绘制完成
+        line = testLine
       }
     }
+    context.fillText(line, x, y)
   }
 
   /**
@@ -201,7 +413,6 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
     ctx.arc(x, y, radius, 0, 2 * Math.PI)
     ctx.clip()
     ctx.drawImage(img, x - radius, y - radius, size, size)
-
     ctx.restore()
   }
 

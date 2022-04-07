@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-01 18:03:12
+ * @LastEditTime: 2022-04-07 10:57:36
  * @LastEditors: Derek Xu
  */
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -400,6 +400,8 @@ const Componentview: React.FC<IPageStateProps> = () => {
       <Qrcode
         open={qrOpen}
         close={() => setQrOpen(false)}
+        summary={component.summary}
+        location={component.location}
         componentId={component.id}
         width={systemInfo.screenWidth - 60}
         height={systemInfo.screenHeight - 160}

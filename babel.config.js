@@ -2,11 +2,9 @@
  * @Description: 
  * @Author: Derek Xu
  * @Date: 2022-01-28 11:47:13
- * @LastEditTime: 2022-03-21 12:44:54
+ * @LastEditTime: 2022-04-07 10:05:11
  * @LastEditors: Derek Xu
  */
-// babel-preset-taro 更多选项和默认值：
-// https://github.com/NervJS/taro/blob/next/packages/babel-preset-taro/README.md
 module.exports = {
   presets: [
     [
