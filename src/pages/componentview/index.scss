@@ -151,27 +151,12 @@
 }
 
 .vi-component-view_h5-qr-wrapper {
-  .taroify-dialog__content--isolated {
-    height: calc(100% - 100px);
-    width: 100%;
-    align-items: inherit !important;
-  }
+  
 
-  .taroify-dialog__message {
-    padding: 0px 0px 0px 0px;
-    height: 100%;
-    width: 100%;
-    max-height: inherit !important;
-  }
-
-  taro-canvas-core {
-    height: 100%;
-    width: 100%;
-
-    canvas {
-      height: inherit;
-    }
-  }
+  
+ .taroify-dialog__message{
+   padding: 10px;
+ }
 }
 
 .vi-component-view-weapp-share-wrapper {

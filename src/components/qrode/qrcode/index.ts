@@ -1,10 +1,3 @@
-/*
- * @Description:
- * @Author: Derek Xu
- * @Date: 2022-01-29 10:14:47
- * @LastEditTime: 2022-01-29 10:14:48
- * @LastEditors: Derek Xu
- */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
