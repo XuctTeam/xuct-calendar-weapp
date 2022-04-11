@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-07-23 12:39:07
- * @LastEditTime: 2022-03-26 21:07:21
+ * @LastEditTime: 2022-04-11 20:12:53
  * @LastEditors: Derek Xu
  */
 const TerserPlugin = require('terser-webpack-plugin')
@@ -13,7 +13,7 @@ module.exports = {
     NODE_ENV: '"development"'
   },
   defineConstants: {
-    SERVICE_URL: JSON.stringify('http://s1.nsloop.com:22060')
+    SERVICE_URL: JSON.stringify('http://s10.nsloop.com:22060')
   },
   mini: {
     webpackChain: (chain) => {
@@ -31,7 +31,6 @@ module.exports = {
       //             return /node_modules[\\/]lodash/.test(module.context)
       //           }
       //         },
-
       //         taroify: {
       //           name: 'taroify',
       //           test: /node_modules[\\/]@taroify/,

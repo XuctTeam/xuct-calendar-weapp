@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-04-09 21:40:01
+ * @LastEditTime: 2022-04-11 21:25:54
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef } from 'react'
@@ -161,7 +161,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
             src: userInfo.avatar || DEFAULT_AVATAR
           },
           {
-            src: 'http://images.xuct.com.cn/cm_attend_lo.png'
+            src: 'http://images.xuct.com.cn/cm_attend_lo.png?v=' + new Date().getTime()
           },
           {
             src: qrCodeImg
@@ -180,9 +180,9 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         if (imgPromise instanceof Array) {
           // 对Promise.all数组进行图片绘制操作
           imgPromise.forEach((item, index) => {
-            let imgtag = _getImage(ctx)
+            const imgtag = _getImage(ctx)
             imgtag.src = item.src || imgList[index].src
-            console.log(imgtag)
+            imgtag.crossOrigin = 'Anonymous'
             if (index == 0) {
               imgtag.onload = () => {
                 ctx.drawImage(imgtag, 12, 8, 32, 32)
