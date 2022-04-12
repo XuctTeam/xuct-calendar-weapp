@@ -1,21 +1,24 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /*
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-04-11 21:25:54
+ * @LastEditTime: 2022-04-12 20:14:05
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, useCallback, useEffect, useRef } from 'react'
+import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { Button, Dialog } from '@taroify/core'
 import { Canvas } from '@tarojs/components'
 import { createQrCodeImg } from '@/components/qrode/qrcode'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
-import { DEFAULT_AVATAR } from '@/constants/index'
-import { toast } from '@/utils/taro'
+import { DEFAULT_AVATAR, DEFAULT_ATTEND_BACKGROUD } from '@/constants/index'
+import QR from 'qrcode-base64'
+import { toast, useWebEnv } from '@/utils/taro'
 
 import '../index.scss'
+import { reject } from 'lodash'
 
 interface IPageOption {
   open: boolean
@@ -33,9 +36,12 @@ interface IImageOption {
 const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { username: '', avatar: DEFAULT_AVATAR }
   const canvas = useRef<any>()
+  const [qrImage, setQrImage] = useState<string>('')
+  const webEnv = useWebEnv()
+
   useEffect(() => {
-    console.log(props.height)
     let time = 0
+    _getQrcode()
     if (props.open) {
       time = window.setTimeout(() => {
         drawQrCode()
@@ -61,12 +67,14 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
    */
   const drawQrCode = () => {
     return new Promise(function (resolve, reject) {
-      _draw(reject)
+      _draw()
       return resolve('')
+    }).catch((err) => {
+      reject(err)
     })
   }
 
-  const _draw = (reject) => {
+  const _draw = () => {
     Taro.createSelectorQuery()
       .select('#myCanvas')
       .node(async (res) => {
@@ -132,15 +140,6 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         ctx.lineTo(props.width, 370)
         ctx.stroke()
 
-        const qrCodeImg = createQrCodeImg(props.componentId, {
-          size: 600,
-          errorCorrectLevel: 'L',
-          typeNumber: 1,
-          black: '#000000',
-          white: '#FFFFFF'
-        })
-        console.log(qrCodeImg)
-
         drawTxt({
           context: ctx,
           text: `扫码/长按识别二维码查看详情`,
@@ -161,43 +160,32 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
             src: userInfo.avatar || DEFAULT_AVATAR
           },
           {
-            src: 'http://images.xuct.com.cn/cm_attend_lo.png?v=' + new Date().getTime()
+            src: DEFAULT_ATTEND_BACKGROUD
           },
           {
-            src: qrCodeImg
+            src: qrImage
           }
         )
-        // 对图片数组进行接口调用返回Promise并将结果存入Promise.all数组中
-        const imgPromise: any[] | void = await Promise.all(
-          imgList.map((item) => {
-            return Taro.getImageInfo({
-              src: item.src
-            })
-          })
-        ).catch((err) => {
-          reject(err)
-        })
-        if (imgPromise instanceof Array) {
-          // 对Promise.all数组进行图片绘制操作
-          imgPromise.forEach((item, index) => {
-            const imgtag = _getImage(ctx)
-            imgtag.src = item.src || imgList[index].src
-            imgtag.crossOrigin = 'Anonymous'
-            if (index == 0) {
-              imgtag.onload = () => {
-                ctx.drawImage(imgtag, 12, 8, 32, 32)
-              }
-            } else if (index == 1) {
-              imgtag.onload = () => {
-                ctx.drawImage(imgtag, (props.width - 240) / 2, 60, 240, 240)
-              }
-            } else if (index == 2) {
-              imgtag.onload = () => {
-                ctx.drawImage(imgtag, 20, 390, 56, 56)
-              }
+        // 对Promise.all数组进行图片绘制操作
+        imgList.forEach((item, index) => {
+          const imgtag = _getImage(cavs)
+          imgtag.src = item.src
+          imgtag.crossOrigin = 'Anonymous'
+
+          if (index == 0) {
+            imgtag.onload = () => {
+              ctx.drawImage(imgtag, 12, 8, 32, 32)
             }
-          })
-        }
+          } else if (index == 1) {
+            imgtag.onload = () => {
+              ctx.drawImage(imgtag, (props.width - 240) / 2, 60, 240, 240)
+            }
+          } else if (index == 2) {
+            imgtag.onload = () => {
+              ctx.drawImage(imgtag, 20, 390, 56, 56)
+            }
+          }
+        })
         ctx.restore()
       })
       .exec()
@@ -258,6 +246,74 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
       }
     }
     context.fillText(line, x, y)
+  }
+
+  const _getQrcode = async () => {
+    const qrCode = QR.drawImg(props.componentId, {
+      typeNumber: 4,
+      errorCorrectLevel: 'M',
+      size: 500
+    })
+    if (webEnv) {
+      setQrImage(qrCode)
+      return
+    }
+    await _removeSave()
+    _base64ToSave(qrCode)
+      .then((rs) => {
+        if (!rs) return
+        //@ts-ignore
+        setQrImage(rs)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const _removeSave = (FILE_BASE_NAME = 'tmp_base64src', format = 'jpg') => {
+    return new Promise((resolve) => {
+      // 把文件删除后再写进，防止超过最大范围而无法写入
+      const fsm = Taro.getFileSystemManager() //文件管理器
+      const FILE_BASE_NAME = 'tmp_base64src'
+      const format = 'gif'
+      const filePath = `${Taro.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`
+      fsm.unlink({
+        filePath: filePath,
+        success(res) {
+          console.log('文件删除成功')
+          resolve(true)
+        },
+        fail(e) {
+          console.log('readdir文件删除失败：', e)
+          resolve(true)
+        }
+      })
+    })
+  }
+
+  const _base64ToSave = (base64data, FILE_BASE_NAME = 'tmp_base64src') => {
+    const fsm = Taro.getFileSystemManager()
+    return new Promise((resolve, reject) => {
+      //format这个跟base64数据的开头对应
+      const [, format, bodyData] = /data:image\/(\w+);base64,(.*)/.exec(base64data) || []
+      if (!format) {
+        reject(new Error('ERROR_BASE64SRC_PARSE'))
+      }
+      const filePath = `${Taro.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`
+      //const buffer = wx.base64ToArrayBuffer(bodyData);
+      fsm.writeFile({
+        filePath,
+        data: bodyData,
+        //data: base64data.split(";base64,")[1],
+        encoding: 'base64',
+        success() {
+          resolve(filePath)
+        },
+        fail() {
+          reject(new Error('ERROR_BASE64SRC_WRITE'))
+        }
+      })
+    })
   }
 
   /**

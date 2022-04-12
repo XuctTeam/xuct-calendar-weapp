@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-30 09:01:53
+ * @LastEditTime: 2022-04-12 14:19:47
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -312,7 +312,7 @@ const Login: FunctionComponent = () => {
           {env === 'WEAPP' && (
             <View className='btn' onClick={loginByCode}>
               <Image src={DEFAULT_WECHAT_IMAGE} style={{ width: '36px', height: '36px' }} mode='aspectFill' />
-              <View className='label'>微信 · 授权登录</View>
+              <View className='label'>微信</View>
             </View>
           )}
         </View>

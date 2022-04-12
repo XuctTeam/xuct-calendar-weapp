@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-28 16:09:20
+ * @LastEditTime: 2022-04-12 20:14:40
  */
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
@@ -34,6 +34,7 @@ const MemberRegister: FunctionComponent = () => {
 
   useEffect(() => {
     getCaptcha()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getCaptcha = useCallback(() => {

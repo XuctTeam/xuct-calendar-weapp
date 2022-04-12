@@ -3,7 +3,7 @@
 
  * @Author: Derek Xu
  * @Date: 2021-11-09 09:14:24
- * @LastEditTime: 2022-03-02 13:26:37
+ * @LastEditTime: 2022-04-12 13:49:30
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -19,7 +19,7 @@ type IAnyObject = Record<string, any>
 type IReqData = string | IAnyObject | ArrayBuffer | any
 
 //@ts-ignore
-const BASE_URL = SERVICE_URL
+const BASE_URL = SERVICES_API
 
 class httpRequest<T> {
   baseOptions(url: string, options: RequestOpts): Taro.RequestTask<T> {
@@ -62,8 +62,7 @@ class httpRequest<T> {
    */
   _getAuthorization = () => {
     //@ts-ignore
-    const BASE_APP_CLIENT_ID = process.env.TARO_ENV === 'h5' ? H5_CLIENT_INFO : WEAPP_CLIENT_INFO
-    return 'Basic ' + base64(BASE_APP_CLIENT_ID.CLIENT_ID + ':' + BASE_APP_CLIENT_ID.CLIENT_SECURITY)
+    return 'Basic ' + base64(CLIENT_INFO.CLIENT_ID + ':' + CLIENT_INFO.CLIENT_SECURITY)
   }
 }
 

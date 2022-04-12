@@ -1,8 +1,9 @@
+/* eslint-disable import/no-commonjs */
 /*
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-07-23 12:39:07
- * @LastEditTime: 2022-02-23 22:12:05
+ * @LastEditTime: 2022-04-12 15:36:12
  * @LastEditors: Derek Xu
  */
 module.exports = {
@@ -10,7 +11,8 @@ module.exports = {
     NODE_ENV: '"production"'
   },
   defineConstants: {
-    SERVICE_URL: JSON.stringify('http://s1.nsloop.com:22060')
+      /* 请求地址 */
+      SERVICES_API: JSON.stringify('http://s10.nsloop.com:22060'),
   },
   mini: {},
   h5: {

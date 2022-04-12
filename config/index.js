@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-03-16 13:54:47
+ * @LastEditTime: 2022-04-12 13:52:06
  * @LastEditors: Derek Xu
  */
 /* eslint-disable import/no-commonjs */
@@ -23,14 +23,13 @@ const config = {
   defineConstants: {
     /* 腾讯地图使用 */
     LOCATION_APIKEY: JSON.stringify('5Y6BZ-LHMWU-HM2VX-45SUU-RDESJ-4VBGR'),
-    /* h5端的认证 */
-    H5_CLIENT_INFO: JSON.stringify({
+
+    /* 图片服务器 */
+    SERVICES_IMAGES: JSON.stringify('https://images.xuct.net.cn/'),
+    
+    /* 客户端认证KEY */
+    CLIENT_INFO: JSON.stringify({
       CLIENT_ID: 'app_id',
-      CLIENT_SECURITY: 'Wechat!@#Auth~!@'
-    }),
-    /* 小程序认证 */
-    WEAPP_CLIENT_INFO: JSON.stringify({
-      CLIENT_ID: 'wechat_id',
       CLIENT_SECURITY: 'Wechat!@#Auth~!@'
     }),
     /* 版本信息 */
