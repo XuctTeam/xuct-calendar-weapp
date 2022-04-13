@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-04-13 17:12:28
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-13 17:34:34
+ * @LastEditTime: 2022-04-13 21:54:59
  * @FilePath: \xuct-calendar-weapp\src\pages\memberbindwechat\index.scss
  * @Description: 
  * 
@@ -12,4 +12,24 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+
+    .bottom-button {
+        margin-top: 24px * 2;
+        width: 160px * 2;
+        height: 40px * 2;
+      }
+
+    &_container{
+        flex: 1;
+
+        .avatar .taroify-cell__value{
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+    &_button {
+        margin: 20px;
+        padding-bottom: 10px;
+    }
 }

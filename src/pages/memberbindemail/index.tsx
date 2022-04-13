@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-03-27 21:24:08
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-13 18:17:59
+ * @LastEditTime: 2022-04-13 22:21:59
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,9 +35,7 @@ const Index: FunctionComponent = () => {
   const [toast] = useToast({
     icon: 'error'
   })
-  const [back] = useBack({
-    to: 4
-  })
+  const [back] = useBack()
 
   useEffect(() => {
     _getData()
@@ -54,7 +52,7 @@ const Index: FunctionComponent = () => {
     back({ to: 4 })
   }
 
-  const _getData = async () => {
+  const _getData = () => {
     const data = Router.getData()
     if (!data) {
       const params = Router.getParams()
@@ -62,6 +60,7 @@ const Index: FunctionComponent = () => {
       if (!mail) return
       setEmail(mail)
       setEdit(true)
+      return
     }
     const { mail } = data
     if (!mail) return
