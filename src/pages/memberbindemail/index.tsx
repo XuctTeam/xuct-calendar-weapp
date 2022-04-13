@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-03-27 21:24:08
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-29 10:21:49
+ * @LastEditTime: 2022-04-13 18:17:59
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -158,7 +158,7 @@ const Index: FunctionComponent = () => {
   }
 
   return (
-    <CommonMain className='vi-member-bind-email-warpper' title='绑定邮箱' left fixed to={4}>
+    <CommonMain className='vi-member-bind-email-warpper' title='邮箱绑定' left fixed to={4}>
       <Cell.Group inset className='content'>
         <Field label='邮箱'>
           <Input placeholder='请输入邮箱' value={email} onChange={(e) => setEmail(e.detail.value)} />

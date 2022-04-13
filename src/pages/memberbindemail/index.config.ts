@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: '绑定邮箱'
+  navigationBarTitleText: '邮箱绑定'
 })

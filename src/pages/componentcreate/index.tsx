@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-02 13:18:51
+ * @LastEditTime: 2022-04-13 16:47:03
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -461,7 +461,12 @@ class Components extends Component {
       back({ to: 1, data: { ...data, color: this.state.selectedCalendar?.color, calendarName: this.state.selectedCalendar?.name, edit: true } })
       return
     }
-    Router.navigate({ url: '/pages/componentview/index' }, { type: NavigateType.redirectTo, params: { componentId: data.id } })
+    Router.toComponentview({
+      params: {
+        componentId: data.id,
+        add: true
+      }
+    })
   }
 
   /**

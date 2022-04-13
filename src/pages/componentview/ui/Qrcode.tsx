@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-04-12 20:14:05
+ * @LastEditTime: 2022-04-13 17:06:19
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -11,19 +11,18 @@ import { useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { Button, Dialog } from '@taroify/core'
 import { Canvas } from '@tarojs/components'
-import { createQrCodeImg } from '@/components/qrode/qrcode'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import { DEFAULT_AVATAR, DEFAULT_ATTEND_BACKGROUD } from '@/constants/index'
 import QR from 'qrcode-base64'
 import { toast, useWebEnv } from '@/utils/taro'
 
 import '../index.scss'
-import { reject } from 'lodash'
 
 interface IPageOption {
   open: boolean
   componentId: string
   summary: string
+  location: string
   width: number
   height: number
   close: () => void
@@ -66,11 +65,13 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
    * canavs画布
    */
   const drawQrCode = () => {
-    return new Promise(function (resolve, reject) {
-      _draw()
-      return resolve('')
-    }).catch((err) => {
-      reject(err)
+    return new Promise((resolve, reject) => {
+      try {
+        _draw()
+        resolve('')
+      } catch (err) {
+        reject(err)
+      }
     })
   }
 
@@ -126,8 +127,21 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
           fillStyle: '#000000',
           broken: true,
           x: 12,
-          y: 320,
+          y: 330,
           font: '14px sans-serif',
+          lineHeight: 20,
+          maxWidth: 276,
+          maxLine: 2
+        })
+
+        drawTxt({
+          context: ctx,
+          text: props.location,
+          fillStyle: '#000000',
+          broken: true,
+          x: 12,
+          y: 350,
+          font: '12px sans-serif',
           lineHeight: 20,
           maxWidth: 276,
           maxLine: 2
@@ -136,8 +150,8 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         ctx.beginPath()
         ctx.lineWidth = 0.8
         ctx.fillStyle = '#666666'
-        ctx.moveTo(0, 370)
-        ctx.lineTo(props.width, 370)
+        ctx.moveTo(0, 380)
+        ctx.lineTo(props.width, 380)
         ctx.stroke()
 
         drawTxt({
@@ -146,7 +160,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
           fillStyle: '#666666',
           broken: true,
           x: 90,
-          y: 390,
+          y: 400,
           font: '12px sans-serif',
           lineHeight: 17,
           maxWidth: 116,
@@ -182,7 +196,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
             }
           } else if (index == 2) {
             imgtag.onload = () => {
-              ctx.drawImage(imgtag, 20, 390, 56, 56)
+              ctx.drawImage(imgtag, 20, 400, 56, 56)
             }
           }
         })
@@ -249,7 +263,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
   }
 
   const _getQrcode = async () => {
-    const qrCode = QR.drawImg(props.componentId, {
+    const qrCode = QR.drawImg('https://www.baidu.com', {
       typeNumber: 4,
       errorCorrectLevel: 'M',
       size: 500
@@ -274,12 +288,10 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
     return new Promise((resolve) => {
       // 把文件删除后再写进，防止超过最大范围而无法写入
       const fsm = Taro.getFileSystemManager() //文件管理器
-      const FILE_BASE_NAME = 'tmp_base64src'
-      const format = 'gif'
       const filePath = `${Taro.env.USER_DATA_PATH}/${FILE_BASE_NAME}.${format}`
       fsm.unlink({
         filePath: filePath,
-        success(res) {
+        success() {
           console.log('文件删除成功')
           resolve(true)
         },

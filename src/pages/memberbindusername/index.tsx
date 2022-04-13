@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-29 10:30:58
+ * @LastEditTime: 2022-04-13 18:19:28
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -100,6 +100,9 @@ const BindUserName: FunctionComponent = () => {
           </Cell.Group>
           <Cell.Group title='密码规则'>
             <Cell className='label'>密码至少为8位的字母、数字和特殊符号的组合</Cell>
+          </Cell.Group>
+          <Cell.Group title='备注'>
+            <Cell className='label'>账号一旦绑定则无法解绑</Cell>
           </Cell.Group>
         </View>
         {edit && (

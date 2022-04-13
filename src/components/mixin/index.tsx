@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:05:22
  * @FilePath: \react-lesson-20\src\utils\mixin.ts
- * @LastEditTime: 2022-03-22 20:21:50
+ * @LastEditTime: 2022-04-13 15:29:23
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, ReactNode } from 'react'
@@ -25,6 +25,7 @@ interface IHeaderProps extends ViewProps {
   right?: ReactNode
   rightClick?: () => void
   children: ReactNode
+  delta?: number
 }
 
 const CommonMain: FunctionComponent<IHeaderProps> = (props) => {
@@ -34,7 +35,8 @@ const CommonMain: FunctionComponent<IHeaderProps> = (props) => {
     if (!props.to) props.to = 1
     back({
       to: props.to,
-      data: props.data
+      data: props.data,
+      delta: props.delta
     })
   }
 

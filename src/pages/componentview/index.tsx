@@ -2,10 +2,10 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-07 10:57:36
+ * @LastEditTime: 2022-04-13 17:22:40
  * @LastEditors: Derek Xu
  */
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import { View } from '@tarojs/components'
@@ -26,11 +26,6 @@ import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
 
-interface IPageStateProps {
-  open: boolean
-  component: IDavComponent
-}
-
 const defaultComponent: IDavComponent = {
   id: '',
   calendarId: '',
@@ -47,10 +42,11 @@ const defaultComponent: IDavComponent = {
   calendarName: '',
   attendStatus: 0
 }
-const Componentview: React.FC<IPageStateProps> = () => {
+const Componentview: FunctionComponent = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const dispatch = useDispatch()
   const systemInfo = useSystemInfo() || { screenWidth: 0, screenHeight: 0 }
+  const [addFlag, setAddFlag] = useState<boolean>()
   const [loading, setLoading] = useState<boolean>(true)
   const [open, setOpen] = useState(false)
   const [alarmType, setAlarmType] = useState('0')
@@ -73,11 +69,15 @@ const Componentview: React.FC<IPageStateProps> = () => {
 
   useEffect(() => {
     const data: any = Router.getData()
+    const { componentId, add } = Router.getParams()
+    if (add) {
+      setAddFlag(add as any as boolean)
+    }
     if (data) {
       _queryMemberIds(data.component)
       return
     }
-    const { componentId } = Router.getParams()
+
     if (!componentId) return
     getById(componentId)
       .then((res) => {
@@ -312,7 +312,7 @@ const Componentview: React.FC<IPageStateProps> = () => {
 
   return (
     <Fragment>
-      <CommonMain className='vi-component-view-wrapper' title='事项详情' to={1} fixed={false} left>
+      <CommonMain className='vi-component-view-wrapper' title='事项详情' to={1} fixed={false} left delta={addFlag ? 2 : 1}>
         <View className='vi-component-view-wrapper_content'>
           <View className='cell-item summary-calendar-more taroify-hairline--bottom'>
             <View className='event-label' style={{ color: `#${component.color}`, background: `#${component.color}` }}></View>

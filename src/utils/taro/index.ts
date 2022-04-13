@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 10:50:22
- * @LastEditTime: 2022-03-23 09:34:37
+ * @LastEditTime: 2022-04-13 15:33:46
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -22,6 +22,7 @@ export interface ToastOption {
 export interface BackOption {
   to: number
   data?: any
+  delta?: number
 }
 
 /**
@@ -92,7 +93,10 @@ const toast = (toastOption: ToastOption) => {
  */
 const back = (backOption: BackOption): Promise<TaroGeneral.CallbackResult> => {
   try {
-    return backOption.data ? Router.back(backOption.data) : Router.back()
+    if (!backOption.delta) {
+      return Router.back(backOption.data ? backOption.data : {})
+    }
+    return Router.back(backOption.data ? backOption.data : {}, { delta: backOption.delta })
   } catch (err) {
     console.log(err)
     switch (backOption.to) {

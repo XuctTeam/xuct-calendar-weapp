@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-01 10:26:25
+ * @LastEditTime: 2022-04-13 18:15:20
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -51,7 +51,12 @@ const MemberInfo: FunctionComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const wxAuth = userAuths.find((i) => i.identityType === 'open_id')
+  const wxAuth = userAuths.find((i) => i.identityType === 'open_id') || {
+    username: '',
+    nickName: '',
+    avatar: '',
+    identityType: 'open_id'
+  }
   const phoneAuth: IUserAuth = userAuths.find((i) => i.identityType === 'phone') || {
     username: '',
     nickName: '',
@@ -88,6 +93,15 @@ const MemberInfo: FunctionComponent = () => {
     Router.toMemberbindemail({
       data: { mail },
       params: { mail }
+    })
+  }
+
+  const toWechat = () => {
+    Router.toMemberbindwechat({
+      data: {
+        avatar: wxAuth.avatar,
+        username: wxAuth.nickName
+      }
     })
   }
 
@@ -219,6 +233,8 @@ const MemberInfo: FunctionComponent = () => {
         Router.toMembermodifypassword()
       } else if (ty === 5) {
         toModifyEmail(emailAuth.username)
+      } else if (ty === 6) {
+        toWechat()
       }
     },
     800,
@@ -246,7 +262,7 @@ const MemberInfo: FunctionComponent = () => {
           <Cell title='邮箱' rightIcon={<ArrowRight />} clickable onClick={() => to(5)}>
             {emailAuth.username ? emailAuth.username : '未绑定'}
           </Cell>
-          <Cell title='微信' rightIcon={<ArrowRight />} clickable>
+          <Cell title='微信' rightIcon={<ArrowRight />} clickable onClick={() => to(6)}>
             {wxAuth ? wxAuth.nickName : ''}
           </Cell>
           <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => to(4)}></Cell>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-03-29 09:54:27
+ * @LastEditTime: 2022-04-13 17:49:06
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -41,105 +41,122 @@ export const userInfo = (): Promise<any> => {
 }
 
 /**
- * 获取当前用户基础信息
- * @returns
+ * @description:  获取当前用户基础信息
+ * @param {*} Promise
+ * @return {*}
  */
 export const baseUserInfo = (): Promise<any> => {
   return http.get('/ums/api/app/v1/member/info/base')
 }
 
 /**
- * 获取当前用户所有认证方式
- * @returns
+ * @description: 获取当前用户所有认证方式
+ * @param {*} Promise
+ * @return {*}
  */
 export const auths = (): Promise<any> => {
   return http.get('/ums/api/app/v1/member/auths')
 }
 
 /**
- * 修改密码
- * @param password
- * @returns
+ * @description: 查询用户小程序认证
+ * @param {*} Promise
+ * @return {*}
+ */
+export const getWechatAuth = (): Promise<any> => {
+  return http.get('/ums/api/app/v1/member/auth/wechat')
+}
+
+/**
+ * @description:  修改密码
+ * @param {string} pwd
+ * @return {*}
  */
 export const password = (pwd: string): Promise<any> => {
   return http.post('/ums/api/app/v1/member/password', { password: pwd })
 }
 
 /**
- * 修改名称
- * @param name
+ * @description: 修改名称
+ * @param {string} name
+ * @return {*}
  */
 export const updateName = (name: string): Promise<any> => {
   return http.post('/ums/api/app/v1/member/name', { name })
 }
 
 /**
- * 通过ID查询名称
- * @param memberId
+ * @description: 通过ID查询名称
+ * @param {string} memberId
+ * @return {*}
  */
 export const getName = (memberId: string): Promise<any> => {
   return http.get('/ums/api/app/v1/member/name', { memberId })
 }
 
 /**
- * 修改头像
- * @param avatar
+ * @description: 修改头像
+ * @param {string} avatar
+ * @return {*}
  */
 export const updateAvatar = (avatar: string): Promise<any> => {
   return http.post('/ums/api/app/v1/member/avatar', { avatar })
 }
 
 /**
- * 获取微信手机号码
- * @param encryptedData
- * @param ivStr
- * @returns
+ * @description: 获取微信手机号码
+ * @param {string} encryptedData
+ * @param {string} ivStr
+ * @return {*}
  */
 export const getPhoneNumber = (encryptedData: string, ivStr: string): Promise<any> => {
   return http.post('/ums/api/app/v1/member/phone/get', { encryptedData, ivStr })
 }
 
 /**
- * 手机号绑定
- * @param phone
- * @param code
+ * @description: 手机号绑定
+ * @param {string} phone
+ * @param {string} code
+ * @return {*}
  */
 export const bindPhone = (phone: string, code: string): Promise<any> => {
   return http.post('/ums/api/app/v1/member/phone/bind', { phone, code })
 }
 
 /**
- * 手机号解绑
- * @param code
+ * @description: 手机号解绑
+ * @param {string} phone
+ * @param {string} code
+ * @return {*}
  */
 export const unbindPhone = (phone: string, code: string): Promise<any> => {
   return http.post('/ums/api/app/v1/member/phone/unbind', { phone, code })
 }
 
 /**
- * 绑定账号
- * @param username
- * @param password
- * @returns
+ * @description: 绑定账号
+ * @param {any} formData
+ * @return {*}
  */
 export const bindUserName = (formData: any) => {
   return http.post('/ums/api/app/v1/member/username/bind', formData)
 }
 
 /**
- * 绑定邮箱
- * @param email
- * @param code
- * @returns
+ * @description: 绑定邮箱
+ * @param {string} email
+ * @param {string} code
+ * @return {*}
  */
 export const bindEmail = (email: string, code: string) => {
   return http.post('/ums/api/app/v1/member/email/bind', { email, code })
 }
 
 /**
- * 解绑邮箱
- * @param email
- * @param code
+ * @description: 解绑邮箱
+ * @param {string} email
+ * @param {string} code
+ * @return {*}
  */
 export const unbindEmail = (email: string, code: string) => {
   return http.post('/ums/api/app/v1/member/email/unbind', { email, code })

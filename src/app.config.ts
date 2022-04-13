@@ -2,8 +2,8 @@
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
- * @FilePath: \react-lesson-20\src\app.config.ts
- * @LastEditTime: 2022-03-27 21:24:34
+ * @FilePath: \xuct-calendar-weapp\src\app.config.ts
+ * @LastEditTime: 2022-04-13 18:12:04
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -42,6 +42,7 @@ export default {
     'pages/memberregister/index',
     'pages/memberforgetpassword/index',
     'pages/memberbindemail/index',
+    'pages/memberbindwechat/index',
     'pages/selfprivacy/index',
     'pages/systemsetting/index',
     'pages/customerservice/index'

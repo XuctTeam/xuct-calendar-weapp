@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-03-31 21:57:43
+ * @LastEditTime: 2022-04-13 17:33:26
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -236,7 +236,7 @@ const MemberBindPhone: FunctionComponent = () => {
   }
 
   return (
-    <CommonMain className='vi-phone-wrapper' title='手机号绑定' to={4} data={{ data: '0' }} fixed={false} left>
+    <CommonMain className='vi-phone-wrapper' title='手机号绑定' to={4} fixed={false} left>
       <Cell.Group className='vi-phone-wrapper_form' inset>
         <Field label='手机号'>
           <Input type='text' readonly={edit} value={phone} onChange={(e) => setPhone(e.detail.value)} maxlength={11} />
