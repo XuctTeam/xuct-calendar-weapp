@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-04-13 17:12:20
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-14 20:35:14
+ * @LastEditTime: 2022-04-15 08:56:29
  * @FilePath: \xuct-calendar-weapp\src\pages\memberbindwechat\index.tsx
  * @Description: 绑定微信
  *
@@ -75,9 +75,12 @@ const MemberBindWechat: FunctionComponent = () => {
       .then((res) => {
         console.log(11111111111)
         console.log(res)
+
+        // console.log(res)
         //_bindWx(encryptedData , iv)
       })
       .catch((err) => {
+        console.log(2222222222)
         console.log(err)
       })
   }, [getUserProfile])
