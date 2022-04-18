@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-13 21:40:41
+ * @LastEditTime: 2022-04-18 14:52:50
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -100,7 +100,8 @@ const MemberInfo: FunctionComponent = () => {
     Router.toMemberbindwechat({
       data: {
         avatar: wxAuth.avatar,
-        username: wxAuth.nickName
+        username: wxAuth.nickName,
+        memberId: userInfo.id
       }
     })
   }

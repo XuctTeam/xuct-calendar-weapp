@@ -2,7 +2,7 @@
  * @Description:dva 定义属性
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-03-01 20:23:40
+ * @LastEditTime: 2022-04-18 14:51:52
  * @LastEditors: Derek Xu
  */
 //import { Dispatch } from 'redux'
@@ -19,6 +19,7 @@ export interface DvaProps {
 }
 
 export interface IUserAuth {
+  memberId: string
   username: string
   nickName: string
   avatar: string

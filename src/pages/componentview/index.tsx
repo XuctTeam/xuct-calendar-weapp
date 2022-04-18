@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-13 17:22:40
+ * @LastEditTime: 2022-04-18 17:06:18
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -332,7 +332,7 @@ const Componentview: FunctionComponent = () => {
           </View>
           <View className='cell-item time-repeat taroify-hairline--bottom'>
             <View className='event-icon'>
-              <ClockOutlined size={20} />
+              <ClockOutlined />
             </View>
             <View className='event-content'>
               {dayjs(component.dtstart).isSame(component.dtend, 'date') ? (
@@ -371,7 +371,7 @@ const Componentview: FunctionComponent = () => {
           <View className='divider'></View>
           <View className='cell-item event-item remind taroify-hairline--bottom'>
             <View className='event-icon'>
-              <BulbOutlined size={24}></BulbOutlined>
+              <BulbOutlined size={20} />
             </View>
             <View className='event-content'>{formatAlarmText(alarmType, alarmTimes)}</View>
           </View>

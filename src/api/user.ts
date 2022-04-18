@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-04-14 20:26:14
+ * @LastEditTime: 2022-04-18 14:36:19
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -171,4 +171,13 @@ export const unbindEmail = (email: string, code: string) => {
  */
 export const bindWx = (code: string, encryptedData: string, iv: string) => {
   return http.post('/ums/api/app/v1/member/wx/bind', { code, encryptedData, iv })
+}
+
+/**
+ * @description: 更新用户信息为微信
+ * @param {*}
+ * @return {*}
+ */
+export const updateWxInfo = () => {
+  return http.post('/ums/api/app/v1/member/wx/update/info', {})
 }
