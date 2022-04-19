@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-11 13:20:49
- * @LastEditTime: 2022-02-21 22:55:58
+ * @LastEditTime: 2022-04-19 22:12:36
  * @LastEditors: Derek Xu
  */
 import { IDavCalendar } from '~/../@types/calendar'
@@ -20,12 +20,16 @@ export default {
         type: 'push',
         payload: []
       })
-      const result = yield call(list)
-      yield put({
-        type: 'push',
-        payload: result
-      })
-      return result
+      try {
+        const result = yield call(list)
+        yield put({
+          type: 'push',
+          payload: result
+        })
+        return result
+      } catch (error) {
+        console.log(error)
+      }
     },
 
     *updateSycn({ payload }, { call, put }) {

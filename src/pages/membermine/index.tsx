@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 16:36:43
  * @FilePath: \react-lesson-20\src\pages\authorize\index.tsx
- * @LastEditTime: 2022-03-13 11:41:21
+ * @LastEditTime: 2022-04-19 22:38:35
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -25,8 +25,7 @@ const MemberMine: FunctionComponent = () => {
       refresh()
       queryAuths()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken])
+  }, [accessToken, userInfo])
 
   const refresh = () => {
     setLoading(true)

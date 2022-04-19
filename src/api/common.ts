@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-02 08:59:45
- * @LastEditTime: 2022-03-29 10:09:16
+ * @LastEditTime: 2022-04-19 23:03:42
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
 
 export const upload = (): string => {
   //@ts-ignore
-  return SERVICE_URL + '/ums/api/v1/common/file/upload'
+  return SERVICES_API + '/ums/api/v1/common/file/upload'
 }
 
 /**

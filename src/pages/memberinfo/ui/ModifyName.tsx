@@ -4,9 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-16 21:32:36
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 22:09:10
+ * @LastEditTime: 2022-04-19 23:01:31
  */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from '@tarojs/components'
 import { Popup, Cell, Field, Button, Input } from '@taroify/core'
 
@@ -20,7 +20,12 @@ type IPageOption = {
 }
 
 const ModifyName: React.FC<IPageOption> = (props) => {
-  const [modifyName, setModifyName] = useState(props.name)
+  const [modifyName, setModifyName] = useState<string>('')
+
+  useEffect(() => {
+    setModifyName(props.name)
+  }, [props.name])
+
   return (
     <Popup className='vi-user-wrapper_ui-name' rounded open={props.open} placement='bottom' style={{ height: '30%' }} onClose={props.closeHanler}>
       <View className='form'>

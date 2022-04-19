@@ -2,68 +2,47 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:39
- * @LastEditTime: 2022-02-24 22:09:52
+ * @LastEditTime: 2022-04-19 22:18:26
  * @LastEditors: Derek Xu
  */
-import { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { FunctionComponent, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Router from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
-import { IDavCalendar } from '~/../@types/calendar'
-import { DvaProps } from '~/../@types/dva'
+import { IDavCalendar, IDvaCalendarProps } from '~/../@types/calendar'
+import { IDvaCommonProps } from '~/../@types/dva'
+import { useEnv } from 'taro-hooks'
+import { Empty } from '@taroify/core'
 import { WeappCalendarList, WebCalendarList } from './ui'
-import { action } from './actionCreater'
 
 import './index.scss'
 
-interface PageStateProps extends DvaProps {
-  calendars: Array<IDavCalendar>
-  refreshLoading: boolean
-}
+const CaldavManager: FunctionComponent = () => {
+  const calendars: Array<IDavCalendar> | unknown = useSelector<IDvaCalendarProps>((state) => state.calendar.calendars)
+  const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
+  const refreshLoading = loadingEffect.effects['calendar/listSync']
+  const dispatch = useDispatch()
+  const env = useEnv()
 
-type PageDispatchProps = {
-  listSync: () => void
-  updateSycn: (id: string) => void
-}
-
-type PageOwnProps = {}
-
-type PageState = {}
-
-type IProps = PageStateProps & PageDispatchProps & PageOwnProps
-
-interface CaldavManager {
-  props: IProps
-  state: PageState
-}
-
-const connects: Function = connect
-
-@connects(
-  ({ calendar, loading }) => ({
-    calendars: calendar.calendars,
-    refreshLoading: loading.effects['calendar/listSync']
-  }),
-  (dispatch) => bindActionCreators(action, dispatch)
-)
-class CaldavManager extends Component {
-  componentDidMount() {
-    if (this.props.calendars.length === 0) {
-      this.props.listSync()
+  useEffect(() => {
+    if (!calendars || (calendars instanceof Array && calendars.length === 0)) {
+      calendarRefresh()
     }
-  }
+  }, [])
 
-  calendarRefresh = () => {
-    this.props.listSync()
+  const calendarRefresh = () => {
+    dispatch({
+      type: 'calendar/listSync'
+    })
   }
 
   /**
    * 编辑日历
    * @param id
    */
-  editCalendar = async (id: string) => {
-    const calendar: IDavCalendar | undefined = this.props.calendars.find((item) => item.id === id)
+  const editCalendar = async (id: string) => {
+    if (!calendars || !(calendars instanceof Array)) return
+    const calendar: IDavCalendar | undefined = calendars.find((item) => item.id === id)
     if (!calendar) return
     try {
       const result = await Router.toCalendarcreate({
@@ -74,34 +53,40 @@ class CaldavManager extends Component {
       })
       //编辑成功
       if (result && result.data === '1') {
-        this.props.updateSycn(id)
+        dispatch({
+          type: 'calendar/updateSycn',
+          payload: id
+        })
       }
     } catch (err) {
       console.log(err)
     }
   }
 
-  render() {
-    return (
-      <CommonMain className='vi-calendar-manager-wrapper' title='日历管理' to={4} fixed left>
-        {process.env.TARO_ENV === 'h5' ? (
-          <WebCalendarList
-            calendars={this.props.calendars}
-            loading={this.props.refreshLoading}
-            calendarRefresh={this.calendarRefresh.bind(this)}
-            editCalendar={this.editCalendar.bind(this)}
-          ></WebCalendarList>
-        ) : (
-          <WeappCalendarList
-            calendars={this.props.calendars}
-            loading={this.props.refreshLoading}
-            calendarRefresh={this.calendarRefresh.bind(this)}
-            editCalendar={this.editCalendar.bind(this)}
-          ></WeappCalendarList>
-        )}
-      </CommonMain>
-    )
-  }
+  return (
+    <CommonMain className='vi-calendar-manager-wrapper' title='日历管理' to={4} fixed left>
+      {calendars && calendars instanceof Array && calendars.length === 0 ? (
+        <Empty>
+          <Empty.Image />
+          <Empty.Description>暂无数据</Empty.Description>
+        </Empty>
+      ) : env === 'WEAPP' ? (
+        <WeappCalendarList
+          calendars={calendars && calendars instanceof Array ? calendars : []}
+          loading={refreshLoading}
+          calendarRefresh={calendarRefresh}
+          editCalendar={editCalendar}
+        ></WeappCalendarList>
+      ) : (
+        <WebCalendarList
+          calendars={calendars && calendars instanceof Array ? calendars : []}
+          loading={refreshLoading}
+          calendarRefresh={calendarRefresh}
+          editCalendar={editCalendar}
+        ></WebCalendarList>
+      )}
+    </CommonMain>
+  )
 }
 
 export default CaldavManager

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-19 14:46:16
+ * @LastEditTime: 2022-04-19 22:44:43
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -29,16 +29,18 @@ const MemberInfo: FunctionComponent = () => {
   const reduxDispatch = useDispatch()
   const [back] = useBack()
   const [toast] = useToast()
+  const [username, setUsername] = useState<string>('')
+  const [avatar, setAvatar] = useState<string>('')
 
   const [show] = useModal({
     title: '提示',
     content: '确定退出吗？'
   })
-  const { name, avatar } = userInfo || { name: '', avatar: DEFAULT_AVATAR }
   useEffect(() => {
     noPermission()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    setUsername(userInfo.name)
+    setAvatar(userInfo.avatar || DEFAULT_AVATAR)
+  }, [userInfo])
 
   const wxAuth = userAuths.find((i) => i.identityType === 'open_id') || {
     memberId: (userInfo && userInfo.id) || '',
@@ -241,7 +243,7 @@ const MemberInfo: FunctionComponent = () => {
             <Avatar src={avatar} onClick={() => setHeaderOpen(true)} />
           </Cell>
           <Cell title='名称' rightIcon={<ArrowRight />} clickable onClick={() => setNameOpen(true)}>
-            {name}
+            {username}
           </Cell>
           <Cell title='登录账号' rightIcon={<ArrowRight />} clickable onClick={() => to(2)}>
             {userNameAuth.username ? userNameAuth.username : '未绑定'}
@@ -263,7 +265,7 @@ const MemberInfo: FunctionComponent = () => {
           </Button>
         </View>
       </CommonMain>
-      <ModifyName open={nameOpen} name={name} closeHanler={() => setNameOpen(false)} modifyNameHandler={modifyNameHandler}></ModifyName>
+      <ModifyName open={nameOpen} name={username} closeHanler={() => setNameOpen(false)} modifyNameHandler={modifyNameHandler}></ModifyName>
       <UploadHeader
         open={headerOpen}
         close={() => setHeaderOpen(false)}

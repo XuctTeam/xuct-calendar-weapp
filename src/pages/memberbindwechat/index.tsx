@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-04-13 17:12:20
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-18 15:06:44
+ * @LastEditTime: 2022-04-19 22:57:37
  * @FilePath: \xuct-calendar-weapp\src\pages\memberbindwechat\index.tsx
  * @Description: 绑定微信
  *
@@ -14,9 +14,9 @@ import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import CommonMain from '@/components/mixin'
 import { Cell, Avatar, Button, Empty } from '@taroify/core'
-import { IDvaCommonProps, IUserAuth } from '~/../@types/dva'
+import { IUserInfo as IMemberUserInfo, IUserAuth } from '~/../@types/dva'
 import { useEnv, useUserInfo, useLogin, useToast } from 'taro-hooks'
-import { getWechatAuth, bindWx, auths, updateWxInfo, baseUserInfo } from '@/api/user'
+import { getWechatAuth, bindWx, auths, updateWxInfo } from '@/api/user'
 import { useBack } from '@/utils/taro'
 import { IUserInfo } from 'taro-hooks/dist/useUserInfo'
 
@@ -31,8 +31,6 @@ const MemberBindWechat: FunctionComponent = () => {
   const [code, setCode] = useState<string>()
   const env = useEnv()
   const [, { getUserProfile }] = useUserInfo()
-  const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
-  const saveLoading = loadingEffect.effects['common/saveStorageSync']
   const [login] = useLogin()
   const [toast] = useToast({
     icon: 'error'
@@ -46,10 +44,6 @@ const MemberBindWechat: FunctionComponent = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [env])
-
-  if (saveLoading) {
-    back({ to: 4 })
-  }
 
   const _getData = () => {
     const data = Router.getData()
@@ -115,15 +109,28 @@ const MemberBindWechat: FunctionComponent = () => {
   }, [toast, login])
 
   const modifyMemberNameAndAvatar = () => {
-    updateWxInfo().then(() => {
+    updateWxInfo().then((res) => {
+      const member = res as any as IMemberUserInfo
       dispatch({
-        type: 'calendar/updateCalendarMemberName',
+        type: 'common/saveStorageSync',
         payload: {
-          createMemberId: memberId,
-          createMemberName: username
+          userInfo: {
+            id: member.id,
+            name: member.name,
+            avatar: member.avatar
+          }
+        },
+        cb: () => {
+          dispatch({
+            type: 'calendar/updateCalendarMemberName',
+            payload: {
+              createMemberId: memberId,
+              createMemberName: username
+            }
+          })
+          back({ to: 4 })
         }
       })
-      _updateMemberInfo()
     })
   }
 
@@ -155,27 +162,9 @@ const MemberBindWechat: FunctionComponent = () => {
           type: 'common/saveStorageSync',
           payload: {
             auths: res as any as Array<IUserAuth>
-          }
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  const _updateMemberInfo = () => {
-    baseUserInfo()
-      .then((res) => {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const { id, name, avatar } = res
-        dispatch({
-          type: 'common/saveStorageSync',
-          payload: {
-            userInfo: {
-              id,
-              name,
-              avatar
-            }
+          },
+          cb: () => {
+            back({ to: 4 })
           }
         })
       })
