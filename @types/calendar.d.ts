@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-05 16:50:55
- * @LastEditTime: 2022-03-15 08:39:57
+ * @LastEditTime: 2022-04-19 11:10:56
  * @LastEditors: Derek Xu
  */
 
@@ -63,4 +63,16 @@ export interface ICalendarComponent {
 export interface ICalendarPageComponent {
   finished: boolean
   components: Array<IDavComponent>
+}
+
+export interface IDvaCalendarProps {
+  calendar: {
+    calendars: IDavCalendar[]
+  }
+}
+
+export interface IDvaComponentProps {
+  component: {
+    refreshTime: number
+  }
 }

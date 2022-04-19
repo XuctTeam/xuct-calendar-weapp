@@ -2,8 +2,8 @@
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-30 14:05:22
- * @FilePath: \react-lesson-20\src\utils\mixin.ts
- * @LastEditTime: 2022-04-13 15:29:23
+ * @FilePath: \xuct-calendar-weapp\src\components\mixin\index.tsx
+ * @LastEditTime: 2022-04-19 11:30:56
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, ReactNode } from 'react'

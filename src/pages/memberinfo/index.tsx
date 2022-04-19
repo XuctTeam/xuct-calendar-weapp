@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-18 14:52:50
+ * @LastEditTime: 2022-04-19 14:46:16
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,21 +14,12 @@ import CommonMain from '@/components/mixin'
 import { Avatar, Button, Cell } from '@taroify/core'
 import { ArrowRight } from '@taroify/icons'
 import { throttle } from 'lodash/function'
-import { DEFAULT_AVATAR, USER_LOGOUT_EVENT } from '@/constants/index'
-import { useModal, useToast, useEvent } from 'taro-hooks'
+import { DEFAULT_AVATAR } from '@/constants/index'
+import { useModal, useToast } from 'taro-hooks'
 import { useBack } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
 import { updateName, baseUserInfo, logout, updateAvatar } from '@/api/user'
 import { ModifyName, UploadHeader } from './ui'
-
-enum IActionType {
-  ON = 'on',
-  OFF = 'off',
-  TRIGGER = 'trigger',
-  ONCE = 'once',
-  ADD = 'add',
-  CLEAR = 'clear'
-}
 
 const MemberInfo: FunctionComponent = () => {
   const [nameOpen, setNameOpen] = useState<boolean>(false)
@@ -43,33 +34,35 @@ const MemberInfo: FunctionComponent = () => {
     title: '提示',
     content: '确定退出吗？'
   })
-  const [, { dispatch }] = useEvent('taro-hooks')
   const { name, avatar } = userInfo || { name: '', avatar: DEFAULT_AVATAR }
-
   useEffect(() => {
     noPermission()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const wxAuth = userAuths.find((i) => i.identityType === 'open_id') || {
+    memberId: (userInfo && userInfo.id) || '',
     username: '',
     nickName: '',
     avatar: '',
     identityType: 'open_id'
   }
   const phoneAuth: IUserAuth = userAuths.find((i) => i.identityType === 'phone') || {
+    memberId: (userInfo && userInfo.id) || '',
     username: '',
     nickName: '',
     avatar: '',
     identityType: 'phone'
   }
   const userNameAuth: IUserAuth = userAuths.find((i) => i.identityType === 'user_name') || {
+    memberId: (userInfo && userInfo.id) || '',
     username: '',
     nickName: '',
     avatar: '',
     identityType: 'user_name'
   }
   const emailAuth: IUserAuth = userAuths.find((i) => i.identityType === 'email') || {
+    memberId: (userInfo && userInfo.id) || '',
     username: '',
     nickName: '',
     avatar: '',
@@ -137,10 +130,6 @@ const MemberInfo: FunctionComponent = () => {
       },
       cb: () => {
         toast({ title: '退出成功', icon: 'success' })
-        dispatch({
-          type: IActionType.TRIGGER,
-          payload: USER_LOGOUT_EVENT
-        })
         setTimeout(() => {
           back({ to: 4 })
         }, 800)

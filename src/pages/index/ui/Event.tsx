@@ -2,10 +2,10 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-03-31 17:39:11
+ * @LastEditTime: 2022-04-19 13:20:44
  * @LastEditors: Derek Xu
  */
-import { useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { View } from '@tarojs/components'
 import { usePageScroll } from '@tarojs/taro'
 import { Empty, Flex, PullRefresh } from '@taroify/core'
@@ -15,8 +15,9 @@ import EventData from '../component/EventData'
 
 import '../index.scss'
 
-type IPageStateProps = {
+type IPageOption = {
   loading: boolean
+  today: string
   selectedDay: string
   calendars: Array<IDavCalendar>
   calendarComponents: Array<ICalendarComponent>
@@ -31,7 +32,9 @@ interface ISelectCalendar {
   checked: boolean
 }
 
-const Event: React.FC<IPageStateProps> = (props) => {
+const currentTime = dayjs().valueOf()
+
+const Event: FunctionComponent<IPageOption> = (props) => {
   const [componentList, setComponentList] = useState<IDavComponent[]>([])
   const [reachTop, setReachTop] = useState(true)
   usePageScroll(({ scrollTop }) => setReachTop(scrollTop === 0))
@@ -88,7 +91,16 @@ const Event: React.FC<IPageStateProps> = (props) => {
             </Flex.Item>
             <Flex.Item span={20} className='event-list-content'>
               {componentList.map((component, i) => {
-                return <EventData key={i} component={component} viewComponent={props.viewComponent}></EventData>
+                return (
+                  <EventData
+                    key={i}
+                    component={component}
+                    viewComponent={props.viewComponent}
+                    selecteday={props.selectedDay}
+                    today={props.today}
+                    current={currentTime}
+                  ></EventData>
+                )
               })}
             </Flex.Item>
           </Flex>

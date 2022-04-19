@@ -8,12 +8,12 @@
     font-size: 30px;
   }
 
-  .taroify-icon{
-    padding-top: 30px;
-  }
-
   &_content {
     flex: 1;
+
+    .taroify-icon{
+      padding-top: 30px;
+    }
 
     .cell-item {
       display: flex;

@@ -2,137 +2,92 @@
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
- * @FilePath: \react-lesson-20\src\pages\index\index.tsx
- * @LastEditTime: 2022-03-07 11:51:13
+ * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
+ * @LastEditTime: 2022-04-19 12:01:47
  * @LastEditors: Derek Xu
  */
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import Taro from '@tarojs/taro'
+import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Taro, { useDidShow } from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { Button, Collapse } from '@taroify/core'
 import { Plus, Search } from '@taroify/icons'
 import dayjs from 'dayjs'
-import { DvaProps } from '~/../@types/dva'
 import { ICurrentDay } from '~/../@types/date'
 import { getToday } from '@/utils/utils'
 import { useWebEnv } from '@/utils/taro'
-import { USER_LOGOUT_EVENT } from '@/constants/index'
 import CalendarTypes from '@/components/calendar/types/calendar'
-import { IDavCalendar, ICalendarComponent, IDavComponent } from '~/../@types/calendar'
+import { IDavCalendar, ICalendarComponent, IDavComponent, IDvaCalendarProps, IDvaComponentProps } from '~/../@types/calendar'
+import { IDvaCommonProps } from '~/../@types/dva'
 import { componentsDaysById } from '@/api/component'
 import CommonMain from '@/components/mixin'
 import IconFont from '@/components/iconfont'
 import { Picker, Event, CaldavList } from './ui'
-import { action } from './actionCreater'
 
-interface ModelProps extends DvaProps {
-  accessToken: string
-  calendars: Array<IDavCalendar>
-  componentRefreshTime: number | null
-}
-
-type PageDispatchProps = {
-  listSync: () => Promise<any>
-  selected: (selectedIds: Array<string>) => void
-  refreshTime: (time: number) => void
-}
-type PageOwnProps = {}
-type IProps = ModelProps & PageDispatchProps & PageOwnProps
-
-/** 页面state属性 */
-type PageStateProps = {
-  selectedDay: string
-  popOpen: boolean
-  marks: Array<CalendarTypes.Mark>
-  componentLoading: boolean
-  componentRefreshOpen: boolean
-  componentRefreshLocalTime: number | null
-  calendarComponents: Array<ICalendarComponent>
-}
-
-interface Index {
-  props: IProps
-  state: PageStateProps
-  calRef: any
-}
-
-const connects: Function = connect
 const day: ICurrentDay = getToday()
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const env = useWebEnv()
 
-@connects(
-  ({ common, calendar, component }) => ({
-    accessToken: common.accessToken,
-    calendars: calendar.calendars,
-    componentRefreshTime: component.refreshTime
-  }),
-  (dispatch) => bindActionCreators(action, dispatch)
-)
-class Index extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedDay: day.current,
-      popOpen: false,
-      marks: [],
-      componentLoading: false,
-      componentRefreshOpen: true,
-      componentRefreshLocalTime: null,
-      calendarComponents: []
+const Index: FunctionComponent = () => {
+  const calRef = React.createRef()
+  const reduxDispatch = useDispatch()
+  const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
+  const calendars: Array<IDavCalendar> | unknown = useSelector<IDvaCalendarProps>((state) => state.calendar.calendars)
+  const componentRefreshTime: number | unknown = useSelector<IDvaComponentProps>((state) => state.component.refreshTime)
+
+  const [selectedDay, setSelectedDay] = useState<string>(day.current)
+  const [popOpen, setPopOpen] = useState<boolean>(false)
+  const [marks, setMarks] = useState<CalendarTypes.Mark[]>([])
+  const [componentLoading, setComponentLoading] = useState<boolean>(false)
+  const [componentRefreshOpen, setComponentRefreshOpen] = useState<boolean>(false)
+  const [componentRefreshLocalTime, setComponentRefreshLocalTime] = useState<number>(0)
+  const [calendarComponents, setCalendarComponents] = useState<ICalendarComponent[]>([])
+
+  useEffect(() => {
+    if (accessToken && calendars && calendars instanceof Array) {
+      const start: string = dayjs(selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss')
+      const end: string = dayjs(selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
+      _queryComponent(calendars, start, end)
     }
-    this.calRef = React.createRef()
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessToken, calendars])
 
-  componentDidMount() {
-    Taro.eventCenter.on(USER_LOGOUT_EVENT, () => {
-      this.setState({
-        marks: [],
-        componentRefreshLocalTime: null,
-        calendarComponents: []
-      })
-    })
-  }
-
-  componentDidShow() {
-    if (!this.props.accessToken) {
+  useDidShow(() => {
+    if (!accessToken) {
+      _removeStore()
       return
     }
-    const start: string = dayjs(this.state.selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss')
-    const end: string = dayjs(this.state.selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
-    if (this.props.accessToken && this.props.calendars.length === 0) {
-      this.props.listSync().then((res) => {
-        this._queryComponent(res, start, end)
+    if (!calendars || (calendars instanceof Array && calendars.length === 0)) {
+      reduxDispatch({
+        type: 'calendar/listSync'
       })
       return
     }
-    //本地刷新
-    if (
-      (!this.props.componentRefreshTime && !this.state.componentRefreshLocalTime) ||
-      (!this.props.componentRefreshTime && this.state.componentRefreshLocalTime) ||
-      (this.props.componentRefreshTime && !this.state.componentRefreshLocalTime) ||
-      (this.props.componentRefreshTime && this.state.componentRefreshLocalTime && this.state.componentRefreshLocalTime < this.props.componentRefreshTime)
-    ) {
-      this._queryComponent(this.props.calendars, start, end)
+
+    if (!componentRefreshTime || !calendars) {
+      return
     }
-  }
+    console.log(typeof componentRefreshTime === 'number' && componentRefreshLocalTime < componentRefreshTime)
+    const start: string = dayjs(selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss')
+    const end: string = dayjs(selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
+    if (typeof componentRefreshTime === 'number' && componentRefreshLocalTime < componentRefreshTime) {
+      _queryComponent(calendars, start, end)
+    }
+  })
 
   /**
    * 今日图标点击
    */
-  currentClickHandle = () => {
+  const currentClickHandle = () => {
     const today: string = day.current
-    this.calRef.current.reset(today)
-    this.setState({
-      selectedDay: today
-    })
+    //@ts-ignore
+    calRef.current.reset(today)
+    setSelectedDay(today)
   }
 
-  selectDayClickHadnle = (item: { value: CalendarTypes.SelectedDate }) => {
-    this.setState({
-      selectedDay: item.value.start
-    })
+  const selectDayClickHadnle = (item: { value: CalendarTypes.SelectedDate }) => {
+    setSelectedDay(item.value.start.toString())
   }
 
   /**
@@ -140,7 +95,7 @@ class Index extends Component {
    * @param item
    * @returns
    */
-  selectDayLongClick = (item: { value: string }): void => {
+  const selectDayLongClick = (item: { value: string }): void => {
     console.log(item.value)
   }
 
@@ -149,64 +104,34 @@ class Index extends Component {
    *
    * @param value
    */
-  selectMonthChage = (value: string) => {
-    if (!this.props.accessToken) return
-    this._queryComponent(
-      this.props.calendars,
-      dayjs(value).startOf('month').format('YYYY-MM-DD HH:mm:ss'),
-      dayjs(value).endOf('month').format('YYYY-MM-DD HH:mm:ss')
-    )
-  }
-
-  /**
-   * @description 弹出日历列表
-   */
-  openPopup = () => {
-    this.setState({
-      popOpen: true
-    })
-  }
-
-  /**
-   * @description 管理日历列表
-   */
-  closePopup = () => {
-    this.setState({
-      popOpen: false
-    })
+  const selectMonthChage = (value: string) => {
+    if (!accessToken) return
+    _queryComponent(calendars, dayjs(value).startOf('month').format('YYYY-MM-DD HH:mm:ss'), dayjs(value).endOf('month').format('YYYY-MM-DD HH:mm:ss'))
   }
 
   /**
    * @description 日历点击
    * @param value
    */
-  calendarSelected = (value: string[]) => {
-    this.props.selected(value)
-  }
-
-  /**
-   * @description 跳转通知页面
-   */
-  gotoNoticeHandle = () => {
-    Taro.navigateTo({
-      url: '/pages/notice/index'
+  const calendarSelected = (value: string[]) => {
+    reduxDispatch({
+      type: 'calendar/selected',
+      payload: value
     })
   }
 
-  calendarAccordionChage = () => {
-    this.setState({
-      componentRefreshOpen: !this.state.componentRefreshOpen
-    })
+  const calendarAccordionChage = () => {
+    setComponentRefreshOpen(!componentRefreshOpen)
   }
 
   /**
    * @description 新增或修改日程
    */
-  createComponent = () => {
+  const createComponent = () => {
     Router.toComponentcreate({
       data: {
-        calendars: this.props.calendars,
-        selectedDay: this.state.selectedDay + dayjs().format(' HH:mm')
+        calendars: calendars,
+        selectedDay: selectedDay + dayjs().format(' HH:mm')
       }
     })
   }
@@ -214,33 +139,27 @@ class Index extends Component {
   /**
    * @description 日程列表刷新
    */
-  componentRefresh = () => {
-    this._queryComponent(
-      this.props.calendars,
-      dayjs(this.state.selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss'),
-      dayjs(this.state.selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
+  const componentRefresh = () => {
+    _queryComponent(
+      calendars,
+      dayjs(selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss'),
+      dayjs(selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
     )
   }
 
   /**
    * @description 日程查看
    */
-  viewComponent = async (component: IDavComponent) => {
+  const viewComponent = async (component: IDavComponent) => {
     Router.toComponentview({
       params: {
-        componentId: component.id
+        componentId: component.id,
+        add: false
       },
       data: {
         component: component
       }
     })
-  }
-
-  /**
-   * @description 日程搜索
-   */
-  searchComponent = () => {
-    Router.toComponentsearch()
   }
 
   /**
@@ -250,12 +169,11 @@ class Index extends Component {
    * @param start
    * @param end
    */
-  _queryComponent = (calList: Array<IDavCalendar>, start: string, end: string) => {
-    this.setState({
-      calendarComponents: [],
-      componentLoading: true,
-      marks: []
-    })
+  const _queryComponent = (calList: Array<IDavCalendar> | unknown, start: string, end: string) => {
+    if (!calList || !(calList instanceof Array)) return
+    setCalendarComponents([])
+    setComponentLoading(true)
+    setMarks([])
     let pList: Array<Promise<any>> = []
     calList.forEach((calendar) => {
       pList.push(
@@ -270,7 +188,7 @@ class Index extends Component {
         })
       )
     })
-    const that = this
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     let calendarComponents: Array<ICalendarComponent> = []
     Promise.all(
       pList.map((p) => {
@@ -280,20 +198,19 @@ class Index extends Component {
       .then((res) => {
         if (!(res instanceof Array)) return
         res.forEach((i) => (calendarComponents = calendarComponents.concat(i)))
-        that._fillMarkDay(calendarComponents)
+        _fillMarkDay(calendarComponents)
         const now: number = dayjs().unix()
-        that.setState({
-          calendarComponents: calendarComponents,
-          componentLoading: false,
-          componentRefreshLocalTime: now
+        setCalendarComponents(calendarComponents)
+        setComponentRefreshLocalTime(now)
+        setComponentLoading(false)
+        reduxDispatch({
+          type: 'component/refreshTime',
+          payload: now
         })
-        this.props.refreshTime(now)
       })
       .catch((error) => {
         console.log(error, 'error')
-        that.setState({
-          componentLoading: false
-        })
+        setComponentLoading(false)
       })
   }
 
@@ -303,96 +220,98 @@ class Index extends Component {
    * @param components
    * @returns
    */
-  _fillMarkDay = (components: Array<ICalendarComponent>) => {
+  const _fillMarkDay = (components: Array<ICalendarComponent>) => {
     if (components.length === 0) return
     const daySet: Set<string> = new Set<string>([])
     components.forEach((comp) => {
       daySet.add(dayjs(comp.day).format('YYYY/MM/DD'))
     })
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const marks: Array<CalendarTypes.Mark> = Array.from(daySet).map((i) => {
       return { value: i }
     })
-    this.setState({
-      marks: marks
-    })
+    setMarks(marks)
   }
 
-  render() {
-    return (
-      <Fragment>
-        <CommonMain className='vi-index-wrapper' title='楚日历' fixed left={false}>
-          <Collapse defaultValue={[0]} bordered onChange={this.calendarAccordionChage.bind(this)}>
-            <Collapse.Item
-              clickable={false}
-              className='custom-collapse-item1'
-              title={
-                <View className='vi-index-wrapper_calendar'>
-                  <View
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                      this.openPopup()
-                    }}
-                  >
-                    <IconFont name='rili' size={54} />
-                  </View>
-                  <View className='day'>{this.state.selectedDay}</View>
+  const _removeStore = () => {
+    setMarks([])
+    setComponentRefreshLocalTime(0)
+    setCalendarComponents([])
+  }
+
+  return (
+    <Fragment>
+      <CommonMain className='vi-index-wrapper' title='楚日历' fixed left={false}>
+        <Collapse defaultValue={[0]} bordered onChange={calendarAccordionChage}>
+          <Collapse.Item
+            clickable={false}
+            className='custom-collapse-item1'
+            title={
+              <View className='vi-index-wrapper_calendar'>
+                <View
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    setPopOpen(true)
+                  }}
+                >
+                  <IconFont name='rili' size={54} />
                 </View>
-              }
-              extra={
-                <>
-                  <Search
-                    size={18}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                      this.searchComponent()
-                    }}
-                  />
-                </>
-              }
-            >
-              <Picker
-                ref={this.calRef}
-                currentDay={dayjs(this.state.selectedDay).format('YYYY/MM/DD')}
-                marks={this.state.marks}
-                selectMonthChage={this.selectMonthChage.bind(this)}
-                selectDayLongClick={this.selectDayLongClick.bind(this)}
-                selectDayClick={this.selectDayClickHadnle.bind(this)}
-              ></Picker>
-            </Collapse.Item>
-          </Collapse>
-          <Event
-            loading={this.state.componentLoading}
-            selectedDay={this.state.selectedDay}
-            calendars={this.props.calendars}
-            calendarComponents={this.state.calendarComponents}
-            componentRefreshOpen={this.state.componentRefreshOpen}
-            refreshComponent={this.componentRefresh.bind(this)}
-            viewComponent={this.viewComponent.bind(this)}
-          ></Event>
-        </CommonMain>
-        <View className='vi-index_home-fab' style={{ bottom: useWebEnv() ? '80px' : '20px' }}>
-          {this.props.accessToken && (
-            <Button size='small' variant='contained' color='primary' shape='round' icon={<Plus />} onClick={this.createComponent.bind(this)} />
-          )}
-        </View>
-        <CaldavList
-          hasLogin={!!this.props.accessToken}
-          open={this.state.popOpen}
-          closePopup={this.closePopup.bind(this)}
-          calendars={this.props.calendars}
-          selected={this.calendarSelected.bind(this)}
-        ></CaldavList>
+                <View className='day'>{selectedDay}</View>
+              </View>
+            }
+            extra={
+              <>
+                <Search
+                  size={18}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    Router.toComponentsearch()
+                  }}
+                />
+              </>
+            }
+          >
+            <Picker
+              ref={calRef}
+              currentDay={dayjs(selectedDay).format('YYYY/MM/DD')}
+              marks={marks}
+              selectMonthChage={selectMonthChage}
+              selectDayLongClick={selectDayLongClick}
+              selectDayClick={selectDayClickHadnle}
+            ></Picker>
+          </Collapse.Item>
+        </Collapse>
+        <Event
+          loading={componentLoading}
+          today={day.current}
+          selectedDay={selectedDay}
+          calendars={calendars && calendars instanceof Array ? calendars : []}
+          calendarComponents={calendarComponents}
+          componentRefreshOpen={componentRefreshOpen}
+          refreshComponent={componentRefresh}
+          viewComponent={viewComponent}
+        ></Event>
+      </CommonMain>
+      <View className='vi-index_home-fab' style={{ bottom: env ? '80px' : '20px' }}>
+        {!!accessToken && <Button size='small' variant='contained' color='primary' shape='round' icon={<Plus />} onClick={createComponent} />}
+      </View>
+      <CaldavList
+        hasLogin={!!accessToken}
+        open={popOpen}
+        closePopup={() => setPopOpen(false)}
+        calendars={calendars && calendars instanceof Array ? calendars : []}
+        selected={calendarSelected}
+      ></CaldavList>
 
-        {this.state.selectedDay !== day.current && (
-          <View className='vi-index_today-icon' style={{ bottom: useWebEnv() ? '80px' : '10px' }} onClick={this.currentClickHandle.bind(this)}>
-            今
-          </View>
-        )}
-      </Fragment>
-    )
-  }
+      {selectedDay !== day.current && (
+        <View className='vi-index_today-icon' style={{ bottom: env ? '80px' : '10px' }} onClick={currentClickHandle}>
+          今
+        </View>
+      )}
+    </Fragment>
+  )
 }
 
 export default Index

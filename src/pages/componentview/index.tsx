@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-18 17:06:18
+ * @LastEditTime: 2022-04-19 16:53:39
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -11,8 +11,8 @@ import dayjs from 'dayjs'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { throttle } from 'lodash/function'
-import { ActionSheet, Button, Backdrop, Loading, Cell } from '@taroify/core'
-import { Ellipsis, ClockOutlined, BulbOutlined, FriendsOutlined, ManagerOutlined } from '@taroify/icons'
+import { ActionSheet, Button, Backdrop, Loading, Cell, NoticeBar } from '@taroify/core'
+import { Ellipsis, ClockOutlined, BulbOutlined, FriendsOutlined, ManagerOutlined, VolumeOutlined } from '@taroify/icons'
 import { IDavComponent } from '~/../@types/calendar'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import CommonMain from '@/components/mixin'
@@ -21,7 +21,7 @@ import { getById, deleteById, queryComponentMemberIds, getAttendStatus, updateAt
 import { getName } from '@/api/user'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back } from '@/utils/taro'
-import { useSystemInfo, useModal, useClipboardData, useToast } from 'taro-hooks'
+import { useSystemInfo, useModal, useClipboardData, useToast, useEnv, useRequestSubscribeMessage } from 'taro-hooks'
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
@@ -46,7 +46,7 @@ const Componentview: FunctionComponent = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const dispatch = useDispatch()
   const systemInfo = useSystemInfo() || { screenWidth: 0, screenHeight: 0 }
-  const [addFlag, setAddFlag] = useState<boolean>()
+  const [addFlag, setAddFlag] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const [open, setOpen] = useState(false)
   const [alarmType, setAlarmType] = useState('0')
@@ -59,6 +59,9 @@ const Componentview: FunctionComponent = () => {
   const [weappShareOpen, setWeappShareOpen] = useState<boolean>(false)
   const [attendStatus, setAttendStatus] = useState<number>(0)
   const [, { set }] = useClipboardData()
+  const [requestSubscribeMessage] = useRequestSubscribeMessage()
+
+  const env = useEnv()
   const [toast] = useToast({
     title: '复制完成'
   })
@@ -71,7 +74,10 @@ const Componentview: FunctionComponent = () => {
     const data: any = Router.getData()
     const { componentId, add } = Router.getParams()
     if (add) {
-      setAddFlag(add as any as boolean)
+      const _flag = add as any as string
+      if (_flag === 'true' || _flag === 'True') {
+        setAddFlag(true)
+      }
     }
     if (data) {
       _queryMemberIds(data.component)
@@ -272,6 +278,29 @@ const Componentview: FunctionComponent = () => {
     { trailing: false }
   )
 
+  const handleRequestSubscribeMessage = useCallback(async () => {
+    if (env !== 'WEAPP') {
+      return
+    }
+    let content = '订阅成功!'
+    let flag = false
+    const subscribeId = 'jeNEwprDztjgwq0BI1raBmcJ7Sw1ldt-8lRi-7jXeyY'
+    try {
+      const { [subscribeId]: result } = await requestSubscribeMessage([subscribeId])
+      if (result !== 'accept') {
+        content = '订阅失败'
+      }
+      flag = true
+    } catch (e) {
+      content = '订阅失败'
+    }
+    toast({
+      title: content,
+      icon: flag ? 'success' : 'error'
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestSubscribeMessage])
+
   /**
    * 删除事件
    */
@@ -332,7 +361,7 @@ const Componentview: FunctionComponent = () => {
           </View>
           <View className='cell-item time-repeat taroify-hairline--bottom'>
             <View className='event-icon'>
-              <ClockOutlined />
+              <ClockOutlined size={20} />
             </View>
             <View className='event-content'>
               {dayjs(component.dtstart).isSame(component.dtend, 'date') ? (
@@ -373,9 +402,17 @@ const Componentview: FunctionComponent = () => {
             <View className='event-icon'>
               <BulbOutlined size={20} />
             </View>
-            <View className='event-content'>{formatAlarmText(alarmType, alarmTimes)}</View>
+            <View className='event-content' onClick={handleRequestSubscribeMessage}>
+              {formatAlarmText(alarmType, alarmTimes)}
+            </View>
           </View>
         </View>
+        <NoticeBar style={{ color: '#1989fa', background: '#ecf9ff' }} scrollable>
+          <NoticeBar.Icon>
+            <VolumeOutlined />
+          </NoticeBar.Icon>
+          小程序中点击提醒配置通知消息~
+        </NoticeBar>
         <View className='vi-component-view-wrapper_button'>
           <View className='attend'>{buttonViews()}</View>
           <View className='share'>

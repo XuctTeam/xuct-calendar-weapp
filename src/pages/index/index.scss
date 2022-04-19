@@ -50,7 +50,9 @@
       }
     }
 
+    /* 事件列表 */
     .event-list-content {
+
       .event-container {
         min-height: 16vmin;
         display: flex;
@@ -102,6 +104,11 @@
           margin-right: 40px;
         }
       }
+
+      .event-expire{
+        color: red;
+      }
+
     }
   }
 }
