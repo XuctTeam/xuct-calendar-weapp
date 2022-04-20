@@ -2,32 +2,39 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-17 14:04:42
- * @LastEditTime: 2022-02-25 20:58:10
+ * @LastEditTime: 2022-04-20 21:05:05
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
 
 /**
- * 查询列表
- * @param page
- * @param limit
- * @returns
+ * @description: 查询列表
+ * @param {number} page
+ * @param {number} limit
+ * @param {number} status
+ * @param {number} sort
+ * @return {*}
+ * @author: Derek Xu
  */
 export const list = (page: number, limit: number, status: number, sort: number) => {
   return http.get('/ums/api/app/v1/message/list', { page, limit, status, sort })
 }
 
 /**
- * 已读消息
- * @param id
+ * @description: 已读消息
+ * @param {string} id
+ * @return {*}
+ * @author: Derek Xu
  */
 export const read = (id: string) => {
   return http.post('/ums/api/app/v1/message', { id })
 }
 
 /**
- * 获取消息
- * @param id
+ * @description: 获取消息
+ * @param {string} id
+ * @return {*}
+ * @author: Derek Xu
  */
 export const get = (id: string) => {
   return http.get('/ums/api/app/v1/message', { id })

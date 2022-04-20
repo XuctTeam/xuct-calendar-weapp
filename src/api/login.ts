@@ -2,15 +2,18 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-03 09:31:21
- * @LastEditTime: 2022-03-28 16:04:22
+ * @LastEditTime: 2022-04-20 21:04:29
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
+
 /**
- * 微信登录
- *
- * @param code
- * @returns ILoginData
+ * @description: 微信登录
+ * @param {string} code
+ * @param {string} iv
+ * @param {string} encryptedData
+ * @return {*}
+ * @author: Derek Xu
  */
 export const wechatLogin = (code: string, iv: string, encryptedData: string): Promise<any> => {
   return http.post(
@@ -26,10 +29,11 @@ export const wechatLogin = (code: string, iv: string, encryptedData: string): Pr
 }
 
 /**
- * 电话号码登录
- * @param phone
- * @param code
- * @returns
+ * @description: 电话号码登录
+ * @param {string} phone
+ * @param {string} code
+ * @return {*}
+ * @author: Derek Xu
  */
 export const phoneLogin = (phone: string, code: string): Promise<any> => {
   return http.post(
@@ -44,10 +48,11 @@ export const phoneLogin = (phone: string, code: string): Promise<any> => {
 }
 
 /**
- * 账号密码登录
- * @param username
- * @param password
- * @returns
+ * @description: 账号密码登录
+ * @param {string} username
+ * @param {string} password
+ * @return {*}
+ * @author: Derek Xu
  */
 export const usernameLogin = (username: string, password: string): Promise<any> => {
   return http.post(
@@ -62,9 +67,10 @@ export const usernameLogin = (username: string, password: string): Promise<any> 
 }
 
 /**
- * 刷新token
- * @param refresh_token
- * @returns
+ * @description: 刷新token
+ * @param {string} refresh_token
+ * @return {*}
+ * @author: Derek Xu
  */
 export const tokenRefresh = (refresh_token: string): Promise<any> => {
   return http.post(
@@ -78,9 +84,10 @@ export const tokenRefresh = (refresh_token: string): Promise<any> => {
 }
 
 /**
- * 会员注册
- * @param formData
- * @returns
+ * @description: 会员注册
+ * @param {any} formData
+ * @return {*}
+ * @author: Derek Xu
  */
 export const register = (formData: any) => {
   return http.post('/uaa/register', formData)
