@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-04-13 17:33:26
+ * @LastEditTime: 2022-04-20 08:59:54
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -16,15 +16,13 @@ import CommonMain from '@/components/mixin'
 import { checkMobile } from '@/utils/utils'
 import { useToast, useModal, useLogin } from 'taro-hooks'
 import { getPhoneNumber, logout, bindPhone, unbindPhone, auths } from '@/api/user'
-import { IDvaCommonProps, IUserAuth } from '~/../@types/dva'
+import { IUserAuth } from '~/../@types/dva'
 import { sendUmsSmsCode } from '@/api/common'
 
 import './index.scss'
 
 const MemberBindPhone: FunctionComponent = () => {
   const dispatch = useDispatch()
-  const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
-  const saveLoading = loadingEffect.effects['common/saveStorageSync']
   const [edit, setEdit] = useState<boolean>(false)
   const [phone, setPhone] = useState<string>('')
   const [code, setCode] = useState<string>('')
@@ -48,13 +46,6 @@ const MemberBindPhone: FunctionComponent = () => {
       }
     }
   }, [])
-
-  /**
-   * 保存成功后离开页面
-   */
-  if (saveLoading) {
-    back({ to: 4 })
-  }
 
   const _getData = () => {
     let data = Router.getData()
@@ -227,6 +218,11 @@ const MemberBindPhone: FunctionComponent = () => {
           type: 'common/saveStorageSync',
           payload: {
             auths: res as any as Array<IUserAuth>
+          },
+          cb: () => {
+            setTimeout(() => {
+              back({ to: 4 })
+            }, 500)
           }
         })
       })

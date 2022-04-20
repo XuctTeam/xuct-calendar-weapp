@@ -2,8 +2,8 @@
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-23 13:12:22
- * @FilePath: \react-lesson-20\src\models\common.ts
- * @LastEditTime: 2022-03-31 21:50:18
+ * @FilePath: \xuct-calendar-weapp\src\models\common.ts
+ * @LastEditTime: 2022-04-20 08:56:14
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'

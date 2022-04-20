@@ -2,11 +2,11 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-04-13 18:19:28
+ * @LastEditTime: 2022-04-20 09:01:42
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { Button, Cell, Form, Input } from '@taroify/core'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
@@ -14,15 +14,12 @@ import { useToast } from 'taro-hooks'
 import { useBack } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
 import { bindUserName, auths } from '@/api/user'
-import { IDvaCommonProps, IUserAuth } from '~/../@types/dva'
+import { IUserAuth } from '~/../@types/dva'
 
 import './index.scss'
 
 const BindUserName: FunctionComponent = () => {
   const dispatch = useDispatch()
-  const loadingEffect = useSelector<IDvaCommonProps, any>((state) => state.loading)
-  const saveLoading = loadingEffect.effects['common/saveStorageSync']
-
   const [username, setUsername] = useState('')
   const [edit, setEdit] = useState(false)
   const [password, setPassword] = useState('')
@@ -48,12 +45,6 @@ const BindUserName: FunctionComponent = () => {
     }
   }
 
-  if (saveLoading) {
-    back({
-      to: 4
-    })
-  }
-
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     bindUserName(event.detail.value)
       .then(() => {
@@ -72,6 +63,11 @@ const BindUserName: FunctionComponent = () => {
           type: 'common/saveStorageSync',
           payload: {
             auths: res as any as Array<IUserAuth>
+          },
+          cb: () => {
+            back({
+              to: 4
+            })
           }
         })
       })

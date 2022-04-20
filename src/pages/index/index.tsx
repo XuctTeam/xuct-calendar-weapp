@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-04-19 12:01:47
+ * @LastEditTime: 2022-04-20 13:03:45
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -45,23 +45,31 @@ const Index: FunctionComponent = () => {
   const [calendarComponents, setCalendarComponents] = useState<ICalendarComponent[]>([])
 
   useEffect(() => {
-    if (accessToken && calendars && calendars instanceof Array) {
-      const start: string = dayjs(selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss')
-      const end: string = dayjs(selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
-      _queryComponent(calendars, start, end)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken, calendars])
-
-  useDidShow(() => {
     if (!accessToken) {
       _removeStore()
       return
     }
+  }, [accessToken])
+
+  useDidShow(() => {
     if (!calendars || (calendars instanceof Array && calendars.length === 0)) {
-      reduxDispatch({
-        type: 'calendar/listSync'
+      new Promise((resolve) => {
+        reduxDispatch({
+          type: 'calendar/listSync',
+          payload: {
+            //这里的payload是用于传入参数，将resolve作为一个函数参数传入
+            resolve
+          }
+        })
       })
+        .then((res) => {
+          const start: string = dayjs(selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss')
+          const end: string = dayjs(selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
+          _queryComponent(res as any as Array<IDavCalendar>, start, end)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
       return
     }
 

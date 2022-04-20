@@ -1,0 +1,79 @@
+/*
+ * @Author: Derek Xu
+ * @Date: 2022-04-20 13:27:42
+ * @LastEditors: Derek Xu
+ * @LastEditTime: 2022-04-20 18:13:57
+ * @FilePath: \xuct-calendar-weapp\src\pages\componentshareview\index.scss
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by 楚恬商行, All Rights Reserved. 
+ */
+.vi-component-share-warpper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &_contarin{
+
+    flex: 1;
+
+    .event-body{
+      margin: 20px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.15);
+      padding: 30px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .event-summary{
+      font-size: 40px;
+      font-weight: 500;
+      color: #000;
+      line-height: 20px;
+      word-break: break-word;
+      margin-bottom: 30px;
+    }
+  
+    .cell {
+      line-height: 50px;
+    }
+  
+    .cell-item {
+      display: flex;
+    }
+  
+    .event-content {
+      display: flex;
+      flex-direction: row;
+      padding: 10px 30px;
+      flex: 1;
+      font-size: 30px;
+      font-weight: 400;
+      color: #000;
+      overflow: hidden;
+      align-items: center;
+    }
+  
+    .event-icon {
+      max-width: 60px;
+      width: 60px;
+      text-align: center;
+    }
+  
+    .user-tag {
+      height: 40px;
+      margin-left: 30px;
+    }
+  }
+
+  &_button{
+    margin: 20px;
+    padding-bottom: 10px;
+  }
+
+  
+
+
+}

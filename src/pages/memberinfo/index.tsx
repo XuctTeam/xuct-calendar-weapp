@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /*
  * @Description:
  * @Version: 1.0
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-19 22:44:43
+ * @LastEditTime: 2022-04-20 13:19:23
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,7 +19,7 @@ import { DEFAULT_AVATAR } from '@/constants/index'
 import { useModal, useToast } from 'taro-hooks'
 import { useBack } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
-import { updateName, baseUserInfo, logout, updateAvatar } from '@/api/user'
+import { updateName, logout, updateAvatar } from '@/api/user'
 import { ModifyName, UploadHeader } from './ui'
 
 const MemberInfo: FunctionComponent = () => {
@@ -37,9 +38,9 @@ const MemberInfo: FunctionComponent = () => {
     content: '确定退出吗？'
   })
   useEffect(() => {
-    noPermission()
-    setUsername(userInfo.name)
-    setAvatar(userInfo.avatar || DEFAULT_AVATAR)
+    setUsername((userInfo && userInfo.name) || '')
+    setAvatar((userInfo && userInfo.avatar) || DEFAULT_AVATAR)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo])
 
   const wxAuth = userAuths.find((i) => i.identityType === 'open_id') || {
@@ -109,18 +110,6 @@ const MemberInfo: FunctionComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show])
 
-  const noPermission = () => {
-    if (!userInfo) {
-      toast({
-        icon: 'error',
-        title: '非法访问'
-      })
-      setTimeout(() => {
-        back({ to: 4 })
-      }, 800)
-    }
-  }
-
   const cleanUserInfo = () => {
     reduxDispatch({
       type: 'common/removeStoreSync',
@@ -145,17 +134,16 @@ const MemberInfo: FunctionComponent = () => {
       return
     }
     updateName(username)
-      .then(() => {
+      .then((res) => {
         /** 刷新用户 */
-        _updateUserInfo().then(() => {
-          reduxDispatch({
-            type: 'calendar/updateCalendarMemberName',
-            payload: {
-              createMemberId: userInfo.id,
-              createMemberName: username
-            }
-          })
+        reduxDispatch({
+          type: 'calendar/updateCalendarMemberName',
+          payload: {
+            createMemberId: userInfo.id,
+            createMemberName: username
+          }
         })
+        _updateInfo(res)
       })
       .catch((err) => {
         console.log(err)
@@ -165,8 +153,8 @@ const MemberInfo: FunctionComponent = () => {
 
   const modiftAvatar = (url: string) => {
     updateAvatar(url)
-      .then(() => {
-        _updateUserInfo()
+      .then((res) => {
+        _updateInfo(res)
       })
       .catch((err) => {
         console.log(err)
@@ -190,31 +178,6 @@ const MemberInfo: FunctionComponent = () => {
       })
   }
 
-  const _updateUserInfo = (): Promise<any> => {
-    return new Promise((resolve, reject) => {
-      baseUserInfo()
-        .then((res) => {
-          // eslint-disable-next-line @typescript-eslint/no-shadow
-          const { id, name, avatar } = res
-          reduxDispatch({
-            type: 'common/saveStorageSync',
-            payload: {
-              userInfo: {
-                id,
-                name,
-                avatar
-              }
-            }
-          })
-          resolve(true)
-        })
-        .catch((err) => {
-          console.log(err)
-          reject(err)
-        })
-    })
-  }
-
   const to = throttle(
     (ty: number) => {
       if (ty === 2) {
@@ -234,6 +197,21 @@ const MemberInfo: FunctionComponent = () => {
       trailing: false
     }
   )
+
+  const _updateInfo = (res: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const { id, name, avatar } = res
+    reduxDispatch({
+      type: 'common/saveStorageSync',
+      payload: {
+        userInfo: {
+          id,
+          name,
+          avatar
+        }
+      }
+    })
+  }
 
   return (
     <Fragment>

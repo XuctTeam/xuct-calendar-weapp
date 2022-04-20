@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-04-12 13:52:06
+ * @LastEditTime: 2022-04-20 14:01:13
  * @LastEditors: Derek Xu
  */
 /* eslint-disable import/no-commonjs */
 const path = require('path')
 
 const config = {
-  projectName: 'react-lesson-20',
+  projectName: 'calendar-weapp',
   date: '2021-7-23',
   designWidth: 750,
   deviceRatio: {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-11 13:20:49
- * @LastEditTime: 2022-04-19 22:12:36
+ * @LastEditTime: 2022-04-20 13:02:02
  * @LastEditors: Derek Xu
  */
 import { IDavCalendar } from '~/../@types/calendar'
@@ -15,18 +15,18 @@ export default {
   },
 
   effects: {
-    *listSync({}, { call, put }) {
+    *listSync({ payload }, { call, put }) {
       yield put({
         type: 'push',
-        payload: []
+        payload: {
+          result: [],
+          resolve: null
+        }
       })
       try {
+        const { resolve } = payload
         const result = yield call(list)
-        yield put({
-          type: 'push',
-          payload: result
-        })
-        return result
+        yield put({ type: 'push', payload: { result, resolve } || {} })
       } catch (error) {
         console.log(error)
       }
@@ -43,8 +43,10 @@ export default {
 
   reducers: {
     push(state, { payload }) {
-      const calendars = payload as any as Array<IDavCalendar>
+      const { resolve, result } = payload
+      const calendars = result as any as Array<IDavCalendar>
       calendars.forEach((c) => (c.checked = true))
+      !!resolve && resolve(result)
       return { ...state, calendars }
     },
 

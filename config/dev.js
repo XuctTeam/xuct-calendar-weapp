@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-07-23 12:39:07
- * @LastEditTime: 2022-04-18 10:07:20
+ * @LastEditTime: 2022-04-20 14:02:35
  * @LastEditors: Derek Xu
  */
 const TerserPlugin = require('terser-webpack-plugin')
@@ -13,7 +13,11 @@ module.exports = {
     NODE_ENV: '"development"'
   },
   defineConstants: {
-    SERVICES_API: JSON.stringify('http://s10.nsloop.com:22060')
+    /** 后台服务地址 */
+    SERVICES_API: JSON.stringify('http://s10.nsloop.com:22060'),
+
+    /** 移动端部署地址  */
+    SERVICES_WAP: JSON.stringify('http://192.168.101.4:10086/')
   },
   mini: {
     hot: true,

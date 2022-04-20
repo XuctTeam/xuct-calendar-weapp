@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-07-23 12:39:07
- * @LastEditTime: 2022-04-12 15:36:12
+ * @LastEditTime: 2022-04-20 14:01:54
  * @LastEditors: Derek Xu
  */
 module.exports = {
@@ -11,8 +11,11 @@ module.exports = {
     NODE_ENV: '"production"'
   },
   defineConstants: {
-      /* 请求地址 */
-      SERVICES_API: JSON.stringify('http://s10.nsloop.com:22060'),
+      /* 后台服务地址 */
+    SERVICES_API: JSON.stringify('http://s10.nsloop.com:22060'),
+    
+     /** 移动端部署地址  */
+     SERVICES_WAP: JSON.stringify('https://images.xuct.net.cn/')
   },
   mini: {},
   h5: {

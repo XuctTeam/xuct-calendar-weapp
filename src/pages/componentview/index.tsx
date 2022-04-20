@@ -2,11 +2,12 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-19 16:53:39
+ * @LastEditTime: 2022-04-20 15:08:49
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Taro from '@tarojs/taro'
 import dayjs from 'dayjs'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
@@ -189,8 +190,15 @@ const Componentview: FunctionComponent = () => {
     if (value === '3') {
       setQrOpen(true)
     } else if (value === '2') {
-      set(getShareTitle()).then(() => {
-        toast()
+      console.log(getShareTitle())
+      // set(getShareTitle()).then(() => {
+      //   toast()
+      // })
+      Taro.setClipboardData({
+        data: getShareTitle(),
+        success: function () {
+          toast()
+        }
       })
     } else if (value === '1') {
       setWeappShareOpen(true)
@@ -198,21 +206,31 @@ const Componentview: FunctionComponent = () => {
   }
 
   const getShareTitle = () => {
-    const title =
-      `【楚日历】日程邀请` +
-      '\r' +
-      `标题：` +
-      component.summary +
-      '\r' +
-      `时间：` +
-      (dayjs(component.dtstart).isSame(component.dtend, 'date')
-        ? formatSameDayTime(component.fullDay, component.dtstart, component.dtend) +
-          ' ' +
-          formateSameDayDuration(component.fullDay, component.dtstart, component.dtend)
-        : formatDifferentDayTime(1, component.fullDay, component.dtstart) + '\r' + formatDifferentDayTime(2, component.fullDay, component.dtend)) +
-      '\r' +
-      `点击加入日程`
-    return title
+    //@ts-ignore
+    const url = SERVICES_WAP + '#/pages/componentshareview/index?componentId=' + component.id
+    const array = [
+      {
+        title: '【楚日历】',
+        value: '日程邀请'
+      },
+      {
+        title: '标题',
+        value: component.summary
+      },
+      {
+        title: '时间',
+        value: dayjs(component.dtstart).isSame(component.dtend, 'date')
+          ? formatSameDayTime(component.fullDay, component.dtstart, component.dtend) +
+            ' ' +
+            formateSameDayDuration(component.fullDay, component.dtstart, component.dtend)
+          : formatDifferentDayTime(1, component.fullDay, component.dtstart) + '\r' + formatDifferentDayTime(2, component.fullDay, component.dtend)
+      },
+      {
+        title: '点击加入',
+        value: url
+      }
+    ]
+    return `${array.map((item) => `${item.title}: ${item.value}`).join('\n')}`
   }
 
   /**
