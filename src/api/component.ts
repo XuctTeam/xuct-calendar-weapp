@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-04 10:39:35
- * @LastEditTime: 2022-04-20 21:03:15
+ * @LastEditTime: 2022-04-20 22:35:11
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -124,9 +124,11 @@ export const refuseAttend = (componentId: string) => {
 }
 
 /**
- * @description:
+ * @description: 查询共享事件（非登录）
  * @param {string} componentId
  * @return {*}
  * @author: Derek Xu
  */
-export const getShareInfo = (componentId: string) => {}
+export const getShareInfo = (componentId: string) => {
+  return http.get('/cms/none/auth/component', { componentId })
+}

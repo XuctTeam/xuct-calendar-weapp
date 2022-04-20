@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-20 15:08:49
+ * @LastEditTime: 2022-04-20 22:07:07
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -370,7 +370,7 @@ const Componentview: FunctionComponent = () => {
                   <View className='calendar'>{component.calendarName}</View>
                 </View>
               </View>
-              {userInfo.id === component.creatorMemberId && (
+              {userInfo && userInfo.id === component.creatorMemberId && (
                 <Fragment>
                   <Ellipsis onClick={() => setOpen(true)}></Ellipsis>
                 </Fragment>
@@ -445,10 +445,8 @@ const Componentview: FunctionComponent = () => {
         <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>
       <Backdrop open={loading} closeable onClose={() => setLoading(false)}>
-        <View className='content-wrapper'>
-          <View className='content-block'>
-            <Loading type='spinner'>加载中...</Loading>
-          </View>
+        <View className='content-block'>
+          <Loading type='spinner'>加载中...</Loading>
         </View>
       </Backdrop>
       <ShareUser open={shareOpen} close={() => setShareOpen(false)} selected={shareSelected}></ShareUser>
