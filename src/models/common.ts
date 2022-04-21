@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 13:12:22
  * @FilePath: \xuct-calendar-weapp\src\models\common.ts
- * @LastEditTime: 2022-04-20 08:56:14
+ * @LastEditTime: 2022-04-21 17:24:05
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -55,6 +55,14 @@ export default {
         type: 'remove',
         payload
       })
+    },
+
+    *logoutSync({ payload }, { call, put }) {
+      const { resolve } = payload || {}
+      yield call(Taro.clearStorage)
+      yield put({ type: 'calendar/removeAllSync', payload: {} })
+      yield put({ type: 'component/removeAllSync', payload: {} })
+      yield put({ type: 'logout', payload: { resolve } || {} })
     }
   },
 
@@ -66,6 +74,26 @@ export default {
 
     remove(state, { payload }) {
       return { ...state, ...payload }
+    },
+
+    /**
+     * @description: 退出
+     * @param {*} state
+     * @param {*} param2
+     * @return {*}
+     */
+    logout(state, { payload }) {
+      const { resolve } = payload
+      !!resolve && resolve()
+      return {
+        ...state,
+        ...{
+          accessToken: null,
+          refreshToken: null,
+          userInfo: null,
+          auths: null
+        }
+      }
     }
   }
 }

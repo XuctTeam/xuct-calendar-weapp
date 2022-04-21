@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-19 14:42:42
+ * @LastEditTime: 2022-04-21 15:41:54
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -47,7 +47,7 @@ interface ModelProps extends DvaProps {
 }
 
 type PageDispatchProps = {
-  listSync: () => Promise<any>
+  listSync: (payload) => Promise<any>
   refreshTime: (time: number) => void
 }
 
@@ -158,10 +158,6 @@ class Components extends Component {
       this._setUpdateComponent(this.props.calendars, component)
       return
     }
-    let calendars = this.props.calendars
-    if (calendars.length === 0) {
-      calendars = await this.props.listSync()
-    }
     getById(componentId).then((res) => {
       const comp: IDavComponent = res as any as IDavComponent
       if (!comp) return
@@ -169,11 +165,11 @@ class Components extends Component {
       queryComponentMemberIds(comp.id)
         .then((rs) => {
           comp.memberIds = rs as any as string[]
-          this._setUpdateComponent(calendars, comp)
+          this._setUpdateComponent(this.props.calendars, comp)
         })
         .catch((err) => {
           console.log(err)
-          this._setUpdateComponent(calendars, comp)
+          this._setUpdateComponent(this.props.calendars, comp)
         })
     })
   }
@@ -183,14 +179,23 @@ class Components extends Component {
    * @param calendars
    * @param selectedDay
    */
-  _createComponent = async (calendars: Array<IDavCalendar>, selectedDay: Date) => {
+  _createComponent = (calendars: Array<IDavCalendar>, selectedDay: Date) => {
     if (!selectedDay) {
       selectedDay = dayjs().toDate()
     }
     selectedDay = fiveMinutes(selectedDay)
     if (calendars.length === 0) {
-      calendars = await this.props.listSync()
+      new Promise((resolve) => {
+        this.props.listSync({ resolve })
+      }).then((res) => {
+        this._initCreateComponent(res as any as Array<IDavCalendar>, selectedDay)
+      })
+      return
     }
+    this._initCreateComponent(calendars, selectedDay)
+  }
+
+  _initCreateComponent = (calendars: Array<IDavCalendar>, selectedDay: Date) => {
     const majorCalendar = calendars.find((i) => i.major === 1)
     const data = {
       selectedCalendar: majorCalendar,
@@ -217,8 +222,17 @@ class Components extends Component {
       title: '日程编辑'
     })
     if (calendars.length === 0) {
-      calendars = await this.props.listSync()
+      new Promise((resolve) => {
+        this.props.listSync({ resolve })
+      }).then((res) => {
+        this._initUpdateComponent(res as any as Array<IDavCalendar>, component)
+      })
+      return
     }
+    this._initUpdateComponent(calendars, component)
+  }
+
+  _initUpdateComponent = (calendars: Array<IDavCalendar>, component: IDavComponent) => {
     const majorCalendar = calendars.find((i) => i.calendarId === component.calendarId)
     this.setState({
       ...component,
@@ -383,6 +397,7 @@ class Components extends Component {
       })
       if (!result) return
       const { alarmType, alarmTimes } = result
+      if (!alarmType || !alarmTimes) return
       this.setState({
         alarmType,
         alarmTimes

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-07 09:15:39
- * @LastEditTime: 2022-04-19 22:18:26
+ * @LastEditTime: 2022-04-21 13:08:46
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect } from 'react'
@@ -28,6 +28,7 @@ const CaldavManager: FunctionComponent = () => {
     if (!calendars || (calendars instanceof Array && calendars.length === 0)) {
       calendarRefresh()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const calendarRefresh = () => {
@@ -40,32 +41,22 @@ const CaldavManager: FunctionComponent = () => {
    * 编辑日历
    * @param id
    */
-  const editCalendar = async (id: string) => {
+  const editCalendar = (id: string) => {
     if (!calendars || !(calendars instanceof Array)) return
     const calendar: IDavCalendar | undefined = calendars.find((item) => item.id === id)
     if (!calendar) return
-    try {
-      const result = await Router.toCalendarcreate({
-        data: calendar,
-        params: {
-          calendarId: calendar.id
-        }
-      })
-      //编辑成功
-      if (result && result.data === '1') {
-        dispatch({
-          type: 'calendar/updateSycn',
-          payload: id
-        })
+
+    Router.toCalendarcreate({
+      data: calendar,
+      params: {
+        calendarId: calendar.id
       }
-    } catch (err) {
-      console.log(err)
-    }
+    })
   }
 
   return (
     <CommonMain className='vi-calendar-manager-wrapper' title='日历管理' to={4} fixed left>
-      {calendars && calendars instanceof Array && calendars.length === 0 ? (
+      {!calendars || (calendars instanceof Array && calendars.length === 0) ? (
         <Empty>
           <Empty.Image />
           <Empty.Description>暂无数据</Empty.Description>

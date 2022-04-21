@@ -2,15 +2,15 @@
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-23 16:36:43
- * @FilePath: \react-lesson-20\src\pages\authorize\index.tsx
- * @LastEditTime: 2022-04-19 22:38:35
+ * @FilePath: \xuct-calendar-weapp\src\pages\membermine\index.tsx
+ * @LastEditTime: 2022-04-21 12:12:33
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { View } from '@tarojs/components'
-import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
-import { baseUserInfo, auths } from '@/api/user'
+import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
+import { baseUserInfo } from '@/api/user'
 import { DEFAULT_AVATAR } from '@/constants/index'
 import { User, Menu } from './ui'
 
@@ -19,13 +19,6 @@ const MemberMine: FunctionComponent = () => {
   const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const [loading, setLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (accessToken && !userInfo) {
-      refresh()
-      queryAuths()
-    }
-  }, [accessToken, userInfo])
 
   const refresh = () => {
     setLoading(true)
@@ -51,21 +44,6 @@ const MemberMine: FunctionComponent = () => {
         setTimeout(() => {
           setLoading(false)
         }, 1000)
-      })
-  }
-
-  const queryAuths = () => {
-    auths()
-      .then((res) => {
-        dispatch({
-          type: 'common/saveStorageSync',
-          payload: {
-            auths: res as any as Array<IUserAuth>
-          }
-        })
-      })
-      .catch((err) => {
-        console.log(err)
       })
   }
 

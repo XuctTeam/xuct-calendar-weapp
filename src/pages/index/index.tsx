@@ -3,12 +3,12 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-04-20 13:03:45
+ * @LastEditTime: 2022-04-21 11:00:49
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Taro, { useDidShow } from '@tarojs/taro'
+import { useDidShow } from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import { Button, Collapse } from '@taroify/core'
@@ -52,7 +52,8 @@ const Index: FunctionComponent = () => {
   }, [accessToken])
 
   useDidShow(() => {
-    if (!calendars || (calendars instanceof Array && calendars.length === 0)) {
+    if (!accessToken) return
+    if (calendars instanceof Array && calendars.length === 0) {
       new Promise((resolve) => {
         reduxDispatch({
           type: 'calendar/listSync',
@@ -72,14 +73,13 @@ const Index: FunctionComponent = () => {
         })
       return
     }
-
-    if (!componentRefreshTime || !calendars) {
-      return
-    }
     console.log(typeof componentRefreshTime === 'number' && componentRefreshLocalTime < componentRefreshTime)
     const start: string = dayjs(selectedDay).startOf('month').format('YYYY-MM-DD HH:mm:ss')
     const end: string = dayjs(selectedDay).endOf('month').format('YYYY-MM-DD HH:mm:ss')
-    if (typeof componentRefreshTime === 'number' && componentRefreshLocalTime < componentRefreshTime) {
+    if (
+      (!componentRefreshTime && calendars instanceof Array && calendars.length !== 0) ||
+      (typeof componentRefreshTime === 'number' && componentRefreshLocalTime < componentRefreshTime)
+    ) {
       _queryComponent(calendars, start, end)
     }
   })

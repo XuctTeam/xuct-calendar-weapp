@@ -154,6 +154,7 @@
 
 /* 日历弹出样式 */
 .vi-index-wrapper_popup {
+
   .taroify-popup {
     display: flex;
     flex-direction: column;
@@ -175,6 +176,7 @@
 
     .content {
       flex: 1;
+      overflow-y: auto;
     }
 
     .taro-checkbox_checked {

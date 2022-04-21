@@ -4,16 +4,33 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-16 09:51:32
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-16 10:11:38
+ * @LastEditTime: 2022-04-21 17:23:06
  */
 export default {
   namespace: 'component',
   state: {
     refreshTime: null
   },
+
+  effects: {
+    *removeAllSync({}, { put }) {
+      yield put({
+        type: 'removeAll'
+      })
+    }
+  },
   reducers: {
     refreshTime(state, { payload }) {
       return { ...state, refreshTime: payload }
+    },
+
+    /**
+     * @description: 清除所有
+     * @param {*} state
+     * @return {*}
+     */
+    removeAll(state, {}) {
+      return { ...state, refreshTime: null }
     }
   }
 }

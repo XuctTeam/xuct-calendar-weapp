@@ -2,13 +2,11 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-08 09:07:48
- * @LastEditTime: 2022-03-01 15:27:35
+ * @LastEditTime: 2022-04-21 13:21:47
  * @LastEditors: Derek Xu
  */
-import { usePageScroll } from '@tarojs/taro'
 import React, { useState } from 'react'
 import { ScrollView, View } from '@tarojs/components'
-import { PullRefresh } from '@taroify/core'
 import { IDavCalendar } from '~/../@types/calendar'
 import CalendarListBody from './CalendarListBody'
 

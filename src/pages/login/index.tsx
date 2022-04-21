@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-04-18 10:03:07
+ * @LastEditTime: 2022-04-21 10:28:41
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -14,10 +14,11 @@ import { View, Navigator } from '@tarojs/components'
 import { ArrowLeft } from '@taroify/icons'
 import { toast, back } from '@/utils/taro'
 import { useEnv, useLogin, useUserInfo } from 'taro-hooks'
+import { IUserAuth, IUserInfo as IMemberInfo } from '~/../@types/dva'
 import { checkMobile } from '@/utils/utils'
 import { IUserInfo } from 'taro-hooks/dist/useUserInfo'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/login'
-import { sendSmsCode } from '@/api/user'
+import { sendSmsCode, userInfo } from '@/api/user'
 
 import { DEFAULT_LOG_IMAGE, DEFAULT_WECHAT_IMAGE } from '@/constants/index'
 
@@ -122,7 +123,6 @@ const Login: FunctionComponent = () => {
         wechatLogin(code, iv, encryptedData)
           .then((rs) => {
             _saveTokenToCache(rs.access_token, rs.refresh_token)
-            back({ to: 4 })
           })
           .catch((err) => {
             console.log(err)
@@ -154,13 +154,7 @@ const Login: FunctionComponent = () => {
         toast({ title: '验证码不能为空' })
         return
       }
-
-      _phoneLogin().then((res) => {
-        if (!res) {
-          return
-        }
-        back({ to: 4 })
-      })
+      _phoneLogin()
       return
     }
     if (!username) {
@@ -171,35 +165,26 @@ const Login: FunctionComponent = () => {
       toast({ title: '验证码不能为空' })
       return
     }
-    _usernameLogin().then((res) => {
-      if (!res) {
-        return
-      }
-      back({ to: 4 })
-    })
+    _usernameLogin()
   }
 
-  const _phoneLogin = async (): Promise<boolean> => {
-    return await phoneLogin(phone, smsCode)
+  const _phoneLogin = () => {
+    return phoneLogin(phone, smsCode)
       .then((res) => {
         _saveTokenToCache(res.access_token, res.refresh_token)
-        return true
       })
       .catch((error) => {
         console.log(error)
-        return false
       })
   }
 
-  const _usernameLogin = async (): Promise<boolean> => {
-    return await usernameLogin(username, password)
+  const _usernameLogin = () => {
+    return usernameLogin(username, password)
       .then((res) => {
         _saveTokenToCache(res.access_token, res.refresh_token)
-        return true
       })
       .catch((error) => {
         console.log(error)
-        return false
       })
   }
 
@@ -209,6 +194,9 @@ const Login: FunctionComponent = () => {
       payload: {
         accessToken: 'Bearer ' + accessToken,
         refreshToken: 'Bearer ' + refreshToken
+      },
+      cb: () => {
+        _getUserInfo()
       }
     })
   }
@@ -236,6 +224,31 @@ const Login: FunctionComponent = () => {
     timerRef.current = window.setTimeout(() => {
       _setTimeOut(sec - 1)
     }, 1000)
+  }
+
+  const _getUserInfo = () => {
+    userInfo()
+      .then((res) => {
+        const { member, auths } = res
+        const m: IMemberInfo = member as any as IMemberInfo
+        dispatch({
+          type: 'common/saveStorageSync',
+          payload: {
+            userInfo: {
+              id: m.id,
+              name: m.name,
+              avatar: m.avatar
+            },
+            auths: auths as any as Array<IUserAuth>
+          },
+          cb: () => {
+            back({ to: 4 })
+          }
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (

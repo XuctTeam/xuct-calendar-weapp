@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-11 13:20:49
- * @LastEditTime: 2022-04-20 13:02:02
+ * @LastEditTime: 2022-04-21 17:22:23
  * @LastEditors: Derek Xu
  */
 import { IDavCalendar } from '~/../@types/calendar'
@@ -24,7 +24,7 @@ export default {
         }
       })
       try {
-        const { resolve } = payload
+        const { resolve } = payload || {}
         const result = yield call(list)
         yield put({ type: 'push', payload: { result, resolve } || {} })
       } catch (error) {
@@ -32,11 +32,17 @@ export default {
       }
     },
 
-    *updateSycn({ payload }, { call, put }) {
+    *updateSync({ payload }, { call, put }) {
       const result = yield call(get, payload)
       yield put({
         type: 'update',
         payload: result
+      })
+    },
+
+    *removeAllSync({}, { put }) {
+      yield put({
+        type: 'removeAll'
       })
     }
   },
@@ -84,6 +90,16 @@ export default {
         }
       })
       return { ...state, calendars }
+    },
+
+    /**
+     * @description: 清空所有缓存
+     * @param {*} state
+     * @param {*} param2
+     * @return {*}
+     */
+    removeAll(state, {}) {
+      return { ...state, calendars: [] }
     }
   }
 }

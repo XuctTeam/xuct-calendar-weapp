@@ -4,14 +4,15 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-12 15:50:08
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-01-16 10:26:50
+ * @LastEditTime: 2022-04-21 13:53:46
  */
 import { actionTypes } from './actionTypes'
 
 export const action = {
-  listSync() {
+  listSync(payload) {
     return {
-      type: actionTypes.LIST_SYNC
+      type: actionTypes.LIST_SYNC,
+      payload
     }
   },
   refreshTime(payload) {

@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-20 22:07:07
+ * @LastEditTime: 2022-04-21 16:01:21
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -377,7 +377,7 @@ const Componentview: FunctionComponent = () => {
               )}
             </View>
           </View>
-          <View className='cell-item time-repeat taroify-hairline--bottom'>
+          <View className='cell-item  taroify-hairline--bottom'>
             <View className='event-icon'>
               <ClockOutlined size={20} />
             </View>
@@ -416,7 +416,7 @@ const Componentview: FunctionComponent = () => {
             </Fragment>
           )}
           <View className='divider'></View>
-          <View className='cell-item event-item remind taroify-hairline--bottom'>
+          <View className='cell-item taroify-hairline--bottom'>
             <View className='event-icon'>
               <BulbOutlined size={20} />
             </View>

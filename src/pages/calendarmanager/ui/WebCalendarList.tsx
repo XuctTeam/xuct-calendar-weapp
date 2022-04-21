@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-08 09:07:48
- * @LastEditTime: 2022-02-25 15:13:42
+ * @LastEditTime: 2022-04-21 13:28:40
  * @LastEditors: Derek Xu
  */
 import { usePageScroll } from '@tarojs/taro'
@@ -34,7 +34,7 @@ const CalendarList: React.FC<IPageStateProps> = (props) => {
           onRefresh={() => {
             props.calendarRefresh()
           }}
-          style={{ height: '100%' }}
+          style={{ height: '100%', overflowY: 'auto' }}
         >
           {props.calendars.map((item) => {
             return <CalendarListBody key={item.id + ''} item={item} editCalendar={props.editCalendar}></CalendarListBody>
