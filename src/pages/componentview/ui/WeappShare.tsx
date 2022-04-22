@@ -4,12 +4,13 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-04 15:50:51
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 14:36:00
+ * @LastEditTime: 2022-04-22 17:57:09
  */
 import { FunctionComponent } from 'react'
 import { Dialog } from '@taroify/core'
 import { Button, View } from '@tarojs/components'
 import { useShareAppMessage } from '@tarojs/taro'
+import { DEFAULT_ATTEND_BACKGROUD } from '@/constants/index'
 
 interface IPageOption {
   open: boolean
@@ -20,6 +21,7 @@ interface IPageOption {
 
 const WeappShare: FunctionComponent<IPageOption> = (props) => {
   useShareAppMessage((res) => {
+    console.log(props.componentTitle)
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
@@ -27,8 +29,8 @@ const WeappShare: FunctionComponent<IPageOption> = (props) => {
     }
     return {
       title: props.componentTitle,
-      path: '/page/user?id=123',
-      imageUrl: 'http://images.xuct.com.cn/login_default.png'
+      path: '/pages/componentshareview/index?componentId=' + props.componentId,
+      imageUrl: DEFAULT_ATTEND_BACKGROUD
     }
   })
 

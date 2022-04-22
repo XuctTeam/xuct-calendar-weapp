@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-04-20 14:01:13
+ * @LastEditTime: 2022-04-22 16:36:58
  * @LastEditors: Derek Xu
  */
 /* eslint-disable import/no-commonjs */
@@ -36,7 +36,9 @@ const config = {
     VERSION: JSON.stringify({
       date: '2022-01-25',
       version: '1.0.0'
-    })
+    }),
+
+    WX_TEMPLATE_ID: JSON.stringify({ IDS: ['m3tIRN2yvI2mdFuGHV9mXS0uIHf9oz-u6U51HRHTcLQ']}) 
   },
   copy: {
     patterns: [],

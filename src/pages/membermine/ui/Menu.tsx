@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-04-19 15:07:05
+ * @LastEditTime: 2022-04-22 17:36:46
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback } from 'react'
@@ -18,7 +18,7 @@ import '../index.scss'
 const Setting: FunctionComponent = () => {
   const env = useEnv()
   const [requestSubscribeMessage] = useRequestSubscribeMessage()
-  const [show] = useToast({
+  const [toast] = useToast({
     mask: true,
     duration: 1000,
     title: 'initial title',
@@ -40,6 +40,8 @@ const Setting: FunctionComponent = () => {
         Router.toCustomerservice()
       } else if (params === 5) {
         Router.toMemberinfo()
+      } else if (params === 6) {
+        _submessageClickHandle()
       }
     },
     800,
@@ -48,31 +50,31 @@ const Setting: FunctionComponent = () => {
     }
   )
 
-  const submessageClickHandle = useCallback(async () => {
-    let content = '订阅成功!'
-    const subscribeId = 'jeNEwprDztjgwq0BI1raBmcJ7Sw1ldt-8lRi-7jXeyY'
+  const _submessageClickHandle = useCallback(async () => {
+    if (env !== 'WEAPP') {
+      return
+    }
+    let content = '订阅失败！'
+    let flag = false
+    //@ts-ignore
+    const subscribeIds = WX_TEMPLATE_ID.IDS
     try {
-      const { [subscribeId]: result } = await requestSubscribeMessage([subscribeId])
-      if (result !== 'accept') {
-        content = '订阅失败'
-        show({
-          title: content,
-          icon: 'error'
-        })
-        return
+      const { subscribeIds: result } = await requestSubscribeMessage(subscribeIds)
+      console.log(result)
+      if (result === 'accept') {
+        content = '订阅成功！'
+        flag = true
       }
-      show({
-        title: content,
-        icon: 'success'
-      })
     } catch (e) {
       console.log(e)
-      show({
-        title: content,
-        icon: 'error'
-      })
+      content = '订阅失败！'
     }
-  }, [show, requestSubscribeMessage])
+    toast({
+      title: content,
+      icon: flag ? 'success' : 'error'
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestSubscribeMessage, toast])
 
   const _copy = () => {
     Taro.setClipboardData({
@@ -88,8 +90,8 @@ const Setting: FunctionComponent = () => {
 
   return (
     <View className='vi-aboutme-wrapper_setting'>
+      {env === 'WEAPP' && <Cell icon={<BulbOutlined />} title='消息订阅' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 6)}></Cell>}
       <Cell icon={<CalendarOutlined />} title='我的日历' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 1)}></Cell>
-      {env === 'WEAPP' && <Cell icon={<BulbOutlined />} title='消息订阅' rightIcon={<Arrow />} clickable onClick={submessageClickHandle}></Cell>}
       <Cell icon={<SettingOutlined />} title='账号设置' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 2)}></Cell>
       <Cell icon={<TvOutlined />} title='电脑版' clickable onClick={atListItemClickHandle.bind(this, 3)}>
         xuct.com.cn

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-16 09:51:32
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-21 17:23:06
+ * @LastEditTime: 2022-04-22 11:26:45
  */
 export default {
   namespace: 'component',
@@ -19,6 +19,7 @@ export default {
       })
     }
   },
+
   reducers: {
     refreshTime(state, { payload }) {
       return { ...state, refreshTime: payload }

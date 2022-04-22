@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-21 16:01:21
+ * @LastEditTime: 2022-04-22 17:03:04
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -12,6 +12,7 @@ import dayjs from 'dayjs'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { throttle } from 'lodash/function'
+import classnames from 'classnames'
 import { ActionSheet, Button, Backdrop, Loading, Cell, NoticeBar } from '@taroify/core'
 import { Ellipsis, ClockOutlined, BulbOutlined, FriendsOutlined, ManagerOutlined, VolumeOutlined } from '@taroify/icons'
 import { IDavComponent } from '~/../@types/calendar'
@@ -21,7 +22,7 @@ import ButtonGroup, { ButtonOption } from '@/components/buttongroup'
 import { getById, deleteById, queryComponentMemberIds, getAttendStatus, updateAttendStatus, refuseAttend } from '@/api/component'
 import { getName } from '@/api/user'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
-import { back } from '@/utils/taro'
+import { back, useWebEnv } from '@/utils/taro'
 import { useSystemInfo, useModal, useClipboardData, useToast, useEnv, useRequestSubscribeMessage } from 'taro-hooks'
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
@@ -60,6 +61,7 @@ const Componentview: FunctionComponent = () => {
   const [weappShareOpen, setWeappShareOpen] = useState<boolean>(false)
   const [attendStatus, setAttendStatus] = useState<number>(0)
   const [, { set }] = useClipboardData()
+  const webEnv: boolean = useWebEnv()
   const [requestSubscribeMessage] = useRequestSubscribeMessage()
 
   const env = useEnv()
@@ -300,17 +302,18 @@ const Componentview: FunctionComponent = () => {
     if (env !== 'WEAPP') {
       return
     }
-    let content = '订阅成功!'
+    let content = '订阅失败！'
     let flag = false
-    const subscribeId = 'jeNEwprDztjgwq0BI1raBmcJ7Sw1ldt-8lRi-7jXeyY'
+    //@ts-ignore
+    const subscribeIds = WX_TEMPLATE_ID.IDS
     try {
-      const { [subscribeId]: result } = await requestSubscribeMessage([subscribeId])
-      if (result !== 'accept') {
-        content = '订阅失败'
+      const { subscribeIds: result } = await requestSubscribeMessage(subscribeIds)
+      if (result === 'accept') {
+        content = '订阅成功！'
+        flag = true
       }
-      flag = true
     } catch (e) {
-      content = '订阅失败'
+      content = '订阅失败！'
     }
     toast({
       title: content,
@@ -378,7 +381,7 @@ const Componentview: FunctionComponent = () => {
             </View>
           </View>
           <View className='cell-item  taroify-hairline--bottom'>
-            <View className='event-icon'>
+            <View className='event-icon event-icon-padding-top'>
               <ClockOutlined size={20} />
             </View>
             <View className='event-content'>
@@ -417,7 +420,7 @@ const Componentview: FunctionComponent = () => {
           )}
           <View className='divider'></View>
           <View className='cell-item taroify-hairline--bottom'>
-            <View className='event-icon'>
+            <View className={classnames('event-icon', { 'event-wechat-icon': !webEnv })}>
               <BulbOutlined size={20} />
             </View>
             <View className='event-content' onClick={handleRequestSubscribeMessage}>

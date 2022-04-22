@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-04 10:39:35
- * @LastEditTime: 2022-04-21 09:27:08
+ * @LastEditTime: 2022-04-22 11:34:04
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -131,4 +131,21 @@ export const refuseAttend = (componentId: string) => {
  */
 export const getShareInfo = (componentId: string) => {
   return http.get('/cms/api/v1/users-anon/component', { componentId })
+}
+
+/**
+ * @description: 判断邀请是否存在
+ * @param {string} componentId
+ * @return {*}
+ */
+export const existsAttend = (componentId: string) => {
+  return http.get('/cms/api/app/v1/component/attend/exists', { componentId })
+}
+/**
+ * @description: 加入邀请
+ * @param {string} componentId
+ * @return {*}
+ */
+export const acceptAttend = (componentId: string) => {
+  return http.post('/cms/api/app/v1/component/attend/accept', { componentId })
 }

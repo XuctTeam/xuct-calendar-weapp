@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-07 20:11:03
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-21 13:27:31
+ * @LastEditTime: 2022-04-22 14:36:33
  */
 .vi-calendar-manager-wrapper {
   display: flex;
@@ -15,10 +15,10 @@
   &_container {
     height: 100%;
     display: flex;
+    overflow-y: auto;
     flex-direction: column;
     .list {
       flex: 1;
-      overflow: auto;
       padding-bottom: 30px;
     }
   }

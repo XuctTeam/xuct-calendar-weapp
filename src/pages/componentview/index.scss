@@ -15,13 +15,13 @@
     .cell-item {
       display: flex;
       margin-left: 30px;
-      padding: 10px 0px;
+      padding: 20px 10px;
+      line-height: 48px;
     }
 
     .event-content {
       display: flex;
       flex-direction: row;
-      padding: 14px 30px 30px 10px;
       flex: 1;
       font-size: 30px;
       font-weight: 400;
@@ -35,11 +35,17 @@
       text-align: center;
     }
 
+    .event-icon-padding-top{
+      padding-top: 8px;
+    }
+
+
     .summary-calendar-more {
+
       .event-label {
         margin-right: 30px;
-        margin-top: 30px;
         margin-left: 20px;
+        margin-top: 8px;
         text-align: center;
         width: 30px;
         height: 30px;
