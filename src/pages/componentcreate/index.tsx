@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-21 15:41:54
+ * @LastEditTime: 2022-04-22 21:19:54
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -496,6 +496,7 @@ class Components extends Component {
       })
       if (!result) return
       const { memberIds } = result
+      if (!memberIds) return
       this.setState({
         memberIds: memberIds
       })

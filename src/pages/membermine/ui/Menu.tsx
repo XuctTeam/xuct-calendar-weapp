@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-04-22 17:36:46
+ * @LastEditTime: 2022-04-23 21:59:48
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback } from 'react'
@@ -59,8 +59,7 @@ const Setting: FunctionComponent = () => {
     //@ts-ignore
     const subscribeIds = WX_TEMPLATE_ID.IDS
     try {
-      const { subscribeIds: result } = await requestSubscribeMessage(subscribeIds)
-      console.log(result)
+      const { [subscribeIds]: result } = await requestSubscribeMessage(subscribeIds)
       if (result === 'accept') {
         content = '订阅成功！'
         flag = true

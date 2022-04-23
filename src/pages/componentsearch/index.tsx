@@ -2,7 +2,7 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-04-06 10:45:42
+ * @LastEditTime: 2022-04-22 21:49:10
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useRef, useState } from 'react'
@@ -63,7 +63,8 @@ const ComponentSearch: FunctionComponent = () => {
   const viewComponent = (component: IDavComponent) => {
     Router.toComponentview({
       params: {
-        componentId: component.id
+        componentId: component.id,
+        add: false
       },
       data: {
         component: component
@@ -101,13 +102,7 @@ const ComponentSearch: FunctionComponent = () => {
   return (
     <CommonMain className='vi-search-wrapper' title='日程搜索' left to={1} fixed>
       <View className='vi-search-wrapper_container'>
-        <Search
-          value={value}
-          placeholder='请输入搜索关键词'
-          action={<View onClick={() => toSearch()}>搜索</View>}
-          onChange={(e) => setValue(e.detail.value)}
-          onClear={() => clean()}
-        />
+        <Search value={value} placeholder='请输入搜索关键词' onSearch={toSearch} onChange={(e) => setValue(e.detail.value)} onClear={() => clean()} />
         {list.length === 0 ? (
           <Empty>
             <Empty.Image src='search' />

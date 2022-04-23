@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-04-22 11:23:13
+ * @LastEditTime: 2022-04-23 20:14:39
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -292,13 +292,12 @@ const Index: FunctionComponent = () => {
           </Collapse.Item>
         </Collapse>
         <Event
-          accessToken={accessToken ? accessToken : ''}
           loading={componentLoading}
           today={day.current}
           selectedDay={selectedDay}
           calendars={calendars && calendars instanceof Array ? calendars : []}
           calendarComponents={calendarComponents}
-          componentRefreshOpen={componentRefreshOpen}
+          componentRefreshOpen={!componentRefreshOpen}
           refreshComponent={componentRefresh}
           viewComponent={viewComponent}
         ></Event>

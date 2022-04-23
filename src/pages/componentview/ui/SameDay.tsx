@@ -2,10 +2,10 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-18 18:02:45
- * @LastEditTime: 2022-03-01 14:35:47
+ * @LastEditTime: 2022-04-22 20:50:28
  * @LastEditors: Derek Xu
  */
-import React from 'react'
+import React, { Fragment } from 'react'
 import { View } from '@tarojs/components'
 import { formatSameDayTime, formateSameDayDuration } from '@/utils/utils'
 

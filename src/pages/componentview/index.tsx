@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-22 17:03:04
+ * @LastEditTime: 2022-04-23 21:59:33
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -307,7 +307,7 @@ const Componentview: FunctionComponent = () => {
     //@ts-ignore
     const subscribeIds = WX_TEMPLATE_ID.IDS
     try {
-      const { subscribeIds: result } = await requestSubscribeMessage(subscribeIds)
+      const { [subscribeIds]: result } = await requestSubscribeMessage(subscribeIds)
       if (result === 'accept') {
         content = '订阅成功！'
         flag = true
@@ -381,10 +381,10 @@ const Componentview: FunctionComponent = () => {
             </View>
           </View>
           <View className='cell-item  taroify-hairline--bottom'>
-            <View className='event-icon event-icon-padding-top'>
+            <View className={classnames('event-icon', { 'event-icon-padding-top': !webEnv })}>
               <ClockOutlined size={20} />
             </View>
-            <View className='event-content'>
+            <View className='event-content event-content-padding-top'>
               {dayjs(component.dtstart).isSame(component.dtend, 'date') ? (
                 <SameDay dtstart={component.dtstart} dtend={component.dtend} fullDay={component.fullDay}></SameDay>
               ) : (
@@ -420,10 +420,10 @@ const Componentview: FunctionComponent = () => {
           )}
           <View className='divider'></View>
           <View className='cell-item taroify-hairline--bottom'>
-            <View className={classnames('event-icon', { 'event-wechat-icon': !webEnv })}>
+            <View className={classnames('event-icon', { 'event-icon-padding-top': !webEnv })}>
               <BulbOutlined size={20} />
             </View>
-            <View className='event-content' onClick={handleRequestSubscribeMessage}>
+            <View className='event-content event-content-padding-top' onClick={handleRequestSubscribeMessage}>
               {formatAlarmText(alarmType, alarmTimes)}
             </View>
           </View>

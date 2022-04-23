@@ -2,13 +2,12 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-04-06 10:06:08
+ * @LastEditTime: 2022-04-22 21:07:49
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
-import { Cell } from '@taroify/core'
-import { Arrow } from '@taroify/icons'
+import { Cell, Tag } from '@taroify/core'
 import { IMessage } from '~/../@types/message'
 import dayjs from 'dayjs'
 
@@ -84,20 +83,34 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
     }
   }
 
+  const getTagColor = (type: string) => {
+    switch (type) {
+      case 'SYSTEM':
+        return 'success'
+      case 'GROUP':
+        return 'warning'
+      case 'EVENT':
+        return 'danger'
+      default:
+        return 'primary'
+    }
+  }
+
   const view = () => {
     props.viewHandler(props.message.id ? props.message.id : '')
   }
 
   const { status, type, operation, createTime } = props.message
   return (
-    <Cell rightIcon={<Arrow />} onClick={() => view()} clickable>
+    <Cell onClick={() => view()} clickable>
+      <View className='title'>
+        {status === 0 && <View className='read' />}
+        <View className='taroify-ellipsis'>{operateType(type, operation)}</View>
+      </View>
       <View className='cell'>
-        <View className='label'>
-          {status === 0 && <View className='read'></View>}
-          <View className='taroify-ellipsis'>
-            {messageType(type)}：{operateType(type, operation)}
-          </View>
-        </View>
+        <Tag shape='round' color={getTagColor(type)}>
+          {messageType(type)}
+        </Tag>
         <View>{dayjs(createTime).format('YYYY-MM-DD HH:mm')}</View>
       </View>
     </Cell>

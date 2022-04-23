@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-04-13 17:12:20
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-19 22:57:37
+ * @LastEditTime: 2022-04-23 22:26:40
  * @FilePath: \xuct-calendar-weapp\src\pages\memberbindwechat\index.tsx
  * @Description: 绑定微信
  *
