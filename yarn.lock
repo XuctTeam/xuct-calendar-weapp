@@ -10333,10 +10333,10 @@
     "css-mediaquery" "^0.1.2"
     "postcss-value-parser" "^3.3.0"
 
-"taro-hooks@^1.5.6":
-  "integrity" "sha512-MR61dHi0I3Pssgma7VjmlX7RNwtWRoaxd+SCiCGQ3QnZvtmYvvYHy1P9rgIHH/PBs6I51YCGwBv71YbPJ9Mwbw=="
-  "resolved" "https://registry.npmjs.org/taro-hooks/-/taro-hooks-1.5.6.tgz"
-  "version" "1.5.6"
+"taro-hooks@^1.5.8":
+  "integrity" "sha512-Vhd9yoWvocVJGesuBMVRuPHj2u1t9FKevhzenJcXgEb71fjHa8LM8nsh+9/nGmpPmJDHZWvPb3qTXn6E+X+1+g=="
+  "resolved" "https://registry.npmjs.org/taro-hooks/-/taro-hooks-1.5.8.tgz"
+  "version" "1.5.8"
   dependencies:
     "@babel/runtime" "^7.14.6"
     "compressorjs-global" "^1.1.2"

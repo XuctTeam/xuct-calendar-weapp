@@ -1,6 +1,7 @@
 .vi-message-manager-warpper {
+  display: flex;
   flex-direction: column;
-  width: 100%;
+  overflow: hidden;
 
   &_container {
     display: flex;
