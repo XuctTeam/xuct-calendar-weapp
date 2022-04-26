@@ -4,83 +4,65 @@
  * @Autor: Derek Xu
  * @Date: 2022-04-22 21:11:46
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-22 21:14:25
+ * @LastEditTime: 2022-04-26 17:24:34
  */
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { ScrollView, View } from '@tarojs/components'
-import { Empty, DropdownMenu, List, Loading } from '@taroify/core'
+import { Empty, List, Loading, Flex, Search, Cell } from '@taroify/core'
+import { Arrow } from '@taroify/icons'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { IMessagePageComponent, IMessage } from '~/../@types/message'
 import { list, read } from '@/api/message'
 import MessageBody from './MessageBody'
 
-const InternalMsg = () => {
+interface IPageOption {
+  status: number
+  statusPickerChage: (flag: boolean) => void
+}
+
+const InternalMsg: FunctionComponent<IPageOption> = (props) => {
   const pageRef = useRef<number>(0)
   const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
-  const [messages, setMessages] = useState<Array<IMessage>>([])
+  const [messages, setMessages] = useState<IMessage[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [scrollTop, setScrollTop] = useState(0)
-  const [status, setStatus] = useState<number>(2)
-  const [sort, setSort] = useState<number>(0)
+  const [searchValue, setSearchValue] = useState<string>('')
 
   useEffect(() => {
     if (!accessToken) {
-      _reset(1)
       return
     }
-    if (accessToken) {
-      refresh(status, sort)
-    }
+    _init(props.status)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken])
+  }, [accessToken, props.status])
 
-  const refresh = (sts: number, sot: number) => {
+  const _init = (nm: number) => {
+    pageRef.current = 0
+    refresh(nm, [])
+  }
+
+  const refresh = (nm: number, msgs: IMessage[]) => {
     console.log('---- onload -----')
     setLoading(true)
-    list(pageRef.current, 20, sts, sot)
+    list(pageRef.current, 1, nm)
       .then((res) => {
-        _fillMessage(res as any as IMessagePageComponent)
+        _fillMessage(res as any as IMessagePageComponent, msgs)
       })
       .catch((err) => {
         console.log(err)
         setLoading(false)
+        setHasMore(false)
       })
   }
 
-  const statusChageHandler = (val: any) => {
-    if (val === undefined) return
-    _reset(0)
-    setStatus(val)
-    if (!accessToken) return
-    refresh(val, sort)
-  }
-
-  const sortChageHandler = (val: any) => {
-    if (val === undefined) return
-    _reset(0)
-    setSort(val)
-    if (!accessToken) return
-    refresh(status, val)
-  }
-
-  const _fillMessage = (res: IMessagePageComponent) => {
+  const _fillMessage = (res: IMessagePageComponent, msgs: IMessage[]) => {
     setHasMore(!res.finished)
     setLoading(false)
-    if (!res.messages || res.messages.length === 0) return
-    setMessages(res.messages)
-  }
-
-  const _reset = (all: number) => {
-    setMessages([])
-    pageRef.current = 0
-    if (all === 1) {
-      setStatus(2)
-      setSort(0)
-      setHasMore(true)
-    }
+    pageRef.current = pageRef.current + 1
+    setMessages(msgs.concat(res.messages))
   }
 
   const viewHandler = (id: string) => {
@@ -114,19 +96,19 @@ const InternalMsg = () => {
   }
 
   return (
-    <View className='vi-message-manager-warpper_container'>
-      <DropdownMenu>
-        <DropdownMenu.Item value={status} onChange={statusChageHandler}>
-          <DropdownMenu.Option value={2}>全部消息</DropdownMenu.Option>
-          <DropdownMenu.Option value={0}>未读消息</DropdownMenu.Option>
-          <DropdownMenu.Option value={1}>已读消息</DropdownMenu.Option>
-        </DropdownMenu.Item>
-        <DropdownMenu.Item value={sort} onChange={sortChageHandler}>
-          <DropdownMenu.Option value={0}>默认排序</DropdownMenu.Option>
-          <DropdownMenu.Option value={1}>时间排序</DropdownMenu.Option>
-          <DropdownMenu.Option value={2}>类型排序</DropdownMenu.Option>
-        </DropdownMenu.Item>
-      </DropdownMenu>
+    <Fragment>
+      <View className='search'>
+        <Flex gutter={4}>
+          <Flex.Item span={18}>
+            <Search shape='rounded' value={searchValue} placeholder='请输入搜索关键词' onChange={(e) => setSearchValue(e.detail.value)} />
+          </Flex.Item>
+          <Flex.Item span={6}>
+            <Cell rightIcon={<Arrow />} clickable onClick={() => props.statusPickerChage(true)}>
+              {props.status === 2 ? '全部' : props.status === 0 ? '未读' : '已读'}
+            </Cell>
+          </Flex.Item>
+        </Flex>
+      </View>
       {messages.length === 0 ? (
         <Empty>
           <Empty.Image />
@@ -141,7 +123,7 @@ const InternalMsg = () => {
               setScrollTop(e.detail.scrollTop)
             }}
           >
-            <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={() => refresh(status, sort)}>
+            <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={() => refresh(props.status, messages)}>
               {messages.map((item, i) => (
                 <MessageBody key={i} message={item} viewHandler={viewHandler}></MessageBody>
               ))}
@@ -153,7 +135,7 @@ const InternalMsg = () => {
           </ScrollView>
         </View>
       )}
-    </View>
+    </Fragment>
   )
 }
 

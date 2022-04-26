@@ -2,12 +2,12 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-04-22 21:07:49
+ * @LastEditTime: 2022-04-26 11:57:47
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
-import { Cell, Tag } from '@taroify/core'
+import { Cell, Flex, Tag } from '@taroify/core'
 import { IMessage } from '~/../@types/message'
 import dayjs from 'dayjs'
 
@@ -100,17 +100,28 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
     props.viewHandler(props.message.id ? props.message.id : '')
   }
 
-  const { status, type, operation, createTime } = props.message
+  const { title, status, type, operation, createTime } = props.message
   return (
     <Cell onClick={() => view()} clickable>
       <View className='title'>
         {status === 0 && <View className='read' />}
-        <View className='taroify-ellipsis'>{operateType(type, operation)}</View>
+        {title}
       </View>
       <View className='cell'>
-        <Tag shape='round' color={getTagColor(type)}>
-          {messageType(type)}
-        </Tag>
+        <View>
+          <Flex gutter={4}>
+            <Flex.Item>
+              <Tag shape='round' color='primary'>
+                <View className='taroify-ellipsis'>{operateType(type, operation)}</View>
+              </Tag>
+            </Flex.Item>
+            <Flex.Item>
+              <Tag shape='round' color={getTagColor(type)}>
+                {messageType(type)}
+              </Tag>
+            </Flex.Item>
+          </Flex>
+        </View>
         <View>{dayjs(createTime).format('YYYY-MM-DD HH:mm')}</View>
       </View>
     </Cell>

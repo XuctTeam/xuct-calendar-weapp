@@ -2,11 +2,12 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-04-02 09:09:37
+ * @LastEditTime: 2022-04-26 16:06:00
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Router from 'tarojs-router-next'
+import { Button } from '@taroify/core'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import CommonMain from '@/components/mixin'
@@ -19,6 +20,7 @@ import './index.scss'
 
 const MessageDetail: FunctionComponent = ({}) => {
   const [message, setMessage] = useState<IMessage>({
+    title: '',
     memberId: '',
     type: 'SYSTEM',
     createTime: dayjs().toDate(),
@@ -67,6 +69,11 @@ const MessageDetail: FunctionComponent = ({}) => {
   return (
     <CommonMain className='vi-message-detail-warpper' title='消息详情' fixed to={3} left>
       <View className='vi-message-detail-warpper_container'>{view()}</View>
+      <View className='vi-message-detail-warpper_button'>
+        <Button color='danger' block>
+          删除
+        </Button>
+      </View>
     </CommonMain>
   )
 }

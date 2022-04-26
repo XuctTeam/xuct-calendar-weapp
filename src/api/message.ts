@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-17 14:04:42
- * @LastEditTime: 2022-04-20 21:05:05
+ * @LastEditTime: 2022-04-26 11:49:43
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -12,12 +12,11 @@ import http from '@/utils/request'
  * @param {number} page
  * @param {number} limit
  * @param {number} status
- * @param {number} sort
  * @return {*}
  * @author: Derek Xu
  */
-export const list = (page: number, limit: number, status: number, sort: number) => {
-  return http.get('/ums/api/app/v1/message/list', { page, limit, status, sort })
+export const list = (page: number, limit: number, status: number) => {
+  return http.get('/ums/api/app/v1/message/list', { page, limit, status })
 }
 
 /**

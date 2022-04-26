@@ -3,45 +3,62 @@
   flex-direction: column;
   overflow: hidden;
 
-  &_container {
+  .taroify-tabs,
+  .taroify-tabs__content {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .taroify-tabs__tab-pane {
     display: flex;
     height: 100%;
-    display: flex;
     flex-direction: column;
+    padding-bottom: 100px;
+  }
 
-    .list {
+  .list {
+    flex: 1;
+    overflow: scroll;
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 24px;
+
+    .label {
       flex: 1;
-      overflow: scroll;
-    }
-
-    .cell {
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: space-between;
-      font-size: 24px;
-
-      .label {
-        flex: 1;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
     }
+  }
 
-    .title {
-      font-size: 30px;
+  .search {
+    padding-top: 10px;
+
+    .taroify-flex {
+      height: 80px;
       display: flex;
       align-items: center;
-      
-      .read {
-        text-align: center;
-        margin-right: 10px;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: red;
-      }
+    }
+  }
+
+  .title {
+    font-size: 34px;
+    display: flex;
+    color: black;
+    align-items: center;
+
+    .read {
+      text-align: center;
+      margin-right: 10px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: red;
     }
   }
 
