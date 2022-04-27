@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-21 17:48:55
+ * @LastEditTime: 2022-04-27 21:57:40
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,10 +32,10 @@ const MemberInfo: FunctionComponent = () => {
   const [toast] = useToast()
   const [username, setUsername] = useState<string>('')
   const [avatar, setAvatar] = useState<string>('')
-  const wxAuthRef = useRef<IUserAuth>()
-  const phoneAuthRef = useRef<IUserAuth>()
-  const userNameAuthRef = useRef<IUserAuth>()
-  const emailAuthRef = useRef<IUserAuth>()
+  const [wxAuth, setWxAuth] = useState<IUserAuth | null>()
+  const [phoneAuth, setPhoneAuth] = useState<IUserAuth | null>()
+  const [userNameAuth, setUserNameAuth] = useState<IUserAuth | null>()
+  const [emailAuth, setEmailAuth] = useState<IUserAuth | null>()
 
   const [show] = useModal({
     title: '提示',
@@ -46,10 +46,10 @@ const MemberInfo: FunctionComponent = () => {
     setAvatar((userInfo && userInfo.avatar) || DEFAULT_AVATAR)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     if (userAuths && userAuths instanceof Array) {
-      wxAuthRef.current = _getAuth('open_id')
-      phoneAuthRef.current = _getAuth('phone')
-      userNameAuthRef.current = _getAuth('user_name')
-      emailAuthRef.current = _getAuth('email')
+      setWxAuth(_getAuth('open_id'))
+      setPhoneAuth(_getAuth('phone'))
+      setUserNameAuth(_getAuth('user_name'))
+      setEmailAuth(_getAuth('email'))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo, userAuths])
@@ -75,24 +75,31 @@ const MemberInfo: FunctionComponent = () => {
   }
 
   const toWechat = () => {
-    if (!wxAuthRef.current) return
+    let avatar, nickName
+    if (wxAuth) {
+      avatar = wxAuth.avatar
+      nickName = wxAuth.nickName
+    }
     Router.toMemberbindwechat({
       data: {
-        avatar: wxAuthRef.current.avatar,
-        username: wxAuthRef.current.nickName,
+        avatar: avatar,
+        username: nickName,
         memberId: userInfo.id
       }
     })
   }
 
-  const _getAuth = (identityType: string): IUserAuth => {
-    let auth: IUserAuth | undefined
-    if (userAuths && userAuths instanceof Array) {
-      auth = userAuths.find((i) => i.identityType === identityType)
-    }
-    if (!auth) return _getDefaultAuth(identityType)
-    return auth
-  }
+  const _getAuth = useCallback(
+    (identityType: string): IUserAuth => {
+      let auth: IUserAuth | undefined
+      if (userAuths && userAuths instanceof Array) {
+        auth = userAuths.find((i) => i.identityType === identityType)
+      }
+      if (!auth) return _getDefaultAuth(identityType)
+      return auth
+    },
+    [userAuths]
+  )
 
   const _getDefaultAuth = (identityType: string): IUserAuth => {
     return {
@@ -122,10 +129,11 @@ const MemberInfo: FunctionComponent = () => {
       })
     })
       .then(() => {
-        wxAuthRef.current = undefined
-        phoneAuthRef.current = undefined
-        userNameAuthRef.current = undefined
-        emailAuthRef.current = undefined
+        setWxAuth(null)
+        setUserNameAuth(null)
+        setEmailAuth(null)
+        setPhoneAuth(null)
+
         toast({ title: '退出成功', icon: 'success' })
         setTimeout(() => {
           back({ to: 4 })
@@ -189,16 +197,13 @@ const MemberInfo: FunctionComponent = () => {
   const to = throttle(
     (ty: number) => {
       if (ty === 2) {
-        if (!userNameAuthRef.current) return
-        toModifyUserName(userNameAuthRef.current.username)
+        toModifyUserName(userNameAuth ? userNameAuth.username : '')
       } else if (ty === 3) {
-        if (!phoneAuthRef.current) return
-        toModifyPhone(phoneAuthRef.current.username)
+        toModifyPhone(phoneAuth ? phoneAuth.username : '')
       } else if (ty === 4) {
         Router.toMembermodifypassword()
       } else if (ty === 5) {
-        if (!emailAuthRef.current) return
-        toModifyEmail(emailAuthRef.current.username)
+        toModifyEmail(emailAuth ? emailAuth.username : '')
       } else if (ty === 6) {
         toWechat()
       }
@@ -235,16 +240,16 @@ const MemberInfo: FunctionComponent = () => {
             {username}
           </Cell>
           <Cell title='登录账号' rightIcon={<ArrowRight />} clickable onClick={() => to(2)}>
-            {userNameAuthRef.current ? userNameAuthRef.current.username : '未绑定'}
+            {userNameAuth ? userNameAuth.username : '未绑定'}
           </Cell>
           <Cell title='手机号' rightIcon={<ArrowRight />} clickable onClick={() => to(3)}>
-            {phoneAuthRef.current ? phoneAuthRef.current.username : '未绑定'}
+            {phoneAuth ? phoneAuth.username : '未绑定'}
           </Cell>
           <Cell title='邮箱' rightIcon={<ArrowRight />} clickable onClick={() => to(5)}>
-            {emailAuthRef.current ? emailAuthRef.current.username : '未绑定'}
+            {emailAuth ? emailAuth.username : '未绑定'}
           </Cell>
           <Cell title='微信' rightIcon={<ArrowRight />} clickable onClick={() => to(6)}>
-            {wxAuthRef.current ? wxAuthRef.current.nickName : ''}
+            {wxAuth ? wxAuth.nickName : ''}
           </Cell>
           <Cell title='设置密码' rightIcon={<ArrowRight />} clickable onClick={() => to(4)}></Cell>
         </View>

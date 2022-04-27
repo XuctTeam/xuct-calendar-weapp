@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-15 15:34:01
- * @LastEditTime: 2022-04-22 21:42:28
+ * @LastEditTime: 2022-04-27 20:54:00
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -15,7 +15,6 @@ import { queryComponentMembers } from '@/api/component'
 import { UserBody } from './ui'
 
 import './index.scss'
-import { xor } from 'lodash'
 
 const ComponentAttendsView: FunctionComponent = () => {
   const [value, setValue] = useState('')
@@ -53,6 +52,7 @@ const ComponentAttendsView: FunctionComponent = () => {
     <CommonMain title='邀请者' left to={1} fixed className='vi-component-members-view-warpper'>
       <Search
         value={value}
+        shape='rounded'
         placeholder='请输入搜索姓名'
         onChange={(e) => setValue(e.detail.value)}
         onSearch={searchHandler}

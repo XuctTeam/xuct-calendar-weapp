@@ -2,14 +2,14 @@
  * @Author: Derek Xu
  * @Date: 2022-04-13 17:12:20
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-23 22:26:40
+ * @LastEditTime: 2022-04-27 21:29:38
  * @FilePath: \xuct-calendar-weapp\src\pages\memberbindwechat\index.tsx
  * @Description: 绑定微信
  *
  * Copyright (c) 2022 by 楚恬商行, All Rights Reserved.
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
 import CommonMain from '@/components/mixin'

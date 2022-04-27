@@ -1208,13 +1208,13 @@
   "resolved" "https://registry.npmjs.org/@stencil/core/-/core-2.9.0.tgz"
   "version" "2.9.0"
 
-"@taroify/core@^0.0.29-alpha.7":
-  "integrity" "sha512-wP8B25JMUbkm4cEQ3b7BZwGTfveSZN6R/dWC6UhhNqKHuzz53Luvqtj4FCcvlR/PXBEifGOaI+cj5pUBrbRXLA=="
-  "resolved" "https://registry.npmmirror.com/@taroify/core/-/core-0.0.29-alpha.7.tgz"
-  "version" "0.0.29-alpha.7"
+"@taroify/core@^0.0.29-alpha.8":
+  "integrity" "sha512-y53uZcl/xMcnLsefkMYJOxooYgEkrOFiT+HxJWuOIyPHyL9WTd8MJnNQVkNQWTQkRNwP0S3oO+/Fkku/cVy/Bw=="
+  "resolved" "https://registry.npmjs.org/@taroify/core/-/core-0.0.29-alpha.8.tgz"
+  "version" "0.0.29-alpha.8"
   dependencies:
-    "@taroify/hooks" "^0.0.29-alpha.7"
-    "@taroify/icons" "^0.0.29-alpha.7"
+    "@taroify/hooks" "^0.0.29-alpha.8"
+    "@taroify/icons" "^0.0.29-alpha.8"
     "classnames" "^2.2.6"
     "lodash" "^4.17.21"
     "promise" "^8.1.0"
@@ -1222,47 +1222,48 @@
     "react-is" "^17.0.2"
     "react-transition-group" "^4.4.1"
 
-"@taroify/hooks@^0.0.29-alpha.7":
-  "integrity" "sha512-jA2L6MPEpmU4q+8HsAG782kLnP5bnzgBBOXti2xc/i++gIDbJMTi/NPNxwW4l/uHMp4cmw7gSdJKs60RrsMYgA=="
-  "resolved" "https://registry.npmmirror.com/@taroify/hooks/-/hooks-0.0.29-alpha.7.tgz"
-  "version" "0.0.29-alpha.7"
+"@taroify/hooks@^0.0.29-alpha.8":
+  "integrity" "sha512-U6Fd5DzkQGXjSE9rvziQOqKCLFVitRuxuyZWddNtwt4um0mu4dv7v8bTlJtvW1sMV0rpJBXhQoXejx3WtSJ0tw=="
+  "resolved" "https://registry.npmjs.org/@taroify/hooks/-/hooks-0.0.29-alpha.8.tgz"
+  "version" "0.0.29-alpha.8"
   dependencies:
     "@vant/area-data" "^1.2.1"
 
-"@taroify/icons@^0.0.29-alpha.7":
-  "integrity" "sha512-BgUNZs+GYKBO3KxpsM6zut4OEd8RRnPhjc/7XjKvt+yOK3eudguxZPQohwU/xRfrJ0XWGLeAQS7z3RVdg/ajjw=="
-  "resolved" "https://registry.npmmirror.com/@taroify/icons/-/icons-0.0.29-alpha.7.tgz"
-  "version" "0.0.29-alpha.7"
+"@taroify/icons@^0.0.29-alpha.8":
+  "integrity" "sha512-9cBQ84KlNZ+1ZKsG2fQqM02rsE3VypZctJwgrJiSTUR0Bt/2RIj+9ZSr9ErpO8pyq4Yiuk9CEuXRdnkaM2IS7A=="
+  "resolved" "https://registry.npmjs.org/@taroify/icons/-/icons-0.0.29-alpha.8.tgz"
+  "version" "0.0.29-alpha.8"
   dependencies:
     "classnames" "^2.2.6"
 
-"@tarojs/api@3.4.7":
-  "integrity" "sha512-6mUp4Zk78QL/bxLu3UXtShfP+krXwXIy7+xP8kZ2p0ccJhi7a95HPZBeONuPiezgPJLKczE8dLl5b/4rkJOHsQ=="
-  "resolved" "https://registry.npmjs.org/@tarojs/api/-/api-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/api@3.4.8":
+  "integrity" "sha512-4UGrgDKZwsM6U+UNngmKXta+EbYiTWX9hLUqDyI1kNftNtb7NDSIcnNX4IA+e1JD1FdSGz5fx2t1ZgvDSPJi2g=="
+  "resolved" "https://registry.npmjs.org/@tarojs/api/-/api-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "@babel/runtime" "^7.14.5"
-    "@tarojs/runtime" "3.4.7"
+    "@tarojs/runtime" "3.4.8"
 
-"@tarojs/components@^3.3.9", "@tarojs/components@3.4.7":
-  "integrity" "sha512-X2FeVuaCmMrpbUiXSYRGm3zeEEcfrha2kN+TIwcFwqmBzQ5+6S9P9Hfojncb7rOsguVsjyh84TVrR5s1i36uRg=="
-  "resolved" "https://registry.npmjs.org/@tarojs/components/-/components-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/components@^3.3.9", "@tarojs/components@3.4.8":
+  "integrity" "sha512-1zfs9tIkPl3KXdmJGx54KcpZtR78SPWrxuFdbY9J3oViFt+qkmEYdNd4zm7eSf3WrVA8sBXpGbOzcKSmFOGGFw=="
+  "resolved" "https://registry.npmjs.org/@tarojs/components/-/components-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "@stencil/core" "2.9.0"
-    "@tarojs/taro" "3.4.7"
+    "@tarojs/taro" "3.4.8"
     "better-scroll" "^1.14.1"
     "classnames" "^2.2.5"
+    "hls.js" "^1.1.5"
     "intersection-observer" "^0.7.0"
     "omit.js" "^1.0.0"
     "resolve-pathname" "^3.0.0"
     "swiper" "6.8.0"
     "weui" "^1.1.2"
 
-"@tarojs/helper@3.4.7":
-  "integrity" "sha512-LGXwk7MBN2eEvVRwK2VSlFzxnKh4EwkQ1RJp9Xko8+vt8uXSXaZB4Oxh98txg5TTRLb15vaW2JPi17ztiikPxw=="
-  "resolved" "https://registry.npmjs.org/@tarojs/helper/-/helper-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/helper@3.4.8":
+  "integrity" "sha512-fz6SyZ+xTJYZ2H35PGweNLzB74V43XlaeWseZKmKG9YQbn7Q9v+jfAK6piHMN2gK13N8zs9pqTk/DwDVPtLynA=="
+  "resolved" "https://registry.npmjs.org/@tarojs/helper/-/helper-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "@babel/core" "^7.14.5"
     "@babel/plugin-proposal-decorators" "^7.14.5"
@@ -1272,7 +1273,7 @@
     "@babel/preset-typescript" "^7.14.5"
     "@babel/register" "^7.14.5"
     "@babel/runtime" "^7.14.5"
-    "@tarojs/taro" "3.4.7"
+    "@tarojs/taro" "3.4.8"
     "chalk" "3.0.0"
     "chokidar" "^3.3.1"
     "cross-spawn" "^7.0.3"
@@ -1283,28 +1284,28 @@
     "resolve" "^1.6.0"
     "yauzl" "2.10.0"
 
-"@tarojs/mini-runner@3.4.7":
-  "integrity" "sha512-SvHH4815+x+Kt7ly+1OmJxuZoFCArui2tQofuf/B33EDLmMLYH81reWKIfQlhDvYhnnQ3M+Oxd4nlYM1g/GIJw=="
-  "resolved" "https://registry.npmjs.org/@tarojs/mini-runner/-/mini-runner-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/mini-runner@3.4.8":
+  "integrity" "sha512-TLjBhtYj+5ylP/Spt0umQDT2Kc9SHaTf38jpiw8cMFiA9pi0bAbxzBxLGQ44elK52Po1HBS42qkSXpUilIbWaw=="
+  "resolved" "https://registry.npmjs.org/@tarojs/mini-runner/-/mini-runner-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "@babel/core" "^7.14.5"
-    "@tarojs/components" "3.4.7"
-    "@tarojs/helper" "3.4.7"
-    "@tarojs/plugin-platform-alipay" "3.4.7"
-    "@tarojs/plugin-platform-jd" "3.4.7"
-    "@tarojs/plugin-platform-qq" "3.4.7"
-    "@tarojs/plugin-platform-swan" "3.4.7"
-    "@tarojs/plugin-platform-tt" "3.4.7"
-    "@tarojs/plugin-platform-weapp" "3.4.7"
-    "@tarojs/react" "3.4.7"
-    "@tarojs/runner-utils" "3.4.7"
-    "@tarojs/runtime" "3.4.7"
-    "@tarojs/shared" "3.4.7"
-    "@tarojs/taro" "3.4.7"
-    "@tarojs/taro-loader" "3.4.7"
+    "@tarojs/components" "3.4.8"
+    "@tarojs/helper" "3.4.8"
+    "@tarojs/plugin-platform-alipay" "3.4.8"
+    "@tarojs/plugin-platform-jd" "3.4.8"
+    "@tarojs/plugin-platform-qq" "3.4.8"
+    "@tarojs/plugin-platform-swan" "3.4.8"
+    "@tarojs/plugin-platform-tt" "3.4.8"
+    "@tarojs/plugin-platform-weapp" "3.4.8"
+    "@tarojs/react" "3.4.8"
+    "@tarojs/runner-utils" "3.4.8"
+    "@tarojs/runtime" "3.4.8"
+    "@tarojs/shared" "3.4.8"
+    "@tarojs/taro" "3.4.8"
+    "@tarojs/taro-loader" "3.4.8"
     "babel-loader" "8.2.1"
-    "babel-preset-taro" "3.4.7"
+    "babel-preset-taro" "3.4.8"
     "copy-webpack-plugin" "5.1.2"
     "css-loader" "3.4.2"
     "csso-webpack-plugin" "2.0.0-beta.1"
@@ -1323,10 +1324,10 @@
     "mkdirp" "^1.0.4"
     "ora" "4.0.3"
     "postcss" "8.3.5"
-    "postcss-html-transform" "3.4.7"
+    "postcss-html-transform" "3.4.8"
     "postcss-import" "12.0.1"
     "postcss-loader" "4.3.0"
-    "postcss-pxtransform" "3.4.7"
+    "postcss-pxtransform" "3.4.8"
     "postcss-url" "8.0.0"
     "regenerator-runtime" "0.11"
     "resolve" "^1.6.0"
@@ -1344,118 +1345,118 @@
     "webpack-chain" "4.9.0"
     "webpack-format-messages" "^2.0.5"
 
-"@tarojs/plugin-framework-react@3.4.7":
-  "integrity" "sha512-qt0VvWF6BEW++gHrz5uftnI2PXPL+Epgx2i7o6AdfdeG4w0+SgVYwbMPXLARvszLTLTy/mSKmGRuuGqyvO6WDw=="
-  "resolved" "https://registry.npmjs.org/@tarojs/plugin-framework-react/-/plugin-framework-react-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/plugin-framework-react@3.4.8":
+  "integrity" "sha512-mtFUoNHn/63dEUIdpeeB3pFUBDj+pOOBwnZDE05gZPFsPUm1HOr3gz/ni0CpyhaqLldJQEhZ0UCgRrFGOJg08g=="
+  "resolved" "https://registry.npmjs.org/@tarojs/plugin-framework-react/-/plugin-framework-react-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin" "0.4.3"
     "@prefresh/webpack" "^3.2.3"
-    "@tarojs/runtime" "3.4.7"
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/runtime" "3.4.8"
+    "@tarojs/shared" "3.4.8"
     "acorn" "^8.0.4"
     "acorn-walk" "^8.0.0"
 
-"@tarojs/plugin-platform-alipay@3.4.7":
-  "integrity" "sha512-HWzv4ddkvTV4gT5CNoiH2JHzZBm0YeUcTWfcsEFMVN4wW0/ytKVdYZjIY2/ZrA3PtqBRSRt/fq5W8htgxVVc/A=="
-  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-alipay/-/plugin-platform-alipay-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/plugin-platform-alipay@3.4.8":
+  "integrity" "sha512-CcquviEQTB+LuiRMbLiNMUEXS/DnIJWqWKiTkNhFAjxeIJZRrvTPrRQtHeyz/AHKb7yOuEBV4HvUl2PopiOiaw=="
+  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-alipay/-/plugin-platform-alipay-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/components" "3.4.7"
-    "@tarojs/service" "3.4.7"
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/components" "3.4.8"
+    "@tarojs/service" "3.4.8"
+    "@tarojs/shared" "3.4.8"
 
-"@tarojs/plugin-platform-jd@3.4.7":
-  "integrity" "sha512-nF3+5NFtf/zH+EDJCmtA5ME2+OVXO8EBuKMkrgaqt0xHK6LL7Bd/HcLKGUP2J2nis41DUK6ChvZQPYin9jG/ZQ=="
-  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-jd/-/plugin-platform-jd-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/plugin-platform-jd@3.4.8":
+  "integrity" "sha512-x0AYTjM9iSuCDy5/pAGAu6W+9GUO4AJI0hAYs6u0SLn6EDQTxK9Ka6DDxoLtASRs0DosrRLXYJFGVbgxd0IZ5w=="
+  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-jd/-/plugin-platform-jd-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/service" "3.4.7"
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/service" "3.4.8"
+    "@tarojs/shared" "3.4.8"
 
-"@tarojs/plugin-platform-qq@3.4.7":
-  "integrity" "sha512-YCJ4I3wZT7y9Sf3EdOceBQpMEwpYGAukQOoPM5GdTWhD1YRUi61WVqtWO2Kx87R9Uey96IieYnFTYepxK78a1w=="
-  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-qq/-/plugin-platform-qq-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/plugin-platform-qq@3.4.8":
+  "integrity" "sha512-q3Bl4RzkVTS66lOVHSUw/LnYkFvfiQ9FZjyBangfwNbp18oNwRZFoZagouGHY6zPsDedtmPGnx9gswNPlaDpeA=="
+  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-qq/-/plugin-platform-qq-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/plugin-platform-weapp" "3.4.7"
-    "@tarojs/service" "3.4.7"
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/plugin-platform-weapp" "3.4.8"
+    "@tarojs/service" "3.4.8"
+    "@tarojs/shared" "3.4.8"
 
-"@tarojs/plugin-platform-swan@3.4.7":
-  "integrity" "sha512-mOvNinu2+EaOkwcMmkFXUXrmT6athFsTdvssTGmM5yhcpj/ASkvIUkMfACT1CeBQW3sTLlDHCWg8CMxypHue+w=="
-  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-swan/-/plugin-platform-swan-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/plugin-platform-swan@3.4.8":
+  "integrity" "sha512-L7DZznuds+KnbrgncuQnKnlzuSwy5DyX/Ng2awuL8SYZ7xmy3VIMHgsrxDclmCAMPpFCX4NlPEQ5GvHYhl4jwQ=="
+  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-swan/-/plugin-platform-swan-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/components" "3.4.7"
-    "@tarojs/service" "3.4.7"
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/components" "3.4.8"
+    "@tarojs/service" "3.4.8"
+    "@tarojs/shared" "3.4.8"
 
-"@tarojs/plugin-platform-tt@3.4.7":
-  "integrity" "sha512-4oWkrZF6p0m189rgXPyjMYZp3+AcZeHCxEEgE35dlRSdVcU1rN1Vog0nBfmKuQw1r8z64DhJynXI/APfQfh8kA=="
-  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-tt/-/plugin-platform-tt-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/plugin-platform-tt@3.4.8":
+  "integrity" "sha512-aewxzs5E0dAfmeDqf1xrmveKG8bHn8/wMHbI/jPH9hM9kcNgU7sRlXsznEjUf8znxRky2NTiyEkm4sEePDQ1PA=="
+  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-tt/-/plugin-platform-tt-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/components" "3.4.7"
-    "@tarojs/service" "3.4.7"
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/components" "3.4.8"
+    "@tarojs/service" "3.4.8"
+    "@tarojs/shared" "3.4.8"
 
-"@tarojs/plugin-platform-weapp@3.4.7":
-  "integrity" "sha512-QDRoJ2Hobopiv3Z4lHKe13VilDXuPy7OfUoDy8VSBNEaAaj+3WGmu1NMavkpePVoi7yZ53ROw/PN2GUMYYLVag=="
-  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-weapp/-/plugin-platform-weapp-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/plugin-platform-weapp@3.4.8":
+  "integrity" "sha512-ZAO/xGgRcY8K+otIlc+PosCE84zARcbn2SLYwiukmADjVYOsslyOH7UZXcIGOaOM47gzysfpe0TGf4ew90E4MQ=="
+  "resolved" "https://registry.npmjs.org/@tarojs/plugin-platform-weapp/-/plugin-platform-weapp-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/components" "3.4.7"
-    "@tarojs/service" "3.4.7"
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/components" "3.4.8"
+    "@tarojs/service" "3.4.8"
+    "@tarojs/shared" "3.4.8"
 
-"@tarojs/react@3.4.7":
-  "integrity" "sha512-FmmO9CXc75SGDvJaCQaqpFezLkdVO3SPSXSK/3xM54+tmwY81vsMh8LMWWCa804YXXwt7kExhRKog3+rTM+sFQ=="
-  "resolved" "https://registry.npmjs.org/@tarojs/react/-/react-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/react@3.4.8":
+  "integrity" "sha512-ae4lXPGmtqgbsx3GSFulGph9TEOypGR3Fkhkm0ZdHx2SYEgO4esk7Klqhskg/u54+RGe9scDfyIt/kAg0EuIeg=="
+  "resolved" "https://registry.npmjs.org/@tarojs/react/-/react-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/runtime" "3.4.7"
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/runtime" "3.4.8"
+    "@tarojs/shared" "3.4.8"
     "react-reconciler" "0.26.1"
     "scheduler" "^0.20.1"
 
-"@tarojs/router@3.4.7":
-  "integrity" "sha512-AA7CsD0cGdnR+9l7J8m+SmgoCMbFuhdECrmUopLqNLrwbJenztpsmeTdi5AT59QpGqzxcX+I9D5ZhzwaGfhjyQ=="
-  "resolved" "https://registry.npmjs.org/@tarojs/router/-/router-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/router@3.4.8":
+  "integrity" "sha512-BHNr4s3z+t+BHrL1YqizZ05KVbmT6vLQ9lzVmVbJIv/5eCbbanJ4hwkM3tgmY+0x4V4nxTaZPtLWKAganxeyKw=="
+  "resolved" "https://registry.npmjs.org/@tarojs/router/-/router-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/runtime" "3.4.7"
-    "@tarojs/taro" "3.4.7"
+    "@tarojs/runtime" "3.4.8"
+    "@tarojs/taro" "3.4.8"
     "history" "^5.1.0"
     "query-string" "^7.1.1"
     "universal-router" "^8.3.0"
 
-"@tarojs/runner-utils@3.4.7":
-  "integrity" "sha512-ew/N7qraAkWmC83ApqSO+s3u9UDCBtz5IdZ53Q/EmNmMtvxtkj0nBK++bj9I2XCD7vTIbUIE8Aypt4aJ/3mYNw=="
-  "resolved" "https://registry.npmjs.org/@tarojs/runner-utils/-/runner-utils-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/runner-utils@3.4.8":
+  "integrity" "sha512-BOKyBubop2EbQAZXnynDX3WhaFJ6VgtIkxsYzC2f+fqyDY+r+vHbOAcSOLcW2GGnjPePEjrW/HbdPnyPnF3inw=="
+  "resolved" "https://registry.npmjs.org/@tarojs/runner-utils/-/runner-utils-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/helper" "3.4.7"
+    "@tarojs/helper" "3.4.8"
     "scss-bundle" "^3.0.2"
 
-"@tarojs/runtime@3.4.7":
-  "integrity" "sha512-tLg3PDbp+Jp3z1RVvoG4i1ZahPl13f4L2htUxBMnQcRLYFhTpV8/OMMOSniotz41jG/Xb2RqVsziXocKlXO4+g=="
-  "resolved" "https://registry.npmjs.org/@tarojs/runtime/-/runtime-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/runtime@3.4.8":
+  "integrity" "sha512-1ZzDM90zW4Fqqb4w+1MKwdlufiZqrUUTJk5IqnUsBBHlhSm460TCa8JxUbzloMAi9S2yEb/bdsmBDFvPH4q7rQ=="
+  "resolved" "https://registry.npmjs.org/@tarojs/runtime/-/runtime-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/shared" "3.4.7"
+    "@tarojs/shared" "3.4.8"
     "inversify" "5.1.1"
     "lodash-es" "4.17.15"
     "reflect-metadata" "^0.1.13"
 
-"@tarojs/service@3.4.7":
-  "integrity" "sha512-FkYzqslQXMKE1VWqAbhCOUiZwgmW7KSqIp5S7HzM8/I4qRgZ9Gn6IZ9FPrSLELO8cSA4/6cLFrlpJjku8buyXg=="
-  "resolved" "https://registry.npmjs.org/@tarojs/service/-/service-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/service@3.4.8":
+  "integrity" "sha512-AVm1ta7oMVkqMEmlp44c4YXVKlB/CU3CnD5W/mdfcLsz60oH6HEYTAvf2oAyhwk7a0KHf19V/s738X5iCSlB1g=="
+  "resolved" "https://registry.npmjs.org/@tarojs/service/-/service-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/helper" "3.4.7"
-    "@tarojs/shared" "3.4.7"
-    "@tarojs/taro" "3.4.7"
+    "@tarojs/helper" "3.4.8"
+    "@tarojs/shared" "3.4.8"
+    "@tarojs/taro" "3.4.8"
     "fs-extra" "^8.1.0"
     "joi" "^17.6.0"
     "lodash" "^4.17.21"
@@ -1463,53 +1464,53 @@
     "tapable" "^1.1.3"
     "webpack-merge" "^4.2.2"
 
-"@tarojs/shared@3.4.7":
-  "integrity" "sha512-RxHyuf4WSEk2u3aHn9xZ0eH7XhaPhEZduMLCyJoRAToUWae+z3zg/kz7rIbUKDAyC9NBswB6z5mhKF4RMkk+AA=="
-  "resolved" "https://registry.npmjs.org/@tarojs/shared/-/shared-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/shared@3.4.8":
+  "integrity" "sha512-To9I4N5xwTGqmmnGXXLmeE+tdxaTopmsaPagZSaVanvUAD5jAgBdtrBjA4hH+HHSx69aZQWaECUXtcM4zYISTw=="
+  "resolved" "https://registry.npmjs.org/@tarojs/shared/-/shared-3.4.8.tgz"
+  "version" "3.4.8"
 
-"@tarojs/taro-h5@3.4.7":
-  "integrity" "sha512-0TG0z1drVmr3+zEZfhM5HqEpvQrX1XivexL5AywDX0c9UjmGjpraC4yKlcDdhYnUZgie9/1gLVyGnp5yCna2Lw=="
-  "resolved" "https://registry.npmjs.org/@tarojs/taro-h5/-/taro-h5-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/taro-h5@3.4.8":
+  "integrity" "sha512-237FsCsNZefEvJeUFNC7i7kVkAi+S0UFSsoPrAlptYrZIGJWwAYZq+sjjHUzr9MUCCAVrr53XkjS2rsNxYAs1w=="
+  "resolved" "https://registry.npmjs.org/@tarojs/taro-h5/-/taro-h5-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/api" "3.4.7"
-    "@tarojs/router" "3.4.7"
-    "@tarojs/runtime" "3.4.7"
-    "@tarojs/taro" "3.4.7"
+    "@tarojs/api" "3.4.8"
+    "@tarojs/router" "3.4.8"
+    "@tarojs/runtime" "3.4.8"
+    "@tarojs/taro" "3.4.8"
     "base64-js" "^1.3.0"
     "jsonp-retry" "^1.0.3"
     "mobile-detect" "^1.4.2"
     "query-string" "^7.1.1"
     "whatwg-fetch" "^3.4.0"
 
-"@tarojs/taro-loader@3.4.7":
-  "integrity" "sha512-YCL7gUfv/ayH5CP9x++dJent8pWRduldBvLjZadVxxxzasNy5Evhrj6X2pQeaShMs53SLq6jawIEXn2aguvQKw=="
-  "resolved" "https://registry.npmjs.org/@tarojs/taro-loader/-/taro-loader-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/taro-loader@3.4.8":
+  "integrity" "sha512-nvNHwEM26uUa0auids24YZH57wgY8BEAhNHqCSpTO+O3TMWp9XTqJ/f0Bd2TY6ZG+gG1lXMgCC4cOw7C8AmZlA=="
+  "resolved" "https://registry.npmjs.org/@tarojs/taro-loader/-/taro-loader-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/helper" "3.4.7"
-    "@tarojs/taro" "3.4.7"
+    "@tarojs/helper" "3.4.8"
+    "@tarojs/taro" "3.4.8"
     "loader-utils" "^1.2.3"
 
-"@tarojs/taro@^3.0.8", "@tarojs/taro@^3.3.6", "@tarojs/taro@^3.3.9", "@tarojs/taro@>= 3.x", "@tarojs/taro@3.4.7":
-  "integrity" "sha512-77lx628XbTzvrglZZNIH1pN0u9Qf0VwWw0Q0khVZY8YMQvouQClw9nIWnluzOJgy+67G0swcx3uN0uIlOjgFIQ=="
-  "resolved" "https://registry.npmjs.org/@tarojs/taro/-/taro-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/taro@^3.0.8", "@tarojs/taro@^3.3.6", "@tarojs/taro@^3.3.9", "@tarojs/taro@>= 3.x", "@tarojs/taro@3.4.8":
+  "integrity" "sha512-mAqf5elv2LiBsZDEbvyemgFFLTfE+dALbDA/101XPzsfXJuLjLJ19WKs5xTKeG15Rn6HbsTvs0FK9uhMtILAfQ=="
+  "resolved" "https://registry.npmjs.org/@tarojs/taro/-/taro-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/api" "3.4.7"
-    "@tarojs/runtime" "3.4.7"
-    "@tarojs/taro-h5" "3.4.7"
+    "@tarojs/api" "3.4.8"
+    "@tarojs/runtime" "3.4.8"
+    "@tarojs/taro-h5" "3.4.8"
 
-"@tarojs/webpack-runner@3.4.7":
-  "integrity" "sha512-MQJ9jF3pyVZNaCdRooYNBx+4sByjP0FLNwFM9kjQOH4QOTqTBjN9x5rawZOVnT9MmPfZQ89XO54Xwh0f00n/bg=="
-  "resolved" "https://registry.npmjs.org/@tarojs/webpack-runner/-/webpack-runner-3.4.7.tgz"
-  "version" "3.4.7"
+"@tarojs/webpack-runner@3.4.8":
+  "integrity" "sha512-58GuBHZvaPwd/OnWrT9cnqV9btUi0dZLQt71Xnr5D7e9OiK2YIO0BwHFzKdXFPKhAlKzww6k6Gg6IseT2jAigQ=="
+  "resolved" "https://registry.npmjs.org/@tarojs/webpack-runner/-/webpack-runner-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
-    "@tarojs/helper" "3.4.7"
-    "@tarojs/runner-utils" "3.4.7"
-    "@tarojs/taro" "3.4.7"
-    "@tarojs/taro-loader" "3.4.7"
+    "@tarojs/helper" "3.4.8"
+    "@tarojs/runner-utils" "3.4.8"
+    "@tarojs/taro" "3.4.8"
+    "@tarojs/taro-loader" "3.4.8"
     "autoprefixer" "^9.7.4"
     "babel-loader" "8.2.1"
     "copy-webpack-plugin" "5.1.2"
@@ -1527,8 +1528,8 @@
     "ora" "4.0.3"
     "postcss" "8.3.5"
     "postcss-loader" "4.3.0"
-    "postcss-plugin-constparse" "3.4.7"
-    "postcss-pxtransform" "3.4.7"
+    "postcss-plugin-constparse" "3.4.8"
+    "postcss-pxtransform" "3.4.8"
     "resolve" "^1.6.0"
     "resolve-url-loader" "3.1.3"
     "sass" "1.50.0"
@@ -1707,6 +1708,16 @@
     "@typescript-eslint/typescript-estree" "4.33.0"
     "debug" "^4.3.1"
 
+"@typescript-eslint/parser@^5.20.0":
+  "integrity" "sha512-8RUwTO77hstXUr3pZoWZbRQUxXcSXafZ8/5gpnQCfXvgmP9gpNlRGlWzvfbEQ14TLjmtU8eGnONkff8U2ui2Eg=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-5.21.0.tgz"
+  "version" "5.21.0"
+  dependencies:
+    "@typescript-eslint/scope-manager" "5.21.0"
+    "@typescript-eslint/types" "5.21.0"
+    "@typescript-eslint/typescript-estree" "5.21.0"
+    "debug" "^4.3.2"
+
 "@typescript-eslint/scope-manager@4.33.0":
   "integrity" "sha512-5IfJHpgTsTZuONKbODctL4kKuQje/bzBRkwHE8UOZ4f89Zeddg+EGZs8PD8NcN4LdM3ygHWYB3ukPAYjvl/qbQ=="
   "resolved" "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-4.33.0.tgz"
@@ -1715,10 +1726,23 @@
     "@typescript-eslint/types" "4.33.0"
     "@typescript-eslint/visitor-keys" "4.33.0"
 
+"@typescript-eslint/scope-manager@5.21.0":
+  "integrity" "sha512-XTX0g0IhvzcH/e3393SvjRCfYQxgxtYzL3UREteUneo72EFlt7UNoiYnikUtmGVobTbhUDByhJ4xRBNe+34kOQ=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-5.21.0.tgz"
+  "version" "5.21.0"
+  dependencies:
+    "@typescript-eslint/types" "5.21.0"
+    "@typescript-eslint/visitor-keys" "5.21.0"
+
 "@typescript-eslint/types@4.33.0":
   "integrity" "sha512-zKp7CjQzLQImXEpLt2BUw1tvOMPfNoTAfb8l51evhYbOEEzdWyQNmHWWGPR6hwKJDAi+1VXSBmnhL9kyVTTOuQ=="
   "resolved" "https://registry.npmjs.org/@typescript-eslint/types/-/types-4.33.0.tgz"
   "version" "4.33.0"
+
+"@typescript-eslint/types@5.21.0":
+  "integrity" "sha512-XnOOo5Wc2cBlq8Lh5WNvAgHzpjnEzxn4CJBwGkcau7b/tZ556qrWXQz4DJyChYg8JZAD06kczrdgFPpEQZfDsA=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/types/-/types-5.21.0.tgz"
+  "version" "5.21.0"
 
 "@typescript-eslint/typescript-estree@4.33.0":
   "integrity" "sha512-rkWRY1MPFzjwnEVHsxGemDzqqddw2QbTJlICPD9p9I9LfsO8fdmfQPOX3uKfUaGRDFJbfrtm/sXhVXN4E+bzCA=="
@@ -1733,6 +1757,19 @@
     "semver" "^7.3.5"
     "tsutils" "^3.21.0"
 
+"@typescript-eslint/typescript-estree@5.21.0":
+  "integrity" "sha512-Y8Y2T2FNvm08qlcoSMoNchh9y2Uj3QmjtwNMdRQkcFG7Muz//wfJBGBxh8R7HAGQFpgYpdHqUpEoPQk+q9Kjfg=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-5.21.0.tgz"
+  "version" "5.21.0"
+  dependencies:
+    "@typescript-eslint/types" "5.21.0"
+    "@typescript-eslint/visitor-keys" "5.21.0"
+    "debug" "^4.3.2"
+    "globby" "^11.0.4"
+    "is-glob" "^4.0.3"
+    "semver" "^7.3.5"
+    "tsutils" "^3.21.0"
+
 "@typescript-eslint/visitor-keys@4.33.0":
   "integrity" "sha512-uqi/2aSz9g2ftcHWf8uLPJA70rUv6yuMW5Bohw+bwcuzaxQIHaKFZCKGoGXIrc9vkTJ3+0txM73K0Hq3d5wgIg=="
   "resolved" "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-4.33.0.tgz"
@@ -1741,10 +1778,18 @@
     "@typescript-eslint/types" "4.33.0"
     "eslint-visitor-keys" "^2.0.0"
 
+"@typescript-eslint/visitor-keys@5.21.0":
+  "integrity" "sha512-SX8jNN+iHqAF0riZQMkm7e8+POXa/fXw5cxL+gjpyP+FI+JVNhii53EmQgDAfDcBpFekYSlO0fGytMQwRiMQCA=="
+  "resolved" "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-5.21.0.tgz"
+  "version" "5.21.0"
+  dependencies:
+    "@typescript-eslint/types" "5.21.0"
+    "eslint-visitor-keys" "^3.0.0"
+
 "@vant/area-data@^1.2.1":
-  "integrity" "sha512-9bDgEsFnTjdaYXPvsYKRQmxzKDdLCl0c1dOo4JGE6RhaIcq2kR2f5cK0LUdGK+U/SuBz9NfW5ejL1lejcFiP1Q=="
-  "resolved" "https://registry.npmmirror.com/@vant/area-data/-/area-data-1.2.3.tgz"
-  "version" "1.2.3"
+  "integrity" "sha512-oowT5fePKdPR4DShoLnXejcXtW323JhtbJreOpFRBP2sNc/krgDe5W1BBCJg+frKet7x7cd0d8pA7xR3Vv9PLQ=="
+  "resolved" "https://registry.npmjs.org/@vant/area-data/-/area-data-1.2.4.tgz"
+  "version" "1.2.4"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   "integrity" "sha512-QOi5OW45e2R20VygMSNhyQHvpdUwQZqGPc748JLGCYEy+yp8fNFNdbNIGAgZmi9e+2JHPd6i6idRuqivyicIkA=="
@@ -2309,8 +2354,8 @@
   "version" "1.0.1"
 
 "asap@~2.0.6":
-  "integrity" "sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA=="
-  "resolved" "https://registry.npmmirror.com/asap/-/asap-2.0.6.tgz"
+  "integrity" "sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY="
+  "resolved" "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz"
   "version" "2.0.6"
 
 "asn1.js@^5.2.0":
@@ -2525,28 +2570,28 @@
   dependencies:
     "is-invalid-path" "^1.0.2"
 
-"babel-plugin-transform-react-jsx-to-rn-stylesheet@3.4.7":
-  "integrity" "sha512-qLgC/7Fj3WCvzDaJXDnScL9IGr6mmR7hHPX0st1+/rMUm1dzCnudQK36RA51jjF1hJ64jFBOHOLaI7CXCrK4Cg=="
-  "resolved" "https://registry.npmjs.org/babel-plugin-transform-react-jsx-to-rn-stylesheet/-/babel-plugin-transform-react-jsx-to-rn-stylesheet-3.4.7.tgz"
-  "version" "3.4.7"
+"babel-plugin-transform-react-jsx-to-rn-stylesheet@3.4.8":
+  "integrity" "sha512-eMV5woSUs4422DIjfzsNe9r3Cpj72FMn0kbpLt/lpsSwJorTj407FZexgLXhptzGhrKZYQ+AoBEyEy2BN2rHCA=="
+  "resolved" "https://registry.npmjs.org/babel-plugin-transform-react-jsx-to-rn-stylesheet/-/babel-plugin-transform-react-jsx-to-rn-stylesheet-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "camelize" "^1.0.0"
-    "taro-css-to-react-native" "3.4.7"
+    "taro-css-to-react-native" "3.4.8"
 
 "babel-plugin-transform-react-remove-prop-types@^0.4.24":
   "integrity" "sha512-eqj0hVcJUR57/Ug2zE1Yswsw4LhuqqHhD+8v120T1cl3kjg76QwtyBrdIk4WVwK+lAhBJVYCd/v+4nc4y+8JsA=="
   "resolved" "https://registry.npmjs.org/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz"
   "version" "0.4.24"
 
-"babel-plugin-transform-taroapi@3.4.7":
-  "integrity" "sha512-CQtQEWGOvKkev1G/pSZEUavenq7LALTZyw0idYGSVLRJyEsZwrU2FeOIBLDwMZ74A9CzY5h517Tw+Q68gi3caA=="
-  "resolved" "https://registry.npmjs.org/babel-plugin-transform-taroapi/-/babel-plugin-transform-taroapi-3.4.7.tgz"
-  "version" "3.4.7"
+"babel-plugin-transform-taroapi@3.4.8":
+  "integrity" "sha512-ThCG3/2b5EgI1r88IgMYS6Qw1TyPN1P70GWvBIWdipEpcrqTTh2kC3R48mZV/TOn9z43lYcn8JQCg4Q0FTqSzQ=="
+  "resolved" "https://registry.npmjs.org/babel-plugin-transform-taroapi/-/babel-plugin-transform-taroapi-3.4.8.tgz"
+  "version" "3.4.8"
 
-"babel-preset-taro@3.4.7":
-  "integrity" "sha512-0HbApoKSwpmXmzXpDJVxX1JmduWG0mILcYNxvfMzMW01M/jXLriK1HsHYjpwBLPSG6tjQEdXfCPa0oz9GA9VzQ=="
-  "resolved" "https://registry.npmjs.org/babel-preset-taro/-/babel-preset-taro-3.4.7.tgz"
-  "version" "3.4.7"
+"babel-preset-taro@3.4.8":
+  "integrity" "sha512-Y4MX0E+FDWrd/q1itn2KJtxailpyjNsQ1pd93yjVEh+YMAP0btjgO3fKZABZ9TC4lctrh806BzoSeMKs4dcV2A=="
+  "resolved" "https://registry.npmjs.org/babel-preset-taro/-/babel-preset-taro-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.14.5"
     "@babel/plugin-proposal-decorators" "^7.14.5"
@@ -2558,8 +2603,8 @@
     "@babel/runtime" "^7.14.5"
     "@babel/runtime-corejs3" "^7.14.5"
     "@prefresh/babel-plugin" "^0.4.1"
-    "@tarojs/helper" "3.4.7"
-    "@tarojs/taro-h5" "3.4.7"
+    "@tarojs/helper" "3.4.8"
+    "@tarojs/taro-h5" "3.4.8"
     "@vue/babel-plugin-jsx" "^1.0.6"
     "@vue/babel-preset-jsx" "^1.2.4"
     "babel-plugin-dynamic-import-node" "2.3.3"
@@ -2567,8 +2612,8 @@
     "babel-plugin-jsx-attributes-array-to-object" "0.3.0"
     "babel-plugin-minify-dead-code-elimination" "0.5.1"
     "babel-plugin-transform-imports-api" "1.0.0"
-    "babel-plugin-transform-react-jsx-to-rn-stylesheet" "3.4.7"
-    "babel-plugin-transform-taroapi" "3.4.7"
+    "babel-plugin-transform-react-jsx-to-rn-stylesheet" "3.4.8"
+    "babel-plugin-transform-taroapi" "3.4.8"
     "core-js" "^3.6.5"
     "metro-react-native-babel-preset" "^0.66.2"
     "react-refresh" "0.9.0"
@@ -3521,9 +3566,9 @@
     "semver" "7.0.0"
 
 "core-js-pure@^3.20.2":
-  "integrity" "sha512-ylOC9nVy0ak1N+fPIZj00umoZHgUVqmucklP5RT5N+vJof38klKn8Ze6KGyvchdClvEBr6LcQqJpI216LUMqYA=="
-  "resolved" "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.22.0.tgz"
-  "version" "3.22.0"
+  "integrity" "sha512-Lb+/XT4WC4PaCWWtZpNPaXmjiNDUe5CJuUtbkMrIM1kb1T/jJoAIp+bkVP/r5lHzMr+ZAAF8XHp7+my6Ol0ysQ=="
+  "resolved" "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.22.2.tgz"
+  "version" "3.22.2"
 
 "core-js@^2.4.0":
   "integrity" "sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
@@ -3893,7 +3938,7 @@
   dependencies:
     "ms" "^2.1.1"
 
-"debug@^4.0.1", "debug@^4.1.0", "debug@^4.1.1", "debug@^4.3.1":
+"debug@^4.0.1", "debug@^4.1.0", "debug@^4.1.1", "debug@^4.3.1", "debug@^4.3.2":
   "integrity" "sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-4.3.3.tgz"
   "version" "4.3.3"
@@ -4140,7 +4185,7 @@
 
 "dom-helpers@^5.0.1":
   "integrity" "sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA=="
-  "resolved" "https://registry.npmmirror.com/dom-helpers/-/dom-helpers-5.2.1.tgz"
+  "resolved" "https://registry.npmjs.org/dom-helpers/-/dom-helpers-5.2.1.tgz"
   "version" "5.2.1"
   dependencies:
     "@babel/runtime" "^7.8.7"
@@ -4461,13 +4506,13 @@
   optionalDependencies:
     "source-map" "~0.6.1"
 
-"eslint-config-taro@3.4.7":
-  "integrity" "sha512-EhWnSVupG+Qk7MM0O7yy2OPv0ML8OUwSteM/SYTUyn8LDgiNHQxUVJTLo4hgSU1AjBAPBx4c+S1gsCkYM74s9g=="
-  "resolved" "https://registry.npmjs.org/eslint-config-taro/-/eslint-config-taro-3.4.7.tgz"
-  "version" "3.4.7"
+"eslint-config-taro@3.4.8":
+  "integrity" "sha512-1DTNYK/OyNo/Thl480a7ab5EvJY+pXuS3/Be+A8vy+QO2ROrrXGH5ub/oGV2JetA8vQy6zHls9cgopEQM2B/RA=="
+  "resolved" "https://registry.npmjs.org/eslint-config-taro/-/eslint-config-taro-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "@babel/eslint-parser" "^7.17.0"
-    "@typescript-eslint/parser" "^4.15.1"
+    "@typescript-eslint/parser" "^5.20.0"
 
 "eslint-import-resolver-node@^0.3.6":
   "integrity" "sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw=="
@@ -4569,7 +4614,12 @@
   "resolved" "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-2.1.0.tgz"
   "version" "2.1.0"
 
-"eslint@*", "eslint@^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8", "eslint@^3 || ^4 || ^5 || ^6 || ^7 || ^8", "eslint@^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0", "eslint@^5.0.0 || ^6.0.0 || ^7.0.0", "eslint@^6.8.0", "eslint@^7.5.0 || ^8.0.0", "eslint@>=5":
+"eslint-visitor-keys@^3.0.0":
+  "integrity" "sha512-mQ+suqKJVyeuwGYHAdjMFqjCyfl8+Ldnxuyp3ldiMBFKkvytrXUZWaiPCEav8qDHKty44bD+qV1IP4T+w+xXRA=="
+  "resolved" "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-3.3.0.tgz"
+  "version" "3.3.0"
+
+"eslint@*", "eslint@^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8", "eslint@^3 || ^4 || ^5 || ^6 || ^7 || ^8", "eslint@^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0", "eslint@^5.0.0 || ^6.0.0 || ^7.0.0", "eslint@^6.0.0 || ^7.0.0 || ^8.0.0", "eslint@^6.8.0", "eslint@^7.5.0 || ^8.0.0", "eslint@>=5":
   "integrity" "sha512-K+Iayyo2LtyYhDSYwz5D5QdWw0hCacNzyq1Y821Xna2xSJj7cijoLLYmLxTQgcgZ9mC61nryMy9S7GRbYpI5Ig=="
   "resolved" "https://registry.npmjs.org/eslint/-/eslint-6.8.0.tgz"
   "version" "6.8.0"
@@ -5303,7 +5353,7 @@
   dependencies:
     "type-fest" "^0.8.1"
 
-"globby@^11.0.3":
+"globby@^11.0.3", "globby@^11.0.4":
   "integrity" "sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g=="
   "resolved" "https://registry.npmjs.org/globby/-/globby-11.1.0.tgz"
   "version" "11.1.0"
@@ -5505,6 +5555,11 @@
   "version" "5.3.0"
   dependencies:
     "@babel/runtime" "^7.7.6"
+
+"hls.js@^1.1.5":
+  "integrity" "sha512-mQX5TSNtJEzGo5HPpvcQgCu+BWoKDQM6YYtg/KbgWkmVAcqOCvSTi0SuqG2ZJLXxIzdnFcKU2z7Mrw/YQWhPOA=="
+  "resolved" "https://registry.npmjs.org/hls.js/-/hls.js-1.1.5.tgz"
+  "version" "1.1.5"
 
 "hmac-drbg@^1.0.1":
   "integrity" "sha1-0nRXAQJabHdabFRXk+1QL8DGSaE="
@@ -8126,10 +8181,10 @@
   "resolved" "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz"
   "version" "0.1.1"
 
-"postcss-html-transform@3.4.7":
-  "integrity" "sha512-dRd/t0moqb10ky9r/TQ6seXmFMlWK6pSk8kzm92FI2CkJcmreHEJoReSMf4rI0rQc8sQOcpm3raKtcyrcZnXkQ=="
-  "resolved" "https://registry.npmjs.org/postcss-html-transform/-/postcss-html-transform-3.4.7.tgz"
-  "version" "3.4.7"
+"postcss-html-transform@3.4.8":
+  "integrity" "sha512-3Zr7vWgD1b6HR8VVZ/oshy/lNI/SfwAsYSkabzvXtiTbGANWW2Jcay9UItHak7/P/phYYPnnWxS8uM0zQMNaug=="
+  "resolved" "https://registry.npmjs.org/postcss-html-transform/-/postcss-html-transform-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "postcss" "^6.0.22"
 
@@ -8214,17 +8269,17 @@
     "icss-utils" "^4.0.0"
     "postcss" "^7.0.6"
 
-"postcss-plugin-constparse@3.4.7":
-  "integrity" "sha512-RaH0CLR3inwlje6MZJIAALuiRkLSga1EK1xo/KccDHviLoRU6FrgarhQL/m597DWAjQjH1gGsiR5E6KSJ5hc8A=="
-  "resolved" "https://registry.npmjs.org/postcss-plugin-constparse/-/postcss-plugin-constparse-3.4.7.tgz"
-  "version" "3.4.7"
+"postcss-plugin-constparse@3.4.8":
+  "integrity" "sha512-50B8F8ZE3zAsWf1qkRJN5gds+IVZ2NZqmAuHOVc+qen75hc+lnm5UanmvVlaHZZsRtO09mh9aT+aLqV2xSGtoA=="
+  "resolved" "https://registry.npmjs.org/postcss-plugin-constparse/-/postcss-plugin-constparse-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "postcss" "^6.0.22"
 
-"postcss-pxtransform@3.4.7":
-  "integrity" "sha512-MQCs71C0j3DfBXmVpwoJ61X2A9Uyy2MOcJyLSq3Z94lFZOcJph1wftnQlaJGwSYlqHcMmmPjlsN1oWd2PrwGWQ=="
-  "resolved" "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-3.4.7.tgz"
-  "version" "3.4.7"
+"postcss-pxtransform@3.4.8":
+  "integrity" "sha512-/bPovMdafdhwiN4urid2toXlvSXECNPeS5ywALA9VVH5UMJo/xkdcfEHu2eIjEzj7/2T+ej0R+vArC5Qn2SwMw=="
+  "resolved" "https://registry.npmjs.org/postcss-pxtransform/-/postcss-pxtransform-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "postcss" "^6.0.22"
 
@@ -8505,7 +8560,7 @@
 
 "promise@^8.1.0":
   "integrity" "sha512-W04AqnILOL/sPRXziNicCjSNRruLAuIHEOVBazepu0545DDNGYHz7ar9ZgZ1fMU8/MA4mVxp5rkBWRi6OXIy3Q=="
-  "resolved" "https://registry.npmmirror.com/promise/-/promise-8.1.0.tgz"
+  "resolved" "https://registry.npmjs.org/promise/-/promise-8.1.0.tgz"
   "version" "8.1.0"
   dependencies:
     "asap" "~2.0.6"
@@ -8654,7 +8709,7 @@
 
 "raf@^3.4.1":
   "integrity" "sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA=="
-  "resolved" "https://registry.npmmirror.com/raf/-/raf-3.4.1.tgz"
+  "resolved" "https://registry.npmjs.org/raf/-/raf-3.4.1.tgz"
   "version" "3.4.1"
   dependencies:
     "performance-now" "^2.1.0"
@@ -8786,7 +8841,7 @@
 
 "react-transition-group@^4.4.1":
   "integrity" "sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg=="
-  "resolved" "https://registry.npmmirror.com/react-transition-group/-/react-transition-group-4.4.2.tgz"
+  "resolved" "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.2.tgz"
   "version" "4.4.2"
   dependencies:
     "@babel/runtime" "^7.5.5"
@@ -10322,10 +10377,10 @@
     "mkdirp" "^1.0.3"
     "yallist" "^4.0.0"
 
-"taro-css-to-react-native@3.4.7":
-  "integrity" "sha512-aAbUaEEUW29VzbrHf1OriqE57XCyFJuzMAZ2Kp9Gd7uOsOmeI91Wm5ws3jpYcMysS9DfKf3DhbWU+GOYhPKWHw=="
-  "resolved" "https://registry.npmjs.org/taro-css-to-react-native/-/taro-css-to-react-native-3.4.7.tgz"
-  "version" "3.4.7"
+"taro-css-to-react-native@3.4.8":
+  "integrity" "sha512-ZJyoZMujPVYRWytihZkREfz92UETGPdtXsuyhLiFAxs58svylSAUBdjC8rP39pJSa/LBaNizj7pKESQCCJKaiA=="
+  "resolved" "https://registry.npmjs.org/taro-css-to-react-native/-/taro-css-to-react-native-3.4.8.tgz"
+  "version" "3.4.8"
   dependencies:
     "camelize" "^1.0.0"
     "css" "^2.2.4"

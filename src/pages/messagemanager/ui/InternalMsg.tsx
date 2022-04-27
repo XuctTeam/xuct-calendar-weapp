@@ -4,9 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2022-04-22 21:11:46
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-26 17:24:34
+ * @LastEditTime: 2022-04-27 20:56:01
  */
-import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { ScrollView, View } from '@tarojs/components'
@@ -33,36 +33,30 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
 
   useEffect(() => {
     if (!accessToken) {
+      setMessages([])
       return
     }
-    _init(props.status)
+    _init()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken, props.status])
 
-  const _init = (nm: number) => {
+  const _init = () => {
     pageRef.current = 0
-    refresh(nm, [])
+    refresh(true)
   }
 
-  const refresh = (nm: number, msgs: IMessage[]) => {
+  const refresh = (reload: boolean) => {
     console.log('---- onload -----')
     setLoading(true)
-    list(pageRef.current, 1, nm)
+    list(pageRef.current, 1, props.status, searchValue)
       .then((res) => {
-        _fillMessage(res as any as IMessagePageComponent, msgs)
+        _fillMessage(reload, res as any as IMessagePageComponent)
       })
       .catch((err) => {
         console.log(err)
         setLoading(false)
         setHasMore(false)
       })
-  }
-
-  const _fillMessage = (res: IMessagePageComponent, msgs: IMessage[]) => {
-    setHasMore(!res.finished)
-    setLoading(false)
-    pageRef.current = pageRef.current + 1
-    setMessages(msgs.concat(res.messages))
   }
 
   const viewHandler = (id: string) => {
@@ -95,12 +89,30 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
     })
   }
 
+  const _fillMessage = (reload: boolean, res: IMessagePageComponent) => {
+    setHasMore(!res.finished)
+    setLoading(false)
+    pageRef.current = pageRef.current + 1
+    const msgs = reload ? [] : [...messages]
+    setMessages(msgs.concat(res.messages))
+  }
+
   return (
     <Fragment>
       <View className='search'>
         <Flex gutter={4}>
           <Flex.Item span={18}>
-            <Search shape='rounded' value={searchValue} placeholder='请输入搜索关键词' onChange={(e) => setSearchValue(e.detail.value)} />
+            <Search
+              shape='rounded'
+              value={searchValue}
+              placeholder='请输入搜索关键词'
+              onChange={(e) => setSearchValue(e.detail.value)}
+              onSearch={() => accessToken && _init()}
+              onClear={() => {
+                setSearchValue('')
+                accessToken && _init()
+              }}
+            />
           </Flex.Item>
           <Flex.Item span={6}>
             <Cell rightIcon={<Arrow />} clickable onClick={() => props.statusPickerChage(true)}>
@@ -123,7 +135,7 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
               setScrollTop(e.detail.scrollTop)
             }}
           >
-            <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={() => refresh(props.status, messages)}>
+            <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={() => refresh(false)}>
               {messages.map((item, i) => (
                 <MessageBody key={i} message={item} viewHandler={viewHandler}></MessageBody>
               ))}
