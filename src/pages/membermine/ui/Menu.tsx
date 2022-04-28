@@ -2,20 +2,23 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-04-23 21:59:48
+ * @LastEditTime: 2022-04-28 11:22:12
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { Cell } from '@taroify/core'
+import { IDvaCommonProps } from '~/../@types/dva'
 import { throttle } from 'lodash/function'
 import { useRequestSubscribeMessage, useEnv, useToast } from 'taro-hooks'
 import { Arrow, CalendarOutlined, ManagerOutlined, SettingOutlined, TvOutlined, UserCircleOutlined, BulbOutlined } from '@taroify/icons'
 import '../index.scss'
 
 const Setting: FunctionComponent = () => {
+  const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
   const env = useEnv()
   const [requestSubscribeMessage] = useRequestSubscribeMessage()
   const [toast] = useToast({
@@ -51,7 +54,11 @@ const Setting: FunctionComponent = () => {
   )
 
   const _submessageClickHandle = useCallback(async () => {
-    if (env !== 'WEAPP') {
+    if (!accessToken || env !== 'WEAPP') {
+      toast({
+        title: '请先登陆',
+        icon: 'error'
+      })
       return
     }
     let content = '订阅失败！'

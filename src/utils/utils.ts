@@ -2,8 +2,8 @@
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
- * @FilePath: \react-lesson-20\src\utils\utils.ts
- * @LastEditTime: 2022-03-28 09:48:07
+ * @FilePath: \xuct-calendar-weapp\src\utils\utils.ts
+ * @LastEditTime: 2022-04-28 11:57:39
  * @LastEditors: Derek Xu
  */
 
@@ -177,8 +177,9 @@ export const formateSameDayDuration = (fullDay: number, dtstart: Date, dtend: Da
   const day2 = dayjs(dtstart)
   const diff: number = day1.diff(day2, 'second')
   if (diff < 3600) return day1.diff(day2, 'minute') + '分钟'
-  if (diff % 60 === 0) return diff / (60 * 60) + '小时'
-  return day1.diff(day2, 'hour') + '小时' + diff / (60 * 60 * 1000) + '分钟'
+  if (diff % 3600 === 0) return diff / 3600 + '小时'
+  const hour = day1.diff(day2, 'hour')
+  return hour + '小时' + (diff - hour * 3600) / 60 + '分钟'
 }
 
 /**

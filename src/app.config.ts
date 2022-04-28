@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\app.config.ts
- * @LastEditTime: 2022-04-20 14:09:21
+ * @LastEditTime: 2022-04-28 18:58:33
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
@@ -44,6 +44,7 @@ export default {
     'pages/memberforgetpassword/index',
     'pages/memberbindemail/index',
     'pages/memberbindwechat/index',
+    'pages/memberaccountmerge/index',
     'pages/selfprivacy/index',
     'pages/systemsetting/index',
     'pages/customerservice/index'

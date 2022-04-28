@@ -5,9 +5,9 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-27 21:57:40
+ * @LastEditTime: 2022-04-28 17:41:39
  */
-import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
@@ -98,6 +98,7 @@ const MemberInfo: FunctionComponent = () => {
       if (!auth) return _getDefaultAuth(identityType)
       return auth
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [userAuths]
   )
 

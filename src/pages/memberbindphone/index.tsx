@@ -3,11 +3,11 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-04-20 08:59:54
+ * @LastEditTime: 2022-04-28 18:59:13
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { View, Button as TaroButton } from '@tarojs/components'
 import { back } from '@/utils/taro'
@@ -82,7 +82,7 @@ const MemberBindPhone: FunctionComponent = () => {
           })
       }
       //获取手机号码
-      getUserPhone(e.detail.encryptedData, e.detail.iv)
+      getUserPhone(e.detail.code)
     },
     [checkSession]
   )
@@ -92,8 +92,9 @@ const MemberBindPhone: FunctionComponent = () => {
    * @param encryptedData
    * @param ivStr
    */
-  const getUserPhone = (encryptedData: string, ivStr: string) => {
-    getPhoneNumber(encryptedData, ivStr)
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const getUserPhone = (code: string) => {
+    getPhoneNumber(code)
       .then((res) => {
         setPhone(res as any as string)
       })
@@ -135,6 +136,7 @@ const MemberBindPhone: FunctionComponent = () => {
       return
     }
     setSmsText('重发(' + num + ')')
+    setDisable(true)
     timerRef.current = window.setTimeout(() => {
       setSmsTextTime(num - 1)
     }, 1000)
@@ -199,7 +201,16 @@ const MemberBindPhone: FunctionComponent = () => {
         })
     } else {
       bindPhone(phone, code)
-        .then(() => {
+        .then((res) => {
+          const { exist, merge } = res
+          if (exist && merge) {
+            Router.toMemberaccountmerge({
+              params: {
+                phone
+              }
+            })
+            return
+          }
           optPhoneSuccess('绑定成功')
         })
         .catch((err) => {

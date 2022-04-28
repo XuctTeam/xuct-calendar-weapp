@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-24 20:14:16
+ * @LastEditTime: 2022-04-28 11:43:39
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -23,7 +23,7 @@ import { getById, deleteById, queryComponentMemberIds, getAttendStatus, updateAt
 import { getName } from '@/api/user'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back, useWebEnv } from '@/utils/taro'
-import { useSystemInfo, useModal, useClipboardData, useToast, useEnv, useRequestSubscribeMessage } from 'taro-hooks'
+import { useSystemInfo, useModal, useToast, useEnv, useRequestSubscribeMessage } from 'taro-hooks'
 import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
 
 import './index.scss'
@@ -60,7 +60,6 @@ const Componentview: FunctionComponent = () => {
   const [qrOpen, setQrOpen] = useState<boolean>(false)
   const [weappShareOpen, setWeappShareOpen] = useState<boolean>(false)
   const [attendStatus, setAttendStatus] = useState<number>(0)
-  const [, { set }] = useClipboardData()
   const webEnv: boolean = useWebEnv()
   const [requestSubscribeMessage] = useRequestSubscribeMessage()
 

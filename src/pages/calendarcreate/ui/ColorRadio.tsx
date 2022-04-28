@@ -2,9 +2,10 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-13 10:03:33
- * @LastEditTime: 2022-03-01 14:38:08
+ * @LastEditTime: 2022-04-28 11:14:11
  * @LastEditors: Derek Xu
  */
+import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
 import { Grid, Radio } from '@taroify/core'
 import { GridItem } from '@taroify/core/grid/grid-item'
@@ -25,23 +26,21 @@ export const RadioColorStyle = styled(View)<{
   }
 `
 
-const ColorRadio: React.FC<IColorPropState> = (props) => {
+const ColorRadio: FunctionComponent<IColorPropState> = (props) => {
   return (
-    <>
-      <Radio.Group value={props.defaultColor} size={24} onChange={(e) => props.onChage(e)}>
-        <Grid columns={5} bordered={false} gutter={10}>
-          {colors.map((c, i) => {
-            return (
-              <GridItem key={i}>
-                <RadioColorStyle color={`#${c.value}`}>
-                  <Radio key={i} name={c.value}></Radio>
-                </RadioColorStyle>
-              </GridItem>
-            )
-          })}
-        </Grid>
-      </Radio.Group>
-    </>
+    <Radio.Group value={props.defaultColor} size={24} onChange={(e) => props.onChage(e)}>
+      <Grid columns={5} bordered={false} gutter={10}>
+        {colors.map((c, i) => {
+          return (
+            <GridItem key={i}>
+              <RadioColorStyle color={`#${c.value}`}>
+                <Radio key={i} name={c.value}></Radio>
+              </RadioColorStyle>
+            </GridItem>
+          )
+        })}
+      </Grid>
+    </Radio.Group>
   )
 }
 export default ColorRadio

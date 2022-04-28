@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-04-18 14:36:19
+ * @LastEditTime: 2022-04-28 13:46:37
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -109,8 +109,8 @@ export const updateAvatar = (avatar: string): Promise<any> => {
  * @param {string} ivStr
  * @return {*}
  */
-export const getPhoneNumber = (encryptedData: string, ivStr: string): Promise<any> => {
-  return http.post('/ums/api/app/v1/member/phone/get', { encryptedData, ivStr })
+export const getPhoneNumber = (code: string): Promise<any> => {
+  return http.post('/ums/api/app/v1/member/phone/get', { code })
 }
 
 /**

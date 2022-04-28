@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-04-22 21:11:46
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-27 20:56:01
+ * @LastEditTime: 2022-04-28 11:39:26
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -48,7 +48,7 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
   const refresh = (reload: boolean) => {
     console.log('---- onload -----')
     setLoading(true)
-    list(pageRef.current, 1, props.status, searchValue)
+    list(pageRef.current, 20, props.status, searchValue)
       .then((res) => {
         _fillMessage(reload, res as any as IMessagePageComponent)
       })

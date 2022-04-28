@@ -4,16 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2022-01-31 15:58:16
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 14:37:10
+ * @LastEditTime: 2022-04-28 11:13:56
  */
-/*
- * @Description:
- * @Author: Derek Xu
- * @Date: 2021-12-12 15:24:43
- * @LastEditTime: 2022-01-17 15:06:36
- * @LastEditors: Derek Xu
- */
-
+import { FunctionComponent } from 'react'
 import { alarmTimeTypes, alarmTypes } from '@/constants/index'
 import { Radio } from '@taroify/core'
 
@@ -24,7 +17,7 @@ interface IPageOption {
   onChange: (name: string) => void
 }
 
-const AlarmRadio: React.FC<IPageOption> = (props) => {
+const AlarmRadio: FunctionComponent<IPageOption> = (props) => {
   console.log(props.defaultValue)
   return (
     <Radio.Group value={props.defaultValue} direction='horizontal' disabled={props.disable} onChange={props.onChange}>
