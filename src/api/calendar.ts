@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-02 17:45:23
- * @LastEditTime: 2022-04-20 21:07:06
+ * @LastEditTime: 2022-05-02 21:52:05
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -57,4 +57,14 @@ export const update = (data: IDavCalendar) => {
  */
 export const create = (data: IDavCalendar) => {
   return http.post('/cms/api/app/v1/calendar', data)
+}
+
+/**
+ * @description:  删除日历
+ * @param {string} calendarId
+ * @return {*}
+ * @author: Derek Xu
+ */
+export const remove = (calendarId: string) => {
+  return http.delete('/cms/api/app/v1/calendar?calendarId=' + calendarId)
 }

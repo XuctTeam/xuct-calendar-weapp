@@ -4,16 +4,19 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-12 20:14:40
+ * @LastEditTime: 2022-05-04 11:26:24
  */
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
-import { BaseEventOrig, FormProps, Input, View } from '@tarojs/components'
-import { Button, Cell, Field, Form, Image } from '@taroify/core'
+import { View } from '@tarojs/components'
+import { Button, Swiper } from '@taroify/core'
+import { FormInstance } from '@taroify/core/form'
+import IconFont from '@/components/iconfont'
+import { useToast } from 'taro-hooks'
 import CommonMain from '@/components/mixin'
-import { toast, back } from '@/utils/taro'
-import { captcha as toGetCaptcha } from '@/api/user'
+import { UserNameRegister, PhoneRegister, EmailRegister } from './ui'
 import { register } from '@/api/login'
+import { captcha as toGetCaptcha } from '@/api/user'
 import './index.scss'
 
 interface ICaptcha {
@@ -21,16 +24,39 @@ interface ICaptcha {
   key: string
 }
 
-interface IFormData {
-  username: string
-  password: string
+interface IUserNameForm {
   captcha: string
-  key?: string
+  password: string
+  username: string
 }
 
 const MemberRegister: FunctionComponent = () => {
+  const userRef = React.createRef<FormInstance>()
+  const [formType, setFormType] = useState<number>(0)
   const [image, setImage] = useState<string>('')
   const [key, setKey] = useState<string>('')
+  const [toast] = useToast({
+    icon: 'error'
+  })
+
+  // const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
+  //   const formData: IFormData = event.detail.value as any as IFormData
+  //   if (!formData.captcha || formData.captcha.length !== 5) {
+  //     toast({ title: '验证码错误' })
+  //     return
+  //   }
+  //   formData.key = key
+  //   register(formData)
+  //     .then(() => {
+  //       toast({ title: '注册成功', icon: 'success' })
+  //       setTimeout(() => {
+  //         back({ to: 4 })
+  //       }, 1000)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }
 
   useEffect(() => {
     getCaptcha()
@@ -52,19 +78,26 @@ const MemberRegister: FunctionComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [image])
 
-  const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
-    const formData: IFormData = event.detail.value as any as IFormData
-    if (!formData.captcha || formData.captcha.length !== 5) {
-      toast({ title: '验证码错误' })
-      return
+  const registerHandler = () => {
+    switch (formType) {
+      case 0:
+        _userNameRegister()
+        break
+      default:
+        null
     }
-    formData.key = key
-    register(formData)
-      .then(() => {
-        toast({ title: '注册成功', icon: 'success' })
-        setTimeout(() => {
-          back({ to: 4 })
-        }, 1000)
+  }
+
+  const _userNameRegister = () => {
+    if (!userRef.current) return
+    userRef.current
+      .validate()
+      .then((res) => {
+        const data = res as any as IUserNameForm
+        if (data.captcha.length !== 5) {
+          toast({ title: '验证码格式错误' })
+          return
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -73,37 +106,44 @@ const MemberRegister: FunctionComponent = () => {
 
   return (
     <CommonMain title='用户注册' left fixed className='vi-member-register-warpper' to={4}>
-      <Form className='form' onSubmit={onSubmit}>
-        <View className='vi-member-register-warpper_container'>
-          <Cell.Group inset>
-            <Form.Item name='username' rules={[{ message: '8-16位且为字母、数字、下划线、减号', pattern: /^[a-zA-Z0-9_-]{8,16}$/ }]}>
-              <Form.Label>用户名</Form.Label>
-              <Form.Control>
-                <Input placeholder='用户名' />
-              </Form.Control>
-            </Form.Item>
-            <Form.Item
-              name='password'
-              rules={[{ pattern: /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}$/, message: '8-30位且字母、数字和特殊符号组合' }]}
-            >
-              <Form.Label>密码</Form.Label>
-              <Form.Control>
-                <Input password placeholder='密码' />
-              </Form.Control>
-            </Form.Item>
-            <Field name='captcha' label={{ align: 'left', children: '图形码' }} className='captcha'>
-              <Input placeholder='请输入图形码' maxlength={5} />
-              <Image src={image} alt='点击刷新' onClick={() => getCaptcha()} />
-            </Field>
-          </Cell.Group>
+      <View className='vi-member-register-warpper_container'>
+        <Swiper touchable={false} value={formType}>
+          <Swiper.Item>
+            <UserNameRegister ref={userRef} image={image} getCaptcha={getCaptcha}></UserNameRegister>
+          </Swiper.Item>
+          <Swiper.Item>
+            <PhoneRegister></PhoneRegister>
+          </Swiper.Item>
+          <Swiper.Item>
+            <EmailRegister></EmailRegister>
+          </Swiper.Item>
+        </Swiper>
+      </View>
+      <View className='vi-member-register-warpper_button'>
+        <View className='thirdWrap'>
+          {formType !== 0 && (
+            <View className='itemWrap' onClick={() => setFormType(0)}>
+              <IconFont name='icon-qudaozhanghaoshangxian' size={40} />
+              <View className='label'>账号</View>
+            </View>
+          )}
+          {formType !== 1 && (
+            <View className='itemWrap' onClick={() => setFormType(1)}>
+              <IconFont name='shouji' size={40} />
+              <View className='label'>手机</View>
+            </View>
+          )}
+          {formType !== 2 && (
+            <View className='itemWrap' onClick={() => setFormType(2)}>
+              <IconFont name='youxiang' size={40} />
+              <View className='label'>邮箱</View>
+            </View>
+          )}
         </View>
-
-        <View className='vi-member-register-warpper_button'>
-          <Button block color='success' formType='submit'>
-            提交
-          </Button>
-        </View>
-      </Form>
+        <Button block color='success' onClick={() => registerHandler()}>
+          提交
+        </Button>
+      </View>
     </CommonMain>
   )
 }

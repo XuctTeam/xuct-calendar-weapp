@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-21 13:35:59
+ * @LastEditTime: 2022-05-02 22:01:37
  * @FilePath: \xuct-calendar-weapp\src\pages\calendarcreate\index.tsx
  * @Description: 日历管理
  *
@@ -13,9 +13,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { View, Textarea } from '@tarojs/components'
-import { useToast } from 'taro-hooks'
+import { useToast, useModal } from 'taro-hooks'
 import { Cell, Field, Button, Switch, Input } from '@taroify/core'
-import { get, update, create } from '@/api/calendar'
+import { get, update, create, remove } from '@/api/calendar'
 import CommonMain from '@/components/mixin'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import { back } from '@/utils/taro'
@@ -40,6 +40,10 @@ const CalendarCreate: FunctionComponent = () => {
   const [isShare, setIsShare] = useState<number>(0)
   const [memberId, setMemberId] = useState<string>('')
   const [show] = useToast({})
+  const [modal] = useModal({
+    title: '删除',
+    content: '是否删除？'
+  })
 
   useEffect(() => {
     const data = Router.getData()
@@ -125,6 +129,23 @@ const CalendarCreate: FunctionComponent = () => {
       })
   }
 
+  const removeCalendar = () => {
+    modal()
+      .then((res) => {
+        if (res.cancel) return
+        remove(calendarId)
+          .then(() => {
+            _success('删除成功')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   const _checkForm = useCallback(
     (_name: string, _description: string) => {
       if (!_name) {
@@ -156,12 +177,14 @@ const CalendarCreate: FunctionComponent = () => {
             title: msg,
             icon: 'success'
           })
-          back({
-            to: 4,
-            data: {
-              data: '1'
-            }
-          })
+          setTimeout(() => {
+            back({
+              to: 4,
+              data: {
+                data: '1'
+              }
+            })
+          }, 1500)
         })
         .catch((err) => {
           console.log(err)
@@ -234,7 +257,12 @@ const CalendarCreate: FunctionComponent = () => {
         </Cell.Group>
       </View>
       <View className='vi-calendar-wrapper_button'>
-        <Button color='primary' block loading={loading} onClick={commit}>
+        {!!id && major !== 1 && createMemberId === userInfo.id && (
+          <Button color='danger' block loading={loading} disabled={loading} onClick={removeCalendar}>
+            删除
+          </Button>
+        )}
+        <Button color='primary' block loading={loading} disabled={loading} onClick={commit}>
           保存
         </Button>
       </View>

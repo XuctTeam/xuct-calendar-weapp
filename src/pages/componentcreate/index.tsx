@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-21 21:16:30
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-22 21:19:54
+ * @LastEditTime: 2022-05-02 20:33:59
  */
 import Taro from '@tarojs/taro'
 import { Component, Fragment } from 'react'
@@ -674,7 +674,7 @@ class Components extends Component {
 
         <CalendarAction
           open={this.state.selectedCalendarOpen}
-          calendars={this.props.calendars}
+          calendars={this.props.calendars.filter((item) => item.createMemberId === this.props.userInfo.id)}
           selectedHandler={this.selectdCalendarSelectHandler.bind(this)}
           closeHandler={() => {
             this.setState({

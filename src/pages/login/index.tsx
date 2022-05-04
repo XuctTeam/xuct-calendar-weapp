@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-04-21 10:28:41
+ * @LastEditTime: 2022-05-03 17:11:13
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -268,8 +268,8 @@ const Login: FunctionComponent = () => {
             <View className='form'>
               {!phoneForm ? (
                 <Cell.Group>
-                  <Field label='账号/邮箱'>
-                    <Input placeholder='请输入账号或邮箱' value={username} onChange={(e) => setUsername(e.detail.value)} />
+                  <Field label='账号'>
+                    <Input placeholder='支持账号/邮箱/手机号' value={username} onChange={(e) => setUsername(e.detail.value)} />
                   </Field>
                   <Field label='密码'>
                     <Input password placeholder='请输入密码' value={password} onChange={(e) => setPassword(e.detail.value)} />

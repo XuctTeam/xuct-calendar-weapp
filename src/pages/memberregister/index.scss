@@ -10,8 +10,7 @@
 
   .captcha {
     .taroify-cell__title {
-      display: flex;
-      align-items: center;
+       padding-top: 10px;
     }
   }
 
@@ -37,5 +36,30 @@
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
+
+    .thirdWrap{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding-bottom: 40px;
+      font-size: 30px;
+      color: #979797;
+    }
+
+    .itemWrap{
+      height: 40px;
+      border-right: 1px solid #979797;
+      display: flex;
+      align-items: center;
+      padding: 0px 20px;
+    }
+
+    .thirdWrap .itemWrap:last-child{
+      border-right: none;
+    }
+
+    .label{
+      margin-left: 10px;
+    }
   }
 }

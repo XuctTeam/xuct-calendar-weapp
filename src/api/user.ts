@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-04-28 13:46:37
+ * @LastEditTime: 2022-04-29 19:53:14
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -180,4 +180,14 @@ export const bindWx = (code: string, encryptedData: string, iv: string) => {
  */
 export const updateWxInfo = () => {
   return http.post('/ums/api/app/v1/member/wx/update/info', {})
+}
+
+/**
+ * @description: 合并账号
+ * @param {*}
+ * @return {*}
+ * @author: Derek Xu
+ */
+export const merge = (phone: string) => {
+  return http.post('/ums/api/app/v1/member/merge', { phone })
 }
