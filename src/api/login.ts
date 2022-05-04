@@ -82,13 +82,3 @@ export const tokenRefresh = (refresh_token: string): Promise<any> => {
     'application/x-www-form-urlencoded; charset=UTF-8'
   )
 }
-
-/**
- * @description: 会员注册
- * @param {any} formData
- * @return {*}
- * @author: Derek Xu
- */
-export const register = (formData: any) => {
-  return http.post('/uaa/register', formData)
-}

@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
  * @FilePath: \xuct-calendar-weapp\src\utils\utils.ts
- * @LastEditTime: 2022-04-28 11:57:39
+ * @LastEditTime: 2022-05-04 17:55:29
  * @LastEditors: Derek Xu
  */
 
@@ -292,7 +292,7 @@ export const checkMobile = (phone: string): boolean => {
  * @returns
  */
 export const checkEmail = (email: string): boolean => {
-  return /^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/.test(email)
+  return /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/.test(email)
 }
 
 /**

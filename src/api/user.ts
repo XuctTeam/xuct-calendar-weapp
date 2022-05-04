@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-10 19:52:50
- * @LastEditTime: 2022-04-29 19:53:14
+ * @LastEditTime: 2022-05-04 17:25:10
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -22,14 +22,6 @@ export const sendSmsCode = (phone: String): Promise<any> => {
  */
 export const logout = (): Promise<any> => {
   return http.delete('/uaa/oauth/logout')
-}
-
-/**
- * 获取注册验证码
- * @returns
- */
-export const captcha = (): Promise<any> => {
-  return http.get('/uaa/captcha')
 }
 
 /**
@@ -190,4 +182,41 @@ export const updateWxInfo = () => {
  */
 export const merge = (phone: string) => {
   return http.post('/ums/api/app/v1/member/merge', { phone })
+}
+
+/**
+ * @description: 获取注册图形码
+ * @param {*} Promise
+ * @return {*}
+ */
+export const captcha = (): Promise<any> => {
+  return http.get('/uaa/register/captcha')
+}
+
+/**
+ * @description: 发送注册短信验证码
+ * @param {string} phone
+ * @return {*}
+ */
+export const sendRegisterSms = (phone: string) => {
+  return http.post('/uaa/register/sms', { phone })
+}
+
+/**
+ * @description: 发送注册邮件验证码
+ * @param {string} email
+ * @return {*}
+ */
+export const sendRegisterEmail = (email: string) => {
+  return http.post('/uaa/register/email/code', { email })
+}
+
+/**
+ * @description: 会员注册
+ * @param {any} formData
+ * @return {*}
+ * @author: Derek Xu
+ */
+export const register = (formData: any) => {
+  return http.post('/uaa/register', formData)
 }
