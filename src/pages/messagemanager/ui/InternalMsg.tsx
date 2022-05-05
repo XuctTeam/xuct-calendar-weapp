@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-04-22 21:11:46
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-28 11:39:26
+ * @LastEditTime: 2022-05-05 14:20:18
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -15,7 +15,9 @@ import { Arrow } from '@taroify/icons'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { IMessagePageComponent, IMessage } from '~/../@types/message'
 import { list, read } from '@/api/message'
+import dayjs from 'dayjs'
 import MessageBody from './MessageBody'
+import { useDidShow } from '@tarojs/taro'
 
 interface IPageOption {
   status: number
@@ -30,6 +32,18 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [scrollTop, setScrollTop] = useState(0)
   const [searchValue, setSearchValue] = useState<string>('')
+  const refreshTimeRef = useRef<number>(0)
+
+  useDidShow(() => {
+    if (!refreshTimeRef.current) return
+    const current = dayjs()
+    const refreshTime = dayjs(refreshTimeRef.current)
+    console.log(current.diff(refreshTime, 'minute'))
+    console.log('internal msg:: current = ' + current + ', refresh time =' + refreshTime)
+    if (current.diff(refreshTime, 'minute') > 2) {
+      _init()
+    }
+  })
 
   useEffect(() => {
     if (!accessToken) {
@@ -95,6 +109,7 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
     pageRef.current = pageRef.current + 1
     const msgs = reload ? [] : [...messages]
     setMessages(msgs.concat(res.messages))
+    refreshTimeRef.current = dayjs().valueOf()
   }
 
   return (

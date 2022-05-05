@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-21 12:51:36
+ * @LastEditTime: 2022-05-05 14:05:17
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useState } from 'react'
@@ -62,6 +62,7 @@ const GroupSearch: FunctionComponent = () => {
     <CommonMain className='vi-group-search-warpper' title='加入群组' fixed to={2} left>
       <View className='vi-group-search-warpper_container'>
         <Search
+          shape='round'
           value={value}
           placeholder='请输入搜索关键词'
           action={<View onClick={() => searchHandle()}>搜索</View>}

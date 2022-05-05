@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-07 20:11:03
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-03 08:16:45
+ * @LastEditTime: 2022-05-05 17:05:58
  */
 .vi-calendar-manager-wrapper {
   display: flex;
@@ -12,7 +12,8 @@
   height: 100%;
   overflow: hidden;
   background: #f7f8fa;
-  font-family: "Open Sans",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Segoe UI,Arial,Roboto,"PingFang SC","miui","Hiragino Sans GB","Microsoft Yahei",sans-serif;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB',
+    'Microsoft Yahei', sans-serif;
 
   &_container {
     height: 100%;
@@ -30,14 +31,12 @@
     width: 100%;
     padding: 4px 16px;
 
-   
-
     .container {
       width: 100%;
       display: inline-block;
       background: #fff;
       border-radius: 8px;
-      margin-bottom: 4px;
+      margin: 10px 0px;
     }
 
     .header {
@@ -84,5 +83,4 @@
       }
     }
   }
-
 }

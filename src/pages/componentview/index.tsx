@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-04-28 11:43:39
+ * @LastEditTime: 2022-05-05 18:13:57
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -19,7 +19,7 @@ import { IDavComponent } from '~/../@types/calendar'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import CommonMain from '@/components/mixin'
 import ButtonGroup, { ButtonOption } from '@/components/buttongroup'
-import { getById, deleteById, queryComponentMemberIds, getAttendStatus, updateAttendStatus, refuseAttend } from '@/api/component'
+import { getById, deleteById, queryComponentMemberIds, getAttendStatus, updateAttendStatus, refuseAttend, getShortUrl } from '@/api/component'
 import { getName } from '@/api/user'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back, useWebEnv } from '@/utils/taro'
@@ -191,24 +191,24 @@ const Componentview: FunctionComponent = () => {
     if (value === '3') {
       setQrOpen(true)
     } else if (value === '2') {
-      console.log(getShareTitle())
-      // set(getShareTitle()).then(() => {
-      //   toast()
-      // })
-      Taro.setClipboardData({
-        data: getShareTitle(),
-        success: function () {
-          toast()
-        }
-      })
+      getShareTitle()
+        .then((res) => {
+          Taro.setClipboardData({
+            data: res as any as string,
+            success: function () {
+              toast()
+            }
+          })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     } else if (value === '1') {
       setWeappShareOpen(true)
     }
   }
 
   const getShareTitle = () => {
-    //@ts-ignore
-    const url = SERVICES_WAP + '#/pages/componentshareview/index?componentId=' + component.id
     const array = [
       {
         title: '【楚日历】',
@@ -225,13 +225,23 @@ const Componentview: FunctionComponent = () => {
             ' ' +
             formateSameDayDuration(component.fullDay, component.dtstart, component.dtend)
           : formatDifferentDayTime(1, component.fullDay, component.dtstart) + '\r' + formatDifferentDayTime(2, component.fullDay, component.dtend)
-      },
-      {
-        title: '点击加入',
-        value: url
       }
     ]
-    return `${array.map((item) => `${item.title}: ${item.value}`).join('\n')}`
+
+    return new Promise((resolve, reject) => {
+      getShortUrl(component.id)
+        .then((res) => {
+          array.push({
+            title: '点击加入',
+            value: res as any as string
+          })
+          return resolve(`${array.map((item) => `${item.title}: ${item.value}`).join('\n')}`)
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err)
+        })
+    })
   }
 
   /**

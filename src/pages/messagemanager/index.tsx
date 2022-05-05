@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-26 14:08:33
+ * @LastEditTime: 2022-05-05 13:09:55
  */
 import { Fragment, FunctionComponent, useState } from 'react'
 import { Picker, Popup, Tabs } from '@taroify/core'
@@ -51,7 +51,7 @@ const MessageManager: FunctionComponent = () => {
         >
           <Picker.Toolbar>
             <Picker.Button>取消</Picker.Button>
-            <Picker.Title>标题</Picker.Title>
+            <Picker.Title>状态选择</Picker.Title>
             <Picker.Button>确认</Picker.Button>
           </Picker.Toolbar>
           <Picker.Column>

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-05-03 17:11:13
+ * @LastEditTime: 2022-05-05 12:04:04
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -285,7 +285,7 @@ const Login: FunctionComponent = () => {
                   </Field>
                   <Field label='验证码'>
                     <Input placeholder='请输入验证码' maxlength={4} type='number' value={smsCode} onChange={(e) => setSmsCode(e.detail.value)} />
-                    <Button size='small' variant='text' color='primary' loading={smsLoading} disabled={smsLoading} onClick={pushCode}>
+                    <Button size='small' variant='text' color='primary' disabled={smsLoading} onClick={pushCode}>
                       {smsText}
                     </Button>
                   </Field>

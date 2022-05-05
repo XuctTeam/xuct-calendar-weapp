@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-04-23 20:13:16
+ * @LastEditTime: 2022-05-05 17:17:20
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -41,8 +41,6 @@ const Event: FunctionComponent<IPageOption> = (props) => {
   const [componentList, setComponentList] = useState<IDavComponent[]>([])
   const [reachTop, setReachTop] = useState(true)
   usePageScroll(({ scrollTop }) => setReachTop(scrollTop === 0))
-
-  console.log(props.componentRefreshOpen)
 
   useEffect(() => {
     if (!accessToken) {

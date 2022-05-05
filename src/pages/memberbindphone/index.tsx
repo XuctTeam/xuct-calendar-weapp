@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-21 18:08:16
- * @LastEditTime: 2022-04-28 18:59:13
+ * @LastEditTime: 2022-05-05 14:36:43
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -113,7 +113,7 @@ const MemberBindPhone: FunctionComponent = () => {
       return
     }
     setDisable(true)
-    setSmsTextTime(30)
+    setSmsTextTime(120)
     sendUmsSmsCode(edit, phone)
       .then((res) => {
         console.log(res)

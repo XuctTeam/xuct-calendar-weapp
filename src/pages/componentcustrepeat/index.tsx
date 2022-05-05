@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-03-23 18:29:35
+ * @LastEditTime: 2022-05-05 17:14:54
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -32,10 +32,11 @@ const ComponentCustRepeat: FunctionComponent = () => {
       return
     }
     if (!data.repeatType) return
-    const { repeatByday, repeatBymonth, repeatBymonthday } = data
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const { repeatByday, repeatBymonth, repeatBymonthday, repeatInterval } = data
     setSelectedDate(data.selectedDate)
     setRepeatType(data.repeatType)
-
+    setRepeatInterval(repeatInterval)
     if (data.repeatType === 'WEEKLY') {
       setSelectedWeek(
         repeatByday.split(',').map((i) => {
@@ -120,11 +121,13 @@ const ComponentCustRepeat: FunctionComponent = () => {
         </View>
       </CommonMain>
 
-      <ActionSheet open={repeatTypeOpen} onClose={() => setRepeatTypeOpen(false)} onSelect={repeatSelected} rounded={false}>
+      <ActionSheet open={repeatTypeOpen} onClose={() => setRepeatTypeOpen(false)} onSelect={repeatSelected}>
+        <ActionSheet.Header>循环频率</ActionSheet.Header>
         <ActionSheet.Action name='天' value='DAILY'></ActionSheet.Action>
         <ActionSheet.Action name='周' value='WEEKLY'></ActionSheet.Action>
         <ActionSheet.Action name='月' value='MONTHLY'></ActionSheet.Action>
         <ActionSheet.Action name='年' value='YEARLY'></ActionSheet.Action>
+        <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>
       <IntervalPicker
         open={intervalOpen}

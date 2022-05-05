@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-04 10:39:35
- * @LastEditTime: 2022-04-22 11:34:04
+ * @LastEditTime: 2022-05-05 18:03:11
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -148,4 +148,13 @@ export const existsAttend = (componentId: string) => {
  */
 export const acceptAttend = (componentId: string) => {
   return http.post('/cms/api/app/v1/component/attend/accept', { componentId })
+}
+
+/**
+ * @description: 获取事件短链接
+ * @param {string} componentId
+ * @return {*}
+ */
+export const getShortUrl = (componentId: string) => {
+  return http.get('/cms/api/app/v1/component/short', { componentId })
 }

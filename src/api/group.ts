@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-20 21:05:33
+ * @LastEditTime: 2022-05-05 13:14:00
  */
 import http from '@/utils/request'
 
@@ -37,8 +37,8 @@ export const getGroupInfo = (id: string): Promise<any> => {
  * @return {*}
  * @author: Derek Xu
  */
-export const addGroup = (id: string, name: string, imageUrl: string) => {
-  return http.post('/ums/api/app/v1/group', { id, name, imageUrl })
+export const addGroup = (id: string, name: string, imageUrl: string, power: string) => {
+  return http.post('/ums/api/app/v1/group', { id, name, imageUrl, power })
 }
 
 /**

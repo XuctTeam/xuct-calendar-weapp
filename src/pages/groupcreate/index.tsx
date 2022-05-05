@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-22 08:43:30
+ * @LastEditTime: 2022-05-05 14:02:37
  * @LastEditors: Derek Xu
  */
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Taro from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
-import { Button, Cell, Form, Input, Uploader } from '@taroify/core'
+import { Button, Cell, Form, Input, Switch, Uploader } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { FormItemInstance } from '@taroify/core/form'
 import { useBack } from '@/utils/taro'
@@ -73,7 +73,8 @@ const GroupCreate: FunctionComponent = () => {
     if (formRef.current == null) return
     //@ts-ignore
     formRef.current.setValues({
-      name: group.name
+      name: group.name,
+      power: group.power === 'PUBLIC' ? 1 : 0
     })
     setEdit(true)
   }
@@ -125,8 +126,10 @@ const GroupCreate: FunctionComponent = () => {
     setLoading(true)
     const data = event.detail.value
     //@ts-ignore
-    const { name } = data
-    addGroup(idRef.current, name, urlRef.current).then(() => {
+    const { name, power } = data
+    console.log(power)
+
+    addGroup(idRef.current, name, urlRef.current, power ? 'PUBLIC' : 'PRIVATE').then(() => {
       setLoading(false)
       back({ to: 2, data: { edit } })
     })
@@ -155,6 +158,12 @@ const GroupCreate: FunctionComponent = () => {
                 <Form.Label>名称</Form.Label>
                 <Form.Control>
                   <Input placeholder='请输入名称' />
+                </Form.Control>
+              </Form.Item>
+              <Form.Item name='power' defaultValue={1 === 1}>
+                <Form.Label>允许搜索</Form.Label>
+                <Form.Control>
+                  <Switch size={20} />
                 </Form.Control>
               </Form.Item>
             </Cell.Group>

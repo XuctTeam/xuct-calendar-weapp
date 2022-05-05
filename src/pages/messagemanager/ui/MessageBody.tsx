@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-04-26 11:57:47
+ * @LastEditTime: 2022-05-05 12:16:24
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -46,7 +46,13 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
   const operateSystemMessage = (operate: number): string => {
     switch (operate) {
       case 0:
-        return '用户注册消息'
+        return '注册消息'
+      case 1:
+        return '修改名称消息'
+      case 2:
+        return '使用微信头像昵称消息'
+      case 3:
+        return '账号合并消息'
       default:
         return '未知'
     }
@@ -111,12 +117,12 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
         <View>
           <Flex gutter={4}>
             <Flex.Item>
-              <Tag shape='round' color='primary'>
+              <Tag shape='rounded' color='primary'>
                 <View className='taroify-ellipsis'>{operateType(type, operation)}</View>
               </Tag>
             </Flex.Item>
             <Flex.Item>
-              <Tag shape='round' color={getTagColor(type)}>
+              <Tag shape='rounded' color={getTagColor(type)}>
                 {messageType(type)}
               </Tag>
             </Flex.Item>
