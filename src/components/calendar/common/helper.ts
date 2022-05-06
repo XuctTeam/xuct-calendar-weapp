@@ -1,25 +1,23 @@
 import dayjs, { Dayjs } from 'dayjs'
 import _flow from 'lodash/flow'
+import solarLunar from 'solarlunar-es'
 import { Calendar } from '../types/calendar'
 import * as constant from './constant'
 import plugins from './plugins'
 
 const TOTAL = 7 * 6
 
-function getFullItem(
-  item: Partial<Calendar.Item>,
-  options: Calendar.GroupOptions,
-  selectedDate: Calendar.SelectedDate,
-  isShowStatus?: boolean
-): any {
-  if (options.marks.find(x => x.value === item.value)) {
-    (item.marks as Array<Calendar.Mark>) = [{
-      value: item.value as string
-    }]
+function getFullItem(item: Partial<Calendar.Item>, options: Calendar.GroupOptions, selectedDate: Calendar.SelectedDate, isShowStatus?: boolean): any {
+  if (options.marks.find((x) => x.value === item.value)) {
+    ;(item.marks as Array<Calendar.Mark>) = [
+      {
+        value: item.value as string
+      }
+    ]
   }
   if (!isShowStatus) return item
 
-  const bindedPlugins = plugins.map(fn =>
+  const bindedPlugins = plugins.map((fn) =>
     fn.bind(null, {
       options,
       selectedDate
@@ -30,19 +28,11 @@ function getFullItem(
 
 export default function generateCalendarGroup(
   options: Calendar.GroupOptions
-): (
-  generateDate: number,
-  selectedDate: Calendar.SelectedDate,
-  isShowStatus?: boolean
-) => Calendar.ListInfo<Calendar.Item> {
-  return function (
-    generateDate: number,
-    selectedDate: Calendar.SelectedDate,
-    isShowStatus?: boolean
-  ): Calendar.ListInfo<Calendar.Item> {
+): (generateDate: number, selectedDate: Calendar.SelectedDate, isShowStatus?: boolean) => Calendar.ListInfo<Calendar.Item> {
+  return function (generateDate: number, selectedDate: Calendar.SelectedDate, isShowStatus?: boolean): Calendar.ListInfo<Calendar.Item> {
     const date = dayjs(generateDate)
 
-    const { format } = options
+    const { format, isMonfirst } = options
 
     // 获取生成日期的第一天 和 最后一天
     const firstDate = date.startOf('month')
@@ -53,18 +43,22 @@ export default function generateCalendarGroup(
     const list: Calendar.List<Calendar.Item> = []
 
     const nowMonthDays: number = date.daysInMonth() // 获取这个月有多少天
-    const preMonthLastDay = preMonthDate.endOf('month').day() // 获取上个月最后一天是周几
+    const preMonthLastDay = preMonthDate.endOf('month').day() - (isMonfirst ? 1 : 0) // 获取上个月最后一天是周几
 
     // 生成上个月的日期
     for (let i = 1; i <= preMonthLastDay + 1; i++) {
       const thisDate = firstDate.subtract(i, 'day').startOf('day')
+      const solar2lunarData = solarLunar.solar2lunar(thisDate.get('year'), thisDate.get('month') + 1, thisDate.get('date'))
 
       let item = {
         marks: [],
         _value: thisDate,
         text: thisDate.date(),
         type: constant.TYPE_PRE_MONTH,
-        value: thisDate.format(format)
+        value: thisDate.format(format),
+        isTerm: solar2lunarData['isTerm'],
+        term: solar2lunarData['term'],
+        dayCn: solar2lunarData['dayCn']
       }
 
       item = getFullItem(item, options, selectedDate, isShowStatus)
@@ -76,12 +70,16 @@ export default function generateCalendarGroup(
     // 生成这个月的日期
     for (let i = 0; i < nowMonthDays; i++) {
       const thisDate = firstDate.add(i, 'day').startOf('day')
+      const solar2lunarData = solarLunar.solar2lunar(thisDate.get('year'), thisDate.get('month') + 1, thisDate.get('date'))
       let item = {
         marks: [],
         _value: thisDate,
         text: thisDate.date(),
         type: constant.TYPE_NOW_MONTH,
-        value: thisDate.format(format)
+        value: thisDate.format(format),
+        isTerm: solar2lunarData['isTerm'],
+        term: solar2lunarData['term'],
+        dayCn: solar2lunarData['dayCn']
       }
 
       item = getFullItem(item, options, selectedDate, isShowStatus)
@@ -93,12 +91,16 @@ export default function generateCalendarGroup(
     let i = 1
     while (list.length < TOTAL) {
       const thisDate = lastDate.add(i++, 'day').startOf('day')
+      const solar2lunarData = solarLunar.solar2lunar(thisDate.get('year'), thisDate.get('month') + 1, thisDate.get('date'))
       let item = {
         marks: [],
         _value: thisDate,
         text: thisDate.date(),
         type: constant.TYPE_NEXT_MONTH,
-        value: thisDate.format(format)
+        value: thisDate.format(format),
+        isTerm: solar2lunarData['isTerm'],
+        term: solar2lunarData['term'],
+        dayCn: solar2lunarData['dayCn']
       }
 
       item = getFullItem(item, options, selectedDate, isShowStatus)

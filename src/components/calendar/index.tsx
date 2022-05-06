@@ -12,6 +12,8 @@ const defaultProps: AtCalendarDefaultProps = {
   validDates: [],
   marks: [],
   isSwiper: true,
+  isLunar: false,
+  isMonfirst: false,
   hideArrow: false,
   isVertical: false,
   selectedDates: [],
@@ -265,7 +267,7 @@ export default class AtCalendar extends React.Component<AtCalendarProps, Readonl
 
   public render(): JSX.Element {
     const { generateDate, selectedDate } = this.state
-    const { validDates, marks, format, minDate, maxDate, isSwiper, className, hideArrow, isVertical, monthFormat, selectedDates } = this
+    const { validDates, marks, format, minDate, maxDate, isSwiper, isLunar, isMonfirst, className, hideArrow, isVertical, monthFormat, selectedDates } = this
       .props as AtCalendarPropsWithDefaults
 
     return (
@@ -287,6 +289,8 @@ export default class AtCalendar extends React.Component<AtCalendarProps, Readonl
           minDate={minDate}
           maxDate={maxDate}
           isSwiper={isSwiper}
+          isLunar={isLunar}
+          isMonfirst={isMonfirst}
           isVertical={isVertical}
           selectedDate={selectedDate}
           selectedDates={selectedDates}

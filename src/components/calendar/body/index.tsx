@@ -17,6 +17,8 @@ const defaultProps: Partial<AtCalendarBodyProps> = {
     end: Date.now(),
     start: Date.now()
   },
+  isLunar: false,
+  isMonfirst: false,
   format: 'YYYY-MM-DD',
   generateDate: Date.now()
 }
@@ -26,7 +28,7 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
 
   public constructor(props: AtCalendarBodyProps) {
     super(props)
-    const { validDates, marks, format, minDate, maxDate, generateDate, selectedDate, selectedDates } = props
+    const { validDates, marks, format, minDate, maxDate, generateDate, selectedDate, selectedDates, isMonfirst } = props
 
     this.generateFunc = generateCalendarGroup({
       validDates,
@@ -34,7 +36,8 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
       minDate,
       maxDate,
       marks,
-      selectedDates
+      selectedDates,
+      isMonfirst
     })
     const listGroup = this.getGroups(generateDate, selectedDate)
 
@@ -54,7 +57,7 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: AtCalendarBodyProps): void {
-    const { validDates, marks, format, minDate, maxDate, generateDate, selectedDate, selectedDates } = nextProps
+    const { validDates, marks, format, minDate, maxDate, generateDate, selectedDate, selectedDates, isMonfirst } = nextProps
 
     this.generateFunc = generateCalendarGroup({
       validDates,
@@ -62,7 +65,8 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
       minDate,
       maxDate,
       marks,
-      selectedDates
+      selectedDates,
+      isMonfirst
     })
     const listGroup = this.getGroups(generateDate, selectedDate)
 
@@ -200,16 +204,16 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
   }
 
   public render(): JSX.Element {
-    const { isSwiper } = this.props
+    const { isSwiper, isLunar, isMonfirst } = this.props
     const { isAnimate, offsetSize, listGroup } = this.state
 
     if (!isSwiper) {
       return (
         <View className={classnames('main', 'at-calendar-slider__main', `at-calendar-slider__main--${process.env.TARO_ENV}`)}>
-          <AtCalendarDayList />
+          <AtCalendarDayList isMonfirst={isMonfirst} />
           <View className='main__body body'>
             <View className='body__slider body__slider--now'>
-              <AtCalendarDateList list={listGroup[1].list} onClick={this.props.onDayClick} onLongClick={this.props.onLongClick} />
+              <AtCalendarDateList isLunar={isLunar} list={listGroup[1].list} onClick={this.props.onDayClick} onLongClick={this.props.onLongClick} />
             </View>
           </View>
         </View>
@@ -225,7 +229,7 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
           onTouchMove={this.handleTouchMove}
           onTouchStart={this.handleTouchStart}
         >
-          <AtCalendarDayList />
+          <AtCalendarDayList isMonfirst={isMonfirst} />
           <View
             className={classnames('main__body  body', {
               'main__body--slider': isSwiper,
@@ -237,13 +241,13 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
             }}
           >
             <View className='body__slider body__slider--pre'>
-              <AtCalendarDateList list={listGroup[0].list} />
+              <AtCalendarDateList isLunar={isLunar} list={listGroup[0].list} />
             </View>
             <View className='body__slider body__slider--now'>
-              <AtCalendarDateList list={listGroup[1].list} onClick={this.props.onDayClick} onLongClick={this.props.onLongClick} />
+              <AtCalendarDateList isLunar={isLunar} list={listGroup[1].list} onClick={this.props.onDayClick} onLongClick={this.props.onLongClick} />
             </View>
             <View className='body__slider body__slider--next'>
-              <AtCalendarDateList list={listGroup[2].list} />
+              <AtCalendarDateList isLunar={isLunar} list={listGroup[2].list} />
             </View>
           </View>
         </View>
@@ -252,7 +256,7 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
 
     return (
       <View className={classnames('main', 'at-calendar-slider__main', `at-calendar-slider__main--${process.env.TARO_ENV}`)}>
-        <AtCalendarDayList />
+        <AtCalendarDayList isMonfirst={isMonfirst} />
         <Swiper
           circular
           current={1}
@@ -266,7 +270,7 @@ export default class AtCalendarBody extends React.Component<AtCalendarBodyProps,
         >
           {listGroup.map((item, key) => (
             <SwiperItem key={key} itemId={key.toString()}>
-              <AtCalendarDateList list={item.list} onClick={this.props.onDayClick} onLongClick={this.props.onLongClick} />
+              <AtCalendarDateList isLunar={this.props.isLunar} list={item.list} onClick={this.props.onDayClick} onLongClick={this.props.onLongClick} />
             </SwiperItem>
           ))}
         </Swiper>

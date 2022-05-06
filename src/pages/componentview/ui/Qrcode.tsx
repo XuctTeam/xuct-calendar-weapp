@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-04-28 11:27:10
+ * @LastEditTime: 2022-05-06 09:28:59
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -26,6 +26,7 @@ interface IPageOption {
   width: number
   height: number
   close: () => void
+  getShortUrl: () => Promise<string>
 }
 
 interface IImageOption {
@@ -262,8 +263,19 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
     context.fillText(line, x, y)
   }
 
-  const _getQrcode = async () => {
-    const qrCode = QR.drawImg('https://www.baidu.com', {
+  const _getQrcode = () => {
+    props
+      .getShortUrl()
+      .then((res) => {
+        _setQrCode(res as any as string)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const _setQrCode = async (url: string) => {
+    const qrCode = QR.drawImg(url, {
       typeNumber: 4,
       errorCorrectLevel: 'M',
       size: 500

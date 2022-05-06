@@ -36,7 +36,7 @@
         font-size: 30px;
         text-align: center;
         position: relative;
-        margin: 5px 0;
+        margin: 8px 0;
 
         &-container {
           @include align-items(center);
@@ -47,16 +47,29 @@
           margin-left: auto;
           margin-right: auto;
           border-radius: 50%;
+          line-height: 27px;
+          padding: 4px;
 
           .container-text {
             @include flex;
+          }
+
+          .lunar-text {
+            font-size: 12px;
+          }
+
+          @media screen and (min-height: 480px) {
+            .lunar-text {
+              font-size: 10px;
+              transform: scale(0.8);
+            }
           }
         }
 
         &-extra {
           .extra-marks {
             position: absolute;
-            bottom: 5px;
+            bottom: 4px;
             line-height: 0;
             left: 50%;
             transform: translateX(-50%);

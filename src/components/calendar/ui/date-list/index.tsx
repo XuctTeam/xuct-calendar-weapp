@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-26 08:57:31
- * @LastEditTime: 2021-11-26 08:59:09
+ * @LastEditTime: 2022-05-06 22:44:27
  * @LastEditors: Derek Xu
  */
 import classnames from 'classnames'
@@ -23,6 +23,8 @@ export interface Props {
   onClick?: (item: Calendar.Item) => void
 
   onLongClick?: (item: Calendar.Item) => void
+
+  isLunar: boolean
 }
 
 export default class AtCalendarList extends React.Component<Props> {
@@ -39,7 +41,7 @@ export default class AtCalendarList extends React.Component<Props> {
   }
 
   public render(): JSX.Element | null {
-    const { list } = this.props
+    const { list, isLunar } = this.props
     if (!list || list.length === 0) return null
 
     return (
@@ -59,7 +61,10 @@ export default class AtCalendarList extends React.Component<Props> {
             })}
           >
             <View className='flex__item-container'>
-              <View className='container-text'>{item.text}</View>
+              <View className='container-text'>
+                <View>{item.text}</View>
+                {isLunar && <View className='lunar-text'>{item.isTerm ? item.term : item.dayCn}</View>}
+              </View>
             </View>
             <View className='flex__item-extra extra'>
               {item.marks && item.marks.length > 0 ? (

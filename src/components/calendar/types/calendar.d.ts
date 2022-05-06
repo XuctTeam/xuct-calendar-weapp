@@ -41,12 +41,20 @@ declare namespace Calendar {
     isSelectedHead?: boolean
 
     isSelectedTail?: boolean
+
+    isTerm: boolean
+
+    term: string
+
+    dayCn: string
   }
 
   export interface GroupOptions {
     validDates: Array<ValidDate>
 
     marks: Array<Mark>
+
+    isMonfirst: boolean
 
     format: string
 
@@ -133,6 +141,10 @@ export interface AtCalendarDefaultProps {
 
   isSwiper: boolean
 
+  isLunar: boolean
+
+  isMonfirst: boolean
+
   validDates: Array<Calendar.ValidDate>
 
   marks: Array<Calendar.Mark>
@@ -194,6 +206,10 @@ export interface AtCalendarBodyProps {
   marks: Array<Calendar.Mark>
 
   isSwiper: boolean
+
+  isLunar: boolean
+
+  isMonfirst: boolean
 
   minDate?: Calendar.DateArg
 

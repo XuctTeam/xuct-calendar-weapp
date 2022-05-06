@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-04-23 20:14:39
+ * @LastEditTime: 2022-05-06 22:55:19
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -43,6 +43,7 @@ const Index: FunctionComponent = () => {
   const [componentRefreshOpen, setComponentRefreshOpen] = useState<boolean>(false)
   const [componentRefreshLocalTime, setComponentRefreshLocalTime] = useState<number>(0)
   const [calendarComponents, setCalendarComponents] = useState<ICalendarComponent[]>([])
+  const [isMonfirst, setIsMonfirst] = useState<boolean>(false)
 
   useEffect(() => {
     if (!accessToken) {
@@ -275,7 +276,8 @@ const Index: FunctionComponent = () => {
                   onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    Router.toComponentsearch()
+                    //Router.toComponentsearch()
+                    setIsMonfirst(!isMonfirst)
                   }}
                 />
               </>
@@ -285,6 +287,8 @@ const Index: FunctionComponent = () => {
               ref={calRef}
               currentDay={dayjs(selectedDay).format('YYYY/MM/DD')}
               marks={marks}
+              isLunar
+              isMonfirst={isMonfirst}
               selectMonthChage={selectMonthChage}
               selectDayLongClick={selectDayLongClick}
               selectDayClick={selectDayClickHadnle}

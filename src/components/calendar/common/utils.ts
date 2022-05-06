@@ -6,7 +6,7 @@ const ENV = Taro.getEnv()
 function delay(delayTime = 25): Promise<null> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve()
+      resolve(null)
     }, delayTime)
   })
 }

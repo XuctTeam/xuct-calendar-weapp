@@ -6880,11 +6880,6 @@
   dependencies:
     "yallist" "^4.0.0"
 
-"lunar-fun@^2.0.0":
-  "integrity" "sha512-vdsuhyjg8P3JOMTzXYbRr1a7p1QL3p6KXSYrk8AeZgNSpv5IDUzKs+rCXKyxJY058ZusA6Vy0Ts3y2lZvzQNiQ=="
-  "resolved" "https://registry.npmjs.org/lunar-fun/-/lunar-fun-2.0.0.tgz"
-  "version" "2.0.0"
-
 "make-dir@^2.0.0", "make-dir@^2.1.0":
   "integrity" "sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA=="
   "resolved" "https://registry.npmjs.org/make-dir/-/make-dir-2.1.0.tgz"
@@ -9787,6 +9782,11 @@
     "faye-websocket" "^0.10.0"
     "uuid" "^3.4.0"
     "websocket-driver" "0.6.5"
+
+"solarlunar-es@^1.0.9":
+  "integrity" "sha512-Phsk53NMRexjZkXmL6Q9l1UOtJ0GPt+/KUu+mCZkGIV9GlXpYxwjjh4hGhSd7j7k/PrVtX5Uh7/iW5R7fJ+STg=="
+  "resolved" "https://registry.npmjs.org/solarlunar-es/-/solarlunar-es-1.0.9.tgz"
+  "version" "1.0.9"
 
 "sort-keys@^1.0.0":
   "integrity" "sha1-RBttTTRnmPG05J6JIK37oOVD+a0="

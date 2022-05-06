@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-05-05 18:13:57
+ * @LastEditTime: 2022-05-06 09:32:30
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -332,6 +332,24 @@ const Componentview: FunctionComponent = () => {
   }, [requestSubscribeMessage])
 
   /**
+   * @description:
+   * @param {*} Promise
+   * @return {*}
+   */
+  const getQrcodeShortUrl = (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      getShortUrl(component.id)
+        .then((res) => {
+          return resolve(res as any as string)
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err)
+        })
+    })
+  }
+
+  /**
    * 删除事件
    */
   const _deleteComponent = (ty: number, id: string) => {
@@ -470,6 +488,7 @@ const Componentview: FunctionComponent = () => {
         componentId={component.id}
         width={systemInfo.screenWidth - 60}
         height={systemInfo.screenHeight - 160}
+        getShortUrl={getQrcodeShortUrl}
       ></Qrcode>
       <WeappShare open={weappShareOpen} onClose={() => setWeappShareOpen(false)} componentTitle={component.summary} componentId={component.id}></WeappShare>
     </Fragment>

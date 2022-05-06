@@ -1,11 +1,15 @@
 .vi-index-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow-y: auto;
 
   .taroify-collapse-item__wrapper {
-    max-height: 680px;
+    max-height: 750px;
+  }
+
+  @media screen and (min-width: 480) {
+    .taroify-collapse-item__wrapper {
+      max-height: 800px;
+    }
   }
 
   .taroify-empty__image {
@@ -30,7 +34,6 @@
   /* 事件样式 */
   &_event {
     height: 100%;
-    margin-top: 10px;
     text-align: center;
 
     .taroify-pull-refresh {
@@ -52,7 +55,6 @@
 
     /* 事件列表 */
     .event-list-content {
-
       .event-container {
         min-height: 16vmin;
         display: flex;
@@ -105,10 +107,9 @@
         }
       }
 
-      .event-expire{
+      .event-expire {
         color: red;
       }
-
     }
   }
 }
@@ -154,7 +155,6 @@
 
 /* 日历弹出样式 */
 .vi-index-wrapper_popup {
-
   .taroify-popup {
     display: flex;
     flex-direction: column;
