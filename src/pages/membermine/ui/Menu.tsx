@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-05 17:04:12
- * @LastEditTime: 2022-04-28 11:22:12
+ * @LastEditTime: 2022-05-12 10:56:04
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback } from 'react'
@@ -98,11 +98,11 @@ const Setting: FunctionComponent = () => {
     <View className='vi-aboutme-wrapper_setting'>
       {env === 'WEAPP' && <Cell icon={<BulbOutlined />} title='消息订阅' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 6)}></Cell>}
       <Cell icon={<CalendarOutlined />} title='我的日历' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 1)}></Cell>
-      <Cell icon={<SettingOutlined />} title='账号设置' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 2)}></Cell>
       <Cell icon={<TvOutlined />} title='电脑版' clickable onClick={atListItemClickHandle.bind(this, 3)}>
         xuct.com.cn
       </Cell>
       <Cell icon={<ManagerOutlined />} title='在线客服' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 4)}></Cell>
+      <Cell icon={<SettingOutlined />} title='设置' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 2)}></Cell>
       <Cell icon={<UserCircleOutlined />} title='账号与安全' rightIcon={<Arrow />} clickable onClick={atListItemClickHandle.bind(this, 5)}></Cell>
     </View>
   )

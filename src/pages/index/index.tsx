@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-05-06 22:55:19
+ * @LastEditTime: 2022-05-12 13:16:34
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -33,6 +33,8 @@ const Index: FunctionComponent = () => {
   const calRef = React.createRef()
   const reduxDispatch = useDispatch()
   const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
+  const lunar = useSelector<IDvaCommonProps>((state) => state.common.lunar)
+  const monday = useSelector<IDvaCommonProps>((state) => state.common.monday)
   const calendars: Array<IDavCalendar> | unknown = useSelector<IDvaCalendarProps>((state) => state.calendar.calendars)
   const componentRefreshTime: number | unknown = useSelector<IDvaComponentProps>((state) => state.component.refreshTime)
 
@@ -50,7 +52,7 @@ const Index: FunctionComponent = () => {
       _removeStore()
       return
     }
-  }, [accessToken])
+  }, [accessToken, lunar, monday])
 
   useDidShow(() => {
     if (!accessToken) return
@@ -287,8 +289,8 @@ const Index: FunctionComponent = () => {
               ref={calRef}
               currentDay={dayjs(selectedDay).format('YYYY/MM/DD')}
               marks={marks}
-              isLunar
-              isMonfirst={isMonfirst}
+              isLunar={!!lunar}
+              isMonfirst={!!monday}
               selectMonthChage={selectMonthChage}
               selectDayLongClick={selectDayLongClick}
               selectDayClick={selectDayClickHadnle}
