@@ -4,20 +4,20 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-04 22:53:06
+ * @LastEditTime: 2022-05-18 18:38:07
  */
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { Button, Swiper } from '@taroify/core'
+import { Button, Swiper, Popup } from '@taroify/core'
 import { FormInstance } from '@taroify/core/form'
 import IconFont from '@/components/iconfont'
 import { useToast } from 'taro-hooks'
+import { register, captcha as toGetCaptcha } from '@/api/user'
 import { useBack } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
-import { UserNameRegister, PhoneRegister, EmailRegister } from './ui'
-import { register } from '@/api/user'
-import { captcha as toGetCaptcha } from '@/api/user'
+import { UserNameRegister, PhoneRegister, EmailRegister, SimpleVerify } from './ui'
+
 import './index.scss'
 
 interface ICaptcha {
@@ -47,9 +47,13 @@ const MemberRegister: FunctionComponent = () => {
   const userRef = React.createRef<FormInstance>()
   const emailRef = React.createRef<FormInstance>()
   const phoneRef = React.createRef<FormInstance>()
+  const simpleRef = React.createRef<any>()
   const [formType, setFormType] = useState<number>(0)
   const [image, setImage] = useState<string>('')
   const [key, setKey] = useState<string>('')
+  const [verifyOpen, setVerifyOpen] = useState<boolean>(false)
+  const [verify, setVerify] = useState<boolean>(false)
+
   const [toast] = useToast({
     icon: 'error'
   })
@@ -57,6 +61,7 @@ const MemberRegister: FunctionComponent = () => {
 
   useEffect(() => {
     getCaptcha()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getCaptcha = useCallback(() => {
@@ -85,9 +90,10 @@ const MemberRegister: FunctionComponent = () => {
       case 2:
         _emailRegister()
       default:
-        null
     }
   }
+
+  const verifySuccess = () => {}
 
   const _userNameRegister = () => {
     if (!userRef.current) return
@@ -180,46 +186,57 @@ const MemberRegister: FunctionComponent = () => {
   }
 
   return (
-    <CommonMain title='用户注册' left fixed className='vi-member-register-warpper' to={4}>
-      <View className='vi-member-register-warpper_container'>
-        <Swiper touchable={false} value={formType}>
-          <Swiper.Item>
-            <UserNameRegister ref={userRef} image={image} getCaptcha={getCaptcha}></UserNameRegister>
-          </Swiper.Item>
-          <Swiper.Item>
-            <PhoneRegister ref={phoneRef}></PhoneRegister>
-          </Swiper.Item>
-          <Swiper.Item>
-            <EmailRegister ref={emailRef}></EmailRegister>
-          </Swiper.Item>
-        </Swiper>
-      </View>
-      <View className='vi-member-register-warpper_button'>
-        <View className='thirdWrap'>
-          {formType !== 0 && (
-            <View className='itemWrap' onClick={() => setFormType(0)}>
-              <IconFont name='icon-qudaozhanghaoshangxian' size={40} />
-              <View className='label'>账号</View>
-            </View>
-          )}
-          {formType !== 1 && (
-            <View className='itemWrap' onClick={() => setFormType(1)}>
-              <IconFont name='shouji' size={40} />
-              <View className='label'>手机</View>
-            </View>
-          )}
-          {formType !== 2 && (
-            <View className='itemWrap' onClick={() => setFormType(2)}>
-              <IconFont name='youxiang' size={40} />
-              <View className='label'>邮箱</View>
-            </View>
-          )}
+    <Fragment>
+      <CommonMain title='用户注册' left fixed className='vi-member-register-warpper' to={4}>
+        <View className='vi-member-register-warpper_container'>
+          <Swiper touchable={false} value={formType}>
+            <Swiper.Item>
+              <UserNameRegister ref={userRef} image={image} getCaptcha={getCaptcha}></UserNameRegister>
+            </Swiper.Item>
+            <Swiper.Item>
+              <PhoneRegister ref={phoneRef}></PhoneRegister>
+            </Swiper.Item>
+            <Swiper.Item>
+              <EmailRegister ref={emailRef}></EmailRegister>
+            </Swiper.Item>
+          </Swiper>
         </View>
-        <Button block color='success' onClick={() => registerHandler()}>
-          提交
-        </Button>
-      </View>
-    </CommonMain>
+        <View className='vi-member-register-warpper_button'>
+          <View className='thirdWrap'>
+            {formType !== 0 && (
+              <View className='itemWrap' onClick={() => setFormType(0)}>
+                <IconFont name='icon-qudaozhanghaoshangxian' size={40} />
+                <View className='label'>账号</View>
+              </View>
+            )}
+            {formType !== 1 && (
+              <View className='itemWrap' onClick={() => setFormType(1)}>
+                <IconFont name='shouji' size={40} />
+                <View className='label'>手机</View>
+              </View>
+            )}
+            {formType !== 2 && (
+              <View className='itemWrap' onClick={() => setFormType(2)}>
+                <IconFont name='youxiang' size={40} />
+                <View className='label'>邮箱</View>
+              </View>
+            )}
+          </View>
+          <Button
+            block
+            color='success'
+            onClick={() => {
+              setVerifyOpen(true)
+            }}
+          >
+            提交
+          </Button>
+        </View>
+      </CommonMain>
+      <Popup open={verifyOpen}>
+        <SimpleVerify height={200} ref={simpleRef} success={() => {}}></SimpleVerify>
+      </Popup>
+    </Fragment>
   )
 }
 export default MemberRegister

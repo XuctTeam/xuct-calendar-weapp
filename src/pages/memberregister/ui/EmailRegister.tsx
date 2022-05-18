@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-05-03 20:25:06
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-04 22:49:54
+ * @LastEditTime: 2022-05-18 18:36:37
  * @FilePath: \xuct-calendar-weapp\src\pages\memberregister\ui\EmailRegister.tsx
  * @Description:
  *
@@ -76,7 +76,7 @@ const EmailRegister: FunctionComponent<IPageOption & { ref: React.Ref<FormInstan
   }
 
   return (
-    <Form className='form' ref={ref}>
+    <Form className='form' {...props} ref={ref}>
       <Cell.Group inset>
         <Form.Item ref={emailItemRef} name='email' rules={[{ pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/, message: '不为空或格式错误' }]}>
           <Form.Label>邮箱</Form.Label>

@@ -2,14 +2,13 @@
  * @Author: Derek Xu
  * @Date: 2022-05-03 20:24:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-04 22:51:58
+ * @LastEditTime: 2022-05-18 18:30:16
  * @FilePath: \xuct-calendar-weapp\src\pages\memberregister\ui\PhoneRegister.tsx
  * @Description:
  *
  * Copyright (c) 2022 by 徐涛 jianhao2010303@163.com, All Rights Reserved.
  */
-import React, { useEffect } from 'react'
-import { FunctionComponent, useRef, useState } from 'react'
+import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Button, Cell, Form, Input } from '@taroify/core'
 import { FormInstance, FormItemInstance } from '@taroify/core/form'
 import { useToast } from 'taro-hooks'
@@ -76,7 +75,7 @@ const PhoneRegister: FunctionComponent<IPageOption & { ref: React.Ref<FormInstan
   }
 
   return (
-    <Form className='form' ref={ref}>
+    <Form className='form' {...props} ref={ref}>
       <Cell.Group inset>
         <Form.Item ref={phoneItemRef} name='phone' rules={[{ pattern: /^1[3|4|5|8][0-9]\d{4,8}/, message: '不为空或格式错误' }]}>
           <Form.Label>手机号</Form.Label>

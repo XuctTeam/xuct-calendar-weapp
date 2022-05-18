@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-10 13:38:16
- * @LastEditTime: 2022-04-12 14:31:39
+ * @LastEditTime: 2022-05-18 13:59:33
  * @LastEditors: Derek Xu
  */
 export const colors = [
@@ -99,10 +99,10 @@ export const alarmTypes = [
 export const USER_LOGOUT_EVENT = 'USER_LOGOUT_EVENT'
 
 //@ts-ignore
-export const DEFAULT_AVATAR = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGJVDdKAYWI2AAB0mLZqMmI074.png'
+export const DEFAULT_AVATAR = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKEgb2AE6fzAAB0mLZqMmI800.png'
 
 //@ts-ignore
-export const DEFAULT_LOG_IMAGE = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGJVDjiAQLxBAACEf3Qy6sE450.png'
+export const DEFAULT_LOG_IMAGE = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKDVWeASm9XAACEf3Qy6sE436.png'
 
 //@ts-ignore
 export const DEFAULT_WECHAT_IMAGE = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGJVFQeATPt0AAAkp3rDHEs354.png'
