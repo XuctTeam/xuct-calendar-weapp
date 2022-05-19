@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-19 16:34:31
+ * @LastEditTime: 2022-05-19 21:55:23
  */
 import React, { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
@@ -189,58 +189,49 @@ const MemberRegister: FunctionComponent = () => {
   }
 
   return (
-    <Fragment>
-      <CommonMain title='用户注册' left fixed className='vi-member-register-warpper' to={4}>
-        <View className='vi-member-register-warpper_container'>
-          <Swiper touchable={false} value={formType}>
-            <Swiper.Item>
-              <UserNameRegister ref={userRef} image={image} getCaptcha={getCaptcha}></UserNameRegister>
-            </Swiper.Item>
-            <Swiper.Item>
-              <PhoneRegister ref={phoneRef}></PhoneRegister>
-            </Swiper.Item>
-            <Swiper.Item>
-              <EmailRegister ref={emailRef}></EmailRegister>
-            </Swiper.Item>
-          </Swiper>
-          <View className='verify'>
-            <Button variant='outlined' block color='primary' icon={<Replay />} disabled={verify} onClick={() => setVerifyOpen(true)}>
-              点击验证
-            </Button>
-          </View>
-        </View>
-        <View className='vi-member-register-warpper_button'>
-          <View className='thirdWrap'>
-            {formType !== 0 && (
-              <View className='itemWrap' onClick={() => setFormType(0)}>
-                <IconFont name='icon-qudaozhanghaoshangxian' size={40} />
-                <View className='label'>账号</View>
-              </View>
-            )}
-            {formType !== 1 && (
-              <View className='itemWrap' onClick={() => setFormType(1)}>
-                <IconFont name='shouji' size={40} />
-                <View className='label'>手机</View>
-              </View>
-            )}
-            {formType !== 2 && (
-              <View className='itemWrap' onClick={() => setFormType(2)}>
-                <IconFont name='youxiang' size={40} />
-                <View className='label'>邮箱</View>
-              </View>
-            )}
-          </View>
-          <Button block color='success' disabled={!verify} onClick={registerHandler}>
-            提交
-          </Button>
-        </View>
-      </CommonMain>
-      <View className='register-popup'>
-        <Popup open={verifyOpen} onClose={() => setVerifyOpen(false)}>
+    <CommonMain title='用户注册' left fixed className='vi-member-register-warpper' to={4}>
+      <View className='vi-member-register-warpper_container'>
+        <Swiper touchable={false} value={formType}>
+          <Swiper.Item>
+            <UserNameRegister ref={userRef} image={image} getCaptcha={getCaptcha}></UserNameRegister>
+          </Swiper.Item>
+          <Swiper.Item>
+            <PhoneRegister ref={phoneRef}></PhoneRegister>
+          </Swiper.Item>
+          <Swiper.Item>
+            <EmailRegister ref={emailRef}></EmailRegister>
+          </Swiper.Item>
+        </Swiper>
+        <View className='verify'>
           <SimpleVerify success={verifySuccess}></SimpleVerify>
-        </Popup>
+        </View>
       </View>
-    </Fragment>
+      <View className='vi-member-register-warpper_button'>
+        <View className='thirdWrap'>
+          {formType !== 0 && (
+            <View className='itemWrap' onClick={() => setFormType(0)}>
+              <IconFont name='icon-qudaozhanghaoshangxian' size={40} />
+              <View className='label'>账号</View>
+            </View>
+          )}
+          {formType !== 1 && (
+            <View className='itemWrap' onClick={() => setFormType(1)}>
+              <IconFont name='shouji' size={40} />
+              <View className='label'>手机</View>
+            </View>
+          )}
+          {formType !== 2 && (
+            <View className='itemWrap' onClick={() => setFormType(2)}>
+              <IconFont name='youxiang' size={40} />
+              <View className='label'>邮箱</View>
+            </View>
+          )}
+        </View>
+        <Button block color='success' disabled={!verify} onClick={registerHandler}>
+          提交
+        </Button>
+      </View>
+    </CommonMain>
   )
 }
 export default MemberRegister

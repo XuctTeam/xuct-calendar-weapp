@@ -2,84 +2,111 @@
  * @Author: Derek Xu
  * @Date: 2022-05-19 13:09:40
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-19 18:29:43
+ * @LastEditTime: 2022-05-19 22:29:46
  * @FilePath: \xuct-calendar-weapp\src\components\simpleverify\wechat\SimpleVerify.tsx
  * @Description:
  *
  * Copyright (c) 2022 by 楚恬商行, All Rights Reserved.
  */
-import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import Taro from '@tarojs/taro'
+import { Component } from 'react'
 import { MovableArea, MovableView, View } from '@tarojs/components'
+import { Passed } from '@taroify/icons'
+
 import './index.scss'
 
 interface IPageOption {
   success: () => void
 }
 
-const SimpleVerify: FunctionComponent<IPageOption> = (props) => {
-  const boxWidthRef = useRef<number>(80)
-  const areaWidthRef = useRef<number>(100)
-  const [slidingDistance, setSlidingDistance] = useState<number>(0)
-  const [xDistance, setXDistance] = useState<number>(0)
-  const [slidingWidth, setSlidingWidth] = useState<number>(0)
-  const [sliderValdationText, setSliderValdationText] = useState<string>('拖动滑块验证')
-  const [areaBgColor, setAreaBgColor] = useState<string>('#fff')
-  const [areaTextColor, setAreaTextColor] = useState<string>('#666')
+/**
+ * 组件状态
+ */
+interface StateOption {
+  width: number
+  boxWidth: number
+  sliderData: any
+  x: number
+  flag: boolean
+  isSlidePass: boolean
+}
 
-  useEffect(() => {
-    let res = Taro.getSystemInfoSync()
-    console.log(res)
-    setSlidingWidth(Math.floor(res.windowWidth - 10 - boxWidthRef.current / 2))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const sliderDrag = (e) => {
-    setSlidingDistance(e.detail.x)
-  }
-
-  const sliderDragOver = () => {
-    console.log(slidingDistance, slidingWidth)
-    if (slidingDistance >= slidingWidth) {
-      setSliderValdationText('验证成功')
-      setAreaBgColor('#fd8649')
-      setAreaTextColor('#fff')
-
-      setTimeout(() => {
-        reset()
-        props.success()
-      }, 600)
-    } else {
-      setXDistance(0)
+class SimpleVerify extends Component<IPageOption, StateOption> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      width: 0,
+      boxWidth: 0,
+      sliderData: {},
+      x: 0,
+      flag: false,
+      isSlidePass: false
     }
   }
 
-  const reset = () => {
-    setXDistance(0)
-    setAreaBgColor('#fff')
-    setAreaTextColor('#666')
-    setSliderValdationText('拖动滑块验证')
+  componentDidMount() {
+    Taro.nextTick(async () => {
+      const query = Taro.createSelectorQuery().in(this)
+      query
+        .select('.sliding-box')
+        .boundingClientRect((rec) => {
+          console.log(11111111111)
+          console.log(rec)
+        })
+        .exec()
+      console.log(query)
+    })
   }
 
-  return (
-    <View className='box'>
-      <MovableArea className='validation-content' style={{ width: areaWidthRef.current + `%`, backgroundColor: areaBgColor, color: areaTextColor }}>
-        {sliderValdationText}
+  slidChange(e) {
+    let { isSlidePass, width } = this.state
+    if (isSlidePass) return
+    const { x } = e.detail
+    width = +x
+    this.setState({ width: width })
+  }
+
+  async touchend() {
+    let { isSlidePass, width, boxWidth } = this.state
+    console.log(boxWidth, width)
+    // 滑动成功
+    if (boxWidth <= +width) {
+      isSlidePass = true
+      this.setState({ width: width, isSlidePass: isSlidePass })
+    } else {
+      this.setState({ x: 0 })
+    }
+  }
+
+  render() {
+    return (
+      <MovableArea className='sliding-box'>
+        <View className='label' style={{ zIndex: this.state.isSlidePass ? 1 : 2 }}>
+          请按住滑块，拖到最右边
+        </View>
+        <View className='has-slip' style={{ width: this.state.isSlidePass ? '100%' : this.state.width + 'px' }}>
+          {this.state.isSlidePass ? '验证通过' : ''}
+        </View>
         <MovableView
-          className='validation-box'
-          style={{ width: boxWidthRef.current / 2 + 'px' }}
-          friction={100}
+          x={this.state.x}
+          disabled={this.state.isSlidePass}
+          onTouchEnd={this.touchend.bind(this)}
+          onChange={this.slidChange.bind(this)}
           direction='horizontal'
-          x={xDistance}
-          damping={500}
-          onChange={sliderDrag}
-          onTouchEnd={sliderDragOver}
+          scale
+          className='sliding-area'
         >
-          <View className='validation-movable-icon'></View>
+          {!this.state.isSlidePass ? (
+            <View className='sliding-block'>{'>>'}</View>
+          ) : (
+            <View className='sliding-block sliding-icon'>
+              <Passed></Passed>
+            </View>
+          )}
         </MovableView>
       </MovableArea>
-    </View>
-  )
+    )
+  }
 }
 
 export default SimpleVerify
