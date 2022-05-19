@@ -2,13 +2,13 @@
  * @Author: Derek Xu
  * @Date: 2022-05-03 20:24:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-18 18:30:16
+ * @LastEditTime: 2022-05-19 09:55:43
  * @FilePath: \xuct-calendar-weapp\src\pages\memberregister\ui\PhoneRegister.tsx
  * @Description:
  *
  * Copyright (c) 2022 by 徐涛 jianhao2010303@163.com, All Rights Reserved.
  */
-import { FunctionComponent, useEffect, useRef, useState } from 'react'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Button, Cell, Form, Input } from '@taroify/core'
 import { FormInstance, FormItemInstance } from '@taroify/core/form'
 import { useToast } from 'taro-hooks'

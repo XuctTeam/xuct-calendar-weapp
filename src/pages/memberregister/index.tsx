@@ -4,13 +4,14 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-18 18:38:07
+ * @LastEditTime: 2022-05-19 16:34:31
  */
 import React, { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Button, Swiper, Popup } from '@taroify/core'
 import { FormInstance } from '@taroify/core/form'
+import { Replay } from '@taroify/icons'
 import IconFont from '@/components/iconfont'
 import { useToast } from 'taro-hooks'
 import { register, captcha as toGetCaptcha } from '@/api/user'
@@ -47,7 +48,6 @@ const MemberRegister: FunctionComponent = () => {
   const userRef = React.createRef<FormInstance>()
   const emailRef = React.createRef<FormInstance>()
   const phoneRef = React.createRef<FormInstance>()
-  const simpleRef = React.createRef<any>()
   const [formType, setFormType] = useState<number>(0)
   const [image, setImage] = useState<string>('')
   const [key, setKey] = useState<string>('')
@@ -93,7 +93,10 @@ const MemberRegister: FunctionComponent = () => {
     }
   }
 
-  const verifySuccess = () => {}
+  const verifySuccess = () => {
+    setVerify(true)
+    setVerifyOpen(false)
+  }
 
   const _userNameRegister = () => {
     if (!userRef.current) return
@@ -200,6 +203,11 @@ const MemberRegister: FunctionComponent = () => {
               <EmailRegister ref={emailRef}></EmailRegister>
             </Swiper.Item>
           </Swiper>
+          <View className='verify'>
+            <Button variant='outlined' block color='primary' icon={<Replay />} disabled={verify} onClick={() => setVerifyOpen(true)}>
+              点击验证
+            </Button>
+          </View>
         </View>
         <View className='vi-member-register-warpper_button'>
           <View className='thirdWrap'>
@@ -222,20 +230,16 @@ const MemberRegister: FunctionComponent = () => {
               </View>
             )}
           </View>
-          <Button
-            block
-            color='success'
-            onClick={() => {
-              setVerifyOpen(true)
-            }}
-          >
+          <Button block color='success' disabled={!verify} onClick={registerHandler}>
             提交
           </Button>
         </View>
       </CommonMain>
-      <Popup open={verifyOpen}>
-        <SimpleVerify height={200} ref={simpleRef} success={() => {}}></SimpleVerify>
-      </Popup>
+      <View className='register-popup'>
+        <Popup open={verifyOpen} onClose={() => setVerifyOpen(false)}>
+          <SimpleVerify success={verifySuccess}></SimpleVerify>
+        </Popup>
+      </View>
     </Fragment>
   )
 }

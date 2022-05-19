@@ -8,9 +8,13 @@
     height: 70px;
   }
 
+  .verify {
+    margin: 20px;
+  }
+
   .captcha {
     .taroify-cell__title {
-       padding-top: 10px;
+      padding-top: 10px;
     }
   }
 
@@ -37,7 +41,7 @@
     padding: 20px;
     box-sizing: border-box;
 
-    .thirdWrap{
+    .thirdWrap {
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -46,7 +50,7 @@
       color: #979797;
     }
 
-    .itemWrap{
+    .itemWrap {
       height: 40px;
       border-right: 1px solid #979797;
       display: flex;
@@ -54,12 +58,16 @@
       padding: 0px 20px;
     }
 
-    .thirdWrap .itemWrap:last-child{
+    .thirdWrap .itemWrap:last-child {
       border-right: none;
     }
 
-    .label{
+    .label {
       margin-left: 10px;
     }
   }
+}
+
+.register-popup .taroify-popup {
+  width: 100%;
 }

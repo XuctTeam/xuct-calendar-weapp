@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-05-12 13:50:55
+ * @LastEditTime: 2022-05-19 17:12:48
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -70,7 +70,7 @@ const SystemSetting: FunctionComponent = () => {
         monday: e[0] === 1 ? true : false
       },
       cb: () => {
-        setMondayCheck(e)
+        setMondayCheck(Number.parseInt(e[0]))
         setOpenPicker(false)
       }
     })
@@ -88,7 +88,7 @@ const SystemSetting: FunctionComponent = () => {
           <Switch checked={lunarCheck} size={20} onChange={(e) => onLunarCheck(e)}></Switch>
         </Cell>
         <Cell icon={<StarOutlined />} title='每周第一天' clickable onClick={() => menuClick(3)}>
-          <Input readonly placeholder='选择城市' value={mondayCheck ? '周一' : '周日'} />
+          <Input readonly value={mondayCheck ? '周一' : '周日'} />
         </Cell>
       </CommonMain>
       <Popup open={openPicker} rounded placement='bottom' onClose={setOpenPicker}>
