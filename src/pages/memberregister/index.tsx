@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-19 21:55:23
+ * @LastEditTime: 2022-05-20 13:14:34
  */
 import React, { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
@@ -51,7 +51,6 @@ const MemberRegister: FunctionComponent = () => {
   const [formType, setFormType] = useState<number>(0)
   const [image, setImage] = useState<string>('')
   const [key, setKey] = useState<string>('')
-  const [verifyOpen, setVerifyOpen] = useState<boolean>(false)
   const [verify, setVerify] = useState<boolean>(false)
 
   const [toast] = useToast({
@@ -95,7 +94,6 @@ const MemberRegister: FunctionComponent = () => {
 
   const verifySuccess = () => {
     setVerify(true)
-    setVerifyOpen(false)
   }
 
   const _userNameRegister = () => {

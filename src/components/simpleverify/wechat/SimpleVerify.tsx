@@ -1,8 +1,9 @@
+/* eslint-disable react/no-unused-state */
 /*
  * @Author: Derek Xu
  * @Date: 2022-05-19 13:09:40
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-19 22:29:46
+ * @LastEditTime: 2022-05-20 13:23:26
  * @FilePath: \xuct-calendar-weapp\src\components\simpleverify\wechat\SimpleVerify.tsx
  * @Description:
  *
@@ -11,7 +12,6 @@
 import Taro from '@tarojs/taro'
 import { Component } from 'react'
 import { MovableArea, MovableView, View } from '@tarojs/components'
-import { Passed } from '@taroify/icons'
 
 import './index.scss'
 
@@ -23,88 +23,100 @@ interface IPageOption {
  * 组件状态
  */
 interface StateOption {
-  width: number
-  boxWidth: number
-  sliderData: any
-  x: number
-  flag: boolean
-  isSlidePass: boolean
+  slidingDistance: number
+  xDistance: number
+  area_width: number
+  box_width: number
+  slidingWidth: number
+  sliderValdationText: string
+  areaBgColor: string
+  areaTextColor: string
+  isFinished: boolean
 }
 
 class SimpleVerify extends Component<IPageOption, StateOption> {
   constructor(props) {
     super(props)
     this.state = {
-      width: 0,
-      boxWidth: 0,
-      sliderData: {},
-      x: 0,
-      flag: false,
-      isSlidePass: false
+      slidingDistance: 0, //滑块滑动距离
+      xDistance: 0, //滑块默认距离
+      area_width: 90, //滑块容器总宽度 百分比
+      box_width: 40, //滑块的宽px
+      slidingWidth: 0, //滑动总宽度
+      sliderValdationText: '拖动滑块验证',
+      areaBgColor: '#fff',
+      areaTextColor: '#666',
+      isFinished: false
     }
   }
 
   componentDidMount() {
-    Taro.nextTick(async () => {
-      const query = Taro.createSelectorQuery().in(this)
+    setTimeout(() => {
+      const query = Taro.createSelectorQuery()
       query
-        .select('.sliding-box')
+        .select('#container')
         .boundingClientRect((rec) => {
-          console.log(11111111111)
           console.log(rec)
+          var n = Math.floor((rec.width * this.state.area_width) / 100 - this.state.box_width / 2 - 30)
+          this.setState({
+            slidingWidth: n
+          })
         })
         .exec()
-      console.log(query)
-    })
+    }, 500)
   }
 
   slidChange(e) {
-    let { isSlidePass, width } = this.state
-    if (isSlidePass) return
-    const { x } = e.detail
-    width = +x
-    this.setState({ width: width })
+    let that = this
+    that.setState({
+      slidingDistance: e.detail.x
+    })
   }
 
   async touchend() {
-    let { isSlidePass, width, boxWidth } = this.state
-    console.log(boxWidth, width)
-    // 滑动成功
-    if (boxWidth <= +width) {
-      isSlidePass = true
-      this.setState({ width: width, isSlidePass: isSlidePass })
+    var that = this
+    console.log(that.state.slidingDistance, that.state.slidingWidth)
+    if (that.state.slidingDistance >= that.state.slidingWidth) {
+      that.setState({
+        sliderValdationText: '验证成功',
+        areaBgColor: '#fd8649',
+        areaTextColor: '#fff',
+        isFinished: true
+      })
+      this.props.success()
     } else {
-      this.setState({ x: 0 })
+      that.setState({
+        xDistance: Math.random()
+      })
     }
   }
 
   render() {
     return (
-      <MovableArea className='sliding-box'>
-        <View className='label' style={{ zIndex: this.state.isSlidePass ? 1 : 2 }}>
-          请按住滑块，拖到最右边
+      <View id='container' className='container'>
+        <View className='goods-validation'>
+          <MovableArea
+            className='validation-content'
+            style={{ width: this.state.area_width + '%', backgroundColor: this.state.areaBgColor, color: this.state.areaTextColor }}
+          >
+            {this.state.sliderValdationText}
+            <MovableView
+              className='validation-box'
+              style={{ width: this.state.box_width + 'px' }}
+              inertia
+              friction={100}
+              direction='horizontal'
+              x={this.state.xDistance}
+              damping={500}
+              disabled={this.state.isFinished}
+              onChange={this.slidChange.bind(this)}
+              onTouchEnd={this.touchend.bind(this)}
+            >
+              <View className='validation-movable-icon'></View>
+            </MovableView>
+          </MovableArea>
         </View>
-        <View className='has-slip' style={{ width: this.state.isSlidePass ? '100%' : this.state.width + 'px' }}>
-          {this.state.isSlidePass ? '验证通过' : ''}
-        </View>
-        <MovableView
-          x={this.state.x}
-          disabled={this.state.isSlidePass}
-          onTouchEnd={this.touchend.bind(this)}
-          onChange={this.slidChange.bind(this)}
-          direction='horizontal'
-          scale
-          className='sliding-area'
-        >
-          {!this.state.isSlidePass ? (
-            <View className='sliding-block'>{'>>'}</View>
-          ) : (
-            <View className='sliding-block sliding-icon'>
-              <Passed></Passed>
-            </View>
-          )}
-        </MovableView>
-      </MovableArea>
+      </View>
     )
   }
 }
