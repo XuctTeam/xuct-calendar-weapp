@@ -8,9 +8,6 @@
     height: 70px;
   }
 
-  .verify {
-    margin: 20px;
-  }
 
   .captcha {
     .taroify-cell__title {
@@ -65,5 +62,14 @@
     .label {
       margin-left: 10px;
     }
+  }
+}
+
+.vi-member-register-warpper-popup{
+  .content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
   }
 }

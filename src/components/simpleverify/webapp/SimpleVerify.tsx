@@ -1,21 +1,19 @@
 /*
  * @Author: Derek Xu
- * @Date: 2022-05-20 13:28:17
+ * @Date: 2022-05-23 14:50:54
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-20 18:59:44
+ * @LastEditTime: 2022-05-24 15:15:22
  * @FilePath: \xuct-calendar-weapp\src\components\simpleverify\webapp\SimpleVerify.tsx
  * @Description:
  *
- * Copyright (c) 2022 by 楚恬商行, All Rights Reserved.
+ * Copyright (c) 2022 by 徐涛 jianhao2010303@163.com, All Rights Reserved.
  */
-import { Component } from 'react'
-import Taro from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import * as React from 'react'
+import './index.scss'
 import barImage from './images/bar'
 import successImage from './images/success'
-import './index.scss'
 
-interface IPageOption {
+export interface WebappSimpleVerifyProps {
   width: number
   height: number
   borderColor?: string
@@ -27,14 +25,16 @@ interface IPageOption {
   successTips: string
   successIcon: string
   success?: () => void
+  reset?: () => void
+  myRef?: any
 }
 
-interface IStateOption {
+interface ReactSimpleVerifyState {
   isMouseEnter: boolean
   diff: number
 }
 
-class SimpleVerify extends Component<IPageOption, IStateOption> {
+export default class SimpleVerify extends React.Component<WebappSimpleVerifyProps, ReactSimpleVerifyState> {
   /**
    * 默认参数
    */
@@ -44,21 +44,11 @@ class SimpleVerify extends Component<IPageOption, IStateOption> {
     borderColor: '#E4E4E4',
     bgColor: '#F2F3F5',
     borderRadius: 4,
-    tips: '拖动滑块验证',
+    tips: '请按住滑块，拖动到最右边',
     barBackground: `url(${barImage})`,
-    movedColor: 'linear-gradient(100deg, #fd8649, #fb6e45, #fa5e42)',
+    movedColor: 'linear-gradient(100deg, #fd8649, #fb6e45, #fa5e42 100%)',
     successTips: '完成验证',
     successIcon: successImage
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      /** 是否滑入 */
-      isMouseEnter: false,
-      /** 滑动距离 */
-      diff: 0
-    }
   }
 
   /**
@@ -67,14 +57,12 @@ class SimpleVerify extends Component<IPageOption, IStateOption> {
   /** x */
   private x1 = 0
   private x2 = 0
-  private rectWidth = 0
-  private barWidth = 0
   /** 鼠标是否按下 */
   private isMousedown = false
   /** 是否已经成功 */
   private isSuccess = false
   /** 最大滑动距离 */
-  private max = 0
+  private max = this.props.width - 48
   /** 盒子样式 */
   private style = {
     width: this.props.width,
@@ -92,25 +80,62 @@ class SimpleVerify extends Component<IPageOption, IStateOption> {
     background: `url(${this.props.successIcon}) no-repeat`
   }
 
-  componentDidMount() {
+  /**
+   * 重置
+   */
+  public reset = () => {
+    this.isSuccess = false
+    this.setState({
+      diff: 0
+    })
     setTimeout(() => {
-      const query = Taro.createSelectorQuery().in(this)
-      query
-        .select('#webapp-simple-verify')
-        .boundingClientRect((rec) => {
-          console.log(rec)
-          this.rectWidth = rec.width
-        })
-        .exec()
+      this.isMousedown = false
+      this.setState({
+        isMouseEnter: false
+      })
+    }, 0)
+  }
 
-      query
-        .select('#webapp-simple-verify-bar')
-        .boundingClientRect((rec) => {
-          console.log(rec)
-          this.max = this.rectWidth - rec.width
-        })
-        .exec()
-    }, 500)
+  constructor(props: WebappSimpleVerifyProps) {
+    super(props)
+    this.state = {
+      /** 是否滑入 */
+      isMouseEnter: false,
+      /** 滑动距离 */
+      diff: 0
+    }
+  }
+
+  /**
+   * 绑定事件
+   */
+  public componentDidMount() {
+    document.body.addEventListener('mousemove', this.mousemove.bind(this))
+    document.body.addEventListener('touchmove', this.mousemove.bind(this))
+    document.body.addEventListener('mouseup', this.mouseup.bind(this))
+    document.body.addEventListener('touchend', this.mouseup.bind(this))
+  }
+
+  /**
+   * 移除事件
+   */
+  public componentWillUnmount() {
+    document.body.removeEventListener('mousemove', this.mousemove.bind(this))
+    document.body.removeEventListener('touchmove', this.mousemove.bind(this))
+    document.body.removeEventListener('mouseup', this.mouseup.bind(this))
+    document.body.removeEventListener('touchend', this.mouseup.bind(this))
+  }
+
+  /**
+   * 鼠标移入
+   */
+  private mouseenter() {
+    if (this.isSuccess) {
+      return
+    }
+    this.setState({
+      isMouseEnter: true
+    })
   }
 
   /**
@@ -120,13 +145,8 @@ class SimpleVerify extends Component<IPageOption, IStateOption> {
     if (this.isSuccess || this.isMousedown) {
       return
     }
-    if (this.isSuccess) {
-      return
-    }
-    this.isMousedown = false
     this.setState({
-      isMouseEnter: false,
-      diff: 0
+      isMouseEnter: false
     })
   }
 
@@ -137,12 +157,8 @@ class SimpleVerify extends Component<IPageOption, IStateOption> {
     if (this.isSuccess || this.isMousedown) {
       return
     }
-    console.log(e)
-    this.x1 = e.x || e.touches[0].clientX
+    this.x1 = e.nativeEvent.x || e.touches[0].clientX
     this.isMousedown = true
-    this.setState({
-      isMouseEnter: true
-    })
   }
 
   /**
@@ -169,47 +185,63 @@ class SimpleVerify extends Component<IPageOption, IStateOption> {
     })
   }
 
-  render() {
+  /**
+   * 鼠标松开
+   */
+  private mouseup() {
+    if (this.isSuccess) {
+      return
+    }
+    this.isMousedown = false
+    this.setState({
+      isMouseEnter: false,
+      diff: 0
+    })
+  }
+
+  public render() {
     /** 滑条样式 */
     const slideStyle = {
       borderRadius: this.props.borderRadius,
       background: this.props.movedColor,
-      left: 0 - this.rectWidth + 'px',
+      left: 48 - this.props.width,
       opacity: this.state.isMouseEnter ? 1 : 0,
       transitionDuration: !this.state.isMouseEnter || !this.isMousedown ? '.3s' : '0s',
       transform: `translateX(${this.state.diff}px)`
     }
     /** 滑块样式 */
     const barStyle = {
-      background: this.props.barBackground,
+      backgroundImage: this.props.barBackground,
       transitionDuration: !this.state.isMouseEnter || !this.isMousedown ? '.3s' : '0s',
-      transform: `translateX(${this.state.diff}px)`,
-      backgroundAttachment: `fixed`,
-      backgroundPosition: `center center`,
-      backgroundSize: `cover`
+      transform: `translateX(${this.state.diff}px)`
     }
     /** 成功文本样式 */
     const textStyle = {
       opacity: this.isSuccess ? 1 : 0,
       transitionDuration: !this.state.isMouseEnter || !this.isMousedown ? '.3s' : '0s'
     }
-
     return (
-      <View style={this.style} id='webapp-simple-verify' className='webapp-simple-verify'>
-        <View className='verify-tips'>{this.props.tips}</View>
-        <View style={this.slideBoxStyle} className='verify-box'>
-          <View className='veriry-slide' style={slideStyle} />
-        </View>
-        <View className='verify-bar' onTouchStart={this.mousedown.bind(this)} onTouchMove={this.mousemove.bind(this)} onTouchEnd={this.mouseleave.bind(this)}>
-          <View style={barStyle} className='icon' id='webapp-simple-verify-bar' />
-        </View>
-        <View style={textStyle} className='verify-success-tips'>
+      <div id='webapp-simple-verify' style={this.style} className='simple-verify'>
+        <div className='verify-tips'>{this.props.tips}</div>
+        <div style={this.slideBoxStyle} className='verify-box'>
+          <div style={slideStyle} className='veriry-slide' />
+        </div>
+        <div
+          className='verify-bar'
+          onMouseEnter={this.mouseenter.bind(this)}
+          onTouchStart={this.mouseenter.bind(this)}
+          onMouseLeave={this.mouseleave.bind(this)}
+          onTouchEnd={this.mouseleave.bind(this)}
+          onMouseDown={this.mousedown.bind(this)}
+          onTouchMove={this.mousedown.bind(this)}
+        >
+          <div style={barStyle} className='icon' />
+        </div>
+        <div style={textStyle} className='verify-success-tips'>
           <span style={this.iconStyle} />
           {this.props.successTips}
-        </View>
-      </View>
+        </div>
+      </div>
     )
   }
 }
-
-export default SimpleVerify

@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-05-03 20:24:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-19 09:55:43
+ * @LastEditTime: 2022-05-24 15:25:55
  * @FilePath: \xuct-calendar-weapp\src\pages\memberregister\ui\PhoneRegister.tsx
  * @Description:
  *
@@ -17,7 +17,7 @@ import { sendRegisterSms } from '@/api/user'
 
 interface IPageOption {}
 
-const PhoneRegister: FunctionComponent<IPageOption & { ref: React.Ref<FormInstance> }> = React.forwardRef((props, ref) => {
+const PhoneRegister: FunctionComponent<IPageOption & { ref: React.Ref<any> }> = React.forwardRef((props, ref) => {
   const [phoneSmsText, setPhoneSmsText] = useState<string>('发送验证码')
   const [phoneDisable, setPhoneDisable] = useState<boolean>(false)
   const smsCodeRef = useRef<number>(0)

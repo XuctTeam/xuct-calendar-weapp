@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-05-03 20:25:06
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-18 18:36:37
+ * @LastEditTime: 2022-05-24 15:26:02
  * @FilePath: \xuct-calendar-weapp\src\pages\memberregister\ui\EmailRegister.tsx
  * @Description:
  *
@@ -18,7 +18,7 @@ import { sendRegisterEmail } from '@/api/user'
 
 interface IPageOption {}
 
-const EmailRegister: FunctionComponent<IPageOption & { ref: React.Ref<FormInstance> }> = React.forwardRef((props, ref) => {
+const EmailRegister: FunctionComponent<IPageOption & { ref: React.Ref<any> }> = React.forwardRef((props, ref) => {
   const [emailSmsText, setEmailSmsText] = useState('发送验证码')
   const [emailDisable, setEmailDisable] = useState<boolean>(false)
   const emailItemRef = useRef<FormItemInstance>()

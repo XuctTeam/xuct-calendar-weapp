@@ -4,20 +4,20 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-20 13:14:34
+ * @LastEditTime: 2022-05-24 15:44:19
  */
-import React, { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { Button, Swiper, Popup } from '@taroify/core'
+import { Backdrop, Button, Cell, Swiper } from '@taroify/core'
 import { FormInstance } from '@taroify/core/form'
-import { Replay } from '@taroify/icons'
 import IconFont from '@/components/iconfont'
 import { useToast } from 'taro-hooks'
 import { register, captcha as toGetCaptcha } from '@/api/user'
 import { useBack } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
 import { UserNameRegister, PhoneRegister, EmailRegister, SimpleVerify } from './ui'
+import { WechatSimpleVerify, WebappSimpleVerify } from '@/components/simpleverify'
 
 import './index.scss'
 
@@ -45,13 +45,15 @@ interface IPhoneForm {
 }
 
 const MemberRegister: FunctionComponent = () => {
-  const userRef = React.createRef<FormInstance>()
-  const emailRef = React.createRef<FormInstance>()
-  const phoneRef = React.createRef<FormInstance>()
+  const userRef = useRef<FormInstance>()
+  const emailRef = useRef<FormInstance>()
+  const phoneRef = useRef<FormInstance>()
+
   const [formType, setFormType] = useState<number>(0)
   const [image, setImage] = useState<string>('')
   const [key, setKey] = useState<string>('')
-  const [verify, setVerify] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [toast] = useToast({
     icon: 'error'
@@ -79,6 +81,36 @@ const MemberRegister: FunctionComponent = () => {
   }, [image])
 
   const registerHandler = () => {
+    let ref
+    switch (formType) {
+      case 0:
+        ref = userRef
+        break
+      case 1:
+        ref = phoneRef
+        break
+      case 2:
+        ref = emailRef
+        break
+    }
+    if (!ref) return
+    ref.current
+      .validate()
+      .then((data) => {
+        if (formType === 0 && data.captcha.length !== 5) {
+          toast({ title: '验证码格式错误' })
+          return
+        }
+        setOpen(true)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const verifySuccess = () => {
+    setOpen(false)
+    setLoading(true)
     switch (formType) {
       case 0:
         _userNameRegister()
@@ -88,98 +120,83 @@ const MemberRegister: FunctionComponent = () => {
         break
       case 2:
         _emailRegister()
-      default:
+        break
     }
   }
 
-  const verifySuccess = () => {
-    setVerify(true)
-  }
-
   const _userNameRegister = () => {
-    if (!userRef.current) return
-    userRef.current
-      .validate()
-      .then((res) => {
-        const data = res as any as IUserNameForm
-        if (data.captcha.length !== 5) {
-          toast({ title: '验证码格式错误' })
-          return
-        }
-        register({
-          formType: formType,
-          username: {
-            username: data.username,
-            password: data.password,
-            key: key,
-            captcha: data.captcha
-          }
-        })
-          .then(() => {
-            _success()
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+    if (!userRef.current) {
+      setLoading(false)
+      return
+    }
+    const data = userRef.current.getValues<IUserNameForm>()
+    register({
+      formType: formType,
+      username: {
+        username: data.username,
+        password: data.password,
+        key: key,
+        captcha: data.captcha
+      }
+    })
+      .then(() => {
+        _success()
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
   }
 
   const _phoneRegister = () => {
-    if (!phoneRef.current) return
-    phoneRef.current
-      .validate()
-      .then((res) => {
-        const data: IPhoneForm = res as any as IPhoneForm
-        register({
-          formType: formType,
-          phone: {
-            phone: data.phone,
-            password: data.password,
-            smsCode: data.code
-          }
-        })
-          .then(() => {
-            _success()
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+    if (!phoneRef.current) {
+      setLoading(false)
+      return
+    }
+
+    const data = phoneRef.current.getValues<IPhoneForm>()
+    register({
+      formType: formType,
+      phone: {
+        phone: data.phone,
+        password: data.password,
+        smsCode: data.code
+      }
+    })
+      .then(() => {
+        _success()
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
   }
 
   const _emailRegister = () => {
-    if (!emailRef.current) return
-    emailRef.current
-      .validate()
-      .then((res) => {
-        const data: IEmailForm = res as any as IEmailForm
-        register({
-          formType: formType,
-          email: {
-            email: data.email,
-            password: data.password,
-            code: data.code
-          }
-        })
-          .then(() => {
-            _success()
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+    if (!emailRef.current) {
+      setLoading(false)
+      return
+    }
+    const data = emailRef.current.getValues<IEmailForm>()
+    register({
+      formType: formType,
+      email: {
+        email: data.email,
+        password: data.password,
+        code: data.code
+      }
+    })
+      .then(() => {
+        _success()
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
   }
 
   const _success = () => {
+    setLoading(false)
     toast({ title: '注册成功', icon: 'success' })
     setTimeout(() => {
       back({ to: 4 })
@@ -187,49 +204,57 @@ const MemberRegister: FunctionComponent = () => {
   }
 
   return (
-    <CommonMain title='用户注册' left fixed className='vi-member-register-warpper' to={4}>
-      <View className='vi-member-register-warpper_container'>
-        <Swiper touchable={false} value={formType}>
-          <Swiper.Item>
-            <UserNameRegister ref={userRef} image={image} getCaptcha={getCaptcha}></UserNameRegister>
-          </Swiper.Item>
-          <Swiper.Item>
-            <PhoneRegister ref={phoneRef}></PhoneRegister>
-          </Swiper.Item>
-          <Swiper.Item>
-            <EmailRegister ref={emailRef}></EmailRegister>
-          </Swiper.Item>
-        </Swiper>
-        <View className='verify'>
-          <SimpleVerify success={verifySuccess}></SimpleVerify>
+    <Fragment>
+      <CommonMain title='用户注册' left fixed className='vi-member-register-warpper' to={4}>
+        <View className='vi-member-register-warpper_container'>
+          <Swiper touchable={false} value={formType}>
+            <Swiper.Item>
+              <UserNameRegister ref={userRef} image={image} getCaptcha={getCaptcha}></UserNameRegister>
+            </Swiper.Item>
+            <Swiper.Item>
+              <PhoneRegister ref={phoneRef}></PhoneRegister>
+            </Swiper.Item>
+            <Swiper.Item>
+              <EmailRegister ref={emailRef}></EmailRegister>
+            </Swiper.Item>
+          </Swiper>
         </View>
-      </View>
-      <View className='vi-member-register-warpper_button'>
-        <View className='thirdWrap'>
-          {formType !== 0 && (
-            <View className='itemWrap' onClick={() => setFormType(0)}>
-              <IconFont name='icon-qudaozhanghaoshangxian' size={40} />
-              <View className='label'>账号</View>
-            </View>
-          )}
-          {formType !== 1 && (
-            <View className='itemWrap' onClick={() => setFormType(1)}>
-              <IconFont name='shouji' size={40} />
-              <View className='label'>手机</View>
-            </View>
-          )}
-          {formType !== 2 && (
-            <View className='itemWrap' onClick={() => setFormType(2)}>
-              <IconFont name='youxiang' size={40} />
-              <View className='label'>邮箱</View>
-            </View>
-          )}
+        <View className='vi-member-register-warpper_button'>
+          <View className='thirdWrap'>
+            {formType !== 0 && (
+              <View className='itemWrap' onClick={() => setFormType(0)}>
+                <IconFont name='icon-qudaozhanghaoshangxian' size={40} />
+                <View className='label'>账号</View>
+              </View>
+            )}
+            {formType !== 1 && (
+              <View className='itemWrap' onClick={() => setFormType(1)}>
+                <IconFont name='shouji' size={40} />
+                <View className='label'>手机</View>
+              </View>
+            )}
+            {formType !== 2 && (
+              <View className='itemWrap' onClick={() => setFormType(2)}>
+                <IconFont name='youxiang' size={40} />
+                <View className='label'>邮箱</View>
+              </View>
+            )}
+          </View>
+          <Button block color='success' disabled={loading} onClick={registerHandler}>
+            注册
+          </Button>
         </View>
-        <Button block color='success' disabled={!verify} onClick={registerHandler}>
-          提交
-        </Button>
-      </View>
-    </CommonMain>
+      </CommonMain>
+      <Backdrop className='vi-member-register-warpper-popup' open={open} closeable onClose={() => setOpen(false)}>
+        <View className='content-wrapper'>
+          <Cell.Group inset title='人机验证'>
+            <Cell>
+              <SimpleVerify success={verifySuccess}></SimpleVerify>
+            </Cell>
+          </Cell.Group>
+        </View>
+      </Backdrop>
+    </Fragment>
   )
 }
 export default MemberRegister

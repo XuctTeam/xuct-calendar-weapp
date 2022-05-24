@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-05-19 14:10:27
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-20 14:04:46
+ * @LastEditTime: 2022-05-23 15:02:02
  * @FilePath: \xuct-calendar-weapp\src\components\simpleverify\index.ts
  * @Description:
  *
@@ -10,4 +10,4 @@
  */
 export { default as WechatSimpleVerify } from './wechat/SimpleVerify'
 
-export { default as WepabbSimpleVerify } from './webapp/SimpleVerify'
+export { default as WebappSimpleVerify } from './webapp/SimpleVerify'

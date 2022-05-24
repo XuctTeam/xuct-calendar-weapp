@@ -3,7 +3,7 @@
  * @Author: Derek Xu
  * @Date: 2022-05-19 13:09:40
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-20 13:23:26
+ * @LastEditTime: 2022-05-24 10:55:25
  * @FilePath: \xuct-calendar-weapp\src\components\simpleverify\wechat\SimpleVerify.tsx
  * @Description:
  *
@@ -16,6 +16,7 @@ import { MovableArea, MovableView, View } from '@tarojs/components'
 import './index.scss'
 
 interface IPageOption {
+  width: number
   success: () => void
 }
 
@@ -42,28 +43,12 @@ class SimpleVerify extends Component<IPageOption, StateOption> {
       xDistance: 0, //滑块默认距离
       area_width: 90, //滑块容器总宽度 百分比
       box_width: 40, //滑块的宽px
-      slidingWidth: 0, //滑动总宽度
-      sliderValdationText: '拖动滑块验证',
+      slidingWidth: this.props.width, //滑动总宽度
+      sliderValdationText: '请按住滑块，拖动到最右边',
       areaBgColor: '#fff',
       areaTextColor: '#666',
       isFinished: false
     }
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      const query = Taro.createSelectorQuery()
-      query
-        .select('#container')
-        .boundingClientRect((rec) => {
-          console.log(rec)
-          var n = Math.floor((rec.width * this.state.area_width) / 100 - this.state.box_width / 2 - 30)
-          this.setState({
-            slidingWidth: n
-          })
-        })
-        .exec()
-    }, 500)
   }
 
   slidChange(e) {
@@ -78,7 +63,7 @@ class SimpleVerify extends Component<IPageOption, StateOption> {
     console.log(that.state.slidingDistance, that.state.slidingWidth)
     if (that.state.slidingDistance >= that.state.slidingWidth) {
       that.setState({
-        sliderValdationText: '验证成功',
+        sliderValdationText: '完成验证',
         areaBgColor: '#fd8649',
         areaTextColor: '#fff',
         isFinished: true
@@ -89,6 +74,16 @@ class SimpleVerify extends Component<IPageOption, StateOption> {
         xDistance: Math.random()
       })
     }
+  }
+
+  /**
+   * @description: 增加父类重置方法
+   * @return {*}
+   */
+  public reset() {
+    this.setState({
+      xDistance: Math.random()
+    })
   }
 
   render() {
