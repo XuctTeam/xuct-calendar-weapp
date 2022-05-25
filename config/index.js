@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-04-22 16:36:58
+ * @LastEditTime: 2022-05-24 17:03:43
  * @LastEditors: Derek Xu
  */
 /* eslint-disable import/no-commonjs */
@@ -19,14 +19,14 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: ['tarojs-router-next-plugin'],
+  plugins: ['@tarojs/plugin-html', 'tarojs-router-next-plugin'],
   defineConstants: {
     /* 腾讯地图使用 */
     LOCATION_APIKEY: JSON.stringify('5Y6BZ-LHMWU-HM2VX-45SUU-RDESJ-4VBGR'),
 
     /* 图片服务器 */
     SERVICES_IMAGES: JSON.stringify('https://images.xuct.net.cn/'),
-    
+
     /* 客户端认证KEY */
     CLIENT_INFO: JSON.stringify({
       CLIENT_ID: 'app_id',
@@ -38,7 +38,7 @@ const config = {
       version: '1.0.0'
     }),
 
-    WX_TEMPLATE_ID: JSON.stringify({ IDS: ['m3tIRN2yvI2mdFuGHV9mXS0uIHf9oz-u6U51HRHTcLQ']}) 
+    WX_TEMPLATE_ID: JSON.stringify({ IDS: ['m3tIRN2yvI2mdFuGHV9mXS0uIHf9oz-u6U51HRHTcLQ'] })
   },
   copy: {
     patterns: [],
@@ -68,7 +68,7 @@ const config = {
         }
       }
     },
-    
+
     webpackChain(chain) {
       // linaria/loader 选项详见 https://github.com/callstack/linaria/blob/master/docs/BUNDLERS_INTEGRATION.md#webpack
       chain.module
@@ -78,23 +78,23 @@ const config = {
         .options({
           sourceMap: process.env.NODE_ENV !== 'production'
         })
-      
-        chain.plugin('analyzer')
-        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
-      
-        chain.plugin("lodash-webpack-plugin")
-        .use(require("lodash-webpack-plugin"), [{
-            shorthands: true,
-            cloning: true,
-            caching: true,
-            collections: true,
-            exotics: true,
-            guards: true,
-            memoizing: true,
-            coercions: true,
-            flattening: true,
-            paths: true,
-        }])
+
+      chain.plugin('analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
+
+      chain.plugin('lodash-webpack-plugin').use(require('lodash-webpack-plugin'), [
+        {
+          shorthands: true,
+          cloning: true,
+          caching: true,
+          collections: true,
+          exotics: true,
+          guards: true,
+          memoizing: true,
+          coercions: true,
+          flattening: true,
+          paths: true
+        }
+      ])
     }
   },
   h5: {

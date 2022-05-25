@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-05-12 13:16:34
+ * @LastEditTime: 2022-05-25 08:51:51
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -45,7 +45,6 @@ const Index: FunctionComponent = () => {
   const [componentRefreshOpen, setComponentRefreshOpen] = useState<boolean>(false)
   const [componentRefreshLocalTime, setComponentRefreshLocalTime] = useState<number>(0)
   const [calendarComponents, setCalendarComponents] = useState<ICalendarComponent[]>([])
-  const [isMonfirst, setIsMonfirst] = useState<boolean>(false)
 
   useEffect(() => {
     if (!accessToken) {
@@ -272,17 +271,16 @@ const Index: FunctionComponent = () => {
               </View>
             }
             extra={
-              <>
-                <Search
-                  size={18}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    e.preventDefault()
-                    //Router.toComponentsearch()
-                    setIsMonfirst(!isMonfirst)
-                  }}
-                />
-              </>
+              <View
+                style={{ width: '24px', height: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  e.preventDefault()
+                  Router.toComponentsearch()
+                }}
+              >
+                <Search size={20} />
+              </View>
             }
           >
             <Picker

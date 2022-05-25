@@ -1,0 +1,44 @@
+.vi-about-up-warpper{
+  display: flex;
+  flex-direction: column;
+
+  navigator {
+    color: blue;
+  }
+
+  &_contarin{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+
+    .title{
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+
+    .version{
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    
+  }
+
+  &_bottom{
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    align-items: center;
+    padding-bottom: 60px;
+
+    .copyright{
+      margin-top:10px;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      color: gray;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

@@ -3,13 +3,12 @@
  * @Author: Derek Xu
  * @Date: 2022-05-19 13:09:40
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-24 10:55:25
+ * @LastEditTime: 2022-05-24 18:17:41
  * @FilePath: \xuct-calendar-weapp\src\components\simpleverify\wechat\SimpleVerify.tsx
  * @Description:
  *
  * Copyright (c) 2022 by 楚恬商行, All Rights Reserved.
  */
-import Taro from '@tarojs/taro'
 import { Component } from 'react'
 import { MovableArea, MovableView, View } from '@tarojs/components'
 
@@ -41,9 +40,9 @@ class SimpleVerify extends Component<IPageOption, StateOption> {
     this.state = {
       slidingDistance: 0, //滑块滑动距离
       xDistance: 0, //滑块默认距离
-      area_width: 90, //滑块容器总宽度 百分比
+      area_width: 100, //滑块容器总宽度 百分比
       box_width: 40, //滑块的宽px
-      slidingWidth: this.props.width, //滑动总宽度
+      slidingWidth: this.props.width - 40, //滑动总宽度
       sliderValdationText: '请按住滑块，拖动到最右边',
       areaBgColor: '#fff',
       areaTextColor: '#666',
@@ -82,13 +81,17 @@ class SimpleVerify extends Component<IPageOption, StateOption> {
    */
   public reset() {
     this.setState({
-      xDistance: Math.random()
+      xDistance: Math.random(),
+      isFinished: false,
+      areaBgColor: '#fff',
+      areaTextColor: '#666',
+      sliderValdationText: '请按住滑块，拖动到最右边'
     })
   }
 
   render() {
     return (
-      <View id='container' className='container'>
+      <View id='container' className='container' style={{ width: `${this.props.width}px` }}>
         <View className='goods-validation'>
           <MovableArea
             className='validation-content'

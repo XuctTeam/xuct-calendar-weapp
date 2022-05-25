@@ -4,9 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-19 20:27:59
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-24 15:44:19
+ * @LastEditTime: 2022-05-24 21:03:42
  */
-import React, { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Backdrop, Button, Cell, Swiper } from '@taroify/core'
@@ -17,7 +17,6 @@ import { register, captcha as toGetCaptcha } from '@/api/user'
 import { useBack } from '@/utils/taro'
 import CommonMain from '@/components/mixin'
 import { UserNameRegister, PhoneRegister, EmailRegister, SimpleVerify } from './ui'
-import { WechatSimpleVerify, WebappSimpleVerify } from '@/components/simpleverify'
 
 import './index.scss'
 
@@ -248,7 +247,7 @@ const MemberRegister: FunctionComponent = () => {
       <Backdrop className='vi-member-register-warpper-popup' open={open} closeable onClose={() => setOpen(false)}>
         <View className='content-wrapper'>
           <Cell.Group inset title='人机验证'>
-            <Cell>
+            <Cell style={{ backgroundColor: 'rgba(238, 239, 241, 1)' }}>
               <SimpleVerify success={verifySuccess}></SimpleVerify>
             </Cell>
           </Cell.Group>

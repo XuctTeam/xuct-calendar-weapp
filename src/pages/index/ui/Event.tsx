@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-05-05 17:17:20
+ * @LastEditTime: 2022-05-25 15:35:21
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -13,7 +13,7 @@ import { Empty, Flex, PullRefresh } from '@taroify/core'
 import dayjs from 'dayjs'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { IDavCalendar, ICalendarComponent, IDavComponent } from '~/../@types/calendar'
-import EventData from '../component/EventData'
+import { ListEventView, DayEventView } from '../component'
 
 import '../index.scss'
 
@@ -93,26 +93,20 @@ const Event: FunctionComponent<IPageOption> = (props) => {
           onRefresh={props.refreshComponent}
           disabled={props.componentRefreshOpen}
         >
-          <Flex>
-            <Flex.Item span={4} className='week-day'>
-              <View className='day'>{dayjs(props.selectedDay).format('DD')}</View>
-              <View className='week'>{dayjs(props.selectedDay).format('ddd')}</View>
-            </Flex.Item>
-            <Flex.Item span={20} className='event-list-content'>
-              {componentList.map((component, i) => {
-                return (
-                  <EventData
-                    key={i}
-                    component={component}
-                    viewComponent={props.viewComponent}
-                    selecteday={props.selectedDay}
-                    today={props.today}
-                    current={currentTime}
-                  ></EventData>
-                )
-              })}
-            </Flex.Item>
-          </Flex>
+          {/* <ListEventView
+            selectedDay={props.selectedDay}
+            viewComponent={props.viewComponent}
+            currentTime={currentTime}
+            today={props.today}
+            componentList={componentList}
+          ></ListEventView> */}
+          <DayEventView
+            selectedDay={props.selectedDay}
+            viewComponent={props.viewComponent}
+            currentTime={currentTime}
+            today={props.today}
+            componentList={componentList}
+          ></DayEventView>
         </PullRefresh>
       )}
     </View>

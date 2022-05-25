@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-05-19 17:12:48
+ * @LastEditTime: 2022-05-25 10:15:41
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -45,7 +45,7 @@ const SystemSetting: FunctionComponent = () => {
         }
       })
     } else if (type === 2) {
-      Router.toSelfprivacy()
+      Router.toAboutus()
     } else if (type === 3) {
       setOpenPicker(true)
     }
@@ -78,18 +78,21 @@ const SystemSetting: FunctionComponent = () => {
 
   return (
     <Fragment>
-      <CommonMain className='vi-system-setting-warpper' title='账号设置' fixed={false} to={4} left>
-        {process.env.TARO_ENV === 'weapp' && <Cell icon={<ManagerOutlined />} title='权限管理' clickable onClick={() => menuClick(1)}></Cell>}
-        <Cell icon={<Description />} title='隐私协议' clickable onClick={() => menuClick(2)}></Cell>
-        <Cell icon={<ClusterOutlined />} title='当前版本'>
-          {getVersion()}
-        </Cell>
-        <Cell icon={<CalendarOutlined />} title='显示农历'>
-          <Switch checked={lunarCheck} size={20} onChange={(e) => onLunarCheck(e)}></Switch>
-        </Cell>
-        <Cell icon={<StarOutlined />} title='每周第一天' clickable onClick={() => menuClick(3)}>
-          <Input readonly value={mondayCheck ? '周一' : '周日'} />
-        </Cell>
+      <CommonMain className='vi-system-setting-warpper' title='设置' fixed={false} to={4} left>
+        <Cell.Group title='日历设置'>
+          <Cell icon={<CalendarOutlined />} title='显示农历'>
+            <Switch checked={lunarCheck} size={20} onChange={(e) => onLunarCheck(e)}></Switch>
+          </Cell>
+          <Cell icon={<StarOutlined />} title='星期开始于' clickable onClick={() => menuClick(3)}>
+            <Input readonly value={mondayCheck ? '周一' : '周日'} />
+          </Cell>
+        </Cell.Group>
+        <Cell.Group title='系统设置'>
+          {process.env.TARO_ENV === 'weapp' && <Cell icon={<ManagerOutlined />} title='权限管理' clickable onClick={() => menuClick(1)}></Cell>}
+          <Cell icon={<ClusterOutlined />} title='关于我们' clickable onClick={() => menuClick(2)}>
+            {'V' + getVersion()}
+          </Cell>
+        </Cell.Group>
       </CommonMain>
       <Popup open={openPicker} rounded placement='bottom' onClose={setOpenPicker}>
         <Popup.Backdrop />
@@ -102,7 +105,7 @@ const SystemSetting: FunctionComponent = () => {
         >
           <Picker.Toolbar>
             <Picker.Button>取消</Picker.Button>
-            <Picker.Title>日期选择</Picker.Title>
+            <Picker.Title>星期开始于</Picker.Title>
             <Picker.Button>确认</Picker.Button>
           </Picker.Toolbar>
           <Picker.Column>
