@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-05 14:22:09
- * @LastEditTime: 2022-04-19 13:29:56
+ * @LastEditTime: 2022-05-26 13:31:19
  * @LastEditors: Derek Xu
  */
 import dayjs from 'dayjs'
@@ -47,7 +47,9 @@ const EventData: FunctionComponent<IPageOption> = (props) => {
       <View className='event-title'>
         <View className='event-summary-container'> {props.component.summary} </View>
         <View className='event-time'>
-          <View className='time-containe'>{dayjs(props.component.dtstart).format('HH:mm') + '-' + dayjs(props.component.dtend).format('HH:mm')}</View>
+          <View className='time-containe'>
+            {props.component.fullDay === 1 ? '全天' : dayjs(props.component.dtstart).format('HH:mm') + '-' + dayjs(props.component.dtend).format('HH:mm')}
+          </View>
           {sameDay && <View>{getEventTime()}</View>}
         </View>
       </View>

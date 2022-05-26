@@ -2,13 +2,13 @@
  * @Author: Derek Xu
  * @Date: 2022-05-19 09:54:48
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-24 15:46:07
+ * @LastEditTime: 2022-05-25 16:56:50
  * @FilePath: \xuct-calendar-weapp\src\pages\memberregister\ui\SimpleVerify.tsx
  * @Description:
  *
  * Copyright (c) 2022 by 楚恬商行, All Rights Reserved.
  */
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { WechatSimpleVerify, WebappSimpleVerify } from '@/components/simpleverify'
 import { useSystemInfo } from 'taro-hooks'
 import { useWebEnv } from '@/utils/taro'

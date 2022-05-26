@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-05-25 15:12:01
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-25 15:38:45
+ * @LastEditTime: 2022-05-25 17:56:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\component\DayEventListData.tsx
  * @Description:
  *
@@ -14,6 +14,7 @@ import DayEventData from './DayEventData'
 
 interface IPageOption {
   componentList: IDavComponent[]
+  viewComponent: (component: IDavComponent) => void
 }
 
 const DayEventListData: FunctionComponent<IPageOption> = (props) => {
@@ -22,7 +23,7 @@ const DayEventListData: FunctionComponent<IPageOption> = (props) => {
       {props.componentList.map((i, index) => {
         return (
           <Fragment key={index}>
-            <DayEventData title={i.summary} color={i.color || '417ff9'}></DayEventData>
+            <DayEventData color={i.color || '417ff9'} component={i} viewComponent={props.viewComponent}></DayEventData>
           </Fragment>
         )
       })}

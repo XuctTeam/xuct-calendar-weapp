@@ -1,23 +1,24 @@
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
+import { IDavComponent } from '~/../@types/calendar'
+import dayjs from 'dayjs'
 
 interface IPagOption {
-  title: string
   color: string
+  component: IDavComponent
+  viewComponent: (component: IDavComponent) => void
 }
 
 const DayEventData: FunctionComponent<IPagOption> = (props) => {
   return (
     <View className='item-event-detail'>
-      <View className='box'>
-        <View className='color' style={{ background: `${props.color}` }}></View>
+      <View className='box' onClick={() => props.viewComponent(props.component)}>
+        <View className='color' style={{ background: `#${props.color}` }}></View>
         <View className='content'>
-          <View className='title'>{props.title}</View>
-          <View>09:00-10:00</View>
+          <View className='title'>{props.component.summary}</View>
+          <View>{dayjs(props.component.dtstart).format('HH:mm') + '-' + dayjs(props.component.dtend).format('HH:mm')}</View>
         </View>
       </View>
-
-      <View>sdfsdf</View>
     </View>
   )
 }

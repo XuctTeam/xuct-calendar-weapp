@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-05-25 08:51:51
+ * @LastEditTime: 2022-05-26 11:54:16
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -35,6 +35,7 @@ const Index: FunctionComponent = () => {
   const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
   const lunar = useSelector<IDvaCommonProps>((state) => state.common.lunar)
   const monday = useSelector<IDvaCommonProps>((state) => state.common.monday)
+  const view = useSelector<IDvaCommonProps>((state) => state.common.view)
   const calendars: Array<IDavCalendar> | unknown = useSelector<IDvaCalendarProps>((state) => state.calendar.calendars)
   const componentRefreshTime: number | unknown = useSelector<IDvaComponentProps>((state) => state.component.refreshTime)
 
@@ -298,6 +299,7 @@ const Index: FunctionComponent = () => {
         <Event
           loading={componentLoading}
           today={day.current}
+          view={view && view + '' === '1' ? 1 : 0}
           selectedDay={selectedDay}
           calendars={calendars && calendars instanceof Array ? calendars : []}
           calendarComponents={calendarComponents}

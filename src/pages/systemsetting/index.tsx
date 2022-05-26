@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-05-25 10:15:41
+ * @LastEditTime: 2022-05-26 11:50:38
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
 import { Cell, Input, Picker, Popup, Switch } from '@taroify/core'
-import { ClusterOutlined, Description, ManagerOutlined, CalendarOutlined, StarOutlined } from '@taroify/icons'
+import { ClusterOutlined, Exchange, ManagerOutlined, CalendarOutlined, StarOutlined } from '@taroify/icons'
 import Router from 'tarojs-router-next'
 import { IDvaCommonProps } from '~/../@types/dva'
 import CommonMain from '@/components/mixin'
@@ -18,13 +18,17 @@ const SystemSetting: FunctionComponent = () => {
   const dispatch = useDispatch()
   const lunar = useSelector<IDvaCommonProps>((state) => state.common.lunar)
   const monday = useSelector<IDvaCommonProps>((state) => state.common.monday)
+  const view = useSelector<IDvaCommonProps>((state) => state.common.view)
   const [lunarCheck, setLunarCheck] = useState<boolean>(false)
   const [mondayCheck, setMondayCheck] = useState<number>(0)
-  const [openPicker, setOpenPicker] = useState(false)
+  const [openPicker, setOpenPicker] = useState<boolean>(false)
+  const [viewOpenPicker, setViewOpenPicker] = useState<boolean>(false)
+  const [viewSelect, setViewSelect] = useState<number>(0)
 
   useEffect(() => {
     setLunarCheck(!!lunar)
     setMondayCheck(!!monday ? 1 : 0)
+    setViewSelect(view && view + '' === '1' ? 1 : 0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -38,16 +42,10 @@ const SystemSetting: FunctionComponent = () => {
       Taro.openSetting({
         success: function (res) {
           console.log(res.authSetting)
-          // res.authSetting = {
-          //   "scope.userInfo": true,
-          //   "scope.userLocation": true
-          // }
         }
       })
     } else if (type === 2) {
       Router.toAboutus()
-    } else if (type === 3) {
-      setOpenPicker(true)
     }
   }
 
@@ -76,14 +74,30 @@ const SystemSetting: FunctionComponent = () => {
     })
   }
 
+  const onViewSelect = (e) => {
+    dispatch({
+      type: 'common/saveStorageSync',
+      payload: {
+        view: e
+      },
+      cb: () => {
+        setViewSelect(Number.parseInt(e[0]))
+        setViewOpenPicker(false)
+      }
+    })
+  }
+
   return (
     <Fragment>
       <CommonMain className='vi-system-setting-warpper' title='设置' fixed={false} to={4} left>
         <Cell.Group title='日历设置'>
+          <Cell icon={<Exchange />} title='切换视图' clickable onClick={() => setViewOpenPicker(true)}>
+            <Input readonly value={viewSelect === 1 ? '列表视图' : '日视图'} />
+          </Cell>
           <Cell icon={<CalendarOutlined />} title='显示农历'>
             <Switch checked={lunarCheck} size={20} onChange={(e) => onLunarCheck(e)}></Switch>
           </Cell>
-          <Cell icon={<StarOutlined />} title='星期开始于' clickable onClick={() => menuClick(3)}>
+          <Cell icon={<StarOutlined />} title='星期开始于' clickable onClick={() => setOpenPicker(true)}>
             <Input readonly value={mondayCheck ? '周一' : '周日'} />
           </Cell>
         </Cell.Group>
@@ -111,6 +125,26 @@ const SystemSetting: FunctionComponent = () => {
           <Picker.Column>
             <Picker.Option value={0}>周日</Picker.Option>
             <Picker.Option value={1}>周一</Picker.Option>
+          </Picker.Column>
+        </Picker>
+      </Popup>
+      <Popup open={viewOpenPicker} rounded placement='bottom' onClose={setViewOpenPicker}>
+        <Popup.Backdrop />
+        <Picker
+          onCancel={() => setViewOpenPicker(false)}
+          onConfirm={(values) => {
+            onViewSelect(values)
+          }}
+          value={view}
+        >
+          <Picker.Toolbar>
+            <Picker.Button>取消</Picker.Button>
+            <Picker.Title>显示视图</Picker.Title>
+            <Picker.Button>确认</Picker.Button>
+          </Picker.Toolbar>
+          <Picker.Column>
+            <Picker.Option value={0}>日</Picker.Option>
+            <Picker.Option value={1}>列表</Picker.Option>
           </Picker.Column>
         </Picker>
       </Popup>

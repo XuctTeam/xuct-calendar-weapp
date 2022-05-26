@@ -2,7 +2,7 @@
  * @Description:dva 定义属性
  * @Author: Derek Xu
  * @Date: 2021-11-04 09:12:16
- * @LastEditTime: 2022-05-12 10:37:45
+ * @LastEditTime: 2022-05-26 11:01:42
  * @LastEditors: Derek Xu
  */
 //import { Dispatch } from 'redux'
@@ -39,6 +39,7 @@ interface ICommonProps {
   auths: IUserAuth[]
   lunar: boolean
   monday: boolean
+  view: number
 }
 
 export interface IDvaCommonProps {

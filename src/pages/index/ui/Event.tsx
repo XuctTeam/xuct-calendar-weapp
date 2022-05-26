@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-05-25 15:35:21
+ * @LastEditTime: 2022-05-26 11:52:41
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -19,6 +19,7 @@ import '../index.scss'
 
 type IPageOption = {
   loading: boolean
+  view: number
   today: string
   selectedDay: string
   calendars: Array<IDavCalendar>
@@ -93,20 +94,23 @@ const Event: FunctionComponent<IPageOption> = (props) => {
           onRefresh={props.refreshComponent}
           disabled={props.componentRefreshOpen}
         >
-          {/* <ListEventView
-            selectedDay={props.selectedDay}
-            viewComponent={props.viewComponent}
-            currentTime={currentTime}
-            today={props.today}
-            componentList={componentList}
-          ></ListEventView> */}
-          <DayEventView
-            selectedDay={props.selectedDay}
-            viewComponent={props.viewComponent}
-            currentTime={currentTime}
-            today={props.today}
-            componentList={componentList}
-          ></DayEventView>
+          {props.view === 0 ? (
+            <DayEventView
+              selectedDay={props.selectedDay}
+              viewComponent={props.viewComponent}
+              currentTime={currentTime}
+              today={props.today}
+              componentList={componentList}
+            ></DayEventView>
+          ) : (
+            <ListEventView
+              selectedDay={props.selectedDay}
+              viewComponent={props.viewComponent}
+              currentTime={currentTime}
+              today={props.today}
+              componentList={componentList}
+            ></ListEventView>
+          )}
         </PullRefresh>
       )}
     </View>

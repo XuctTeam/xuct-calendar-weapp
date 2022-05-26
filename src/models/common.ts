@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 13:12:22
  * @FilePath: \xuct-calendar-weapp\src\models\common.ts
- * @LastEditTime: 2022-05-12 13:20:59
+ * @LastEditTime: 2022-05-26 11:16:39
  * @LastEditors: Derek Xu
  */
 import Taro from '@tarojs/taro'
@@ -17,7 +17,8 @@ export default {
     userInfo: Taro.getStorageSync('userInfo') || null,
     auths: Taro.getStorageSync('auths') || [],
     lunar: Taro.getStorageSync('lunar') || false,
-    monday: Taro.getStorageSync('monday') || false
+    monday: Taro.getStorageSync('monday') || false,
+    view: Taro.getStorageSync('view') || 1
   },
 
   effects: {
