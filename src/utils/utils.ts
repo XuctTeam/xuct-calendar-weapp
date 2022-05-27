@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:27:41
  * @FilePath: \xuct-calendar-weapp\src\utils\utils.ts
- * @LastEditTime: 2022-05-04 17:55:29
+ * @LastEditTime: 2022-05-26 17:25:06
  * @LastEditors: Derek Xu
  */
 
@@ -173,13 +173,17 @@ export const formatSameDayTime = (fullDay: number, dtstart: Date, dtend: Date): 
  */
 export const formateSameDayDuration = (fullDay: number, dtstart: Date, dtend: Date): string => {
   if (fullDay === 1) return '全天'
-  const day1 = dayjs(dtend)
-  const day2 = dayjs(dtstart)
-  const diff: number = day1.diff(day2, 'second')
-  if (diff < 3600) return day1.diff(day2, 'minute') + '分钟'
-  if (diff % 3600 === 0) return diff / 3600 + '小时'
-  const hour = day1.diff(day2, 'hour')
-  return hour + '小时' + (diff - hour * 3600) / 60 + '分钟'
+  let days = dayjs(dtend)
+  let daye = dayjs(dtstart)
+  const day1 = days.format('YYYY-MM-DD') + ' ' + days.hour() + ':' + days.minute() + ':00'
+  const day2 = daye.format('YYYY-MM-DD') + ' ' + daye.hour() + ':' + daye.minute() + ':00'
+  days = dayjs(day1)
+  daye = dayjs(day2)
+  const diff: number = days.diff(daye, 'minute')
+  if (diff < 60) return diff + '分钟'
+  if (diff === 60) return '1小时'
+  const hour = parseInt(diff / 60 + '')
+  return hour + '小时' + (diff - hour * 60) + '分钟'
 }
 
 /**

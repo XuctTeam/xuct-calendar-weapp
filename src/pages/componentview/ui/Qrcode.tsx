@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-05-06 09:28:59
+ * @LastEditTime: 2022-05-27 13:40:29
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -43,15 +43,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
     let time = 0
     _getQrcode()
     if (props.open) {
-      time = window.setTimeout(() => {
-        drawQrCode()
-          .then(() => {
-            console.log('success')
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }, 500)
+      _draw()
     }
     return () => {
       if (time !== 0) {
@@ -62,24 +54,16 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open])
 
-  /**
-   * canavs画布
-   */
-  const drawQrCode = () => {
-    return new Promise((resolve, reject) => {
-      try {
-        _draw()
-        resolve('')
-      } catch (err) {
-        reject(err)
-      }
-    })
-  }
-
   const _draw = () => {
     Taro.createSelectorQuery()
       .select('#myCanvas')
       .node(async (res) => {
+        if (!res) {
+          setTimeout(() => {
+            _draw()
+          }, 200)
+          return
+        }
         const { node } = res
         if (!node) return
         canvas.current = node

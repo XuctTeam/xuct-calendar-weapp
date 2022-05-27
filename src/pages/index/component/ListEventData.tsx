@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-05 14:22:09
- * @LastEditTime: 2022-05-26 13:31:19
+ * @LastEditTime: 2022-05-26 18:08:43
  * @LastEditors: Derek Xu
  */
 import dayjs from 'dayjs'
@@ -26,6 +26,9 @@ const EventData: FunctionComponent<IPageOption> = (props) => {
   const currentTime = dayjs(props.current)
 
   const getEventTime = (): JSX.Element => {
+    if (props.component.fullDay === 1) {
+      return <Fragment></Fragment>
+    }
     if (startTime < props.current) {
       return <View className='event-expire'>{dayjs(props.current).format('HH:mm')}</View>
     }

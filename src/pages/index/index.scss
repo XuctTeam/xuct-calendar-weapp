@@ -125,13 +125,43 @@
        font-size: 30px;
        color: gray;
        flex-direction: column;
-       position: relative;
-       padding: 20px 20px;
+       padding: 10px 4px 20px 20px;
  
+
+       .event-list{
+         position: relative;
+
+         .current {
+          display: flex;
+          flex-direction: row;
+          position:absolute;
+          width: 100%;
+          top: 0;
+          left: 80px;
+          align-items: center;
+ 
+ 
+          .circle{
+           width: 10px;
+           height: 10px;
+           background-color: red;
+           border-radius: 50%; 
+           display: inline-block;
+           margin-right: 2px;
+          }
+ 
+          .line{
+            height: 2px;
+            width: 100%;
+            background-color: red;
+          }
+        }
+ 
+       }
+
        .item {
           display: flex;
           flex-direction: column;
-          padding-left: 10px;
        }
 
        .timer{
