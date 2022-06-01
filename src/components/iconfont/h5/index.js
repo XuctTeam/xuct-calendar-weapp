@@ -1,7 +1,9 @@
 /* eslint-disable */
 
 import React from 'react';
-import IconIconQudaozhanghaoshangxian from './IconIconQudaozhanghaoshangxian';
+import IconZiyuan from './IconZiyuan';
+import IconZuixing81 from './IconZuixing81';
+import IconIconAccount from './IconIconAccount';
 import IconShouji from './IconShouji';
 import IconYouxiang from './IconYouxiang';
 import IconWeixin1 from './IconWeixin1';
@@ -11,7 +13,9 @@ import IconQunzu from './IconQunzu';
 import IconJiantou from './IconJiantou';
 import IconRili from './IconRili';
 import IconJinri from './IconJinri';
-export { default as IconIconQudaozhanghaoshangxian } from './IconIconQudaozhanghaoshangxian';
+export { default as IconZiyuan } from './IconZiyuan';
+export { default as IconZuixing81 } from './IconZuixing81';
+export { default as IconIconAccount } from './IconIconAccount';
 export { default as IconShouji } from './IconShouji';
 export { default as IconYouxiang } from './IconYouxiang';
 export { default as IconWeixin1 } from './IconWeixin1';
@@ -24,8 +28,12 @@ export { default as IconJinri } from './IconJinri';
 
 const IconFont = ({ name, ...rest }) => {
   switch (name) {
-    case 'icon-qudaozhanghaoshangxian':
-      return <IconIconQudaozhanghaoshangxian {...rest} />;
+    case 'ziyuan':
+      return <IconZiyuan {...rest} />;
+    case 'zuixing-81':
+      return <IconZuixing81 {...rest} />;
+    case 'icon-account':
+      return <IconIconAccount {...rest} />;
     case 'shouji':
       return <IconShouji {...rest} />;
     case 'youxiang':

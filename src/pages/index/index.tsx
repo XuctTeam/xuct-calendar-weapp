@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-05-26 11:54:16
+ * @LastEditTime: 2022-05-30 16:44:25
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useDidShow } from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
-import { Button, Collapse } from '@taroify/core'
+import { Button, Collapse, Empty } from '@taroify/core'
 import { Plus, Search } from '@taroify/icons'
 import dayjs from 'dayjs'
 import { ICurrentDay } from '~/../@types/date'
@@ -308,7 +308,7 @@ const Index: FunctionComponent = () => {
           viewComponent={viewComponent}
         ></Event>
       </CommonMain>
-      <View className='vi-index_home-fab' style={{ bottom: env ? '80px' : '20px' }}>
+      {/* <View className='vi-index_home-fab' style={{ bottom: env ? '80px' : '20px' }}>
         {!!accessToken && <Button size='small' variant='contained' color='primary' shape='round' icon={<Plus />} onClick={createComponent} />}
       </View>
       <CaldavList
@@ -323,7 +323,7 @@ const Index: FunctionComponent = () => {
         <View className='vi-index_today-icon' style={{ bottom: env ? '80px' : '10px' }} onClick={currentClickHandle}>
           今
         </View>
-      )}
+      )} */}
     </Fragment>
   )
 }

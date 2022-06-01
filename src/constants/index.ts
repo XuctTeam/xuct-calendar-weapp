@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-10 13:38:16
- * @LastEditTime: 2022-05-19 17:03:59
+ * @LastEditTime: 2022-05-31 10:07:12
  * @LastEditors: Derek Xu
  */
 export const colors = [
@@ -111,4 +111,4 @@ export const DEFAULT_WECHAT_IMAGE = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKF
 export const DEFAULT_QR_IMAGE = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKGB9iAIInkAAH5qvJoHLs183.png'
 
 //@ts-ignore
-export const DEFAULT_ATTEND_BACKGROUD = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGJVHJGARS-mAACYgprv0zc275.png'
+export const DEFAULT_ATTEND_BACKGROUD = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKVeDSAGalcAADOrzkbMvs223.png'

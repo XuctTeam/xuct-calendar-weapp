@@ -2,12 +2,11 @@
  * @Description: 日程重复
  * @Author: Derek Xu
  * @Date: 2021-12-24 16:14:50
- * @LastEditTime: 2022-03-23 18:34:34
+ * @LastEditTime: 2022-05-31 14:50:20
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
 import Router, { NavigateType } from 'tarojs-router-next'
-import IconFont from '@/components/iconfont'
 import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import { Button, Cell, Radio } from '@taroify/core'

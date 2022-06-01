@@ -2,7 +2,7 @@
 import React, { FunctionComponent } from 'react';
 
 interface Props {
-  name: 'icon-qudaozhanghaoshangxian' | 'shouji' | 'youxiang' | 'weixin1' | '29Refresh_01' | 'qunzu-copy' | 'qunzu' | 'jiantou' | 'rili' | 'jinri';
+  name: 'ziyuan' | 'zuixing-81' | 'icon-account' | 'shouji' | 'youxiang' | 'weixin1' | '29Refresh_01' | 'qunzu-copy' | 'qunzu' | 'jiantou' | 'rili' | 'jinri';
   size?: number;
   color?: string | string[];
   style?: React.CSSProperties;

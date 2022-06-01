@@ -4,25 +4,21 @@
  * @Autor: Derek Xu
  * @Date: 2022-04-22 21:11:46
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-05 14:20:18
+ * @LastEditTime: 2022-05-31 15:28:03
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
+import { useDidShow } from '@tarojs/taro'
 import { useSelector } from 'react-redux'
 import Router from 'tarojs-router-next'
 import { ScrollView, View } from '@tarojs/components'
 import { Empty, List, Loading, Flex, Search, Cell } from '@taroify/core'
-import { Arrow } from '@taroify/icons'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { IMessagePageComponent, IMessage } from '~/../@types/message'
 import { list, read } from '@/api/message'
 import dayjs from 'dayjs'
 import MessageBody from './MessageBody'
-import { useDidShow } from '@tarojs/taro'
 
-interface IPageOption {
-  status: number
-  statusPickerChage: (flag: boolean) => void
-}
+interface IPageOption {}
 
 const InternalMsg: FunctionComponent<IPageOption> = (props) => {
   const pageRef = useRef<number>(0)
@@ -31,7 +27,6 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [scrollTop, setScrollTop] = useState(0)
-  const [searchValue, setSearchValue] = useState<string>('')
   const refreshTimeRef = useRef<number>(0)
 
   useDidShow(() => {
@@ -52,7 +47,7 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
     }
     _init()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken, props.status])
+  }, [accessToken])
 
   const _init = () => {
     pageRef.current = 0
@@ -62,7 +57,7 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
   const refresh = (reload: boolean) => {
     console.log('---- onload -----')
     setLoading(true)
-    list(pageRef.current, 20, props.status, searchValue)
+    list(pageRef.current, 20, 0, '')
       .then((res) => {
         _fillMessage(reload, res as any as IMessagePageComponent)
       })
@@ -114,28 +109,6 @@ const InternalMsg: FunctionComponent<IPageOption> = (props) => {
 
   return (
     <Fragment>
-      <View className='search'>
-        <Flex gutter={4}>
-          <Flex.Item span={18}>
-            <Search
-              shape='rounded'
-              value={searchValue}
-              placeholder='请输入搜索关键词'
-              onChange={(e) => setSearchValue(e.detail.value)}
-              onSearch={() => accessToken && _init()}
-              onClear={() => {
-                setSearchValue('')
-                accessToken && _init()
-              }}
-            />
-          </Flex.Item>
-          <Flex.Item span={6}>
-            <Cell rightIcon={<Arrow />} clickable onClick={() => props.statusPickerChage(true)}>
-              {props.status === 2 ? '全部' : props.status === 0 ? '未读' : '已读'}
-            </Cell>
-          </Flex.Item>
-        </Flex>
-      </View>
       {messages.length === 0 ? (
         <Empty>
           <Empty.Image />

@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-05-27 13:40:29
+ * @LastEditTime: 2022-05-31 09:52:12
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -57,8 +57,8 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
   const _draw = () => {
     Taro.createSelectorQuery()
       .select('#myCanvas')
-      .node(async (res) => {
-        if (!res) {
+      .node((res) => {
+        if (!res || !res.node) {
           setTimeout(() => {
             _draw()
           }, 200)
@@ -75,18 +75,18 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         cavs.width = props.width * dpr
         cavs.height = 480 * dpr
         ctx.scale(dpr, dpr)
-        ctx.fillStyle = '#FFFFFF'
-        ctx.fillRect(0, 0, props.width, props.height)
         ctx.fillStyle = '#ffffff'
-        ctx.fillRect(0, 0, 300, 542)
+        ctx.fillRect(0, 0, props.width, props.height)
+
+        drawRoundedRect(ctx, 'white', '#ccffff', 10, 10, props.width - 20, props.height - 30, 5)
 
         drawTxt({
           context: ctx,
           text: userInfo.name,
           fillStyle: '#000000',
           broken: true,
-          x: 52,
-          y: 8,
+          x: 64,
+          y: 20,
           font: '13px sans-serif',
           lineHeight: 18,
           maxWidth: 450,
@@ -98,8 +98,8 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
           text: '给你推荐了日程',
           fillStyle: '#666666',
           broken: true,
-          x: 52,
-          y: 28,
+          x: 66,
+          y: 40,
           font: '10px sans-serif',
           lineHeight: 14,
           maxWidth: 450,
@@ -111,7 +111,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
           text: props.summary,
           fillStyle: '#000000',
           broken: true,
-          x: 12,
+          x: 20,
           y: 330,
           font: '14px sans-serif',
           lineHeight: 20,
@@ -124,7 +124,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
           text: props.location,
           fillStyle: '#000000',
           broken: true,
-          x: 12,
+          x: 20,
           y: 350,
           font: '12px sans-serif',
           lineHeight: 20,
@@ -173,11 +173,11 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
 
           if (index == 0) {
             imgtag.onload = () => {
-              ctx.drawImage(imgtag, 12, 8, 32, 32)
+              ctx.drawImage(imgtag, 20, 16, 36, 36)
             }
           } else if (index == 1) {
             imgtag.onload = () => {
-              ctx.drawImage(imgtag, (props.width - 240) / 2, 60, 240, 240)
+              ctx.drawImage(imgtag, (props.width - 240) / 2, 70, 240, 240)
             }
           } else if (index == 2) {
             imgtag.onload = () => {
@@ -245,6 +245,28 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
       }
     }
     context.fillText(line, x, y)
+  }
+
+  const drawRoundedRect = (ctx, strokeStyle, fillStyle, x, y, width, height, radius) => {
+    ctx.beginPath()
+    roundedRect(ctx, x, y, width, height, radius)
+    ctx.strokeStyle = strokeStyle
+    ctx.fillStyle = fillStyle
+    ctx.stroke()
+    ctx.fill()
+  }
+
+  const roundedRect = (ctx, x, y, width, height, radius) => {
+    if (width <= 0 || height <= 0) {
+      ctx.arc(x, y, radius, 0, Math.PI * 2)
+      return
+    }
+
+    ctx.moveTo(x + radius, y)
+    ctx.arcTo(x + width, y, x + width, y + height, radius)
+    ctx.arcTo(x + width, y + height, x, y + height, radius)
+    ctx.arcTo(x, y + height, x, y, radius)
+    ctx.arcTo(x, y, x + radius, y, radius)
   }
 
   const _getQrcode = () => {

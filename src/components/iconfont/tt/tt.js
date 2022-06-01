@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // icon-qudaozhanghaoshangxian | shouji | youxiang | weixin1 | 29Refresh_01 | qunzu-copy | qunzu | jiantou | rili | jinri
+    // ziyuan | zuixing-81 | icon-account | shouji | youxiang | weixin1 | 29Refresh_01 | qunzu-copy | qunzu | jiantou | rili | jinri
     name: {
       type: String,
     },
