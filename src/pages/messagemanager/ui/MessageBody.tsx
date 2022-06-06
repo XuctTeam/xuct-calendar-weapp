@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-05-05 12:16:24
+ * @LastEditTime: 2022-06-06 16:54:28
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -117,13 +117,13 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
         <View>
           <Flex gutter={4}>
             <Flex.Item>
-              <Tag shape='rounded' color='primary'>
-                <View className='taroify-ellipsis'>{operateType(type, operation)}</View>
+              <Tag shape='rounded' color={getTagColor(type)}>
+                {messageType(type)}
               </Tag>
             </Flex.Item>
             <Flex.Item>
-              <Tag shape='rounded' color={getTagColor(type)}>
-                {messageType(type)}
+              <Tag shape='rounded' color='primary'>
+                <View className='taroify-ellipsis'>{operateType(type, operation)}</View>
               </Tag>
             </Flex.Item>
           </Flex>

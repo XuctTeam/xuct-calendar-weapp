@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-04-26 16:06:00
+ * @LastEditTime: 2022-06-06 18:32:41
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -13,7 +13,8 @@ import dayjs from 'dayjs'
 import CommonMain from '@/components/mixin'
 import { IMessage } from '~/../@types/message'
 import { toast } from '@/utils/taro'
-import { get } from '@/api/message'
+import { get, remove } from '@/api/message'
+import { useModal } from 'taro-hooks'
 import { EventBody, GroupBody, SystemBody } from './ui'
 
 import './index.scss'
@@ -27,6 +28,10 @@ const MessageDetail: FunctionComponent = ({}) => {
     operation: 0,
     status: 0,
     content: null
+  })
+  const [show] = useModal({
+    title: '提醒',
+    content: '确定删除?'
   })
 
   useEffect(() => {
@@ -66,11 +71,37 @@ const MessageDetail: FunctionComponent = ({}) => {
     }
   }, [message])
 
+  const removeMessage = useCallback(
+    (id: string) => {
+      if (!id) return
+      show()
+        .then((res) => {
+          if (res.cancel) return
+          _remove(id)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [show]
+  )
+
+  const _remove = (id: string) => {
+    remove(id)
+      .then(() => {
+        Router.back({ delete: true })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   return (
     <CommonMain className='vi-message-detail-warpper' title='消息详情' fixed to={3} left>
       <View className='vi-message-detail-warpper_container'>{view()}</View>
       <View className='vi-message-detail-warpper_button'>
-        <Button color='danger' block>
+        <Button color='danger' block onClick={() => removeMessage(message.id || '')}>
           删除
         </Button>
       </View>

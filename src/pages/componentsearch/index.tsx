@@ -2,7 +2,7 @@
  * @Description:日程搜索页面
  * @Author: Derek Xu
  * @Date: 2022-01-24 11:26:49
- * @LastEditTime: 2022-04-22 21:49:10
+ * @LastEditTime: 2022-06-06 18:40:52
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useRef, useState } from 'react'
@@ -13,6 +13,7 @@ import { View } from '@tarojs/components'
 import dayjs from 'dayjs'
 import { IDavComponent, ICalendarComponent, ICalendarPageComponent } from '~/../@types/calendar'
 import { search } from '@/api/component'
+import { throttle } from 'lodash/function'
 import { ComponentList } from './ui'
 
 import './index.scss'
@@ -60,17 +61,23 @@ const ComponentSearch: FunctionComponent = () => {
    * 查看日程详情
    * @param component
    */
-  const viewComponent = (component: IDavComponent) => {
-    Router.toComponentview({
-      params: {
-        componentId: component.id,
-        add: false
-      },
-      data: {
-        component: component
-      }
-    })
-  }
+  const viewComponent = throttle(
+    (component: IDavComponent) => {
+      Router.toComponentview({
+        params: {
+          componentId: component.id,
+          add: false
+        },
+        data: {
+          component: component
+        }
+      })
+    },
+    400,
+    {
+      trailing: false
+    }
+  )
 
   /**
    * @description 填充展示数据

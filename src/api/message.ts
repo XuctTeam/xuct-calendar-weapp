@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-17 14:04:42
- * @LastEditTime: 2022-04-27 19:52:56
+ * @LastEditTime: 2022-06-06 18:18:18
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -15,8 +15,8 @@ import http from '@/utils/request'
  * @return {*}
  * @author: Derek Xu
  */
-export const list = (page: number, limit: number, status: number, title?: string) => {
-  return http.get('/ums/api/app/v1/message/list', { page, limit, status, title })
+export const list = (page: number, limit: number, title?: string) => {
+  return http.get('/ums/api/app/v1/message/list', { page, limit, title })
 }
 
 /**
@@ -37,4 +37,29 @@ export const read = (id: string) => {
  */
 export const get = (id: string) => {
   return http.get('/ums/api/app/v1/message', { id })
+}
+
+/**
+ * @description: 查询总数
+ * @return {*}
+ */
+export const count = () => {
+  return http.get('/ums/api/app/v1/message/count')
+}
+
+/**
+ * @description: 清除未读
+ * @return {*}
+ */
+export const clear = () => {
+  return http.post('/ums/api/app/v1/message/clear', {})
+}
+
+/**
+ * @description: 删除消息
+ * @param {*} id
+ * @return {*}
+ */
+export const remove = (id) => {
+  return http.delete('/ums/api/app/v1/message/'.concat(id))
 }
