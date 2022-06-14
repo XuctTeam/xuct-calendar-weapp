@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-06 18:33:32
+ * @LastEditTime: 2022-06-13 18:10:39
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Router from 'tarojs-router-next'
@@ -74,7 +74,7 @@ const MessageManager: FunctionComponent = () => {
       })
   }
 
-  const refresh = (reload: boolean) => {
+  const refresh = (reload: boolean = false) => {
     console.log('---- onload -----')
     setLoading(true)
     list(pageRef.current, 20, '')
@@ -167,7 +167,7 @@ const MessageManager: FunctionComponent = () => {
             </View>
           </View>
           <View className='search'>
-            <Button variant='text' size='mini' color='primary' icon={<Search />}>
+            <Button variant='text' size='mini' color='primary' icon={<Search />} onClick={() => Router.toMessagesearch()}>
               高级查询
             </Button>
           </View>
@@ -189,7 +189,7 @@ const MessageManager: FunctionComponent = () => {
                   setScrollTop(e.detail.scrollTop)
                 }}
               >
-                <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={() => refresh(false)}>
+                <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={refresh}>
                   {messages.map((item, i) => (
                     <MessageBody key={i} message={item} viewHandler={viewHandler}></MessageBody>
                   ))}

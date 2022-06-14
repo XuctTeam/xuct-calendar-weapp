@@ -7,11 +7,12 @@ interface IPagOption {
   color: string
   component: IDavComponent
   viewComponent: (component: IDavComponent) => void
+  width: number
 }
 
 const DayEventData: FunctionComponent<IPagOption> = (props) => {
   return (
-    <View className='item-event-detail'>
+    <View className='item-event-detail' style={{ width: `${props.width}%` }}>
       <View className='box' onClick={() => props.viewComponent(props.component)}>
         <View className='color' style={{ background: `#${props.color}` }}></View>
         <View className='content'>

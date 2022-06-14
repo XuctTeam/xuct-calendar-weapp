@@ -3,19 +3,19 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\app.config.ts
- * @LastEditTime: 2022-05-25 09:41:28
+ * @LastEditTime: 2022-06-12 20:13:05
  * @LastEditors: Derek Xu
  */
 import { useGlobalIconFont } from './components/iconfont/helper'
 
 export default {
   pages: [
-    'pages/membermine/index',
-    'pages/contactmanager/index',
     'pages/index/index',
+    'pages/login/index',
+
     'pages/messagemanager/index',
     'pages/messagedetail/index',
-    'pages/login/index',
+    'pages/messagesearch/index',
 
     'pages/calendarcreate/index',
     'pages/calendarmanager/index',
@@ -26,16 +26,17 @@ export default {
     'pages/componentrepeat/index',
     'pages/componentcustrepeat/index',
     'pages/componentshareview/index',
-
     'pages/componentalarm/index',
     'pages/componentsearch/index',
     'pages/componentmembers/index',
     'pages/componentmembersview/index',
+    'pages/contactmanager/index',
     'pages/groupmanager/index',
     'pages/groupcreate/index',
     'pages/groupsearch/index',
     'pages/groupapply/index',
     'pages/groupmembermanager/index',
+    'pages/membermine/index',
     'pages/memberinfo/index',
     'pages/membermodifypassword/index',
     'pages/memberbindphone/index',
