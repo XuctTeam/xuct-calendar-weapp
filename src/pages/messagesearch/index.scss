@@ -3,27 +3,28 @@
   display: flex;
   background-color: #f7f8fa;
 
- 
-  .container{
+  .container {
     flex: 1;
   }
 
-  .list{
+  .list {
     height: 100%;
   }
 
-  .opt{
-    background-color: #fff;
-    height: 80px;
+  .flex {
     display: flex;
+    flex: row;
     align-items: center;
-    padding: 4px 30px;
-    font-size: 30px;
   }
 
+  .content {
+    width: 100%;
+    margin-left: 30px;
+  }
 
   .cell {
     display: flex;
+    flex: 1;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -52,5 +53,14 @@
       background: red;
     }
   }
+}
 
+.vi-message-search-warpper_opt {
+  background-color: #fff;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 30px;
+  box-sizing: border-box;
 }

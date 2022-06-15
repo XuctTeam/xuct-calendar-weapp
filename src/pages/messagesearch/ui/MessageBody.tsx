@@ -2,18 +2,22 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-06-14 20:20:18
+ * @LastEditTime: 2022-06-15 21:14:49
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
-import { Cell, Flex, Tag, SwipeCell, Button } from '@taroify/core'
+import { Cell, Flex, Tag } from '@taroify/core'
+import { Checkbox } from '@taroify/core'
 import { IMessage } from '~/../@types/message'
 import dayjs from 'dayjs'
 
+type TMessage = { checked: boolean } & IMessage
+
 interface IPageStateProps {
-  message: IMessage
+  message: TMessage
   viewHandler: (id: string) => void
+  selected: (id: string, checked: boolean) => void
 }
 
 const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
@@ -106,38 +110,38 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
     props.viewHandler(props.message.id ? props.message.id : '')
   }
 
-  const { title, status, type, operation, createTime } = props.message
+  const { id, title, status, type, operation, createTime, checked } = props.message
   return (
-    <SwipeCell onClick={() => view()}>
-      <Cell bordered={true}>
-        <View className='title'>
-          {status === 0 && <View className='read' />}
-          {title}
+    <Cell bordered={true}>
+      <View className='flex'>
+        <View>
+          <Checkbox checked={checked} onChange={(e) => props.selected(id || '', e)}></Checkbox>
         </View>
-        <View className='cell'>
-          <View>
-            <Flex gutter={4}>
-              <Flex.Item>
-                <Tag shape='rounded' color={getTagColor(type)}>
-                  {messageType(type)}
-                </Tag>
-              </Flex.Item>
-              <Flex.Item>
-                <Tag shape='rounded' color='primary'>
-                  <View className='taroify-ellipsis'>{operateType(type, operation)}</View>
-                </Tag>
-              </Flex.Item>
-            </Flex>
+        <View onClick={() => view()} className='content'>
+          <View className='title'>
+            {status === 0 && <View className='read' />}
+            {title}
           </View>
-          <View>{dayjs(createTime).format('YYYY-MM-DD HH:mm')}</View>
+          <View className='cell'>
+            <View>
+              <Flex gutter={4}>
+                <Flex.Item>
+                  <Tag shape='rounded' color={getTagColor(type)}>
+                    {messageType(type)}
+                  </Tag>
+                </Flex.Item>
+                <Flex.Item>
+                  <Tag shape='rounded' color='primary'>
+                    <View className='taroify-ellipsis'>{operateType(type, operation)}</View>
+                  </Tag>
+                </Flex.Item>
+              </Flex>
+            </View>
+            <View>{dayjs(createTime).format('YYYY-MM-DD HH:mm')}</View>
+          </View>
         </View>
-      </Cell>
-      <SwipeCell.Actions side='right'>
-        <Button variant='contained' shape='square' color='danger'>
-          删除
-        </Button>
-      </SwipeCell.Actions>
-    </SwipeCell>
+      </View>
+    </Cell>
   )
 }
 
