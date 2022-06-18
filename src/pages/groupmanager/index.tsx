@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-22 08:43:45
+ * @LastEditTime: 2022-06-18 18:31:59
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -19,7 +19,7 @@ import { useModal, useToast } from 'taro-hooks'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 import { groupList, deleteGroup } from '@/api/group'
-import { GroupList } from './ui'
+import { GroupList, GroupHeader } from './ui'
 
 import './index.scss'
 

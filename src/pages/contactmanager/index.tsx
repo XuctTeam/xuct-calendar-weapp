@@ -2,22 +2,20 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-03-18 08:55:42
+ * @LastEditTime: 2022-06-18 18:51:29
  * @LastEditors: Derek Xu
  */
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Cell } from '@taroify/core'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
 import { throttle } from 'lodash/function'
 import CommonMain from '@/components/mixin'
-import { Arrow, FriendsOutlined, UserOutlined } from '@taroify/icons'
 import { useWebEnv } from '@/utils/taro'
 import { groupMemberPinYinList } from '@/api/groupmember'
 import { IPinYinGroupMember } from '~/../@types/group'
 import { IDvaCommonProps } from '~/../@types/dva'
-import { WebUserList, WeappUserList } from './ui'
+import { WebUserList, WeappUserList, GroupHeader } from './ui'
 
 import './index.scss'
 
@@ -67,21 +65,15 @@ const Index: FunctionComponent = () => {
       })
   }
 
-  const applyHandler = throttle(
-    () => {
-      Router.toGroupapply()
-    },
-    800,
-    { trailing: false }
-  )
-
   return (
     <CommonMain className='vi-group-manager-warpper' fixed left={false} title='通讯录管理'>
-      <Fragment>
+      {/* <Fragment>
         <View className='vi-group-manager-warpper_header'></View>
         <Cell icon={<UserOutlined />} title='新的申请' rightIcon={<Arrow />} clickable onClick={() => applyHandler()}></Cell>
         <Cell icon={<FriendsOutlined />} title='我的群组' rightIcon={<Arrow />} clickable onClick={() => mineGroupClickHandle()}></Cell>
-      </Fragment>
+      </Fragment> */}
+      <GroupHeader mineClick={mineGroupClickHandle}></GroupHeader>
+      <View className='br'></View>
       <View className='vi-group-manager-warpper_list'>
         {useWebEnv() ? (
           <WebUserList loading={loading} refresh={refresh} disabled={!accessToken} pinYinMembers={pinYinList}></WebUserList>

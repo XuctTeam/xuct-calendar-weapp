@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-17 14:04:42
- * @LastEditTime: 2022-06-06 18:18:18
+ * @LastEditTime: 2022-06-18 17:44:51
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -62,4 +62,13 @@ export const clear = () => {
  */
 export const remove = (id) => {
   return http.delete('/ums/api/app/v1/message/'.concat(id))
+}
+
+/**
+ * @description: 批量删除消息
+ * @param {*} ids
+ * @return {*}
+ */
+export const removeAll = (ids: string[]) => {
+  return http.delete('/ums/api/app/v1/message/batch', { ids })
 }

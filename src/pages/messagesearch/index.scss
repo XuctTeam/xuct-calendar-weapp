@@ -63,4 +63,20 @@
   justify-content: space-between;
   padding: 0px 30px;
   box-sizing: border-box;
+
+  .button {
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+
+  .taroify-button {
+    margin-right: 10px;
+  }
+}
+
+.vi-message-search-warpper_popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

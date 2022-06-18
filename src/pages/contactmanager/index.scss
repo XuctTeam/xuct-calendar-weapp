@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 15:57:34
+ * @LastEditTime: 2022-06-18 18:47:08
  */
 
 .vi-group-manager-warpper {
@@ -37,5 +37,28 @@
 
   .taroify-empty {
     height: 100%;
+  }
+
+  .br {
+    width: 100%;
+    height: 10px;
+    background-color: whitesmoke;
+  }
+
+  .group-header {
+    height: 120px;
+    margin: 20px 10px;
+    box-sizing: border-box;
+
+    .taroify-flex-item {
+      height: 100%;
+    }
+
+    .box {
+      background-color: #fff;
+      height: 100%;
+      box-shadow: 0 5px 10px #0002;
+      border-radius: 10px;
+    }
   }
 }

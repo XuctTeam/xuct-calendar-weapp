@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-06-12 20:12:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-15 21:50:50
+ * @LastEditTime: 2022-06-18 18:22:46
  * @FilePath: \xuct-calendar-weapp\src\pages\messagesearch\index.tsx
  * @Description:
  *
@@ -13,8 +13,8 @@ import Router from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
 import { usePageScroll } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { Button, Checkbox, FixedView, List, Loading, Search } from '@taroify/core'
-import { list as searchQry, read } from '@/api/message'
+import { Backdrop, Button, Checkbox, FixedView, List, Loading, Search } from '@taroify/core'
+import { list as searchQry, read, removeAll } from '@/api/message'
 import { IMessage, IMessagePageComponent } from '~/../@types/message'
 import { throttle } from 'lodash/function'
 import { useModal } from 'taro-hooks'
@@ -32,6 +32,8 @@ const index: FunctionComponent = () => {
   const [loading, setLoading] = useState(false)
   const [scrollTop, setScrollTop] = useState(0)
   const [checkAll, setCheckAll] = useState<boolean>(false)
+  const [lock, setLock] = useState<boolean>(false)
+
   const [show] = useModal({
     title: '确认提醒',
     content: '是否全部删除?'
@@ -137,6 +139,19 @@ const index: FunctionComponent = () => {
       show()
         .then((res) => {
           if (res.cancel) return
+          setLock(true)
+          const ids = deleteArray.map((i) => {
+            return i.id || ''
+          })
+          removeAll(ids)
+            .then(() => {
+              setLock(false)
+              search()
+            })
+            .catch((err) => {
+              console.log(err)
+              setLock(false)
+            })
         })
         .catch((err) => {
           console.log(err)
@@ -189,10 +204,18 @@ const index: FunctionComponent = () => {
         <Checkbox size={20} checked={checkAll} onChange={(e) => selectAll(e)}>
           全选
         </Checkbox>
-        <Button size='small' color='danger' onClick={() => deleteAll(messages)}>
-          全部删除
-        </Button>
+        <View className='button'>
+          <Button size='small' color='primary' onClick={() => deleteAll(messages)}>
+            已读
+          </Button>
+          <Button size='small' color='danger' onClick={() => deleteAll(messages)}>
+            删除
+          </Button>
+        </View>
       </FixedView>
+      <Backdrop className='vi-message-search-warpper_popup' open={lock}>
+        <Loading type='spinner' />
+      </Backdrop>
     </Fragment>
   )
 }
