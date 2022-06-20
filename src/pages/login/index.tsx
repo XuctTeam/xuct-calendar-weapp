@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 08:40:11
- * @LastEditTime: 2022-05-25 09:51:58
+ * @LastEditTime: 2022-06-20 16:45:29
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -19,8 +19,7 @@ import { checkMobile } from '@/utils/utils'
 import { IUserInfo } from 'taro-hooks/dist/useUserInfo'
 import { wechatLogin, phoneLogin, usernameLogin } from '@/api/login'
 import { sendSmsCode, userInfo } from '@/api/user'
-
-import { DEFAULT_LOG_IMAGE, DEFAULT_WECHAT_IMAGE } from '@/constants/index'
+import Images from '@/constants/images'
 
 import './index.scss'
 
@@ -262,7 +261,7 @@ const Login: FunctionComponent = () => {
           )}
           <View className='right-top-sign' />
           <View className='vi-login-wrapper_logo'>
-            <Image src={DEFAULT_LOG_IMAGE} style={{ width: '140px', height: '120px' }}></Image>
+            <Image src={Images.DEFAULT_LOG_IMAGE} style={{ width: '140px', height: '120px' }}></Image>
           </View>
           <View className='vi-login-wrapper_form'>
             <View className='form'>
@@ -324,7 +323,7 @@ const Login: FunctionComponent = () => {
         <View className='footer'>
           {env === 'WEAPP' && (
             <View className='btn' onClick={loginByCode}>
-              <Image src={DEFAULT_WECHAT_IMAGE} style={{ width: '36px', height: '36px' }} mode='aspectFill' />
+              <Image src={Images.DEFAULT_WECHAT_IMAGE} style={{ width: '36px', height: '36px' }} mode='aspectFill' />
               <View className='label'>微信</View>
             </View>
           )}

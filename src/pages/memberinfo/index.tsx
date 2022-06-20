@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-28 17:41:39
+ * @LastEditTime: 2022-06-20 16:45:49
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,7 +15,7 @@ import CommonMain from '@/components/mixin'
 import { Avatar, Button, Cell } from '@taroify/core'
 import { ArrowRight } from '@taroify/icons'
 import { throttle } from 'lodash/function'
-import { DEFAULT_AVATAR } from '@/constants/index'
+import Images from '@/constants/images'
 import { useModal, useToast } from 'taro-hooks'
 import { useBack } from '@/utils/taro'
 import { IDvaCommonProps, IUserInfo, IUserAuth } from '~/../@types/dva'
@@ -265,7 +265,7 @@ const MemberInfo: FunctionComponent = () => {
         open={headerOpen}
         close={() => setHeaderOpen(false)}
         updateAvatar={modiftAvatar}
-        avatar={userInfo && userInfo.avatar ? userInfo.avatar : DEFAULT_AVATAR}
+        avatar={userInfo && userInfo.avatar ? userInfo.avatar : Images.DEFAULT_AVATAR}
       ></UploadHeader>
     </Fragment>
   )

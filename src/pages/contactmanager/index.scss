@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-18 18:47:08
+ * @LastEditTime: 2022-06-20 19:23:06
  */
 
 .vi-group-manager-warpper {
@@ -46,7 +46,7 @@
   }
 
   .group-header {
-    height: 120px;
+    height: 130px;
     margin: 20px 10px;
     box-sizing: border-box;
 
@@ -59,6 +59,26 @@
       height: 100%;
       box-shadow: 0 5px 10px #0002;
       border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .title {
+        display: flex;
+        flex-direction: column;
+        padding-left: 10px;
+      }
+
+      .label {
+        font-size: 30px;
+        color: black;
+        font-weight: 600;
+      }
+
+      .desc {
+        font-size: 16px;
+        color: darkgray;
+      }
     }
   }
 }

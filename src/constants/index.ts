@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-12-10 13:38:16
- * @LastEditTime: 2022-05-31 10:07:12
+ * @LastEditTime: 2022-06-20 16:39:26
  * @LastEditors: Derek Xu
  */
 export const colors = [
@@ -95,20 +95,3 @@ export const alarmTypes = [
     text: '公众号'
   }
 ]
-
-export const USER_LOGOUT_EVENT = 'USER_LOGOUT_EVENT'
-
-//@ts-ignore
-export const DEFAULT_AVATAR = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKEgb2AE6fzAAB0mLZqMmI800.png'
-
-//@ts-ignore
-export const DEFAULT_LOG_IMAGE = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKDVWeASm9XAACEf3Qy6sE436.png'
-
-//@ts-ignore
-export const DEFAULT_WECHAT_IMAGE = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKF8OaASFBaAAAiWGqCLKs496.png'
-
-//@ts-ignore
-export const DEFAULT_QR_IMAGE = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKGB9iAIInkAAH5qvJoHLs183.png'
-
-//@ts-ignore
-export const DEFAULT_ATTEND_BACKGROUD = SERVICES_IMAGES + 'group1/M00/00/00/CgAQDGKVeDSAGalcAADOrzkbMvs223.png'

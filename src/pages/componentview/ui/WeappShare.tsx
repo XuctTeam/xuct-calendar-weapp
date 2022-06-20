@@ -4,13 +4,15 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-04 15:50:51
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-22 17:57:09
+ * @LastEditTime: 2022-06-20 16:43:51
  */
 import { FunctionComponent } from 'react'
 import { Dialog } from '@taroify/core'
 import { Button, View } from '@tarojs/components'
 import { useShareAppMessage } from '@tarojs/taro'
-import { DEFAULT_ATTEND_BACKGROUD } from '@/constants/index'
+import Images from '@/constants/images'
+
+const DEFAULT_ATTEND_BACKGROUD = Images.DEFAULT_ATTEND_BACKGROUD
 
 interface IPageOption {
   open: boolean

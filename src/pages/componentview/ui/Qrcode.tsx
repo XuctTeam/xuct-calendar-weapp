@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-05-31 09:52:12
+ * @LastEditTime: 2022-06-20 16:45:07
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -12,7 +12,7 @@ import Taro from '@tarojs/taro'
 import { Button, Dialog } from '@taroify/core'
 import { Canvas } from '@tarojs/components'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
-import { DEFAULT_AVATAR, DEFAULT_ATTEND_BACKGROUD } from '@/constants/index'
+import Images from '@/constants/images'
 import QR from 'qrcode-base64'
 import { toast, useWebEnv } from '@/utils/taro'
 
@@ -156,10 +156,10 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         let imgList: IImageOption[] = []
         imgList.push(
           {
-            src: userInfo.avatar || DEFAULT_AVATAR
+            src: userInfo.avatar || Images.DEFAULT_AVATAR
           },
           {
-            src: DEFAULT_ATTEND_BACKGROUD
+            src: Images.DEFAULT_ATTEND_BACKGROUD
           },
           {
             src: qrImage

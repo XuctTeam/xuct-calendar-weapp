@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:52:06
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-07 13:53:35
+ * @LastEditTime: 2022-06-20 18:59:27
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
@@ -33,7 +33,7 @@ const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
 
   return (
     <Cell
-      className='vi-group-manager-warpper_group-list'
+      className='card'
       onClick={() => groupViewHanler()}
       rightIcon={
         <Ellipsis

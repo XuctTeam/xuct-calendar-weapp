@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 16:36:43
  * @FilePath: \xuct-calendar-weapp\src\pages\membermine\index.tsx
- * @LastEditTime: 2022-04-21 12:12:33
+ * @LastEditTime: 2022-06-20 16:46:02
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useState } from 'react'
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { View } from '@tarojs/components'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import { baseUserInfo } from '@/api/user'
-import { DEFAULT_AVATAR } from '@/constants/index'
+import Images from '@/constants/images'
 import { User, Menu } from './ui'
 
 const MemberMine: FunctionComponent = () => {
@@ -52,7 +52,7 @@ const MemberMine: FunctionComponent = () => {
       <User
         hasLogin={!!accessToken}
         nickname={userInfo ? userInfo.name : ''}
-        avatar={userInfo && userInfo.avatar ? userInfo.avatar : DEFAULT_AVATAR}
+        avatar={userInfo && userInfo.avatar ? userInfo.avatar : Images.DEFAULT_AVATAR}
         refresh={refresh}
         loading={loading}
       ></User>

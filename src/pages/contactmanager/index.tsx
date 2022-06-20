@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-06-18 18:51:29
+ * @LastEditTime: 2022-06-20 19:13:08
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -67,11 +67,6 @@ const Index: FunctionComponent = () => {
 
   return (
     <CommonMain className='vi-group-manager-warpper' fixed left={false} title='通讯录管理'>
-      {/* <Fragment>
-        <View className='vi-group-manager-warpper_header'></View>
-        <Cell icon={<UserOutlined />} title='新的申请' rightIcon={<Arrow />} clickable onClick={() => applyHandler()}></Cell>
-        <Cell icon={<FriendsOutlined />} title='我的群组' rightIcon={<Arrow />} clickable onClick={() => mineGroupClickHandle()}></Cell>
-      </Fragment> */}
       <GroupHeader mineClick={mineGroupClickHandle}></GroupHeader>
       <View className='br'></View>
       <View className='vi-group-manager-warpper_list'>
