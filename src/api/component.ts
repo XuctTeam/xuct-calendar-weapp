@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-04 10:39:35
- * @LastEditTime: 2022-05-05 18:03:11
+ * @LastEditTime: 2022-06-21 22:17:26
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -130,7 +130,7 @@ export const refuseAttend = (componentId: string) => {
  * @author: Derek Xu
  */
 export const getShareInfo = (componentId: string) => {
-  return http.get('/cms/api/v1/users-anon/component', { componentId })
+  return http.get('/cms/api/v1/anon/component', { componentId })
 }
 
 /**

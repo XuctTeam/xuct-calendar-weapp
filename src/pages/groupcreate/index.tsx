@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-05-05 14:02:37
+ * @LastEditTime: 2022-06-21 22:39:10
  * @LastEditors: Derek Xu
  */
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Taro from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
-import { Button, Cell, Form, Input, Switch, Uploader } from '@taroify/core'
+import { Button, Cell, Form, Input, Radio, Switch, Uploader } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { FormItemInstance } from '@taroify/core/form'
 import { useBack } from '@/utils/taro'
@@ -160,7 +160,16 @@ const GroupCreate: FunctionComponent = () => {
                   <Input placeholder='请输入名称' />
                 </Form.Control>
               </Form.Item>
-              <Form.Item name='power' defaultValue={1 === 1}>
+              <Form.Item name='password'>
+                <Form.Label>口令</Form.Label>
+                <Form.Control>
+                  <Radio.Group direction='horizontal'>
+                    <Radio name='1'>开启</Radio>
+                    <Radio name='2'>关闭</Radio>
+                  </Radio.Group>
+                </Form.Control>
+              </Form.Item>
+              <Form.Item name='power' defaultValue={true}>
                 <Form.Label>允许搜索</Form.Label>
                 <Form.Control>
                   <Switch size={20} />

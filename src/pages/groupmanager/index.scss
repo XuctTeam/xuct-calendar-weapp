@@ -6,25 +6,24 @@
   .group-header {
     display: flex;
     flex-direction: row;
-    background-color: #fff;
     padding: 20px;
+    box-sizing: border-box;
+    justify-content: center;
 
     .box {
-      margin-right: 10px;
-      width: 200px;
+      width: 100px;
+      height: 100px;
+      -moz-border-radius: 50px;
+      -webkit-border-radius: 50px;
+      border-radius: 50px;
       box-shadow: 0 5px 10px #0002;
-      border-radius: 10px;
-    }
-
-    .taroify-cell__value--alone {
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 32px;
     }
 
-    .taroify-image {
-      margin-right: 6px;
+    .taroify-flex {
+      box-sizing: border-box;
+      margin: 10px;
     }
   }
 

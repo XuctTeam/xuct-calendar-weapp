@@ -2,17 +2,16 @@
  * @Author: Derek Xu
  * @Date: 2022-06-20 18:04:55
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-20 18:49:02
+ * @LastEditTime: 2022-06-21 21:46:11
  * @FilePath: \xuct-calendar-weapp\src\pages\groupmanager\ui\GroupHeader.tsx
  * @Description:
  *
  * Copyright (c) 2022 by 楚恬商行, All Rights Reserved.
  */
-import { View } from '@tarojs/components'
 import { FunctionComponent } from 'react'
 import { throttle } from 'lodash/function'
 import Router from 'tarojs-router-next'
-import { Cell, Image } from '@taroify/core'
+import { Cell, FixedView, Image, Flex } from '@taroify/core'
 import Images from '@/constants/images'
 
 interface IPageOption {
@@ -50,16 +49,20 @@ const GroupHeader: FunctionComponent<IPageOption> = (props) => {
   }
 
   return (
-    <View className='group-header'>
-      <Cell className='box' clickable onClick={() => to(1)}>
-        <Image round style={{ width: '20px', height: '20px' }} src={Images.GROUP_ADD} />
-        新建
-      </Cell>
-      <Cell className='box' clickable onClick={() => to(2)}>
-        <Image round style={{ width: '20px', height: '20px' }} src={Images.GROUP_SEARCH} />
-        搜索
-      </Cell>
-    </View>
+    <FixedView position='bottom' className='group-header'>
+      <Flex gutter={10}>
+        <Flex.Item span={12}>
+          <Cell className='box' clickable onClick={() => to(1)}>
+            <Image round style={{ width: '32px', height: '32px' }} src={Images.GROUP_ADD} />
+          </Cell>
+        </Flex.Item>
+        <Flex.Item span={12}>
+          <Cell className='box' clickable onClick={() => to(2)}>
+            <Image round style={{ width: '30px', height: '30px' }} src={Images.GROUP_SEARCH} />
+          </Cell>
+        </Flex.Item>
+      </Flex>
+    </FixedView>
   )
 }
 

@@ -4,14 +4,14 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-20 19:24:10
+ * @LastEditTime: 2022-06-21 20:57:32
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommonMain from '@/components/mixin'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
-import { ActionSheet, Cell, Empty } from '@taroify/core'
+import { ActionSheet, Empty } from '@taroify/core'
 
 import { IGroup } from '~/../@types/group'
 import { useModal, useToast } from 'taro-hooks'
@@ -137,7 +137,7 @@ const Index: FunctionComponent = () => {
       <CommonMain className='vi-group-manager-wrapper' title='我的群组' fixed to={2} left>
         <View className='vi-group-manager-wrapper_container'>
           <GroupHeader list={list}></GroupHeader>
-          <Cell.Group title='我的群组' className='list'>
+          <View className='list'>
             {groups.length === 0 ? (
               <Empty>
                 <Empty.Image src='error' />
@@ -146,7 +146,7 @@ const Index: FunctionComponent = () => {
             ) : (
               <GroupList groups={groups} groupClick={groupClickHandler} groupView={groupViewHandler}></GroupList>
             )}
-          </Cell.Group>
+          </View>
         </View>
       </CommonMain>
       <View>
