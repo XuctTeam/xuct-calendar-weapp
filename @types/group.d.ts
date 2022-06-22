@@ -4,12 +4,13 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:44:01
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-05 13:35:19
+ * @LastEditTime: 2022-06-22 21:26:38
  */
 export interface IGroup {
   id?: string
   name: string
   images?: string
+  password?: string
   count?: number
   memberId?: string
   createMemberId: string

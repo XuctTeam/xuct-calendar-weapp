@@ -3,7 +3,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-06-20 16:45:07
+ * @LastEditTime: 2022-06-22 22:48:42
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
@@ -34,7 +34,7 @@ interface IImageOption {
 }
 
 const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
-  const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { username: '', avatar: DEFAULT_AVATAR }
+  const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { username: '', avatar: Images.DEFAULT_AVATAR }
   const canvas = useRef<any>()
   const [qrImage, setQrImage] = useState<string>('')
   const webEnv = useWebEnv()

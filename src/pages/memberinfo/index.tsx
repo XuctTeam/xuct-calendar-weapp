@@ -5,7 +5,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-28 10:47:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-20 16:45:49
+ * @LastEditTime: 2022-06-22 22:48:55
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -43,7 +43,7 @@ const MemberInfo: FunctionComponent = () => {
   })
   useEffect(() => {
     setUsername((userInfo && userInfo.name) || '')
-    setAvatar((userInfo && userInfo.avatar) || DEFAULT_AVATAR)
+    setAvatar((userInfo && userInfo.avatar) || Images.DEFAULT_AVATAR)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     if (userAuths && userAuths instanceof Array) {
       setWxAuth(_getAuth('open_id'))

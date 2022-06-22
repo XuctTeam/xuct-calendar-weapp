@@ -2,16 +2,16 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-06-21 22:39:10
+ * @LastEditTime: 2022-06-22 22:23:18
  * @LastEditors: Derek Xu
  */
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Taro from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
-import { Button, Cell, Form, Input, Radio, Switch, Uploader } from '@taroify/core'
+import { Button, Cell, Form, Input, Switch, Uploader } from '@taroify/core'
 import CommonMain from '@/components/mixin'
-import { FormItemInstance } from '@taroify/core/form'
+import { FormInstance, FormItemInstance } from '@taroify/core/form'
 import { useBack } from '@/utils/taro'
 import { useStorage, useFile, useImage, useToast } from 'taro-hooks'
 import { addGroup, getGroupInfo } from '@/api/group'
@@ -23,7 +23,7 @@ import './index.scss'
 
 const GroupCreate: FunctionComponent = () => {
   const itemRef = useRef<FormItemInstance>()
-  const formRef = React.createRef<JSX.Element>()
+  const formRef = useRef<FormInstance>()
   const idRef = useRef<string>('')
 
   const urlRef = useRef<string>('')
@@ -39,21 +39,30 @@ const GroupCreate: FunctionComponent = () => {
 
   useEffect(() => {
     const data = Router.getData()
-    if (!data) {
-      const params = Router.getParams()
-      if (!params) {
-        return
-      }
-      const { id } = params
-      if (!id) return
-      getGroupInfo(id).then((res) => {
+    const params = Router.getParams()
+    if (!data && !params.id) return
+    setData(data, params.id || '')
+  }, [])
+
+  const setData = (data: any, id: string) => {
+    if (formRef.current == null) {
+      setTimeout(() => {
+        setData(data, id)
+      }, 200)
+    }
+    if (data) {
+      init(data)
+      return
+    }
+    getGroupInfo(id)
+      .then((res) => {
         init(res as any as IGroup)
         return
       })
-      return
-    }
-    init(data)
-  })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   const init = (group: IGroup) => {
     setTitle('编辑群组')
@@ -74,7 +83,8 @@ const GroupCreate: FunctionComponent = () => {
     //@ts-ignore
     formRef.current.setValues({
       name: group.name,
-      power: group.power === 'PUBLIC' ? 1 : 0
+      power: group.power === 'PUBLIC' ? 1 : 0,
+      password: group.password
     })
     setEdit(true)
   }
@@ -118,6 +128,10 @@ const GroupCreate: FunctionComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [get])
 
+  const passwordValidate = (value) => {
+    return !value || /^[0-9]+$/.test(value)
+  }
+
   const onSubmit = (event: BaseEventOrig<FormProps.onSubmitEventDetail>) => {
     if (uploading) {
       toast({ title: '正在上传图像', icon: 'loading' })
@@ -126,10 +140,9 @@ const GroupCreate: FunctionComponent = () => {
     setLoading(true)
     const data = event.detail.value
     //@ts-ignore
-    const { name, power } = data
-    console.log(power)
+    const { name, power, password } = data
 
-    addGroup(idRef.current, name, urlRef.current, power ? 'PUBLIC' : 'PRIVATE').then(() => {
+    addGroup(idRef.current, name, urlRef.current, password, power ? 'PUBLIC' : 'PRIVATE').then(() => {
       setLoading(false)
       back({ to: 2, data: { edit } })
     })
@@ -160,13 +173,10 @@ const GroupCreate: FunctionComponent = () => {
                   <Input placeholder='请输入名称' />
                 </Form.Control>
               </Form.Item>
-              <Form.Item name='password'>
+              <Form.Item name='password' rules={[{ validator: passwordValidate, message: '全部为整数' }]}>
                 <Form.Label>口令</Form.Label>
                 <Form.Control>
-                  <Radio.Group direction='horizontal'>
-                    <Radio name='1'>开启</Radio>
-                    <Radio name='2'>关闭</Radio>
-                  </Radio.Group>
+                  <Input placeholder='请输入口令' maxlength={8} />
                 </Form.Control>
               </Form.Item>
               <Form.Item name='power' defaultValue={true}>
