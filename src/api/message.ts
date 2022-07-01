@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-17 14:04:42
- * @LastEditTime: 2022-06-18 17:44:51
+ * @LastEditTime: 2022-06-30 17:00:55
  * @LastEditors: Derek Xu
  */
 import http from '@/utils/request'
@@ -65,10 +65,19 @@ export const remove = (id) => {
 }
 
 /**
- * @description: 批量删除消息
+ * @description: 批量删除
  * @param {*} ids
  * @return {*}
  */
 export const removeAll = (ids: string[]) => {
   return http.delete('/ums/api/app/v1/message/batch', { ids })
+}
+
+/**
+ * @description: 批量已读
+ * @param {string} ids
+ * @return {*}
+ */
+export const readAll = (ids: string[]) => {
+  return http.post('/ums/api/app/v1/message/batch', { ids })
 }

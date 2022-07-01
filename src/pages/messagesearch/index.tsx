@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-06-12 20:12:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-18 18:22:46
+ * @LastEditTime: 2022-06-30 17:03:33
  * @FilePath: \xuct-calendar-weapp\src\pages\messagesearch\index.tsx
  * @Description:
  *
@@ -14,7 +14,7 @@ import CommonMain from '@/components/mixin'
 import { usePageScroll } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { Backdrop, Button, Checkbox, FixedView, List, Loading, Search } from '@taroify/core'
-import { list as searchQry, read, removeAll } from '@/api/message'
+import { list as searchQry, read, removeAll, readAll } from '@/api/message'
 import { IMessage, IMessagePageComponent } from '~/../@types/message'
 import { throttle } from 'lodash/function'
 import { useModal } from 'taro-hooks'
@@ -130,7 +130,7 @@ const index: FunctionComponent = () => {
     }
   )
 
-  const deleteAll = useCallback(
+  const deleteAllMessage = useCallback(
     (msgs: TMessage[]) => {
       const deleteArray = msgs.filter((item) => item.checked)
       if (deleteArray.length === 0) {
@@ -140,10 +140,11 @@ const index: FunctionComponent = () => {
         .then((res) => {
           if (res.cancel) return
           setLock(true)
-          const ids = deleteArray.map((i) => {
-            return i.id || ''
-          })
-          removeAll(ids)
+          removeAll(
+            deleteArray.map((i) => {
+              return i.id || ''
+            })
+          )
             .then(() => {
               setLock(false)
               search()
@@ -159,6 +160,24 @@ const index: FunctionComponent = () => {
     },
     [show]
   )
+
+  const readAllMessage = () => {
+    const readArray = messages.filter((item) => item.checked)
+    if (readArray.length === 0) {
+      return
+    }
+    readAll(
+      readArray.map((i) => {
+        return i.id || ''
+      })
+    )
+      .then(() => {
+        search()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   const _toDetail = async (msg: IMessage) => {
     try {
@@ -205,10 +224,10 @@ const index: FunctionComponent = () => {
           全选
         </Checkbox>
         <View className='button'>
-          <Button size='small' color='primary' onClick={() => deleteAll(messages)}>
+          <Button size='small' color='primary' onClick={() => readAllMessage()}>
             已读
           </Button>
-          <Button size='small' color='danger' onClick={() => deleteAll(messages)}>
+          <Button size='small' color='danger' onClick={() => deleteAllMessage(messages)}>
             删除
           </Button>
         </View>

@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-06-20 18:04:55
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-21 21:46:11
+ * @LastEditTime: 2022-06-30 16:49:06
  * @FilePath: \xuct-calendar-weapp\src\pages\groupmanager\ui\GroupHeader.tsx
  * @Description:
  *
@@ -53,12 +53,12 @@ const GroupHeader: FunctionComponent<IPageOption> = (props) => {
       <Flex gutter={10}>
         <Flex.Item span={12}>
           <Cell className='box' clickable onClick={() => to(1)}>
-            <Image round style={{ width: '32px', height: '32px' }} src={Images.GROUP_ADD} />
+            <Image shape='circle' style={{ width: '30px', height: '30px' }} src={Images.GROUP_ADD} />
           </Cell>
         </Flex.Item>
         <Flex.Item span={12}>
           <Cell className='box' clickable onClick={() => to(2)}>
-            <Image round style={{ width: '30px', height: '30px' }} src={Images.GROUP_SEARCH} />
+            <Image shape='circle' style={{ width: '30px', height: '30px' }} src={Images.GROUP_SEARCH} />
           </Cell>
         </Flex.Item>
       </Flex>
