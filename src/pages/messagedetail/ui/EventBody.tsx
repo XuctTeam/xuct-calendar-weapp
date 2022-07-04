@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-04-02 09:02:31
- * @LastEditTime: 2022-04-06 10:42:05
+ * @LastEditTime: 2022-07-04 20:53:56
  * @LastEditors: Derek Xu
  */
 import { Cell } from '@taroify/core'
@@ -57,6 +57,7 @@ const EventBody: FunctionComponent<IPageOption> = (props) => {
     <Cell.Group inset>
       <Cell title='分类'>日程消息</Cell>
       <Cell title='类型'>{getType()}</Cell>
+      <Cell title='状态'>{props.status === 0 ? '未读' : '已读'}</Cell>
       <Cell title='标题'>{summary}</Cell>
       <Cell title='地点'>{location}</Cell>
       <Cell title='开始时间'>{startDate}</Cell>

@@ -2,7 +2,7 @@
  * @Description: 日程重复
  * @Author: Derek Xu
  * @Date: 2021-12-24 16:14:50
- * @LastEditTime: 2022-05-31 14:50:20
+ * @LastEditTime: 2022-07-04 21:50:31
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -112,6 +112,7 @@ class Schedulerepet extends Component {
       })
       if (!result) return
       const { repeatType, repeatInterval, selectedWeek, selectedMonthDay } = result
+      if (!repeatType) return
       if (repeatType === 'DAILY') {
         this._custDaySelect(repeatInterval)
         return
@@ -167,7 +168,7 @@ class Schedulerepet extends Component {
     if (repeatInterval === 1 && (selectedWeek.length === 1 || selectedWeek.length === 2 || selectedWeek.length === 5)) {
       if (selectedWeek.length === 1 && selectedWeek[0] === '6') {
         updateData.repeatStatus = '4'
-      } else if (selectedWeek.length === 2 && selectedWeek[0] === '6' && selectedWeek[1] === '0') {
+      } else if (selectedWeek.length === 2 && ((selectedWeek[0] === '6' && selectedWeek[1] === '0') || (selectedWeek[0] === '0' && selectedWeek[1] === '6'))) {
         updateData.repeatStatus = '3'
       } else if (selectedWeek.length === 5) {
         let weekDay = new Set(['1', '2', '3', '4', '5'])

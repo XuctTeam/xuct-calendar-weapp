@@ -12,8 +12,7 @@
     margin: 20px;
     padding-bottom: 10px;
 
-    
-    .taroify-button--primary{
+    .taroify-button--primary {
       margin-top: 10px;
     }
   }
@@ -23,24 +22,8 @@
     flex-flow: row nowrap;
     justify-content: space-between;
   }
-}
 
-.taroify-grid-item__content {
-  padding: 10px;
-}
-
-.taroify-backdrop {
-  background: var(--backdrop-background-color, rgba(255, 255, 255, 0.7));
-  .content-wrapper {
-    height: 100%;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
+  .taroify-grid-item__content {
+    padding: 10px;
   }
 }

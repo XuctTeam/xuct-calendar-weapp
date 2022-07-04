@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:44:01
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-22 21:26:38
+ * @LastEditTime: 2022-07-04 22:14:22
  */
 export interface IGroup {
   id?: string
@@ -16,6 +16,7 @@ export interface IGroup {
   createMemberId: string
   power: string
   createMemberName?: string
+  hasPasswordJoin: number
 }
 
 /**
