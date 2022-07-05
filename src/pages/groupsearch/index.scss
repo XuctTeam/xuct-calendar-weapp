@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-17 10:43:31
+ * @LastEditTime: 2022-07-05 21:27:26
  */
 
 .vi-group-search-warpper {
@@ -34,5 +34,19 @@
         justify-content: space-between;
       }
     }
+  }
+}
+
+.vi-group-search_button {
+  margin: 30px;
+  box-sizing: border-box;
+  display: flex;
+  height: 80%;
+  flex-direction: column;
+
+  .field {
+    flex: 1;
+    display: flex;
+    align-items: center;
   }
 }

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-03-01 21:55:42
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-21 12:53:41
+ * @LastEditTime: 2022-07-05 21:36:24
  */
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { Button, Popup, Uploader } from '@taroify/core'
@@ -12,6 +12,7 @@ import { toast } from '@/utils/taro'
 import { useStorage, useImage, useFile } from 'taro-hooks'
 import { upload as uploadPath } from '@/api/common'
 import { IUploadInfo } from '~/../@types/common'
+import { Cross } from '@taroify/icons'
 import { View } from '@tarojs/components'
 
 interface IPageOption {
@@ -98,9 +99,12 @@ const UploadHeader: FunctionComponent<IPageOption> = (props) => {
   }
 
   return (
-    <Popup className='vi-user-wrapper_upload' rounded open={props.open} placement='bottom' style={{ height: '30%' }} onClose={props.close}>
-      <Uploader value={files} multiple maxFiles={1} onUpload={onUpload} onChange={setFiles} />
-      <View className='button'>
+    <Popup open={props.open} placement='bottom' style={{ height: '30%' }} onClose={props.close}>
+      <Popup.Close>
+        <Cross />
+      </Popup.Close>
+      <View className='vi-user-wrapper_upload'>
+        <Uploader value={files} multiple maxFiles={1} onUpload={onUpload} onChange={setFiles} className='upload' />
         <Button color='success' block onClick={() => updateAvatarHandle()}>
           保存
         </Button>

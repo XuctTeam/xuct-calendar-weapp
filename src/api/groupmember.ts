@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-03-09 22:14:22
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-04-20 21:06:06
+ * @LastEditTime: 2022-07-05 21:07:35
  */
 import http from '@/utils/request'
 
@@ -34,8 +34,8 @@ export const applyMineList = () => {
  * @return {*}
  * @author: Derek Xu
  */
-export const apply = (id: string) => {
-  return http.post('/ums/api/app/v1/mbr/group/apply', { id })
+export const apply = (id: string, password: string) => {
+  return http.post('/ums/api/app/v1/mbr/group/apply', { id, password })
 }
 
 /**

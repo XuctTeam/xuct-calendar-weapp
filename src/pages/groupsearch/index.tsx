@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-07-05 19:25:15
+ * @LastEditTime: 2022-07-05 23:04:46
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useRef, useState } from 'react'
@@ -46,13 +46,17 @@ const GroupSearch: FunctionComponent = () => {
   }
 
   const toJoin = () => {
-    // if (!idRef.current) return
-    // apply(idRef.current)
-    //   .then(() => {})
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
-    // setOpen(false)
+    if (!idRef.current) return
+    setOpen(false)
+    setPwdOpen(false)
+    apply(idRef.current, password)
+      .then(() => {
+        idRef.current = ''
+      })
+      .catch((err) => {
+        console.log(err)
+        idRef.current = ''
+      })
   }
 
   return (
@@ -93,13 +97,26 @@ const GroupSearch: FunctionComponent = () => {
           <Button onClick={toJoin}>确认</Button>
         </Dialog.Actions>
       </Dialog>
-      <Popup open={pwdOpen} placement='bottom' style={{ height: '30%' }}>
+      <Popup
+        open={pwdOpen}
+        placement='bottom'
+        onClose={() => {
+          setPassword('')
+          setPwdOpen(false)
+        }}
+        style={{ height: '30%' }}
+      >
         <Popup.Close>
           <Cross />
         </Popup.Close>
-        <Field label='密码' required>
-          <Input placeholder='请输入加入密码' value={password} onChange={(e) => setPassword(e.detail.value)} />
-        </Field>
+        <View className='vi-group-search_button'>
+          <Field label='密码' required className='field'>
+            <Input placeholder='请输入密码' value={password} maxlength={8} onChange={(e) => setPassword(e.detail.value)} />
+          </Field>
+          <Button color='success' block onClick={toJoin}>
+            确定
+          </Button>
+        </View>
       </Popup>
     </Fragment>
   )

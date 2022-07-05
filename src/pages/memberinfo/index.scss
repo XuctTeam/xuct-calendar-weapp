@@ -16,34 +16,55 @@
     padding-bottom: 20px;
   }
 
-  &_ui-name {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+  // &_ui-name {
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: space-between;
+  //   height: 100%;
 
-    .form {
-      margin-top: 20px;
-      flex: 1;
-    }
+  //   .form {
+  //     margin-top: 20px;
+  //     flex: 1;
+  //   }
 
-    .button {
-      margin: 20px;
-    }
+  //   .button {
+  //     margin: 20px;
+  //   }
+  // }
+}
+
+.vi-user-wrapper_ui-name {
+  display: flex;
+  height: 80%;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  margin: 30px;
+
+  .field {
+    flex: 1;
+    align-items: center;
   }
 }
 
 .vi-user-wrapper_upload {
   display: flex;
-  flex-direction: column;
+  height: 80%;
   box-sizing: border-box;
-  height: 100%;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  padding: 10px 20px;
+  margin: 30px;
+
+  .upload {
+    flex: 1;
+    align-items: center;
+  }
+  .taroify-uploader {
+    display: flex;
+    justify-content: center;
+  }
 
   .button {
     width: 100%;
-    margin-top: 10px;
   }
 }

@@ -2,10 +2,10 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-06-22 22:23:18
+ * @LastEditTime: 2022-07-05 22:35:20
  * @LastEditors: Derek Xu
  */
-import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Taro from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { BaseEventOrig, FormProps, View } from '@tarojs/components'
@@ -84,7 +84,8 @@ const GroupCreate: FunctionComponent = () => {
     formRef.current.setValues({
       name: group.name,
       power: group.power === 'PUBLIC' ? 1 : 0,
-      password: group.password
+      password: group.password,
+      num: group.num
     })
     setEdit(true)
   }
@@ -140,9 +141,9 @@ const GroupCreate: FunctionComponent = () => {
     setLoading(true)
     const data = event.detail.value
     //@ts-ignore
-    const { name, power, password } = data
+    const { name, power, password, num } = data
 
-    addGroup(idRef.current, name, urlRef.current, password, power ? 'PUBLIC' : 'PRIVATE').then(() => {
+    addGroup(idRef.current, name, urlRef.current, password, power ? 'PUBLIC' : 'PRIVATE', num).then(() => {
       setLoading(false)
       back({ to: 2, data: { edit } })
     })
@@ -171,6 +172,12 @@ const GroupCreate: FunctionComponent = () => {
                 <Form.Label>名称</Form.Label>
                 <Form.Control>
                   <Input placeholder='请输入名称' />
+                </Form.Control>
+              </Form.Item>
+              <Form.Item name='num' rules={[{ required: true, message: '人数不为空且最大200最小2', validator: (val) => val <= 200 && val >= 2 }]}>
+                <Form.Label>人数</Form.Label>
+                <Form.Control>
+                  <Input placeholder='请输入人数' type='number' />
                 </Form.Control>
               </Form.Item>
               <Form.Item name='password' rules={[{ validator: passwordValidate, message: '全部为整数' }]}>
