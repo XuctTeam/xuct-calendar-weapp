@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-06-12 20:12:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-30 17:03:33
+ * @LastEditTime: 2022-07-05 19:00:54
  * @FilePath: \xuct-calendar-weapp\src\pages\messagesearch\index.tsx
  * @Description:
  *
@@ -13,11 +13,10 @@ import Router from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
 import { usePageScroll } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { Backdrop, Button, Checkbox, FixedView, List, Loading, Search } from '@taroify/core'
+import { Backdrop, Button, Checkbox, Dialog, FixedView, List, Loading, Search } from '@taroify/core'
 import { list as searchQry, read, removeAll, readAll } from '@/api/message'
 import { IMessage, IMessagePageComponent } from '~/../@types/message'
 import { throttle } from 'lodash/function'
-import { useModal } from 'taro-hooks'
 import { MessageBody } from './ui'
 
 import './index.scss'
@@ -33,11 +32,7 @@ const index: FunctionComponent = () => {
   const [scrollTop, setScrollTop] = useState(0)
   const [checkAll, setCheckAll] = useState<boolean>(false)
   const [lock, setLock] = useState<boolean>(false)
-
-  const [show] = useModal({
-    title: '确认提醒',
-    content: '是否全部删除?'
-  })
+  const [open, setOpen] = useState<boolean>(false)
 
   usePageScroll(({ scrollTop: aScrollTop }) => setScrollTop(aScrollTop))
 
@@ -130,36 +125,27 @@ const index: FunctionComponent = () => {
     }
   )
 
-  const deleteAllMessage = useCallback(
-    (msgs: TMessage[]) => {
-      const deleteArray = msgs.filter((item) => item.checked)
-      if (deleteArray.length === 0) {
-        return
-      }
-      show()
-        .then((res) => {
-          if (res.cancel) return
-          setLock(true)
-          removeAll(
-            deleteArray.map((i) => {
-              return i.id || ''
-            })
-          )
-            .then(() => {
-              setLock(false)
-              search()
-            })
-            .catch((err) => {
-              console.log(err)
-              setLock(false)
-            })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    [show]
-  )
+  const deleteAllMessage = () => {
+    const deleteArray = messages.filter((item) => item.checked)
+    if (deleteArray.length === 0) {
+      return
+    }
+    setLock(true)
+    setOpen(false)
+    removeAll(
+      deleteArray.map((i) => {
+        return i.id || ''
+      })
+    )
+      .then(() => {
+        setLock(false)
+        search()
+      })
+      .catch((err) => {
+        console.log(err)
+        setLock(false)
+      })
+  }
 
   const readAllMessage = () => {
     const readArray = messages.filter((item) => item.checked)
@@ -227,7 +213,7 @@ const index: FunctionComponent = () => {
           <Button size='small' color='primary' onClick={() => readAllMessage()}>
             已读
           </Button>
-          <Button size='small' color='danger' onClick={() => deleteAllMessage(messages)}>
+          <Button size='small' color='danger' onClick={() => setOpen(true)}>
             删除
           </Button>
         </View>
@@ -235,6 +221,14 @@ const index: FunctionComponent = () => {
       <Backdrop className='vi-message-search-warpper_popup' open={lock}>
         <Loading type='spinner' />
       </Backdrop>
+      <Dialog open={open} onClose={setOpen}>
+        <Dialog.Header>确认</Dialog.Header>
+        <Dialog.Content>是否确认？</Dialog.Content>
+        <Dialog.Actions>
+          <Button onClick={() => setOpen(false)}>取消</Button>
+          <Button onClick={deleteAllMessage}>确认</Button>
+        </Dialog.Actions>
+      </Dialog>
     </Fragment>
   )
 }

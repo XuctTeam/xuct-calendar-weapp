@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-16 14:35:53
- * @LastEditTime: 2022-02-17 10:48:23
+ * @LastEditTime: 2022-07-05 19:19:12
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -12,14 +12,14 @@ import { IGroup } from '~/../@types/group'
 
 interface IPageStateProps {
   group: IGroup
-  onJoinClick: (id: string) => void
+  onJoinClick: (id: string, hasPassword: number) => void
 }
 
 const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
-  const { id = '', name, images, createMemberName } = props.group
+  const { id = '', name, images, createMemberName, hasPasswordJoin } = props.group
 
   const joinClickHandler = () => {
-    props.onJoinClick(id)
+    props.onJoinClick(id, hasPasswordJoin)
   }
 
   return (

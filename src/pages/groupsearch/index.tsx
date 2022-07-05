@@ -2,24 +2,27 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-07-04 23:07:00
+ * @LastEditTime: 2022-07-05 19:25:15
  * @LastEditors: Derek Xu
  */
-import { Fragment, FunctionComponent, useCallback, useRef, useState } from 'react'
+import { Fragment, FunctionComponent, useRef, useState } from 'react'
 import { View } from '@tarojs/components'
-import { Search, Empty, Dialog, Button } from '@taroify/core'
+import { Search, Empty, Dialog, Button, Popup, Field, Input } from '@taroify/core'
 import CommonMain from '@/components/mixin'
 import { IGroup } from '~/../@types/group'
 import { search } from '@/api/group'
 import { apply } from '@/api/groupmember'
+import { Cross } from '@taroify/icons'
 import { GroupList } from './ui'
 
 import './index.scss'
 
 const GroupSearch: FunctionComponent = () => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState<string>('')
   const [list, setList] = useState<IGroup[]>([])
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState<boolean>(false)
+  const [pwdOpen, setPwdOpen] = useState<boolean>(false)
+  const [password, setPassword] = useState<string>('')
   const idRef = useRef<string>('')
 
   const searchHandle = () => {
@@ -33,19 +36,23 @@ const GroupSearch: FunctionComponent = () => {
       })
   }
 
-  const onJoinClickHandle = (id) => {
+  const onJoinClickHandle = (id, hasPassword) => {
     idRef.current = id
+    if (hasPassword) {
+      setPwdOpen(true)
+      return
+    }
     setOpen(true)
   }
 
   const toJoin = () => {
-    if (!idRef.current) return
-    apply(idRef.current)
-      .then(() => {})
-      .catch((err) => {
-        console.log(err)
-      })
-    setOpen(false)
+    // if (!idRef.current) return
+    // apply(idRef.current)
+    //   .then(() => {})
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
+    // setOpen(false)
   }
 
   return (
@@ -72,8 +79,8 @@ const GroupSearch: FunctionComponent = () => {
         </View>
       </CommonMain>
       <Dialog open={open} onClose={setOpen}>
-        <Dialog.Header>确认消息</Dialog.Header>
-        <Dialog.Content>是否加入</Dialog.Content>
+        <Dialog.Header>确认</Dialog.Header>
+        <Dialog.Content>是否加入？</Dialog.Content>
         <Dialog.Actions>
           <Button
             onClick={() => {
@@ -86,6 +93,14 @@ const GroupSearch: FunctionComponent = () => {
           <Button onClick={toJoin}>确认</Button>
         </Dialog.Actions>
       </Dialog>
+      <Popup open={pwdOpen} placement='bottom' style={{ height: '30%' }}>
+        <Popup.Close>
+          <Cross />
+        </Popup.Close>
+        <Field label='密码' required>
+          <Input placeholder='请输入加入密码' value={password} onChange={(e) => setPassword(e.detail.value)} />
+        </Field>
+      </Popup>
     </Fragment>
   )
 }

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-04 22:58:19
+ * @LastEditTime: 2022-07-05 19:02:23
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Router from 'tarojs-router-next'
@@ -195,7 +195,7 @@ const MessageManager: FunctionComponent = () => {
       </CommonMain>
       <Dialog open={open} onClose={setOpen}>
         <Dialog.Header>确认</Dialog.Header>
-        <Dialog.Content>是否全部清除</Dialog.Content>
+        <Dialog.Content>是否全部清除？</Dialog.Content>
         <Dialog.Actions>
           <Button onClick={() => setOpen(false)}>取消</Button>
           <Button onClick={clearUnread}>确认</Button>
