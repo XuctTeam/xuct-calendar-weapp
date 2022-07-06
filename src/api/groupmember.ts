@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-03-09 22:14:22
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-05 21:07:35
+ * @LastEditTime: 2022-07-06 21:06:21
  */
 import http from '@/utils/request'
 
@@ -45,19 +45,19 @@ export const apply = (id: string, password: string) => {
  * @return {*}
  * @author: Derek Xu
  */
-export const applyAgreeJoinGroup = (groupId: string, memberId: string) => {
-  return http.post('/ums/api/app/v1/mbr/group/apply/agree', { groupId, memberId })
+export const applyAgreeJoinGroup = (id: string, action: number) => {
+  return http.post('/ums/api/app/v1/mbr/group/apply/agree', { id, action })
 }
 
 /**
- * @description: 拒绝加入群组
+ * @description: 拒绝或撤回申请
  * @param {string} groupId
  * @param {string} memberId
  * @return {*}
  * @author: Derek Xu
  */
-export const applyRefuseJoinGroup = (groupId: string, memberId: string) => {
-  return http.post('/ums/api/app/v1/mbr/group/apply/refuse', { groupId, memberId })
+export const applyRefuseJoinGroup = (id: string, action: number) => {
+  return http.post('/ums/api/app/v1/mbr/group/apply/refuse', { id, action })
 }
 
 /**

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-26 08:41:18
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-04 20:57:09
+ * @LastEditTime: 2022-07-06 21:14:19
  */
 import { Fragment, FunctionComponent } from 'react'
 import { Cell } from '@taroify/core'
@@ -21,10 +21,16 @@ const GroupBody: FunctionComponent<IPageOption> = (props) => {
       case 0:
         return '申请入组'
       case 1:
-        return '申请同意'
+        return '同意入组'
       case 2:
-        return '申请拒绝'
+        return '拒绝入组'
       case 3:
+        return '撤回申请'
+      case 4:
+        return '离开群组'
+      case 5:
+        return '踢出群组'
+      case 6:
         return '群组删除'
       default:
         return '未知'

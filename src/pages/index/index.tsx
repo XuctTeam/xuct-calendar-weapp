@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-06-12 20:56:28
+ * @LastEditTime: 2022-07-06 18:40:18
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -253,7 +253,7 @@ const Index: FunctionComponent = () => {
   return (
     <Fragment>
       <CommonMain className='vi-index-wrapper' title='楚日历' fixed left={false}>
-        <Collapse defaultValue={[0]} bordered onChange={calendarAccordionChage}>
+        <Collapse defaultValue={[0]} bordered onChange={calendarAccordionChage} className='calendar'>
           <Collapse.Item
             clickable={false}
             className='custom-collapse-item1'

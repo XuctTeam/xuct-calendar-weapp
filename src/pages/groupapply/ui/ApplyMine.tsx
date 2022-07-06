@@ -2,52 +2,22 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:42:57
- * @LastEditTime: 2022-03-24 09:01:46
+ * @LastEditTime: 2022-07-06 21:02:00
  * @LastEditors: Derek Xu
  */
-import { Fragment, FunctionComponent, useCallback } from 'react'
-import { Button, Cell, Empty, SwipeCell } from '@taroify/core'
-import { IGroup } from '~/../@types/group'
-import { useModal } from 'taro-hooks'
+import { Fragment, FunctionComponent } from 'react'
+import { Empty } from '@taroify/core'
+import { IGroupMember } from '~/../@types/group'
+import { View } from '@tarojs/components'
+import ApplyBody from './ApplyBody'
 
 interface IPageOption {
-  groups: Array<IGroup>
-  applyAgree: (gid: string, mid: string) => void
-  applyRefuse: (gid: string, mid: string) => void
+  groups: Array<IGroupMember>
+  reject: (id: string) => void
+  agree: (id: string) => void
 }
 
 const ApplyMine: FunctionComponent<IPageOption> = (props) => {
-  const [show] = useModal({
-    title: '提示',
-    content: '确定同意么？'
-  })
-
-  const applyAgreeHandler = useCallback(
-    (gid: string = '', mid: string = '') => {
-      if (!gid || !mid) return
-      show().then((res) => {
-        if (res.cancel) return
-        props.applyAgree(gid, mid)
-      })
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [show]
-  )
-
-  const applyRefuseHandler = useCallback(
-    (gid: string = '', mid: string = '') => {
-      if (!gid || !mid) return
-      show({
-        content: '确定拒绝么？'
-      }).then((res) => {
-        if (res.cancel) return
-        props.applyRefuse(gid, mid)
-      })
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [show]
-  )
-
   return (
     <Fragment>
       {props.groups.length === 0 ? (
@@ -58,19 +28,18 @@ const ApplyMine: FunctionComponent<IPageOption> = (props) => {
       ) : (
         props.groups.map((item, key) => {
           return (
-            <SwipeCell key={key}>
-              <Cell bordered={false} title={`组名:${item.name}`}>
-                {item.createMemberName}
-              </Cell>
-              <SwipeCell.Actions side='right'>
-                <Button variant='contained' shape='square' color='danger' onClick={() => applyRefuseHandler(item.id, item.memberId)}>
-                  拒绝
-                </Button>
-                <Button variant='contained' shape='square' color='primary' onClick={() => applyAgreeHandler(item.id, item.memberId)}>
-                  同意
-                </Button>
-              </SwipeCell.Actions>
-            </SwipeCell>
+            <View key={key} className='vi-group-apply-warpper_list'>
+              <ApplyBody
+                type={2}
+                id={item.id}
+                memberName={item.name}
+                groupName={item.groupName}
+                groupCreateName={item.groupCreateMemberName || ''}
+                applyName={item.createTime}
+                reject={props.reject}
+                agree={props.agree}
+              ></ApplyBody>
+            </View>
           )
         })
       )}

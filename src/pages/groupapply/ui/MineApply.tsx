@@ -2,15 +2,19 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:40:50
- * @LastEditTime: 2022-03-24 09:02:02
+ * @LastEditTime: 2022-07-06 21:01:42
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent } from 'react'
-import { Button, Cell, Empty, SwipeCell } from '@taroify/core'
-import { IGroup } from '~/../@types/group'
+import { Empty } from '@taroify/core'
+import ApplyBody from './ApplyBody'
+import { IGroupMember } from '~/../@types/group'
+import { View } from '@tarojs/components'
 
 interface IPageOption {
-  groups: Array<IGroup>
+  groups: Array<IGroupMember>
+  reject: (id: string) => void
+  agree: (id: string) => void
 }
 
 const MineApply: FunctionComponent<IPageOption> = (props) => {
@@ -24,24 +28,18 @@ const MineApply: FunctionComponent<IPageOption> = (props) => {
       ) : (
         props.groups.map((item, key) => {
           return (
-            <SwipeCell key={key}>
-              <SwipeCell.Actions side='left'>
-                <Button variant='contained' shape='square' color='primary'>
-                  选择
-                </Button>
-              </SwipeCell.Actions>
-              <Cell bordered={false} title='单元格'>
-                内容
-              </Cell>
-              <SwipeCell.Actions side='right'>
-                <Button variant='contained' shape='square' color='danger'>
-                  删除
-                </Button>
-                <Button variant='contained' shape='square' color='primary'>
-                  收藏
-                </Button>
-              </SwipeCell.Actions>
-            </SwipeCell>
+            <View key={key} className='vi-group-apply-warpper_list'>
+              <ApplyBody
+                type={1}
+                id={item.id}
+                memberName={item.name}
+                groupName={item.groupName}
+                groupCreateName={item.groupCreateMemberName || ''}
+                applyName={item.createTime}
+                reject={props.reject}
+                agree={props.agree}
+              ></ApplyBody>
+            </View>
           )
         })
       )}

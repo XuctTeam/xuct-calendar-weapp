@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:44:01
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-05 22:26:49
+ * @LastEditTime: 2022-07-06 20:01:51
  */
 export interface IGroup {
   id?: string
@@ -13,10 +13,9 @@ export interface IGroup {
   password?: string
   count?: number
   num: number
-  memberId?: string
   createMemberId: string
-  power: string
   createMemberName?: string
+  power: string
   hasPasswordJoin: number
 }
 
@@ -24,6 +23,7 @@ export interface IGroup {
  * 通讯录人
  */
 export type TMember = {
+  id: string
   name: string
   avatar: string
   memberId: string
@@ -36,6 +36,8 @@ export interface IGroupMember extends TMember {
   groupId: string
   groupName: string
   groupCreateMemberId?: string
+  groupCreateMemberName?: string
+  createTime: Date
 }
 
 /**

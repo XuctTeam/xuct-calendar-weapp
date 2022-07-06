@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-21 20:57:32
+ * @LastEditTime: 2022-07-06 20:53:12
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -59,7 +59,8 @@ const Index: FunctionComponent = () => {
       return
     }
     if (group.createMemberId !== userInfo.id) {
-      toast({ title: '权限不允许' })
+      setOpen(false)
+      toast({ title: '权限不允许', icon: 'error' })
       return
     }
     setOpen(false)

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-07 11:47:25
- * @LastEditTime: 2022-03-18 10:35:32
+ * @LastEditTime: 2022-07-06 21:11:36
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -64,7 +64,7 @@ const Index: FunctionComponent = () => {
    */
   const memberLeaveHander = () => {
     setLeave(false)
-    groupMemberLeave(groupRef.current, 3).then(() => {
+    groupMemberLeave(groupRef.current, 4).then(() => {
       back({ to: 2, data: { edit: true } })
     })
   }
@@ -75,7 +75,7 @@ const Index: FunctionComponent = () => {
   const memberGoOutHandler = () => {
     setOut(false)
     console.log(memberIdRef.current)
-    groupMemberLeave(groupRef.current, 4, memberIdRef.current).then(() => {
+    groupMemberLeave(groupRef.current, 5, memberIdRef.current).then(() => {
       _list(groupRef.current)
       Router.setBackResult({ edit: true })
     })

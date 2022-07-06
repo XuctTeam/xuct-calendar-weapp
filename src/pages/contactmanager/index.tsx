@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-06-20 19:13:08
+ * @LastEditTime: 2022-07-06 21:50:48
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -29,30 +29,11 @@ const Index: FunctionComponent = () => {
       setPinYinList([])
       return
     }
-    refresh()
+    query()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken])
 
-  const mineGroupClickHandle = throttle(
-    async () => {
-      try {
-        const result = await Router.toGroupmanager()
-        if (!result) return
-        const { edit } = result
-        if (edit) {
-          refresh()
-        }
-      } catch (err) {
-        console.log(err)
-      }
-    },
-    800,
-    {
-      trailing: false
-    }
-  )
-
-  const refresh = () => {
+  const query = () => {
     setLoading(true)
     groupMemberPinYinList()
       .then((res) => {
@@ -65,15 +46,48 @@ const Index: FunctionComponent = () => {
       })
   }
 
+  const mineGroupClickHandle = throttle(
+    async () => {
+      try {
+        const result = await Router.toGroupmanager()
+        if (!result) return
+        const { edit } = result
+        if (edit) {
+          query()
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    800,
+    {
+      trailing: false
+    }
+  )
+
+  const applyHandle = throttle(
+    async () => {
+      try {
+        const { refresh } = await Router.toGroupapply()
+        if (!refresh) return
+        query()
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    800,
+    { trailing: false }
+  )
+
   return (
     <CommonMain className='vi-group-manager-warpper' fixed left={false} title='通讯录管理'>
-      <GroupHeader mineClick={mineGroupClickHandle}></GroupHeader>
+      <GroupHeader apply={applyHandle} mineClick={mineGroupClickHandle}></GroupHeader>
       <View className='br'></View>
       <View className='vi-group-manager-warpper_list'>
         {useWebEnv() ? (
-          <WebUserList loading={loading} refresh={refresh} disabled={!accessToken} pinYinMembers={pinYinList}></WebUserList>
+          <WebUserList loading={loading} refresh={query} disabled={!accessToken} pinYinMembers={pinYinList}></WebUserList>
         ) : (
-          <WeappUserList loading={loading} refresh={refresh} disabled={!!accessToken} pinYinMembers={pinYinList}></WeappUserList>
+          <WeappUserList loading={loading} refresh={query} disabled={!!accessToken} pinYinMembers={pinYinList}></WeappUserList>
         )}
       </View>
     </CommonMain>

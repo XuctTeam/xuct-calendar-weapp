@@ -4,11 +4,58 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-18 10:30:05
+ * @LastEditTime: 2022-07-06 20:19:10
  */
 
 .vi-group-apply-warpper {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  background: #f7f8fa;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB',
+    'Microsoft Yahei', sans-serif;
+
+  &_list {
+    padding: 14px 16px;
+    box-sizing: border-box;
+    font-size: 20px;
+
+    .body {
+      background: #fff;
+      border-radius: 8px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px 20px;
+    }
+
+    .flex {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .opt {
+      color: #999;
+    }
+
+    .name {
+      font-size: 28px;
+    }
+
+    .button {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  // &_body {
+
+  //   margin: 10px;
+  //   display: inline-block;
+  //
+
+  //   box-sizing: border-box;
+  // }
 }
