@@ -1,0 +1,34 @@
+.group-detail-warpper {
+  display: flex;
+  flex-direction: column;
+
+  .shadow {
+    border-radius: 20px;
+    box-shadow: 0 5px 10px #0002;
+  }
+
+  .box {
+    flex: 1;
+    display: flex;
+    margin: 20px;
+    flex-direction: column;
+  }
+
+  .detail {
+    flex: 1;
+    padding-top: 20px;
+  }
+
+  .join {
+    margin-top: 30px;
+  }
+
+  .avatar {
+    display: flex;
+    justify-content: center;
+  }
+
+  .button {
+    margin: 30px;
+  }
+}

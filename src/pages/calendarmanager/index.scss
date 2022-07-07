@@ -1,86 +1,74 @@
-/*
- * @Description: 
- * @Version: 1.0
- * @Autor: Derek Xu
- * @Date: 2021-12-07 20:11:03
- * @LastEditors: Derek Xu
- * @LastEditTime: 2022-05-05 17:05:58
- */
 .vi-calendar-manager-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
   overflow: hidden;
+  height: 100%;
   background: #f7f8fa;
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB',
     'Microsoft Yahei', sans-serif;
 
-  &_container {
+  .list {
     height: 100%;
     display: flex;
-    overflow-y: auto;
+    overflow: hidden;
     flex-direction: column;
-    .list {
-      flex: 1;
-      padding-bottom: 30px;
+    padding-bottom: 24px;
+  }
+
+  .taroify-pull-refresh {
+    overflow-y: auto;
+    padding: 18px;
+  }
+
+  .box {
+    width: 100%;
+    display: inline-block;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+
+  .header {
+    padding-top: 10px;
+    line-height: 80px;
+    height: 60px;
+    border-color: honeydew;
+
+    .color {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .square {
+        width: 40%;
+        line-height: 80px;
+      }
+
+      .square:after {
+        content: '';
+        display: block;
+        padding-bottom: 100%;
+      }
+    }
+
+    .title {
+      font-size: 36px;
     }
   }
 
-  &_list {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 4px 16px;
+  .content {
+    font-size: 24px;
+    color: #999;
+    font-weight: 400;
+    padding: 20px;
 
-    .container {
-      width: 100%;
-      display: inline-block;
-      background: #fff;
-      border-radius: 8px;
-      margin: 10px 0px;
-    }
-
-    .header {
-      padding-top: 10px;
-      line-height: 80px;
+    .mark {
       height: 80px;
-      border-color: honeydew;
-
-      .color {
-        height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .square {
-          width: 40%;
-          line-height: 80px;
-        }
-
-        .square:after {
-          content: '';
-          display: block;
-          padding-bottom: 100%;
-        }
-      }
-
-      .title {
-        font-size: 36px;
-      }
     }
 
-    .content {
-      font-size: 24px;
-      color: #999;
-      font-weight: 400;
-      padding: 20px;
-
-      .mark {
-        height: 80px;
-      }
-
-      .ower {
-        text-align: right;
-      }
+    .ower {
+      text-align: right;
     }
   }
 }

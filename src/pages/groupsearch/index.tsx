@@ -2,123 +2,115 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-07-06 21:27:02
+ * @LastEditTime: 2022-07-07 13:02:03
  * @LastEditors: Derek Xu
  */
-import { Fragment, FunctionComponent, useRef, useState } from 'react'
-import { View } from '@tarojs/components'
-import { Search, Empty, Dialog, Button, Popup, Field, Input } from '@taroify/core'
+import { FunctionComponent, useRef, useState } from 'react'
+import { ScrollView, View } from '@tarojs/components'
+import { usePageScroll } from '@tarojs/taro'
+import { Search, Empty, List, Loading } from '@taroify/core'
 import CommonMain from '@/components/mixin'
-import { IGroup } from '~/../@types/group'
+import { IPageGroup, IGroup } from '~/../@types/group'
 import { search } from '@/api/group'
-import { apply } from '@/api/groupmember'
-import { Cross } from '@taroify/icons'
-import { GroupList } from './ui'
+import { GroupBody } from './ui'
 
 import './index.scss'
+import Router from 'tarojs-router-next'
 
 const GroupSearch: FunctionComponent = () => {
   const [value, setValue] = useState<string>('')
   const [list, setList] = useState<IGroup[]>([])
-  const [open, setOpen] = useState<boolean>(false)
-  const [pwdOpen, setPwdOpen] = useState<boolean>(false)
-  const [password, setPassword] = useState<string>('')
-  const idRef = useRef<string>('')
+  const [hasMore, setHasMore] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [scrollTop, setScrollTop] = useState(0)
+  const pageRef = useRef<number>(0)
 
-  const searchHandle = () => {
+  usePageScroll(({ scrollTop: aScrollTop }) => setScrollTop(aScrollTop))
+
+  const searchHandle = (refresh: boolean = false) => {
     if (!value) return
-    search(value)
-      .then((res) => {
-        setList(res as any as Array<IGroup>)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  const onJoinClickHandle = (id, hasPassword) => {
-    idRef.current = id
-    if (hasPassword) {
-      setPwdOpen(true)
-      return
+    if (refresh) {
+      pageRef.current = 0
     }
-    setOpen(true)
-  }
-
-  const toJoin = () => {
-    if (!idRef.current) return
-    setOpen(false)
-    setPwdOpen(false)
-    apply(idRef.current, password)
-      .then(() => {
-        idRef.current = ''
+    const _data = refresh ? [] : [...list]
+    setLoading(true)
+    setHasMore(true)
+    search(value, pageRef.current, 20)
+      .then((res) => {
+        const pageData: IPageGroup = res as any as IPageGroup
+        setHasMore(!pageData.finished)
+        setList(_data.concat(...pageData.list))
+        setLoading(false)
+        pageRef.current = pageRef.current + 1
       })
       .catch((err) => {
         console.log(err)
-        idRef.current = ''
+        setLoading(false)
+        setHasMore(false)
       })
   }
+
+  const onJoinClickHandle = (id, hasPasswordJoin) => {
+    Router.toGroupdetail({
+      params: {
+        id,
+        hasPasswordJoin
+      }
+    })
+  }
+
+  // const toJoin = () => {
+  //   if (!idRef.current) return
+  //   setOpen(false)
+  //   setPwdOpen(false)
+  //   apply(idRef.current, password)
+  //     .then(() => {
+  //       idRef.current = ''
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //       idRef.current = ''
+  //     })
+  // }
 
   return (
-    <Fragment>
-      <CommonMain className='vi-group-search-warpper' title='加入群组' fixed to={2} left>
-        <View className='vi-group-search-warpper_container'>
-          <Search
-            shape='rounded'
-            value={value}
-            placeholder='请输入搜索关键词'
-            action={<View onClick={() => searchHandle()}>搜索</View>}
-            onChange={(e) => setValue(e.detail.value)}
-          />
-          <View>
-            {list?.length === 0 ? (
-              <Empty>
-                <Empty.Image src='search' />
-                <Empty.Description>结果为空</Empty.Description>
-              </Empty>
-            ) : (
-              <GroupList groups={list} onJoinClick={onJoinClickHandle}></GroupList>
-            )}
-          </View>
-        </View>
-      </CommonMain>
-      <Dialog open={open} onClose={setOpen}>
-        <Dialog.Header>确认</Dialog.Header>
-        <Dialog.Content>是否加入？</Dialog.Content>
-        <Dialog.Actions>
-          <Button
-            onClick={() => {
-              idRef.current = ''
-              setOpen(false)
+    <CommonMain className='vi-group-search-warpper' title='加入群组' fixed to={2} left>
+      <View className='search'>
+        <Search
+          shape='rounded'
+          value={value}
+          placeholder='请输入搜索关键词'
+          action={<View onClick={() => searchHandle(true)}>搜索</View>}
+          onChange={(e) => setValue(e.detail.value)}
+        />
+      </View>
+      <View className='list'>
+        {list.length === 0 ? (
+          <Empty>
+            <Empty.Image />
+            <Empty.Description>暂无结果</Empty.Description>
+          </Empty>
+        ) : (
+          <ScrollView
+            scrollY
+            style={{ height: '100%' }}
+            onScroll={(e) => {
+              setScrollTop(e.detail.scrollTop)
             }}
           >
-            取消
-          </Button>
-          <Button onClick={toJoin}>确认</Button>
-        </Dialog.Actions>
-      </Dialog>
-      <Popup
-        open={pwdOpen}
-        placement='bottom'
-        onClose={() => {
-          setPassword('')
-          setPwdOpen(false)
-        }}
-        style={{ height: '30%' }}
-      >
-        <Popup.Close>
-          <Cross />
-        </Popup.Close>
-        <View className='vi-group-search_button'>
-          <Field label='密码' required className='field'>
-            <Input placeholder='请输入密码' value={password} maxlength={8} onChange={(e) => setPassword(e.detail.value)} />
-          </Field>
-          <Button color='success' block onClick={toJoin}>
-            确定
-          </Button>
-        </View>
-      </Popup>
-    </Fragment>
+            <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={searchHandle}>
+              {list.map((item, i) => (
+                <GroupBody key={i} group={item} onJoinClick={onJoinClickHandle}></GroupBody>
+              ))}
+              <List.Placeholder>
+                {loading && <Loading>加载中...</Loading>}
+                {!hasMore && '没有更多了~'}
+              </List.Placeholder>
+            </List>
+          </ScrollView>
+        )}
+      </View>
+    </CommonMain>
   )
 }
 

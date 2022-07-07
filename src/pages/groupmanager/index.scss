@@ -1,9 +1,21 @@
 .vi-group-manager-wrapper {
+  background: #f7f8fa;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  background: #f7f8fa;
+  overflow: hidden;
 
-  .group-header {
+  .action {
+    margin: 20px;
+    border: darkgray 1px dashed;
+  }
+
+  .taroify-divider {
+    margin: 0px;
+  }
+  .group-action {
+    flex: 1;
+    overflow: hidden;
     display: flex;
     flex-direction: row;
     padding: 20px;
@@ -14,52 +26,82 @@
       -moz-border-radius: 20px;
       -webkit-border-radius: 20px;
       border-radius: 20px;
-      box-shadow: 0 5px 10px #0002;
-      display: flex;
-      justify-content: center;
-
-      .taroify-cell__value {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-  }
-
-  &_container {
-    .list {
-      margin-top: 10px;
-      margin: 20px;
-
       .taroify-cell {
-        display: flex;
-        align-items: center;
         box-shadow: 0 5px 10px #0002;
         border-radius: 10px;
         margin-top: 10px;
-        height: 180px;
-      }
-
-      .taroify-cell__value {
-        display: flex;
-      }
-
-      .cell {
-        padding-left: 20px;
-
-        .title {
-          font-size: 28px;
-          font-weight: 600;
-        }
-
-        .number {
-          font-size: 24px;
-        }
+        height: 140px;
       }
     }
   }
 
-  &_button {
-    margin: 30px;
+  .list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    margin-bottom: 4px;
+
+    .taroify-pull-refresh {
+      padding: 20px;
+    }
+
+    .box {
+      margin-bottom: 12px;
+      box-shadow: 0 5px 10px #0002;
+      border-radius: 10px;
+
+      .taroify-cell__value {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .br {
+        width: 100%;
+        height: 6px;
+        background: #f7f8fa;
+      }
+
+      .act {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        justify-content: flex-end;
+      }
+
+      .taroify-button {
+        margin-right: 10px;
+      }
+
+      .flex {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+
+    .cell {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .label {
+        font-size: 30px;
+        font-weight: 600;
+        margin-right: 30px;
+      }
+
+      .number {
+        font-size: 24px;
+        margin-top: 2px;
+      }
+    }
   }
 }

@@ -4,11 +4,12 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:44:01
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-06 20:01:51
+ * @LastEditTime: 2022-07-07 13:33:15
  */
 export interface IGroup {
   id?: string
   name: string
+  no?: string
   images?: string
   password?: string
   count?: number
@@ -53,4 +54,12 @@ export interface ICheckGroupMember extends TMember {
 export interface IPinYinGroupMember {
   charCode: string
   members: Array<IGroupMember>
+}
+
+/**
+ * 分页组
+ */
+export interface IPageGroup {
+  list: Array<IGroup>
+  finished: boolean
 }

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-06-15 21:14:49
+ * @LastEditTime: 2022-07-07 09:37:24
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -71,6 +71,12 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
       case 2:
         return '拒绝入组'
       case 3:
+        return '撤回申请'
+      case 4:
+        return '离开群组'
+      case 5:
+        return '踢出群组'
+      case 6:
         return '群组删除'
       default:
         return '未知'

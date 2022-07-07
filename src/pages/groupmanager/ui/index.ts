@@ -4,8 +4,10 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 22:06:36
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-20 18:06:24
+ * @LastEditTime: 2022-07-07 16:32:50
  */
-export { default as GroupList } from './GroupList'
+export { default as WebGroupList } from './WebGroupList'
 
-export { default as GroupHeader } from './GroupHeader'
+export { default as WxGroupList } from './WxGroupList'
+
+export { default as GroupAction } from './GroupAction'

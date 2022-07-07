@@ -4,49 +4,37 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-05 21:27:26
+ * @LastEditTime: 2022-07-07 11:34:09
  */
 
 .vi-group-search-warpper {
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
-  &_container {
-    height: 100%;
+  .list {
+    flex: 1;
     overflow-y: auto;
+    padding-bottom: 30px;
+  }
 
-    .cell {
+  .cell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .taroify-avatar {
+      width: 60px;
+    }
+
+    .label {
+      font-size: 24px;
+      padding-left: 20px;
+      width: 100%;
       display: flex;
       flex-direction: row;
-      align-items: center;
-
-      .taroify-avatar {
-        width: 60px;
-      }
-
-      .label {
-        font-size: 24px;
-        padding-left: 20px;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      }
+      justify-content: space-between;
     }
-  }
-}
-
-.vi-group-search_button {
-  margin: 30px;
-  box-sizing: border-box;
-  display: flex;
-  height: 80%;
-  flex-direction: column;
-
-  .field {
-    flex: 1;
-    display: flex;
-    align-items: center;
   }
 }

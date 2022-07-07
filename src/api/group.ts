@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-08 09:36:26
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-05 22:25:31
+ * @LastEditTime: 2022-07-07 11:51:55
  */
 import http from '@/utils/request'
 
@@ -59,6 +59,6 @@ export const deleteGroup = (id: string) => {
  * @return {*}
  * @author: Derek Xu
  */
-export const search = (word: string) => {
-  return http.get('/ums/api/app/v1/group/search', { word })
+export const search = (word: string, page: number, limit: number) => {
+  return http.get('/ums/api/app/v1/group/search', { word, page, limit })
 }
