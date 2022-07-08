@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 14:48:18
- * @LastEditTime: 2022-03-07 17:56:33
+ * @LastEditTime: 2022-07-09 06:23:12
  * @LastEditors: Derek Xu
  */
-import React, { Fragment, FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
 import { IGroupMember } from '~/../@types/group'
 import { Ellipsis } from '@taroify/icons'
-import { Avatar, Cell } from '@taroify/core'
+import { Avatar, Cell, Tag } from '@taroify/core'
 import '../index.scss'
 
 interface IPageOption {
@@ -22,7 +22,12 @@ const UserBody: FunctionComponent<IPageOption> = (props) => {
   const groupOwner: boolean = (memberId && groupCreateMemberId && memberId === groupCreateMemberId) || false
 
   const getActionView = (): JSX.Element => {
-    if (groupOwner) return <Fragment>管理员</Fragment>
+    if (groupOwner)
+      return (
+        <Tag shape='rounded' size='medium' color='danger'>
+          管理员
+        </Tag>
+      )
     if (props.uid === memberId)
       return (
         <Ellipsis
@@ -46,11 +51,11 @@ const UserBody: FunctionComponent<IPageOption> = (props) => {
   }
 
   return (
-    <Cell className='cell' size='large'>
-      <View className='avatar'>{avatar ? <Avatar src={avatar}></Avatar> : <Avatar>M</Avatar>}</View>
+    <Cell className='cell' size='large' bordered>
+      <View className='avatar'>{avatar ? <Avatar src={avatar} size='small'></Avatar> : <Avatar size='small'>M</Avatar>}</View>
       <View className='item'>
         <View>{name}</View>
-        <Fragment>{getActionView()}</Fragment>
+        {getActionView()}
       </View>
     </Cell>
   )

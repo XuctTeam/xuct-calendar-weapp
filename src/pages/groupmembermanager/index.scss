@@ -2,10 +2,19 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: #f7f8fa;
 
-  .taroify-cell__value {
-    display: flex;
-    flex-direction: row;
+  .taroify-form-control {
+    width: 100%;
+  }
+
+  .list {
+    padding: 20px;
+
+    .taroify-cell__value {
+      display: flex;
+      flex-direction: row;
+    }
   }
 
   .taroify-image {

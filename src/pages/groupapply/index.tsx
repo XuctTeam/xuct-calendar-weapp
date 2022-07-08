@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-07-06 21:49:14
+ * @LastEditTime: 2022-07-09 02:41:32
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useState } from 'react'
@@ -45,6 +45,36 @@ const GroupApply: FunctionComponent = () => {
       })
   }
 
+  const reject = (id: string) => {
+    Dialog.confirm({
+      title: '确认',
+      message: '确认拒绝吗？',
+      onConfirm: () => {
+        applyRefuse(id, 2)
+      }
+    })
+  }
+
+  const agree = (id: string) => {
+    Dialog.confirm({
+      title: '确认',
+      message: '确认同意吗？',
+      onConfirm: () => {
+        applyAgree(id)
+      }
+    })
+  }
+
+  const withdraw = (id: string) => {
+    Dialog.confirm({
+      title: '确认',
+      message: '确认撤回申请吗？',
+      onConfirm: () => {
+        applyRefuse(id, 3)
+      }
+    })
+  }
+
   const applyAgree = (id: string) => {
     applyAgreeJoinGroup(id, 1)
       .then(() => {
@@ -61,12 +91,20 @@ const GroupApply: FunctionComponent = () => {
       })
   }
 
-  const applyRefuse = (id: string) => {
-    applyRefuseJoinGroup(id, 2)
+  const applyRefuse = (id: string, action: number) => {
+    applyRefuseJoinGroup(id, action)
       .then(() => {
         toast({ title: '操作成功', icon: 'success' })
-        setApplyMineGroups(
-          applyMineGroups.filter((item) => {
+        if (action === 2) {
+          setApplyMineGroups(
+            applyMineGroups.filter((item) => {
+              return item.id !== id
+            })
+          )
+          return
+        }
+        setMineApplyGroups(
+          mineApplyGroups.filter((item) => {
             return item.id !== id
           })
         )
@@ -76,35 +114,15 @@ const GroupApply: FunctionComponent = () => {
       })
   }
 
-  const reject = (id: string) => {
-    Dialog.confirm({
-      title: '确认',
-      message: '确认拒绝吗？',
-      onConfirm: () => {
-        applyRefuse(id)
-      }
-    })
-  }
-
-  const agree = (id: string) => {
-    Dialog.confirm({
-      title: '确认',
-      message: '确认同意吗？',
-      onConfirm: () => {
-        applyAgree(id)
-      }
-    })
-  }
-
   return (
     <Fragment>
       <CommonMain className='vi-group-apply-warpper' title='群组申请' fixed to={2} left data={{ refresh }}>
         <Tabs animated>
           <Tabs.TabPane title='我的申请'>
-            <MineApply groups={mineApplyGroups} reject={reject} agree={agree}></MineApply>
+            <MineApply groups={mineApplyGroups} reject={reject} agree={agree} withdraw={withdraw}></MineApply>
           </Tabs.TabPane>
           <Tabs.TabPane title='申请我的'>
-            <ApplyMine groups={applyMineGroups} reject={reject} agree={agree}></ApplyMine>
+            <ApplyMine groups={applyMineGroups} reject={reject} agree={agree} withdraw={withdraw}></ApplyMine>
           </Tabs.TabPane>
         </Tabs>
       </CommonMain>

@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-07-05 23:05:23
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-06 21:02:10
+ * @LastEditTime: 2022-07-09 01:12:36
  * @FilePath: \xuct-calendar-weapp\src\pages\groupapply\ui\ApplyBody.tsx
  * @Description:
  *
@@ -22,6 +22,7 @@ interface IPageOption {
   applyName: Date
   reject: (id: string) => void
   agree: (id: string) => void
+  withdraw: (id: string) => void
 }
 
 const ApplyBody: FC<IPageOption> = (props) => {
@@ -44,7 +45,7 @@ const ApplyBody: FC<IPageOption> = (props) => {
               </Button>
             </Fragment>
           ) : (
-            <Button variant='text' color='danger' size='mini'>
+            <Button variant='text' color='danger' size='mini' onClick={() => props.withdraw(props.id)}>
               撤回
             </Button>
           )}

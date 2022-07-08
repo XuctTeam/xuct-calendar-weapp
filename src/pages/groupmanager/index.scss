@@ -10,9 +10,6 @@
     border: darkgray 1px dashed;
   }
 
-  .taroify-divider {
-    margin: 0px;
-  }
   .group-action {
     flex: 1;
     overflow: hidden;
@@ -40,56 +37,69 @@
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
-    box-sizing: border-box;
     margin-bottom: 4px;
 
     .taroify-pull-refresh {
-      padding: 20px;
+      padding: 0px 20px;
     }
 
     .box {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       box-shadow: 0 5px 10px #0002;
       border-radius: 10px;
-
-      .taroify-cell__value {
-        display: flex;
-        flex-direction: column;
-      }
 
       .br {
         width: 100%;
         height: 6px;
-        background: #f7f8fa;
+        background: #f2f3f5;
       }
 
-      .act {
+      .btns {
+        background: #fff;
         display: flex;
         align-items: center;
-        margin-top: 20px;
-        justify-content: flex-end;
+        height: 90px;
       }
 
       .taroify-button {
-        margin-right: 10px;
+        margin-left: 30px;
       }
+    }
 
-      .flex {
-        display: flex;
-        flex-direction: row;
-      }
+    .bottom {
+      height: 4px;
+    }
+
+    .avatar {
+      width: 140px;
+      display: flex;
+      align-items: center;
+    }
+
+    .taroify-cell__value {
+      display: flex;
+      flex-direction: row;
     }
 
     .cell {
       padding-left: 20px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      width: 100%;
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
 
       .title {
         display: flex;
         flex-direction: row;
         align-items: center;
+        padding: 10px 0px;
       }
 
       .label {

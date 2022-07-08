@@ -4,66 +4,76 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:52:06
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-07 18:57:56
+ * @LastEditTime: 2022-07-09 07:02:31
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
-import { Cell, Avatar, Tag, Button, Flex } from '@taroify/core'
-import { Ellipsis, FriendsOutlined } from '@taroify/icons'
+import { Cell, Avatar, Tag, Button, Flex, Space } from '@taroify/core'
+import { FriendsOutlined } from '@taroify/icons'
 import { IGroup } from '~/../@types/group'
 
 interface IPageStateProps {
   group: IGroup
   uid: string
-  groupClick: (id: string) => void
-  groupView: (id: string) => void
+  edit: (id: string) => void
+  remove: (id: string) => void
+  viewGroup: (id: string) => void
 }
 
 const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
   const { id, name, images, count, createMemberId } = props.group
 
-  const groupEditHandler = () => {
-    if (!id) return
-    props.groupClick(id)
-  }
-
-  const groupViewHanler = () => {
-    if (!id) return
-    props.groupView(id)
-  }
-
   return (
-    <Cell className='box' onClick={() => groupViewHanler()}>
-      <View className='flex'>
-        {images ? <Avatar src={images}></Avatar> : <Avatar style={{ background: 'pink' }}>G</Avatar>}
+    <View className='box'>
+      <Cell className='info' clickable>
+        <View className='avatar'>
+          {images ? (
+            <Avatar src={images} size='medium'></Avatar>
+          ) : (
+            <Avatar style={{ background: 'pink' }} size='medium'>
+              G
+            </Avatar>
+          )}
+        </View>
         <View className='cell'>
-          <View className='title'>
-            <View className='label'>{name}</View>
-            <Tag color='warning'>{createMemberId === props.uid ? '群主' : '组员'}</Tag>
+          <View className='row'>
+            <View className='title'>
+              <View className='label'>{name}</View>
+              <Tag color='warning'>{createMemberId === props.uid ? '群主' : '组员'}</Tag>
+            </View>
+            <View>sdfsdf</View>
           </View>
           <View className='number'>
             <FriendsOutlined style={{ color: '#ee0a24' }} size={16}></FriendsOutlined> {count} 人
           </View>
         </View>
-      </View>
-      <View className='br'></View>
-      <Flex justify='center' className='act'>
+      </Cell>
+
+      <View className='btns'>
         <Button
           color='info'
           size='mini'
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()
-            console.log(111111111111111111111)
+            props.edit(id || '')
           }}
         >
           编辑
         </Button>
-        <Button color='danger' size='mini'>
+        <Button
+          color='danger'
+          size='mini'
+          onClick={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            props.remove(id || '')
+          }}
+        >
           删除
         </Button>
-      </Flex>
-    </Cell>
+      </View>
+    </View>
   )
 }
 

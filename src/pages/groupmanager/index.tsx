@@ -4,19 +4,18 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-07 18:14:08
+ * @LastEditTime: 2022-07-09 06:28:19
  */
-import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
+import { Fragment, FunctionComponent, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommonMain from '@/components/mixin'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
-import { ActionSheet, Dialog, Empty, Button, Divider, ShareSheet } from '@taroify/core'
+import { Dialog, Empty, Button, Divider, ShareSheet } from '@taroify/core'
 import { IGroup } from '~/../@types/group'
 import { useToast } from 'taro-hooks'
 import { useEnv } from 'taro-hooks'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
-import { ActionSheetActionObject } from '@taroify/core/action-sheet/action-sheet.shared'
 import { groupList, deleteGroup } from '@/api/group'
 import { Plus } from '@taroify/icons'
 
@@ -27,10 +26,8 @@ import './index.scss'
 const Index: FunctionComponent = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const [groups, setGroups] = useState<IGroup[]>([])
-  const [open, setOpen] = useState<boolean>(false)
   const [loading, setLoading] = useState(false)
   const [actionOpen, setActionOpen] = useState<boolean>(false)
-  const idRef = useRef<string>('')
   const env = useEnv()
 
   const [toast] = useToast()
@@ -52,32 +49,26 @@ const Index: FunctionComponent = () => {
       })
   }
 
-  const groupClickHandler = (id: string) => {
-    idRef.current = id
-    setOpen(true)
+  const edit = (id: string) => {
+    if (!id) return
+    const group: IGroup | undefined = groups.find((x) => x.id === id)
+    if (group) _editGroup(group)
   }
 
-  const selectedHandler = (event: ActionSheetActionObject) => {
-    if (!idRef.current) return
-    const group: IGroup | undefined = groups.find((x) => x.id === idRef.current)
-    if (!group) {
-      setOpen(false)
-      return
-    }
-    if (group.createMemberId !== userInfo.id) {
-      setOpen(false)
-      toast({ title: '权限不允许', icon: 'error' })
-      return
-    }
-    setOpen(false)
-    switch (event.value) {
-      case 1:
-        _editGroup(group)
-        break
-      default:
-        _deleteGroup(group)
-        break
-    }
+  const remove = (id: string) => {
+    Dialog.confirm({
+      title: '确认',
+      message: '确定删除吗？',
+      onConfirm: () => {
+        deleteGroup(id)
+          .then(() => {
+            showDeleteToast()
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    })
   }
 
   const _editGroup = async (group: IGroup) => {
@@ -98,23 +89,7 @@ const Index: FunctionComponent = () => {
     }
   }
 
-  const _deleteGroup = (group: IGroup) => {
-    Dialog.confirm({
-      title: '确认',
-      message: '确定删除吗？',
-      onConfirm: () => {
-        deleteGroup(group.id || '')
-          .then(() => {
-            showDeleteToast()
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      }
-    })
-  }
-
-  const groupViewHandler = async (id: string) => {
+  const viewGroup = async (id: string) => {
     const group: IGroup | undefined = groups.find((x) => x.id === id)
     if (group === null) return
     try {
@@ -172,7 +147,6 @@ const Index: FunctionComponent = () => {
     toast({
       title: '删除成功'
     }).then(() => {
-      idRef.current = ''
       list()
       Router.setBackResult({ edit: true })
     })
@@ -195,32 +169,21 @@ const Index: FunctionComponent = () => {
               <Empty.Description>暂无数据</Empty.Description>
             </Empty>
           ) : env === 'WEAPP' ? (
-            <WxGroupList
-              loading={loading}
-              refresh={refresh}
-              groups={groups}
-              uid={userInfo.id}
-              groupClick={groupClickHandler}
-              groupView={groupViewHandler}
-            ></WxGroupList>
+            <WxGroupList loading={loading} refresh={refresh} groups={groups} uid={userInfo.id} edit={edit} remove={remove} viewGroup={viewGroup}></WxGroupList>
           ) : (
             <WebGroupList
               loading={loading}
               refresh={refresh}
               groups={groups}
               uid={userInfo.id}
-              groupClick={groupClickHandler}
-              groupView={groupViewHandler}
+              edit={edit}
+              remove={remove}
+              viewGroup={viewGroup}
             ></WebGroupList>
           )}
         </View>
       </CommonMain>
       <Dialog id='dialog' />
-      <ActionSheet open={open} onSelect={selectedHandler} onClose={setOpen} rounded={false}>
-        <ActionSheet.Header>操作</ActionSheet.Header>
-        <ActionSheet.Action value={1} name='编辑' />
-        <ActionSheet.Action value={2} name='删除' />
-      </ActionSheet>
       <GroupAction
         open={actionOpen}
         actionSelected={actionSelected}

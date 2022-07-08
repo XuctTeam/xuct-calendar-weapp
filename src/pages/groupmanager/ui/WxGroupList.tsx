@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:49:22
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-07 15:23:23
+ * @LastEditTime: 2022-07-08 22:37:03
  */
 import { ScrollView } from '@tarojs/components'
 import { FunctionComponent, useState } from 'react'
@@ -16,8 +16,9 @@ interface IPageStateProps {
   uid: string
   loading: boolean
   refresh: () => void
-  groupClick: (id: string) => void
-  groupView: (id: string) => void
+  edit: (id: string) => void
+  remove: (id: string) => void
+  viewGroup: (id: string) => void
 }
 
 const WxGroupList: FunctionComponent<IPageStateProps> = (props) => {
@@ -37,7 +38,7 @@ const WxGroupList: FunctionComponent<IPageStateProps> = (props) => {
       onRefresherRefresh={props.refresh}
     >
       {props.groups.map((item, i) => {
-        return <GroupBody uid={props.uid} group={item} key={i} groupClick={props.groupClick} groupView={props.groupView}></GroupBody>
+        return <GroupBody uid={props.uid} group={item} key={i} edit={props.edit} remove={props.remove} viewGroup={props.viewGroup}></GroupBody>
       })}
     </ScrollView>
   )

@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-07 11:47:25
- * @LastEditTime: 2022-07-06 21:11:36
+ * @LastEditTime: 2022-07-09 06:17:09
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommonMain from '@/components/mixin'
 import Router from 'tarojs-router-next'
-import { ActionSheet } from '@taroify/core'
+import { ActionSheet, Cell, Search } from '@taroify/core'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
 import { IGroupMember } from '~/../@types/group'
 import { groupMemberList, groupMemberLeave } from '@/api/groupmember'
@@ -19,9 +19,11 @@ import { UserBody } from './ui'
 import './index.scss'
 
 const Index: FunctionComponent = () => {
+  const [value, setValue] = useState('')
   const [members, setMembers] = useState<IGroupMember[]>([])
   const [out, setOut] = useState<boolean>(false)
   const [leave, setLeave] = useState<boolean>(false)
+  const [gname, setGname] = useState<string>('未知群组')
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const groupRef = useRef<string>('')
   const memberIdRef = useRef<string>('')
@@ -83,14 +85,17 @@ const Index: FunctionComponent = () => {
 
   return (
     <Fragment>
-      <CommonMain className='vi-group-member-manager-warpper' title='群组管理' left fixed to={2}>
-        {members.map((item, index) => {
-          return (
-            <Fragment key={index}>
-              <UserBody uid={userInfo.id} member={item} actionClick={actionClickHandler}></UserBody>
-            </Fragment>
-          )
-        })}
+      <CommonMain className='vi-group-member-manager-warpper' title='成员列表' left fixed to={2}>
+        <Search shape='rounded' value={value} placeholder='请输入昵称' onChange={(e) => setValue(e.detail.value)} />
+        <Cell.Group className='list' title={gname}>
+          {members.map((item, index) => {
+            return (
+              <Fragment key={index}>
+                <UserBody uid={userInfo.id} member={item} actionClick={actionClickHandler}></UserBody>
+              </Fragment>
+            )
+          })}
+        </Cell.Group>
       </CommonMain>
       <ActionSheet open={leave} onSelect={memberLeaveHander} onCancel={() => setLeave(false)} onClose={setLeave} rounded={false}>
         <ActionSheet.Action value='1' name='退出' />

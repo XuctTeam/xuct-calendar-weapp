@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-28 11:42:57
- * @LastEditTime: 2022-07-06 21:02:00
+ * @LastEditTime: 2022-07-09 01:13:27
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent } from 'react'
@@ -15,6 +15,7 @@ interface IPageOption {
   groups: Array<IGroupMember>
   reject: (id: string) => void
   agree: (id: string) => void
+  withdraw: (id: string) => void
 }
 
 const ApplyMine: FunctionComponent<IPageOption> = (props) => {
@@ -38,6 +39,7 @@ const ApplyMine: FunctionComponent<IPageOption> = (props) => {
                 applyName={item.createTime}
                 reject={props.reject}
                 agree={props.agree}
+                withdraw={props.withdraw}
               ></ApplyBody>
             </View>
           )
