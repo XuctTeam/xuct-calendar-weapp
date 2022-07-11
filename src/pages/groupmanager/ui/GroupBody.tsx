@@ -4,13 +4,14 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:52:06
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-09 07:02:31
+ * @LastEditTime: 2022-07-11 08:55:13
  */
 import { FunctionComponent } from 'react'
 import { View } from '@tarojs/components'
-import { Cell, Avatar, Tag, Button, Flex, Space } from '@taroify/core'
+import { Cell, Avatar, Tag, Button } from '@taroify/core'
 import { FriendsOutlined } from '@taroify/icons'
 import { IGroup } from '~/../@types/group'
+import dayjs from 'dayjs'
 
 interface IPageStateProps {
   group: IGroup
@@ -21,11 +22,11 @@ interface IPageStateProps {
 }
 
 const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
-  const { id, name, images, count, createMemberId } = props.group
+  const { id, name, createTime, images, count, createMemberId } = props.group
 
   return (
     <View className='box'>
-      <Cell className='info' clickable>
+      <Cell className='info' clickable onClick={() => props.viewGroup(id || '')}>
         <View className='avatar'>
           {images ? (
             <Avatar src={images} size='medium'></Avatar>
@@ -36,15 +37,15 @@ const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
           )}
         </View>
         <View className='cell'>
-          <View className='row'>
-            <View className='title'>
-              <View className='label'>{name}</View>
-              <Tag color='warning'>{createMemberId === props.uid ? '群主' : '组员'}</Tag>
-            </View>
-            <View>sdfsdf</View>
+          <View className='title'>
+            <View className='label'>{name}</View>
+            <Tag color='warning'>{createMemberId === props.uid ? '群主' : '组员'}</Tag>
           </View>
-          <View className='number'>
-            <FriendsOutlined style={{ color: '#ee0a24' }} size={16}></FriendsOutlined> {count} 人
+          <View className='number row'>
+            <View>
+              <FriendsOutlined style={{ color: '#ee0a24' }} size={16}></FriendsOutlined> {count} 人
+            </View>
+            <View className='time'>{dayjs(createTime).format('YYYY/MM/DD HH:mm:ss')}</View>
           </View>
         </View>
       </Cell>
@@ -53,6 +54,7 @@ const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
         <Button
           color='info'
           size='mini'
+          disabled={props.uid !== createMemberId}
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()
@@ -64,6 +66,7 @@ const GroupBody: FunctionComponent<IPageStateProps> = (props) => {
         <Button
           color='danger'
           size='mini'
+          disabled={props.uid !== createMemberId}
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()

@@ -39,14 +39,17 @@
     overflow-y: hidden;
     margin-bottom: 4px;
 
-    .taroify-pull-refresh {
-      padding: 0px 20px;
-    }
-
     .box {
       margin-bottom: 10px;
       box-shadow: 0 5px 10px #0002;
+      background: #fff;
+      margin: 0px 20px 10px 20px;
       border-radius: 10px;
+
+      .taroify-cell {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
 
       .br {
         width: 100%;
@@ -55,7 +58,6 @@
       }
 
       .btns {
-        background: #fff;
         display: flex;
         align-items: center;
         height: 90px;
@@ -111,6 +113,11 @@
       .number {
         font-size: 24px;
         margin-top: 2px;
+      }
+
+      .time {
+        font-size: 20px;
+        color: #999;
       }
     }
   }

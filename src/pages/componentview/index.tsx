@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-05-06 09:32:30
+ * @LastEditTime: 2022-07-11 11:23:49
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -23,8 +23,8 @@ import { getById, deleteById, queryComponentMemberIds, getAttendStatus, updateAt
 import { getName } from '@/api/user'
 import { formatSameDayTime, formateSameDayDuration, formatDifferentDayTime, formatAlarmText, alarmTypeToCode, alarmCodeToType } from '@/utils/utils'
 import { back, useWebEnv } from '@/utils/taro'
-import { useSystemInfo, useModal, useToast, useEnv, useRequestSubscribeMessage } from 'taro-hooks'
-import { SameDay, DifferentDay, ShareUser, Qrcode, WeappShare } from './ui'
+import { useModal, useToast, useEnv, useRequestSubscribeMessage } from 'taro-hooks'
+import { SameDay, DifferentDay, ShareUser, WeappShare } from './ui'
 
 import './index.scss'
 
@@ -47,7 +47,6 @@ const defaultComponent: IDavComponent = {
 const Componentview: FunctionComponent = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo)
   const dispatch = useDispatch()
-  const systemInfo = useSystemInfo() || { screenWidth: 0, screenHeight: 0 }
   const [addFlag, setAddFlag] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const [open, setOpen] = useState(false)
@@ -57,7 +56,6 @@ const Componentview: FunctionComponent = () => {
   const [component, setComponent] = useState<IDavComponent>(defaultComponent)
   const [expire, setExpire] = useState<boolean>(false)
   const [shareOpen, setShareOpen] = useState<boolean>(false)
-  const [qrOpen, setQrOpen] = useState<boolean>(false)
   const [weappShareOpen, setWeappShareOpen] = useState<boolean>(false)
   const [attendStatus, setAttendStatus] = useState<number>(0)
   const webEnv: boolean = useWebEnv()
@@ -189,7 +187,16 @@ const Componentview: FunctionComponent = () => {
     if (!data.value) return
     const { value } = data
     if (value === '3') {
-      setQrOpen(true)
+      Router.toComponentqrcode({
+        data: {
+          id: component.id,
+          summary: component.summary,
+          location: component.location
+        },
+        params: {
+          id: component.id
+        }
+      })
     } else if (value === '2') {
       getShareTitle()
         .then((res) => {
@@ -332,24 +339,6 @@ const Componentview: FunctionComponent = () => {
   }, [requestSubscribeMessage])
 
   /**
-   * @description:
-   * @param {*} Promise
-   * @return {*}
-   */
-  const getQrcodeShortUrl = (): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      getShortUrl(component.id)
-        .then((res) => {
-          return resolve(res as any as string)
-        })
-        .catch((err) => {
-          console.log(err)
-          reject(err)
-        })
-    })
-  }
-
-  /**
    * 删除事件
    */
   const _deleteComponent = (ty: number, id: string) => {
@@ -455,7 +444,7 @@ const Componentview: FunctionComponent = () => {
             </View>
           </View>
         </View>
-        <NoticeBar style={{ color: '#1989fa', background: '#ecf9ff' }} scrollable>
+        <NoticeBar style={{ color: '#1989fa', background: '#ecf9ff' }} scrollable={false}>
           <NoticeBar.Icon>
             <VolumeOutlined />
           </NoticeBar.Icon>
@@ -480,16 +469,6 @@ const Componentview: FunctionComponent = () => {
         </View>
       </Backdrop>
       <ShareUser open={shareOpen} close={() => setShareOpen(false)} selected={shareSelected}></ShareUser>
-      <Qrcode
-        open={qrOpen}
-        close={() => setQrOpen(false)}
-        summary={component.summary}
-        location={component.location}
-        componentId={component.id}
-        width={systemInfo.screenWidth - 60}
-        height={systemInfo.screenHeight - 160}
-        getShortUrl={getQrcodeShortUrl}
-      ></Qrcode>
       <WeappShare open={weappShareOpen} onClose={() => setWeappShareOpen(false)} componentTitle={component.summary} componentId={component.id}></WeappShare>
     </Fragment>
   )

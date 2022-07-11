@@ -1,66 +1,71 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 /*
- * @Description:
  * @Author: Derek Xu
- * @Date: 2022-01-28 17:42:59
- * @LastEditTime: 2022-06-22 22:48:42
+ * @Date: 2022-07-11 09:16:07
  * @LastEditors: Derek Xu
+ * @LastEditTime: 2022-07-11 14:16:29
+ * @FilePath: \xuct-calendar-weapp\src\pages\componentqrcode\index.tsx
+ * @Description:
+ *
+ * Copyright (c) 2022 by 楚恬商行, All Rights Reserved.
  */
-import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
-import { Button, Dialog } from '@taroify/core'
-import { Canvas } from '@tarojs/components'
+import { Router } from 'tarojs-router-next'
+import CommonMain from '@/components/mixin'
+import { Canvas, View } from '@tarojs/components'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
+import { Button } from '@taroify/core'
 import Images from '@/constants/images'
 import QR from 'qrcode-base64'
 import { toast, useWebEnv } from '@/utils/taro'
+import { getShortUrl } from '@/api/component'
 
-import '../index.scss'
-
-interface IPageOption {
-  open: boolean
-  componentId: string
-  summary: string
-  location: string
-  width: number
-  height: number
-  close: () => void
-  getShortUrl: () => Promise<string>
-}
+import './index.scss'
 
 interface IImageOption {
   src: string
 }
 
-const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
+const ComponentQrCode: FC = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { username: '', avatar: Images.DEFAULT_AVATAR }
+  const [componentId, setCompoenntId] = useState<string>('')
+  const systemInfo = Taro.getSystemInfoSync()
   const canvas = useRef<any>()
-  const [qrImage, setQrImage] = useState<string>('')
   const webEnv = useWebEnv()
 
   useEffect(() => {
-    let time = 0
-    _getQrcode()
-    if (props.open) {
-      _draw()
+    const data = Router.getData()
+    console.log(systemInfo)
+    if (data) {
+      setCompoenntId(data.id)
+      _getQrcode(data.id)
+      return
     }
-    return () => {
-      if (time !== 0) {
-        window.clearTimeout(time)
-      }
-      time = 0
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.open])
+    const params = Router.getParams()
+    const { id } = params
+    if (!id) return
+    //setCompoenntId(data.id)
+  }, [])
 
-  const _draw = () => {
+  const _getQrcode = (id: string) => {
+    getShortUrl(id)
+      .then((res) => {
+        _setQrCode(res as any as string)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const _draw = (qrCode: string) => {
     Taro.createSelectorQuery()
       .select('#myCanvas')
       .node((res) => {
         if (!res || !res.node) {
           setTimeout(() => {
-            _draw()
+            _draw(qrCode)
           }, 200)
           return
         }
@@ -68,17 +73,19 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         if (!node) return
         canvas.current = node
         const cavs = node
+        const _scrWidth = systemInfo.screenWidth - 20
+        const _scrHeight = 460
 
         const ctx = cavs.getContext('2d')
 
         const dpr = Taro.getSystemInfoSync().pixelRatio
-        cavs.width = props.width * dpr
-        cavs.height = 480 * dpr
+        cavs.width = systemInfo.screenWidth * dpr
+        cavs.height = _scrHeight * dpr
         ctx.scale(dpr, dpr)
         ctx.fillStyle = '#ffffff'
-        ctx.fillRect(0, 0, props.width, props.height)
+        ctx.fillRect(0, 0, systemInfo.screenWidth, _scrHeight)
 
-        drawRoundedRect(ctx, 'white', '#ccffff', 10, 10, props.width - 20, props.height - 30, 5)
+        drawRoundedRect(ctx, 'white', '#ccffff', 10, 10, _scrWidth, _scrHeight - 40, 5)
 
         drawTxt({
           context: ctx,
@@ -108,7 +115,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
 
         drawTxt({
           context: ctx,
-          text: props.summary,
+          text: '',
           fillStyle: '#000000',
           broken: true,
           x: 20,
@@ -121,7 +128,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
 
         drawTxt({
           context: ctx,
-          text: props.location,
+          text: '',
           fillStyle: '#000000',
           broken: true,
           x: 20,
@@ -135,8 +142,8 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
         ctx.beginPath()
         ctx.lineWidth = 0.8
         ctx.fillStyle = '#666666'
-        ctx.moveTo(0, 380)
-        ctx.lineTo(props.width, 380)
+        ctx.moveTo(0, _scrHeight - 120)
+        ctx.lineTo(_scrWidth, _scrHeight - 120)
         ctx.stroke()
 
         drawTxt({
@@ -145,7 +152,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
           fillStyle: '#666666',
           broken: true,
           x: 90,
-          y: 400,
+          y: _scrHeight - 100,
           font: '12px sans-serif',
           lineHeight: 17,
           maxWidth: 116,
@@ -162,7 +169,7 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
             src: Images.DEFAULT_ATTEND_BACKGROUD
           },
           {
-            src: qrImage
+            src: qrCode
           }
         )
         // 对Promise.all数组进行图片绘制操作
@@ -177,11 +184,11 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
             }
           } else if (index == 1) {
             imgtag.onload = () => {
-              ctx.drawImage(imgtag, (props.width - 240) / 2, 70, 240, 240)
+              ctx.drawImage(imgtag, (_scrWidth - 220) / 2, 70, 220, 220)
             }
           } else if (index == 2) {
             imgtag.onload = () => {
-              ctx.drawImage(imgtag, 20, 400, 56, 56)
+              ctx.drawImage(imgtag, 20, _scrHeight - 100, 56, 56)
             }
           }
         })
@@ -269,17 +276,6 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
     ctx.arcTo(x, y, x + radius, y, radius)
   }
 
-  const _getQrcode = () => {
-    props
-      .getShortUrl()
-      .then((res) => {
-        _setQrCode(res as any as string)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
   const _setQrCode = async (url: string) => {
     const qrCode = QR.drawImg(url, {
       typeNumber: 4,
@@ -287,18 +283,18 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
       size: 500
     })
     if (webEnv) {
-      setQrImage(qrCode)
-      return
+      _draw(qrCode)
     }
     await _removeSave()
     _base64ToSave(qrCode)
       .then((rs) => {
         if (!rs) return
         //@ts-ignore
-        setQrImage(rs)
+        _draw(rs as any as string)
       })
       .catch((err) => {
         console.log(err)
+        return Promise.reject(err)
       })
   }
 
@@ -432,16 +428,17 @@ const H5Qrcode: FunctionComponent<IPageOption> = (props) => {
   }
 
   return (
-    <Dialog open={props.open} onClose={props.close} className='vi-component-view_h5-qr-wrapper'>
-      <Dialog.Content>
-        <Canvas type='2d' id='myCanvas' canvasId='myCanvas' style={{ width: '100%', height: '480px' }}></Canvas>
-      </Dialog.Content>
-      <Dialog.Actions>
-        <Button onClick={props.close}>取消</Button>
-        <Button onClick={() => saveQRCode()}>下载图片</Button>
-      </Dialog.Actions>
-    </Dialog>
+    <CommonMain className='component-qrcode-warpper' fixed left title='分享二维码' to={1}>
+      <View className='box'>
+        <Canvas type='2d' id='myCanvas' canvasId='myCanvas' style={{ width: '100%', height: '440px' }}></Canvas>
+      </View>
+      <View className='button'>
+        <Button block color='danger' onClick={saveQRCode}>
+          保存图片
+        </Button>
+      </View>
+    </CommonMain>
   )
 }
 
-export default H5Qrcode
+export default ComponentQrCode

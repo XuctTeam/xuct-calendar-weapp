@@ -1,0 +1,12 @@
+.component-qrcode-warpper {
+  display: flex;
+  flex-direction: column;
+
+  .box {
+    flex: 1;
+  }
+
+  .button {
+    margin: 30px;
+  }
+}

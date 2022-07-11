@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-07 11:47:25
- * @LastEditTime: 2022-07-09 06:17:09
+ * @LastEditTime: 2022-07-11 08:48:59
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -39,6 +39,7 @@ const Index: FunctionComponent = () => {
     }
     const { group } = data
     _list(group.id)
+    setGname(group.name)
   }, [])
 
   const _list = (id: string) => {
@@ -87,7 +88,7 @@ const Index: FunctionComponent = () => {
     <Fragment>
       <CommonMain className='vi-group-member-manager-warpper' title='成员列表' left fixed to={2}>
         <Search shape='rounded' value={value} placeholder='请输入昵称' onChange={(e) => setValue(e.detail.value)} />
-        <Cell.Group className='list' title={gname}>
+        <Cell.Group className='list' title={`群组: ${gname}`}>
           {members.map((item, index) => {
             return (
               <Fragment key={index}>

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-05 19:02:23
+ * @LastEditTime: 2022-07-11 19:07:09
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import Router from 'tarojs-router-next'
@@ -96,32 +96,26 @@ const MessageManager: FunctionComponent = () => {
     setOpen(false)
   }
 
-  const viewHandler = throttle(
-    (id: string) => {
-      const msgIndex: number | undefined = messages.findIndex((m) => m.id === id)
-      if (msgIndex < 0) return
-      const msg = messages[msgIndex]
-      if (msg.status === 0) {
-        const writeMessages = [...messages]
-        read(id)
-          .then(() => {
-            msg.status = 1
-            writeMessages.splice(msgIndex, 1, msg)
-            setMessages(writeMessages)
-            _toDetail(msg)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-        return
-      }
-      _toDetail(msg)
-    },
-    300,
-    {
-      trailing: false
-    }
-  )
+  const viewHandler = (id) => {
+    const msgIndex: number | undefined = messages.findIndex((m) => m.id === id)
+    if (msgIndex < 0) return
+    const msg = messages[msgIndex]
+    // if (msg.status === 0) {
+    //   const writeMessages = [...messages]
+    //   read(id)
+    //     .then(() => {
+    //       msg.status = 1
+    //       writeMessages.splice(msgIndex, 1, msg)
+    //       setMessages(writeMessages)
+    //       _toDetail(msg)
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //     })
+    //   return
+    // }
+    _toDetail(msg)
+  }
 
   const _toDetail = async (msg: IMessage) => {
     try {
@@ -172,25 +166,17 @@ const MessageManager: FunctionComponent = () => {
             <Empty.Description>暂无数据</Empty.Description>
           </Empty>
         ) : (
-          <View className='list'>
-            <ScrollView
-              scrollY
-              style={{ height: '100%' }}
-              onScroll={(e) => {
-                setScrollTop(e.detail.scrollTop)
-              }}
-            >
-              <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={refresh}>
-                {messages.map((item, i) => (
-                  <MessageBody key={i} message={item} viewHandler={viewHandler}></MessageBody>
-                ))}
-                <List.Placeholder>
-                  {loading && <Loading>加载中...</Loading>}
-                  {!hasMore && '没有更多了'}
-                </List.Placeholder>
-              </List>
-            </ScrollView>
-          </View>
+          <ScrollView className='list' scrollY style={{ height: '100vh' }} onScroll={(e) => setScrollTop(e.detail.scrollTop)}>
+            <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={refresh}>
+              {messages.map((item, i) => (
+                <MessageBody key={i} message={item} viewHandler={viewHandler}></MessageBody>
+              ))}
+              <List.Placeholder>
+                {loading && <Loading>加载中...</Loading>}
+                {!hasMore && '没有更多了'}
+              </List.Placeholder>
+            </List>
+          </ScrollView>
         )}
       </CommonMain>
       <Dialog open={open} onClose={setOpen}>
