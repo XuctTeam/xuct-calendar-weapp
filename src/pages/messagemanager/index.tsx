@@ -4,9 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2021-11-03 15:04:45
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-11 19:07:09
+ * @LastEditTime: 2022-07-12 17:31:55
  */
-import { Fragment, FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import Router from 'tarojs-router-next'
 import { useSelector } from 'react-redux'
 import { useDidShow } from '@tarojs/taro'
@@ -19,7 +19,6 @@ import { Search } from '@taroify/icons'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { IMessage, IMessagePageComponent } from '~/../@types/message'
 import { count, list, read, clear } from '@/api/message'
-import { throttle } from 'lodash/function'
 import { MessageBody, NoticeMsg } from './ui'
 
 import './index.scss'
@@ -33,7 +32,6 @@ const MessageManager: FunctionComponent = () => {
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [scrollTop, setScrollTop] = useState(0)
   const refreshTimeRef = useRef<number>(0)
-  const [open, setOpen] = useState(false)
 
   useDidShow(() => {
     if (!refreshTimeRef.current) return
@@ -57,7 +55,7 @@ const MessageManager: FunctionComponent = () => {
 
   const _init = () => {
     pageRef.current = 0
-    refresh(true)
+    onRefresh(true)
     _count()
   }
 
@@ -71,7 +69,7 @@ const MessageManager: FunctionComponent = () => {
       })
   }
 
-  const refresh = (reload: boolean = false) => {
+  const onRefresh = (reload: boolean = false) => {
     console.log('---- onload -----')
     setLoading(true)
     list(pageRef.current, 20, '')
@@ -86,38 +84,32 @@ const MessageManager: FunctionComponent = () => {
   }
 
   const clearUnread = () => {
-    clear()
-      .then(() => {
-        _init()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    setOpen(false)
+    Dialog.confirm({
+      title: '确认',
+      message: '是否全部清除？',
+      onConfirm() {
+        clear()
+          .then(() => {
+            _init()
+            _count()
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    })
   }
 
   const viewHandler = (id) => {
     const msgIndex: number | undefined = messages.findIndex((m) => m.id === id)
     if (msgIndex < 0) return
-    const msg = messages[msgIndex]
-    // if (msg.status === 0) {
-    //   const writeMessages = [...messages]
-    //   read(id)
-    //     .then(() => {
-    //       msg.status = 1
-    //       writeMessages.splice(msgIndex, 1, msg)
-    //       setMessages(writeMessages)
-    //       _toDetail(msg)
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //     })
-    //   return
-    // }
-    _toDetail(msg)
+    console.log(id, msgIndex)
+    _toDetail(msgIndex)
   }
 
-  const _toDetail = async (msg: IMessage) => {
+  const _toDetail = async (msgIndex: number) => {
+    const msg = messages[msgIndex]
+    if (!msg || !msg.id) return
     try {
       const res = await Router.toMessagedetail({
         params: {
@@ -127,9 +119,29 @@ const MessageManager: FunctionComponent = () => {
       })
       if (res && res.delete) {
         _init()
+        return
       }
+      _toRead(msg, msgIndex)
     } catch (err) {
       console.log(err)
+    }
+  }
+
+  const _toRead = (msg: IMessage, msgIndex: number) => {
+    console.log(msg.status)
+    if (!msg.id) return
+    /** 更新状态 */
+    if (msg.status === 0) {
+      const writeMessages = [...messages]
+      read(msg.id)
+        .then(() => {
+          console.log(msgIndex)
+          writeMessages.splice(msgIndex, 1, { ...msg, status: 1 })
+          setMessages(writeMessages)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 
@@ -142,18 +154,30 @@ const MessageManager: FunctionComponent = () => {
     refreshTimeRef.current = dayjs().valueOf()
   }
 
+  const messageSearch = async () => {
+    try {
+      const result = await Router.toMessagesearch()
+      if (!result) return
+      const { refresh } = result
+      if (!refresh) return
+      _init()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <Fragment>
       <CommonMain className='vi-message-manager-warpper' left={false} title='消息管理' fixed>
         <View className='message-header'>
           <View className='action'>
             <View className='all'>全部消息({countNum})</View>
-            <View className='clean' onClick={() => setOpen(true)}>
+            <View className='clean' onClick={clearUnread}>
               <IconFont name='zuixing-81' size={38} /> 清除未读
             </View>
           </View>
           <View className='search'>
-            <Button variant='text' size='mini' color='primary' icon={<Search />} onClick={() => Router.toMessagesearch()}>
+            <Button variant='text' size='mini' color='primary' icon={<Search />} onClick={messageSearch}>
               高级查询
             </Button>
           </View>
@@ -166,8 +190,8 @@ const MessageManager: FunctionComponent = () => {
             <Empty.Description>暂无数据</Empty.Description>
           </Empty>
         ) : (
-          <ScrollView className='list' scrollY style={{ height: '100vh' }} onScroll={(e) => setScrollTop(e.detail.scrollTop)}>
-            <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={refresh}>
+          <ScrollView className='list' scrollY style={{ height: '100vh' }} onScroll={(e) => setScrollTop(e.detail.scrollTop)} scrollWithAnimation>
+            <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={onRefresh}>
               {messages.map((item, i) => (
                 <MessageBody key={i} message={item} viewHandler={viewHandler}></MessageBody>
               ))}
@@ -179,14 +203,7 @@ const MessageManager: FunctionComponent = () => {
           </ScrollView>
         )}
       </CommonMain>
-      <Dialog open={open} onClose={setOpen}>
-        <Dialog.Header>确认</Dialog.Header>
-        <Dialog.Content>是否全部清除？</Dialog.Content>
-        <Dialog.Actions>
-          <Button onClick={() => setOpen(false)}>取消</Button>
-          <Button onClick={clearUnread}>确认</Button>
-        </Dialog.Actions>
-      </Dialog>
+      <Dialog id='dialog' />
     </Fragment>
   )
 }

@@ -2,7 +2,7 @@
  * @Description: 日程详情
  * @Author: Derek Xu
  * @Date: 2022-01-10 18:00:51
- * @LastEditTime: 2022-07-11 11:23:49
+ * @LastEditTime: 2022-07-12 09:55:32
  * @LastEditors: Derek Xu
  */
 import { Fragment, FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -463,7 +463,7 @@ const Componentview: FunctionComponent = () => {
         <ActionSheet.Action value='1' name='删除' />
         <ActionSheet.Button type='cancel'>取消</ActionSheet.Button>
       </ActionSheet>
-      <Backdrop open={loading} closeable onClose={() => setLoading(false)}>
+      <Backdrop className='vi-component-view-wrapper_loading' open={loading} closeable onClose={() => setLoading(false)}>
         <View className='content-block'>
           <Loading type='spinner'>加载中...</Loading>
         </View>

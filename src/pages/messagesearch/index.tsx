@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-06-12 20:12:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-09 00:57:52
+ * @LastEditTime: 2022-07-12 17:38:20
  * @FilePath: \xuct-calendar-weapp\src\pages\messagesearch\index.tsx
  * @Description:
  *
@@ -12,12 +12,11 @@ import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import Router from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
 import { usePageScroll } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { ScrollView, View } from '@tarojs/components'
 import { useToast } from 'taro-hooks'
 import { Backdrop, Button, Checkbox, Dialog, FixedView, List, Loading, Search } from '@taroify/core'
 import { list as searchQry, read, removeAll, readAll } from '@/api/message'
 import { IMessage, IMessagePageComponent } from '~/../@types/message'
-import { throttle } from 'lodash/function'
 import { MessageBody } from './ui'
 
 import './index.scss'
@@ -34,12 +33,13 @@ const index: FunctionComponent = () => {
   const [checkAll, setCheckAll] = useState<boolean>(false)
   const [lock, setLock] = useState<boolean>(false)
   const [toast] = useToast({})
+  const [refresh, setRefresh] = useState<boolean>(false)
 
   usePageScroll(({ scrollTop: aScrollTop }) => setScrollTop(aScrollTop))
 
   useEffect(() => {}, [])
 
-  const refresh = (reload: boolean = false) => {
+  const onRefresh = (reload: boolean = false) => {
     searchQry(pageRef.current, 20, value)
       .then((res) => {
         _fillMessage(reload, res as any as IMessagePageComponent)
@@ -55,7 +55,8 @@ const index: FunctionComponent = () => {
     if (!value) return
     pageRef.current = 0
     setHasMore(true)
-    refresh(true)
+    setLoading(true)
+    onRefresh(true)
   }
 
   const selectAll = (e: boolean) => {
@@ -99,32 +100,11 @@ const index: FunctionComponent = () => {
     )
   }
 
-  const viewHandler = throttle(
-    (id: string) => {
-      const msgIndex: number | undefined = messages.findIndex((m) => m.id === id)
-      if (msgIndex < 0) return
-      const msg = messages[msgIndex]
-      if (msg.status === 0) {
-        const writeMessages = [...messages]
-        read(id)
-          .then(() => {
-            msg.status = 1
-            writeMessages.splice(msgIndex, 1, msg)
-            setMessages(writeMessages)
-            _toDetail(msg)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-        return
-      }
-      _toDetail(msg)
-    },
-    300,
-    {
-      trailing: false
-    }
-  )
+  const viewHandler = (id: string) => {
+    const msgIndex: number | undefined = messages.findIndex((m) => m.id === id)
+    if (msgIndex < 0) return
+    _toDetail(msgIndex)
+  }
 
   const deleteAllMessage = () => {
     const deleteArray = messages.filter((item) => item.checked)
@@ -156,13 +136,15 @@ const index: FunctionComponent = () => {
     )
       .then(() => {
         search()
+        setRefresh(true)
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
-  const _toDetail = async (msg: IMessage) => {
+  const _toDetail = async (msgIndex: number) => {
+    const msg = messages[msgIndex]
     try {
       const res = await Router.toMessagedetail({
         params: {
@@ -171,10 +153,29 @@ const index: FunctionComponent = () => {
         data: msg
       })
       if (res && res.delete) {
-        refresh()
+        onRefresh()
       }
+      _toRead(msg, msgIndex)
     } catch (err) {
       console.log(err)
+    }
+  }
+
+  const _toRead = (msg: TMessage, msgIndex: number) => {
+    console.log(msg.status)
+    if (!msg.id) return
+    /** 更新状态 */
+    if (msg.status === 0) {
+      const writeMessages = [...messages]
+      read(msg.id)
+        .then(() => {
+          console.log(msgIndex)
+          writeMessages.splice(msgIndex, 1, { ...msg, status: 1 })
+          setMessages(writeMessages)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 
@@ -188,6 +189,7 @@ const index: FunctionComponent = () => {
       .then(() => {
         setLock(false)
         search()
+        setRefresh(true)
       })
       .catch((err) => {
         console.log(err)
@@ -197,7 +199,7 @@ const index: FunctionComponent = () => {
 
   return (
     <Fragment>
-      <CommonMain title='消息搜索' left fixed className='vi-message-search-warpper' to={3}>
+      <CommonMain title='消息搜索' left fixed className='vi-message-search-warpper' to={3} data={{ refresh }}>
         <Search
           value={value}
           shape='rounded'
@@ -207,8 +209,8 @@ const index: FunctionComponent = () => {
           onClear={() => setMessages([])}
           onSearch={search}
         />
-        <View className='container'>
-          <List className='list' loading={loading} hasMore={hasMore} scrollTop={scrollTop} onLoad={refresh}>
+        <ScrollView className='list' scrollY style={{ height: '100vh' }} onScroll={(e) => setScrollTop(e.detail.scrollTop)} scrollWithAnimation>
+          <List loading={loading} offset={20} hasMore={hasMore} scrollTop={scrollTop} onLoad={onRefresh}>
             {messages.map((item, index) => (
               <MessageBody key={index} message={item} selected={itemCheck} viewHandler={viewHandler}></MessageBody>
             ))}
@@ -217,7 +219,7 @@ const index: FunctionComponent = () => {
               {!hasMore && '没有更多了'}
             </List.Placeholder>
           </List>
-        </View>
+        </ScrollView>
       </CommonMain>
       <FixedView position='bottom' className='vi-message-search-warpper_opt'>
         <Checkbox size={20} checked={checkAll} onChange={(e) => selectAll(e)}>

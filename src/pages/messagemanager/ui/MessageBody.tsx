@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-02-21 15:28:49
- * @LastEditTime: 2022-07-06 21:14:34
+ * @LastEditTime: 2022-07-12 09:01:38
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -108,13 +108,14 @@ const MessageBody: FunctionComponent<IPageStateProps> = (props) => {
     }
   }
 
-  const view = () => {
-    props.viewHandler(props.message.id ? props.message.id : '')
-  }
-
   const { title, status, type, operation, createTime } = props.message
   return (
-    <Cell onClick={() => view()} clickable>
+    <Cell
+      onClick={() => {
+        props.viewHandler(props.message.id || '')
+      }}
+      clickable
+    >
       <View className='title'>
         {status === 0 && <View className='read' />}
         {title}

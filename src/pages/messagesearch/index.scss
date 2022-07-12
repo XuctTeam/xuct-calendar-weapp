@@ -3,12 +3,9 @@
   display: flex;
   background-color: #f7f8fa;
 
-  .container {
-    flex: 1;
-  }
-
   .list {
-    height: 100%;
+    flex: 1;
+    padding-bottom: 80px;
   }
 
   .flex {

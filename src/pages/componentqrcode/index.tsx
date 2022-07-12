@@ -2,7 +2,7 @@
  * @Author: Derek Xu
  * @Date: 2022-07-11 09:16:07
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-11 14:16:29
+ * @LastEditTime: 2022-07-12 08:54:26
  * @FilePath: \xuct-calendar-weapp\src\pages\componentqrcode\index.tsx
  * @Description:
  *
@@ -16,10 +16,12 @@ import { Router } from 'tarojs-router-next'
 import CommonMain from '@/components/mixin'
 import { Canvas, View } from '@tarojs/components'
 import { IDvaCommonProps, IUserInfo } from '~/../@types/dva'
+import { IDavComponent } from '~/../@types/calendar'
 import { Button } from '@taroify/core'
 import Images from '@/constants/images'
 import QR from 'qrcode-base64'
 import { toast, useWebEnv } from '@/utils/taro'
+import { getById } from '@/api/component'
 import { getShortUrl } from '@/api/component'
 
 import './index.scss'
@@ -30,24 +32,38 @@ interface IImageOption {
 
 const ComponentQrCode: FC = () => {
   const userInfo: IUserInfo = useSelector<IDvaCommonProps, IUserInfo>((state) => state.common.userInfo) || { username: '', avatar: Images.DEFAULT_AVATAR }
-  const [componentId, setCompoenntId] = useState<string>('')
   const systemInfo = Taro.getSystemInfoSync()
+  const [summary, setSummary] = useState<string>('')
+  const [location, setLocation] = useState<string>('')
   const canvas = useRef<any>()
   const webEnv = useWebEnv()
 
   useEffect(() => {
     const data = Router.getData()
-    console.log(systemInfo)
     if (data) {
-      setCompoenntId(data.id)
       _getQrcode(data.id)
+      setSummary(data.summary)
+      setLocation(data.location)
       return
     }
     const params = Router.getParams()
     const { id } = params
     if (!id) return
-    //setCompoenntId(data.id)
+    _getData(id)
   }, [])
+
+  const _getData = (id: string) => {
+    getById(id)
+      .then((res) => {
+        const comp = res as any as IDavComponent
+        setSummary(comp.summary)
+        setLocation(comp.location)
+        _getQrcode(id)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   const _getQrcode = (id: string) => {
     getShortUrl(id)
@@ -115,7 +131,7 @@ const ComponentQrCode: FC = () => {
 
         drawTxt({
           context: ctx,
-          text: '',
+          text: summary,
           fillStyle: '#000000',
           broken: true,
           x: 20,
@@ -128,7 +144,7 @@ const ComponentQrCode: FC = () => {
 
         drawTxt({
           context: ctx,
-          text: '',
+          text: location,
           fillStyle: '#000000',
           broken: true,
           x: 20,
