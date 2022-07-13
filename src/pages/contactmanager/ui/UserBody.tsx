@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-03-01 14:48:18
- * @LastEditTime: 2022-03-01 15:04:17
+ * @LastEditTime: 2022-07-13 16:34:08
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent } from 'react'
@@ -20,7 +20,7 @@ const UserBody: FunctionComponent<IPageOption> = (props) => {
 
   return (
     <Cell className='cell'>
-      {avatar ? <Avatar src={avatar}></Avatar> : <Avatar>{props.charCode}</Avatar>}
+      {avatar ? <Avatar src={avatar}></Avatar> : <Avatar style={{ background: 'green' }}>{props.charCode}</Avatar>}
       <View className='item'>
         <View>{name}</View>
         <View className='group'>{groupName}</View>

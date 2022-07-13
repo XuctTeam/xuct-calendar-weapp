@@ -3,15 +3,15 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-07-06 18:40:18
+ * @LastEditTime: 2022-07-13 19:33:39
  * @LastEditors: Derek Xu
  */
-import React, { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import React, { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useDidShow } from '@tarojs/taro'
 import Router from 'tarojs-router-next'
 import { View } from '@tarojs/components'
-import { Button, Collapse, Empty } from '@taroify/core'
+import { Button, Collapse } from '@taroify/core'
 import { Plus, Search } from '@taroify/icons'
 import dayjs from 'dayjs'
 import { ICurrentDay } from '~/../@types/date'
@@ -252,7 +252,7 @@ const Index: FunctionComponent = () => {
 
   return (
     <Fragment>
-      <CommonMain className='vi-index-wrapper' title='楚日历' fixed left={false}>
+      <CommonMain className='vi-index-wrapper' title='日程管理' fixed left={false}>
         <Collapse defaultValue={[0]} bordered onChange={calendarAccordionChage} className='calendar'>
           <Collapse.Item
             clickable={false}
@@ -296,6 +296,7 @@ const Index: FunctionComponent = () => {
             ></Picker>
           </Collapse.Item>
         </Collapse>
+        {}
         <Event
           loading={componentLoading}
           today={day.current}

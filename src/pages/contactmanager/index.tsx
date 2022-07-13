@@ -2,10 +2,10 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-07-06 21:50:48
+ * @LastEditTime: 2022-07-13 19:35:46
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { View } from '@tarojs/components'
 import Router from 'tarojs-router-next'
@@ -15,7 +15,7 @@ import { useWebEnv } from '@/utils/taro'
 import { groupMemberPinYinList } from '@/api/groupmember'
 import { IPinYinGroupMember } from '~/../@types/group'
 import { IDvaCommonProps } from '~/../@types/dva'
-import { WebUserList, WeappUserList, GroupHeader } from './ui'
+import { WebUserList, WxUserList, GroupHeader } from './ui'
 
 import './index.scss'
 
@@ -85,9 +85,9 @@ const Index: FunctionComponent = () => {
       <View className='br'></View>
       <View className='vi-group-manager-warpper_list'>
         {useWebEnv() ? (
-          <WebUserList loading={loading} refresh={query} disabled={!accessToken} pinYinMembers={pinYinList}></WebUserList>
+          <WebUserList loading={loading} refresh={query} pinYinMembers={pinYinList}></WebUserList>
         ) : (
-          <WeappUserList loading={loading} refresh={query} disabled={!!accessToken} pinYinMembers={pinYinList}></WeappUserList>
+          <WxUserList loading={loading} refresh={query} disabled={!!accessToken} pinYinMembers={pinYinList}></WxUserList>
         )}
       </View>
     </CommonMain>

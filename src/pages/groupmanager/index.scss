@@ -5,6 +5,10 @@
   flex-direction: column;
   overflow: hidden;
 
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   .action {
     margin: 20px;
     border: darkgray 1px dashed;

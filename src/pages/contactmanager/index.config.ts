@@ -4,8 +4,8 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-02-07 21:28:00
+ * @LastEditTime: 2022-07-13 17:53:57
  */
 export default {
-  navigationBarTitleText: '群组管理'
+  navigationBarTitleText: '通讯录管理'
 }

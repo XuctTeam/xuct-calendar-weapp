@@ -4,12 +4,11 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-09 19:39:54
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 15:29:35
+ * @LastEditTime: 2022-07-13 19:35:15
  */
 
-import { Fragment, FunctionComponent, useState } from 'react'
-import { Empty, IndexList, PullRefresh } from '@taroify/core'
-import { usePageScroll } from '@tarojs/taro'
+import { Fragment, FunctionComponent } from 'react'
+import { Empty, IndexList } from '@taroify/core'
 import { IPinYinGroupMember } from '~/../@types/group'
 import UserBodyList from './UserBodyList'
 
@@ -17,28 +16,11 @@ interface IPageOption {
   loading: boolean
   pinYinMembers: Array<IPinYinGroupMember>
   refresh: () => void
-  disabled: boolean
 }
 
 const UserList: FunctionComponent<IPageOption> = (props) => {
-  const [reachTop, setReachTop] = useState(true)
-
-  usePageScroll(({ scrollTop }) => setReachTop(scrollTop === 0))
-
-  const refresh = () => {
-    props.refresh()
-  }
-
   return (
-    <PullRefresh
-      style={{ height: '100%' }}
-      loading={props.loading}
-      reachTop={reachTop}
-      disabled={props.disabled}
-      onRefresh={() => {
-        refresh()
-      }}
-    >
+    <Fragment>
       {props.pinYinMembers.length === 0 ? (
         <Empty>
           <Empty.Image />
@@ -56,7 +38,7 @@ const UserList: FunctionComponent<IPageOption> = (props) => {
           })}
         </IndexList>
       )}
-    </PullRefresh>
+    </Fragment>
   )
 }
 

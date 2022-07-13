@@ -4,9 +4,9 @@
  * @Autor: Derek Xu
  * @Date: 2021-12-19 15:50:53
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-07-09 06:28:19
+ * @LastEditTime: 2022-07-13 19:39:21
  */
-import { Fragment, FunctionComponent, useEffect, useState } from 'react'
+import { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommonMain from '@/components/mixin'
 import { View } from '@tarojs/components'
@@ -171,15 +171,7 @@ const Index: FunctionComponent = () => {
           ) : env === 'WEAPP' ? (
             <WxGroupList loading={loading} refresh={refresh} groups={groups} uid={userInfo.id} edit={edit} remove={remove} viewGroup={viewGroup}></WxGroupList>
           ) : (
-            <WebGroupList
-              loading={loading}
-              refresh={refresh}
-              groups={groups}
-              uid={userInfo.id}
-              edit={edit}
-              remove={remove}
-              viewGroup={viewGroup}
-            ></WebGroupList>
+            <WebGroupList loading={loading} groups={groups} uid={userInfo.id} edit={edit} remove={remove} viewGroup={viewGroup}></WebGroupList>
           )}
         </View>
       </CommonMain>

@@ -4,7 +4,7 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-09 19:39:54
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-03-01 16:15:59
+ * @LastEditTime: 2022-07-13 19:08:17
  */
 
 import { Fragment, FunctionComponent, useState } from 'react'
@@ -20,7 +20,7 @@ interface IPageOption {
   disabled: boolean
 }
 
-const WeappUserList: FunctionComponent<IPageOption> = (props) => {
+const WxUserList: FunctionComponent<IPageOption> = (props) => {
   const [scrollTop, setScrollTop] = useState<number>(0)
 
   return (
@@ -57,4 +57,4 @@ const WeappUserList: FunctionComponent<IPageOption> = (props) => {
   )
 }
 
-export default WeappUserList
+export default WxUserList

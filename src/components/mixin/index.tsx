@@ -3,16 +3,17 @@
  * @Author: Xutao
  * @Date: 2021-07-30 14:05:22
  * @FilePath: \xuct-calendar-weapp\src\components\mixin\index.tsx
- * @LastEditTime: 2022-04-19 11:30:56
+ * @LastEditTime: 2022-07-13 19:12:21
  * @LastEditors: Derek Xu
  */
-import { FunctionComponent, ReactNode } from 'react'
+import { FunctionComponent, ReactNode, useEffect, useRef, useState } from 'react'
 import { Navbar } from '@taroify/core'
 
 import { useBack } from '@/utils/taro'
 import { View } from '@tarojs/components'
 import { ViewProps } from '@tarojs/components/types/View'
 import classnames from 'classnames'
+import { get as getGlobalData } from '@/utils/global'
 import './index.scss'
 
 interface IHeaderProps extends ViewProps {
@@ -30,6 +31,7 @@ interface IHeaderProps extends ViewProps {
 
 const CommonMain: FunctionComponent<IHeaderProps> = (props) => {
   const [back] = useBack({})
+  const wxRef = useRef<boolean>(getGlobalData('wxBrowser'))
 
   const routerToBack = () => {
     if (!props.to) props.to = 1
@@ -50,8 +52,8 @@ const CommonMain: FunctionComponent<IHeaderProps> = (props) => {
   }
 
   return (
-    <View className={classnames(props.className, 'vi-main', { 'vi-main-padding': process.env.TARO_ENV === 'h5' && props.fixed })}>
-      {process.env.TARO_ENV === 'h5' && (
+    <View className={classnames(props.className, 'vi-main', { 'vi-main-padding': process.env.TARO_ENV === 'h5' && props.fixed && !wxRef.current })}>
+      {process.env.TARO_ENV === 'h5' && !wxRef.current && (
         <Navbar title={props.title} fixed={props.fixed} placeholder={false}>
           {props.left && <Navbar.NavLeft onClick={routerToBack}>返回</Navbar.NavLeft>}
           {props.right && (

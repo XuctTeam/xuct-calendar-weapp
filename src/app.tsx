@@ -2,8 +2,8 @@
  * @Description:
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
- * @FilePath: \react-lesson-20\src\app.tsx
- * @LastEditTime: 2022-02-22 16:23:23
+ * @FilePath: \xuct-calendar-weapp\src\app.tsx
+ * @LastEditTime: 2022-07-13 18:53:44
  * @LastEditors: Derek Xu
  */
 import { Component } from 'react'
@@ -11,6 +11,8 @@ import { Provider } from 'react-redux'
 import * as dayjs from 'dayjs'
 import * as isLeapYear from 'dayjs/plugin/isLeapYear' // import plugin
 import * as weekday from 'dayjs/plugin/weekday'
+import { useWxBrowser } from '@/utils/taro'
+import { set as setGlobalData } from './utils/global'
 
 import 'dayjs/locale/zh-cn' // import locale
 /* dva */
@@ -29,6 +31,7 @@ dayjs.extend(isLeapYear) // use plugin
 dayjs.extend(weekday, { offset: 1 })
 dayjs.locale('zh-cn') // use locale
 
+setGlobalData('wxBrowser', useWxBrowser())
 const store = dvaApp.getStore()
 
 class App extends Component {

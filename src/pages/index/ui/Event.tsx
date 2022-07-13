@@ -2,14 +2,14 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-05-30 16:52:49
+ * @LastEditTime: 2022-07-13 19:40:12
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { View } from '@tarojs/components'
 import { usePageScroll } from '@tarojs/taro'
-import { Empty, Flex, PullRefresh } from '@taroify/core'
+import { Empty, PullRefresh } from '@taroify/core'
 import dayjs from 'dayjs'
 import { IDvaCommonProps } from '~/../@types/dva'
 import { IDavCalendar, ICalendarComponent, IDavComponent } from '~/../@types/calendar'
@@ -22,6 +22,7 @@ type IPageOption = {
   view: number
   today: string
   selectedDay: string
+  wxBrower: boolean
   calendars: Array<IDavCalendar>
   calendarComponents: Array<ICalendarComponent>
   componentRefreshOpen: boolean
@@ -87,13 +88,7 @@ const Event: FunctionComponent<IPageOption> = (props) => {
           <Empty.Description>暂无数据</Empty.Description>
         </Empty>
       ) : (
-        <PullRefresh
-          style={{ height: '100%', minHeight: '290px' }}
-          reachTop={reachTop}
-          loading={props.loading}
-          onRefresh={props.refreshComponent}
-          disabled={props.componentRefreshOpen}
-        >
+        <View style={{ minHeight: '290px' }}>
           {props.view === 0 ? (
             <DayEventView
               selectedDay={props.selectedDay}
@@ -111,7 +106,7 @@ const Event: FunctionComponent<IPageOption> = (props) => {
               componentList={componentList}
             ></ListEventView>
           )}
-        </PullRefresh>
+        </View>
       )}
     </View>
   )
