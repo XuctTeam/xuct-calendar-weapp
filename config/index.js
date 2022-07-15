@@ -29,8 +29,7 @@ const config = {
 
     /* 客户端认证KEY */
     CLIENT_INFO: JSON.stringify({
-      CLIENT_ID: 'app_id',
-      CLIENT_SECURITY: 'Wechat!@#Auth~!@'
+      
     }),
     /* 版本信息 */
     VERSION: JSON.stringify({

@@ -4,13 +4,14 @@
  * @Autor: Derek Xu
  * @Date: 2022-02-07 21:27:10
  * @LastEditors: Derek Xu
- * @LastEditTime: 2022-06-20 19:23:06
+ * @LastEditTime: 2022-07-14 13:39:26
  */
 
 .vi-group-manager-warpper {
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   &_header {
     width: 100%;
@@ -18,6 +19,7 @@
 
   &_list {
     flex: 1;
+    overflow-y: auto;
 
     .cell {
       .taroify-cell__value {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2022-01-26 11:43:14
- * @LastEditTime: 2022-07-13 19:35:46
+ * @LastEditTime: 2022-07-14 13:41:03
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -30,6 +30,7 @@ const Index: FunctionComponent = () => {
       return
     }
     query()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken])
 

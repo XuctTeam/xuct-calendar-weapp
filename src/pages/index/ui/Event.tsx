@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-07-13 19:40:12
+ * @LastEditTime: 2022-07-14 09:18:08
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -88,7 +88,7 @@ const Event: FunctionComponent<IPageOption> = (props) => {
           <Empty.Description>暂无数据</Empty.Description>
         </Empty>
       ) : (
-        <View style={{ minHeight: '290px' }}>
+        <View>
           {props.view === 0 ? (
             <DayEventView
               selectedDay={props.selectedDay}
