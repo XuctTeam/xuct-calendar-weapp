@@ -3,7 +3,7 @@
  * @Author: Xutao
  * @Date: 2021-07-23 12:39:07
  * @FilePath: \xuct-calendar-weapp\src\pages\index\index.tsx
- * @LastEditTime: 2022-07-13 19:33:39
+ * @LastEditTime: 2022-07-18 14:44:28
  * @LastEditors: Derek Xu
  */
 import React, { Fragment, FunctionComponent, useEffect, useRef, useState } from 'react'
@@ -296,7 +296,6 @@ const Index: FunctionComponent = () => {
             ></Picker>
           </Collapse.Item>
         </Collapse>
-        {}
         <Event
           loading={componentLoading}
           today={day.current}

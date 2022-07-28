@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Derek Xu
  * @Date: 2021-10-27 17:12:27
- * @LastEditTime: 2022-07-14 09:18:08
+ * @LastEditTime: 2022-07-18 15:15:02
  * @LastEditors: Derek Xu
  */
 import { FunctionComponent, useEffect, useState } from 'react'
@@ -41,8 +41,6 @@ const currentTime = dayjs().valueOf()
 const Event: FunctionComponent<IPageOption> = (props) => {
   const accessToken = useSelector<IDvaCommonProps>((state) => state.common.accessToken)
   const [componentList, setComponentList] = useState<IDavComponent[]>([])
-  const [reachTop, setReachTop] = useState(true)
-  usePageScroll(({ scrollTop }) => setReachTop(scrollTop === 0))
 
   useEffect(() => {
     if (!accessToken) {
